@@ -21,11 +21,11 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       height: double.infinity,
       color: whiteColor,
-    ) /*Stack(
+    child: Stack(
       fit: StackFit.expand,
       children: [getLoginBackground(), getLoginBody()],
-    )*/
-        ;
+    ),
+    );
   }
 
   getLoginBackground() {
