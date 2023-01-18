@@ -17,20 +17,19 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: whiteColor,
-    child: Stack(
-      fit: StackFit.expand,
-      children: [getLoginBackground(), getLoginBody()],
-    ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          getLoginBackground(),
+          getLoginBody()
+        ],
+      ),
     );
   }
 
   getLoginBackground() {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       height: loginBackgroundHeight.sh,
       color: primaryColor,
       child: Center(
@@ -44,22 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   getLoginBody() {
-    return Positioned(
-        top: loginBodyMarginTop.sh,
-        child: Container(
-          width: double.infinity,
-          height: screenHeight.sh,
-          decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(loginBodyRadius.sw))),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              buildLoginScreenTitle(),
-            ],
-          ),
-        ));
+    return Container(
+      width: double.infinity,
+      height: screenHeight.sh,
+      decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadiusDirectional.only(
+              topStart: Radius.circular(loginBodyRadius.sw))),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          buildLoginScreenTitle(),
+        ],
+      ),
+    );
   }
 
   buildLoginScreenTitle() {

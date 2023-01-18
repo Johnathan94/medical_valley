@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    Future.delayed( Duration(seconds: 5), () {
       goToLoginScreen(context);
     });
 
