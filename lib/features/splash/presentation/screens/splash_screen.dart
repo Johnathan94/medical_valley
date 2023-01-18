@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/strings/images.dart';
-import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../auth/presentation/screens/login_screen.dart';
@@ -26,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const RegistrationScreen()));
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
   @override
   Widget build(BuildContext context) {
