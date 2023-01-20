@@ -8,3 +8,7 @@ const signUpText = "Sign up";
 const phoneVerificationText = "Phone Verification";
 const phoneVerificationDesc = "Enter your OTP code here";
 const continueText = "Continue";
+const welcomePageTitle = "Welcome to Medical valley";
+const chooseYourLocationText = "Choose Your Location And Start";
+const useMyCurrentLocationText = "Use My Current Location";
+const setItManuallyText = "Select it Manually";

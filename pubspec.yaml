@@ -74,6 +74,8 @@ flutter:
     - assets/images/google_icon.png
     - assets/images/facebook_icon.png
     - assets/images/twitter_icon.png
+    - assets/images/welcome_icon.png
+    - assets/images/location_icon.png
 #    - assets/images/1.0x/
 #    - assets/images/1.5x/
 #    - assets/images/2.0x/

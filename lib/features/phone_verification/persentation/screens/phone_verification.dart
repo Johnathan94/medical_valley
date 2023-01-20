@@ -6,6 +6,7 @@ import 'package:medical_valley/core/app_styles.dart';
 import '../../../../core/app_sizes.dart';
 import '../../../../core/strings/messages.dart';
 import '../../../../core/widgets/app_bar_with_null_background.dart';
+import '../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
 class PhoneVerificationScreen extends StatelessWidget {
   const PhoneVerificationScreen({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class PhoneVerificationScreen extends StatelessWidget {
               children: [
                 buildPhoneVerificationDesc(),
                 buildOtpField(),
-                buildConfirmButton()
+                buildConfirmButton(context)
               ],
             ),
           ),
@@ -66,7 +67,7 @@ class PhoneVerificationScreen extends StatelessWidget {
     );
   }
 
-  buildConfirmButton() {
+  buildConfirmButton(BuildContext context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
           start: loginButtonMarginHorizontal, end: loginButtonMarginHorizontal),
@@ -79,7 +80,10 @@ class PhoneVerificationScreen extends StatelessWidget {
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const WelcomePageScreen()));
+          },
           child: Center(
             child: Text(
               continueText,
