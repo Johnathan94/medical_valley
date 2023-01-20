@@ -5,3 +5,6 @@ const signInText = "Sign in";
 const signInAnotherAppsText = "Or Sign in with :";
 const loginSignUpText = "Don`t Have any account? ";
 const signUpText = "Sign up";
+const phoneVerificationText = "Phone Verification";
+const phoneVerificationDesc = "Enter your OTP code here";
+const continueText = "Continue";

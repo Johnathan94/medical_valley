@@ -27,7 +27,15 @@ const double loginAllAnotherAppsWidth = 250;
 const double loginASignUpTextMarginTop = 30;
 const double loginBodyRadius = 66;
 const double registerBodyRadius = 66;
+const double phoneVerificationBodyHeight = 350;
 const double text32 = 32;
+const double text28 = 28;
 const double text12 = 12;
 const double text22 = 22;
 const double text15 = 15;
+const double text25 = 25;
+
+const int otpFieldNumber = 4;
+const double otpFieldWidth = 83;
+const double otpFieldBorderWidth = 1;
+const double otpFieldBorderRadius = 14;

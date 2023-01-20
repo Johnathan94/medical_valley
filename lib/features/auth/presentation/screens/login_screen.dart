@@ -3,6 +3,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/strings/messages.dart';
+import 'package:medical_valley/features/phone_verification/persentation/screens/phone_verification.dart';
 import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -165,7 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
-          onPressed: () {},
+          onPressed: () {
+            navigateToOtpScreen();
+          },
           child: Center(
             child: Text(
               signInText,
@@ -253,5 +256,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void navigateToRegisterScreen() {
     Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const RegistrationScreen()));
+  }
+
+  navigateToOtpScreen() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const PhoneVerificationScreen()));
   }
 }

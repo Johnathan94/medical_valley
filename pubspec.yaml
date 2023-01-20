@@ -52,6 +52,7 @@ dev_dependencies:
   google_fonts:
   intl_phone_field:
   rxdart:
+  flutter_otp_text_field:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
