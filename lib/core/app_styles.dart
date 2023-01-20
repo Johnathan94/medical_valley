@@ -24,7 +24,7 @@ class AppStyles {
 
   static var baloo2FontWith400WeightAnd12Size = GoogleFonts.baloo2(
     color: blackColor,
-    fontSize: text12.sp,
+    fontSize: text15.sp,
     fontWeight: FontWeight.w400,
   );
 
@@ -81,5 +81,14 @@ class AppStyles {
     color: blackColor,
     fontSize: text25.sp,
     fontWeight: FontWeight.w500,
+  );
+  static var hintStyle = GoogleFonts.baloo2(
+    color: grayW100,
+    fontSize: text16.sp,
+    fontWeight: FontWeight.w400,
+  ); static var headlineStyle = GoogleFonts.baloo2(
+    color: gray900,
+    fontSize: text18.sp,
+    fontWeight: FontWeight.w400,
   );
 }

@@ -11,20 +11,22 @@ class WelcomePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      color: whiteColor,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          buildWelcomePageTitle(),
-          buildWelcomePageIcon(),
-          buildChooseYourLocationText(),
-          buildUseMyCurrentLocationButton(context),
-          buildSetItManually()
-        ],
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: whiteColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            buildWelcomePageTitle(),
+            buildWelcomePageIcon(),
+            buildChooseYourLocationText(),
+            buildUseMyCurrentLocationButton(context),
+            buildSetItManually()
+          ],
+        ),
       ),
     );
   }

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 
 import '../../../../core/app_colors.dart';
-import '../../../auth/presentation/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 1), () {
       goToLoginScreen(context);
     });
     super.initState();
@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+        MaterialPageRoute(builder: (context) => const RegistrationScreen()));
   }
 
   @override

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/strings/messages.dart';
+import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
+import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/phone_verification/persentation/screens/phone_verification.dart';
 import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,11 +19,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _checkBoxBehaviourSubject = BehaviorSubject<bool>();
+  BehaviorSubject<bool> _checkBoxBehaviourSubject = BehaviorSubject<bool>();
 
   @override
   initState() {
-    _checkBoxBehaviourSubject.value = false;
+    _checkBoxBehaviourSubject.sink.add( false);
     super.initState();
   }
 
@@ -75,8 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               buildLoginScreenTitle(),
               buildMobilePhoneField(),
+              SizedBox(height: 16.h,),
               buildRememberMe(),
-              buildSignInButton(),
+              PrimaryButton(onPressed: (){
+                navigateToOtpScreen();
+              },
+              text: signInText,
+              ),
               buildSignInApps(),
               buildSignUp()
             ],
@@ -101,29 +107,13 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop,
           start: loginMobileNumberFieldMarginHorizontal,
           end: loginMobileNumberFieldMarginHorizontal),
-      child: IntlPhoneField(
-        initialValue: "",
-        dropdownIconPosition: IconPosition.trailing,
-        dropdownIcon: const Icon(Icons.arrow_drop_up),
-        flagsButtonPadding: const EdgeInsetsDirectional.only(
-            start: loginMobileNumberFieldPadding),
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: primaryColor),
-              borderRadius: BorderRadius.all(
-                  Radius.circular(loginMobileNumberFieldRadius))),
-        ),
-        initialCountryCode: 'SA',
-        onChanged: (phone) {
-          print(phone.completeNumber);
-        },
-      ),
+      child: const PhoneIntlWidgetField(),
     );
   }
 
   buildRememberMe() {
     return StreamBuilder<bool>(
-        stream: _checkBoxBehaviourSubject,
+        stream: _checkBoxBehaviourSubject.stream,
         builder: (context, snapshot) {
           return Container(
             margin: const EdgeInsetsDirectional.only(
@@ -135,12 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Checkbox(
-                  tristate: false,
-                  value: snapshot.data,
+                  value: _checkBoxBehaviourSubject.value,
                   activeColor: primaryColor,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onChanged: (newValue) {
-                    _checkBoxBehaviourSubject.value = newValue ?? false;
+                    _checkBoxBehaviourSubject.sink.add( newValue ?? false);
                   },
                 ),
                 Text(
@@ -153,30 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  buildSignInButton() {
-    return Container(
-      margin: const EdgeInsetsDirectional.only(
-          start: loginButtonMarginHorizontal, end: loginButtonMarginHorizontal),
-      child: TextButton(
-          style: ButtonStyle(
-              textStyle: MaterialStateProperty.all(
-                  AppStyles.baloo2FontWith400WeightAnd22Size),
-              backgroundColor: MaterialStateProperty.all(primaryColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(loginButtonRadius),
-              ))),
-          onPressed: () {
-            navigateToOtpScreen();
-          },
-          child: Center(
-            child: Text(
-              signInText,
-              style: AppStyles.baloo2FontWith400WeightAnd22Size,
-            ),
-          )),
-    );
-  }
+
 
   buildSignInApps() {
     return Container(

@@ -1,5 +1,12 @@
 {
     "sign_up" : "Sign Up",
-    "sign_in" : "Sign in "
+    "sign_in" : "Sign in ",
+    "create_your_account" : "Create your email ",
+    "sign_up_with_apps" : "Sign up with : ",
+    "already_have_account" : "Already have an account ? ",
+    "email" : "Email",
+    "yes" : "Yes",
+    "no" : "No"
+
 
 }

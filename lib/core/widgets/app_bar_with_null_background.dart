@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
-class AppBarWithNullBackground extends AppBar {
+class AppBarWithoutBackground extends AppBar {
   String header;
   Widget leadingIcon;
-  AppBarWithNullBackground(
+  AppBarWithoutBackground(
       {required this.header, required this.leadingIcon, Key? key})
       : super(
           key: key,

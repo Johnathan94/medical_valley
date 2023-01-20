@@ -53,6 +53,7 @@ dev_dependencies:
   intl_phone_field:
   rxdart:
   flutter_otp_text_field:
+  flutter_svg: "1.1.6"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -70,6 +71,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icons/
     - assets/images/app_icon.png
     - assets/images/google_icon.png
     - assets/images/facebook_icon.png

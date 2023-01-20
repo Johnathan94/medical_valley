@@ -32,6 +32,7 @@ const double phoneVerificationBodyHeight = 350;
 const double text32 = 32;
 const double text28 = 28;
 const double text12 = 12;
+const double text16 = 16;
 const double text22 = 22;
 const double text15 = 15;
 const double text25 = 25;

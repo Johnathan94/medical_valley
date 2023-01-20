@@ -14,7 +14,7 @@ class PhoneVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWithNullBackground(
+      appBar: AppBarWithoutBackground(
           header: phoneVerificationText,
           leadingIcon: InkWell(
             onTap: () {
