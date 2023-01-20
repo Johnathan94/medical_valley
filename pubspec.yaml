@@ -50,6 +50,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_screenutil:
   google_fonts:
+  intl_phone_field:
+  rxdart:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +70,9 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/app_icon.png
+    - assets/images/google_icon.png
+    - assets/images/facebook_icon.png
+    - assets/images/twitter_icon.png
 #    - assets/images/1.0x/
 #    - assets/images/1.5x/
 #    - assets/images/2.0x/
