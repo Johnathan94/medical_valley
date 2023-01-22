@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xff0787A4);
+const primaryLiteColor = Color(0xff1AB1D3);
 const secondaryColor = Color(0xffFF6969);
 const primary100 = Color(0xffE0ECEE);
 const whiteColor = Color(0xFFFFFFFF);
+const whiteColorWithHalfOpacity = Color(0x80FFFFFF);
 const blackColor = Color(0xFF000000);
 const greyWith80Percentage = Color(0x80D1D1D1);
 const darkGrey = Color(0xFF6C6C6C);

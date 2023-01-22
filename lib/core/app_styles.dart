@@ -71,6 +71,13 @@ class AppStyles {
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.underline);
 
+  static var baloo2FontWith400WeightAnd18SizeWithoutUnderline =
+      GoogleFonts.baloo2(
+    color: whiteColorWithHalfOpacity,
+    fontSize: text18.sp,
+    fontWeight: FontWeight.w400,
+  );
+
   static var baloo2FontWith500WeightAnd25Size = GoogleFonts.baloo2(
     color: primaryColor,
     fontSize: text25.sp,
@@ -82,11 +89,25 @@ class AppStyles {
     fontSize: text25.sp,
     fontWeight: FontWeight.w500,
   );
+
+  static var baloo2FontWith700WeightAnd17Size = GoogleFonts.baloo2(
+    color: whiteColor,
+    fontSize: text17.sp,
+    fontWeight: FontWeight.w500,
+  );
+
+  static var baloo2FontWith600WeightAnd18Size = GoogleFonts.baloo2(
+    color: primaryColor,
+    fontSize: text18.sp,
+    fontWeight: FontWeight.w600,
+  );
+
   static var hintStyle = GoogleFonts.baloo2(
     color: grayW100,
     fontSize: text16.sp,
     fontWeight: FontWeight.w400,
-  ); static var headlineStyle = GoogleFonts.baloo2(
+  );
+  static var headlineStyle = GoogleFonts.baloo2(
     color: gray900,
     fontSize: text18.sp,
     fontWeight: FontWeight.w400,

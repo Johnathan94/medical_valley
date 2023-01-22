@@ -4,9 +4,17 @@ import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final Function()? onPressed ;
-  final String text ;
-  const PrimaryButton({this.onPressed,required this.text, Key? key}) : super(key: key);
+  final Function()? onPressed;
+  final String text;
+  final bool isWidgetButton;
+  final Widget? body;
+  const PrimaryButton(
+      {this.onPressed,
+      required this.text,
+      this.isWidgetButton = false,
+      this.body,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +25,16 @@ class PrimaryButton extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(primaryColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(loginButtonRadius),
-                ))),
+              borderRadius: BorderRadius.circular(loginButtonRadius),
+            ))),
         onPressed: onPressed,
         child: Center(
-          child: Text(
-            text,
-            style: AppStyles.baloo2FontWith400WeightAnd22Size,
-          ),
+          child: isWidgetButton
+              ? body
+              : Text(
+                  text,
+                  style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                ),
         ));
   }
 }

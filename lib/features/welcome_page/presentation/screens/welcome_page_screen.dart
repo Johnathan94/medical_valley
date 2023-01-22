@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/home/home_screen/persentation/screens/home_screen.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
@@ -67,32 +69,27 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
           top: welcomePageButtonMarginTop,
           start: loginButtonMarginHorizontal,
           end: loginButtonMarginHorizontal),
-      child: TextButton(
-          style: ButtonStyle(
-              textStyle: MaterialStateProperty.all(
-                  AppStyles.baloo2FontWith400WeightAnd22Size),
-              backgroundColor: MaterialStateProperty.all(primaryColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(loginButtonRadius),
-              ))),
-          onPressed: () {},
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(locationIcon),
-                Container(
-                  margin: const EdgeInsetsDirectional.only(
-                      start: useMyCurrentLocationMarginStart),
-                  child: Text(
-                    AppLocalizations.of(context)!.use_my_current_location,
-                    style: AppStyles.baloo2FontWith400WeightAnd20Size,
-                  ),
-                ),
-              ],
+      child: PrimaryButton(
+        text: "",
+        onPressed: () {
+          navigateToHomeScreen();
+        },
+        isWidgetButton: true,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(locationIcon),
+            Container(
+              margin: const EdgeInsetsDirectional.only(
+                  start: useMyCurrentLocationMarginStart),
+              child: Text(
+                AppLocalizations.of(context)!.use_my_current_location,
+                style: AppStyles.baloo2FontWith400WeightAnd20Size,
+              ),
             ),
-          )),
+          ],
+        ),
+      ),
     );
   }
 
@@ -104,5 +101,10 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
         style: AppStyles.baloo2FontWith400WeightAnd18Size,
       ),
     );
+  }
+
+  void navigateToHomeScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 }

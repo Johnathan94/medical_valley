@@ -78,6 +78,15 @@ flutter:
     - assets/images/twitter_icon.png
     - assets/images/welcome_icon.png
     - assets/images/location_icon.png
+    - assets/images/hand_icon.png
+    - assets/images/history_icon_active.png
+    - assets/images/history_icon_deactivated.png
+    - assets/images/home_icon_active.png
+    - assets/images/home_icon_deactivated.png
+    - assets/images/menu_icon_active.png
+    - assets/images/menu_icon_deactivated.png
+    - assets/images/notification_icon_active.png
+    - assets/images/notification_icon_deactivated.png
 #    - assets/images/1.0x/
 #    - assets/images/1.5x/
 #    - assets/images/2.0x/

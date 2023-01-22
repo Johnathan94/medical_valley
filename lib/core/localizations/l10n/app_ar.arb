@@ -18,6 +18,12 @@
   "welcome_to_medical_valley": "مرحبا بكم في ميديكال فالي",
   "choose_your_location_and_start": "اختر موقعك وابدأ",
   "use_my_current_location": "استخدم موقعي الحالي",
-  "select_it_manually": "حدده يدويًا"
+  "select_it_manually": "حدده يدويًا",
+  "search": "بحث",
+  "good_morning": "صباح الخير",
+  "home": "الريسيه",
+  "notifications": "الاشعارات",
+  "history": "History",
+  "more": "المزيد"
 
 }

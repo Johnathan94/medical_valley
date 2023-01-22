@@ -38,6 +38,7 @@ const double text15 = 15;
 const double text25 = 25;
 const double text20 = 20;
 const double text18 = 18;
+const double text17 = 17;
 
 const int otpFieldNumber = 4;
 const double otpFieldWidth = 83;
@@ -47,3 +48,9 @@ const double welcomePageTitleMarginTop = 89;
 const double chooseYourLocationWidth = 246;
 const double setItManuallyMarginTop = 43;
 const double useMyCurrentLocationMarginStart = 10;
+const double homeScreenAppBarWithSearchHeight = 180;
+const double homeScreenAppBarHeight = 130;
+const double appBarSearchHeight = 40;
+const double appBarTitleNegativeMargin = -35;
+const double appBarIconWidth = 53;
+const double appBarIconHeight = 33;

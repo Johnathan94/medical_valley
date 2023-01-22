@@ -18,7 +18,13 @@
     "welcome_to_medical_valley": "Welcome to Medical valley",
     "choose_your_location_and_start": "Choose Your Location And Start",
     "use_my_current_location": "Use My Current Location",
-    "select_it_manually": "Select it Manually"
+    "select_it_manually": "Select it Manually",
+    "search": "Search",
+    "good_morning": "Good Morning",
+    "home": "Home",
+    "notifications": "Notifications",
+    "history": "History",
+    "more": "More"
 
 
 }
