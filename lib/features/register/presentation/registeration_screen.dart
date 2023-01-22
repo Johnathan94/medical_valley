@@ -15,6 +15,8 @@ import 'package:medical_valley/features/register/data/insurance_model.dart';
 import 'package:medical_valley/features/register/widgets/primary_bg.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../core/widgets/authentication_app_widget.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -246,39 +248,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
-              children: [
-                buildApp(googleIcon),
-                buildApp(facebookIcon),
-                buildApp(twitterIcon),
+              children: const [
+                AuthenticationAppWidget(
+                  appIcon: googleIcon,
+                ),
+                AuthenticationAppWidget(
+                  appIcon: facebookIcon,
+                ),
+                AuthenticationAppWidget(
+                  appIcon: twitterIcon,
+                ),
               ],
             ),
           )
         ],
-      ),
-    );
-  }
-
-  buildApp(String image) {
-    return Container(
-      width: loginAnotherAppsWidth,
-      height: loginAnotherAppsHeight,
-      alignment: AlignmentDirectional.center,
-      margin: const EdgeInsets.only(top: loginAnotherAppsMarginTop),
-      decoration: const BoxDecoration(
-          color: whiteColor,
-          borderRadius:
-              BorderRadius.all(Radius.circular(loginAnotherAppsRadius)),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 9,
-              spreadRadius: -1,
-              color: shadowColor,
-            )
-          ]),
-      child: Image.asset(
-        image,
-        width: loginAnotherAppsIconWidth,
-        height: loginAnotherAppsIconHeight,
       ),
     );
   }

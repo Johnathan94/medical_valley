@@ -10,7 +10,9 @@ import 'package:medical_valley/features/register/presentation/registeration_scre
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/app_colors.dart';
+import '../../../../core/app_paddings.dart';
 import '../../../../core/app_sizes.dart';
+import '../../../../core/widgets/authentication_app_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -81,11 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 16.h,
               ),
               buildRememberMe(),
-              PrimaryButton(
-                onPressed: () {
-                  navigateToOtpScreen();
-                },
-                text: AppLocalizations.of(context)!.sign_in,
+              Container(
+                margin: mediumPaddingHV,
+                child: PrimaryButton(
+                  onPressed: () {
+                    navigateToOtpScreen();
+                  },
+                  text: AppLocalizations.of(context)!.sign_in,
+                ),
               ),
               buildSignInApps(),
               buildSignUp()
@@ -164,39 +169,20 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
-              children: [
-                buildApp(googleIcon),
-                buildApp(facebookIcon),
-                buildApp(twitterIcon),
+              children: const [
+                AuthenticationAppWidget(
+                  appIcon: googleIcon,
+                ),
+                AuthenticationAppWidget(
+                  appIcon: facebookIcon,
+                ),
+                AuthenticationAppWidget(
+                  appIcon: twitterIcon,
+                ),
               ],
             ),
           )
         ],
-      ),
-    );
-  }
-
-  buildApp(String image) {
-    return Container(
-      width: loginAnotherAppsWidth,
-      height: loginAnotherAppsHeight,
-      alignment: AlignmentDirectional.center,
-      margin: const EdgeInsets.only(top: loginAnotherAppsMarginTop),
-      decoration: const BoxDecoration(
-          color: whiteColor,
-          borderRadius:
-              BorderRadius.all(Radius.circular(loginAnotherAppsRadius)),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 9,
-              spreadRadius: -1,
-              color: shadowColor,
-            )
-          ]),
-      child: Image.asset(
-        image,
-        width: loginAnotherAppsIconWidth,
-        height: loginAnotherAppsIconHeight,
       ),
     );
   }
