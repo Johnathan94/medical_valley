@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
 import '../../../../core/strings/images.dart';
-import '../../../../core/strings/messages.dart';
 
-class WelcomePageScreen extends StatelessWidget {
+class WelcomePageScreen extends StatefulWidget {
   const WelcomePageScreen({Key? key}) : super(key: key);
 
+  @override
+  State<WelcomePageScreen> createState() => _WelcomePageScreenState();
+}
+
+class _WelcomePageScreenState extends State<WelcomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +40,7 @@ class WelcomePageScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: welcomePageTitleMarginTop),
       child: Text(
-        welcomePageTitle,
+        AppLocalizations.of(context)!.welcome_to_medical_valley,
         style: AppStyles.baloo2FontWith500WeightAnd25Size,
       ),
     );
@@ -49,7 +54,7 @@ class WelcomePageScreen extends StatelessWidget {
     return SizedBox(
       width: chooseYourLocationWidth,
       child: Text(
-        chooseYourLocationText,
+        AppLocalizations.of(context)!.choose_your_location_and_start,
         textAlign: TextAlign.center,
         style: AppStyles.baloo2FontWith700WeightAnd25Size,
       ),
@@ -81,7 +86,7 @@ class WelcomePageScreen extends StatelessWidget {
                   margin: const EdgeInsetsDirectional.only(
                       start: useMyCurrentLocationMarginStart),
                   child: Text(
-                    useMyCurrentLocationText,
+                    AppLocalizations.of(context)!.use_my_current_location,
                     style: AppStyles.baloo2FontWith400WeightAnd20Size,
                   ),
                 ),
@@ -95,7 +100,7 @@ class WelcomePageScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: setItManuallyMarginTop),
       child: Text(
-        setItManuallyText,
+        AppLocalizations.of(context)!.select_it_manually,
         style: AppStyles.baloo2FontWith400WeightAnd18Size,
       ),
     );

@@ -1,4 +1,5 @@
 {
+    "application_title" : "Medical Valley",
     "sign_up" : "Sign Up",
     "sign_in" : "Sign in ",
     "create_your_account" : "Create your email ",
@@ -6,7 +7,18 @@
     "already_have_account" : "Already have an account ? ",
     "email" : "Email",
     "yes" : "Yes",
-    "no" : "No"
+    "no" : "No",
+    "login_title": "Login",
+    "remember_me_text": "Remember me",
+    "sign_in_with_apps": "Or Sign in with :",
+    "donT_have_account": "Don`t Have any account? ",
+    "phone_verification": "Phone Verification",
+    "enter_you_otp": "Enter your OTP code here",
+    "continue_text": "Continue",
+    "welcome_to_medical_valley": "Welcome to Medical valley",
+    "choose_your_location_and_start": "Choose Your Location And Start",
+    "use_my_current_location": "Use My Current Location",
+    "select_it_manually": "Select it Manually"
 
 
 }

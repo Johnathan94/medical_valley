@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
-import 'package:medical_valley/core/strings/messages.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/phone_verification/persentation/screens/phone_verification.dart';
 import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   initState() {
-    _checkBoxBehaviourSubject.sink.add( false);
+    _checkBoxBehaviourSubject.sink.add(false);
     super.initState();
   }
 
@@ -76,12 +77,15 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               buildLoginScreenTitle(),
               buildMobilePhoneField(),
-              SizedBox(height: 16.h,),
+              SizedBox(
+                height: 16.h,
+              ),
               buildRememberMe(),
-              PrimaryButton(onPressed: (){
-                navigateToOtpScreen();
-              },
-              text: signInText,
+              PrimaryButton(
+                onPressed: () {
+                  navigateToOtpScreen();
+                },
+                text: AppLocalizations.of(context)!.sign_in,
               ),
               buildSignInApps(),
               buildSignUp()
@@ -95,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
       margin: const EdgeInsets.only(top: loginTitleMarginTop),
       alignment: AlignmentDirectional.center,
       child: Text(
-        loginTitle,
+        AppLocalizations.of(context)!.login_title,
         style: AppStyles.baloo2FontWith400WeightAnd32Size,
       ),
     );
@@ -129,11 +133,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   activeColor: primaryColor,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onChanged: (newValue) {
-                    _checkBoxBehaviourSubject.sink.add( newValue ?? false);
+                    _checkBoxBehaviourSubject.sink.add(newValue ?? false);
                   },
                 ),
                 Text(
-                  rememberMeText,
+                  AppLocalizations.of(context)!.remember_me_text,
                   style: AppStyles.baloo2FontWith400WeightAnd12Size,
                 )
               ],
@@ -141,8 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         });
   }
-
-
 
   buildSignInApps() {
     return Container(
@@ -152,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Center(
             child: Text(
-              signInAnotherAppsText,
+              AppLocalizations.of(context)!.sign_in_with_apps,
               style: AppStyles.baloo2FontWith700WeightAnd15Size,
             ),
           ),
@@ -207,10 +209,10 @@ class _LoginScreenState extends State<LoginScreen> {
         onTap: () => navigateToRegisterScreen(),
         child: Text.rich(TextSpan(
             style: AppStyles.baloo2FontWith500WeightAnd15Size,
-            text: loginSignUpText,
+            text: AppLocalizations.of(context)!.donT_have_account,
             children: <InlineSpan>[
               TextSpan(
-                text: signUpText,
+                text: AppLocalizations.of(context)!.sign_up,
                 style:
                     AppStyles.baloo2FontWith700WeightAnd15SizeWithPrimaryColor,
               )

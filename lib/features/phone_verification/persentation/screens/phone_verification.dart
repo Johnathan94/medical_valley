@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
 import '../../../../core/app_sizes.dart';
-import '../../../../core/strings/messages.dart';
 import '../../../../core/widgets/app_bar_with_null_background.dart';
 import '../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
-class PhoneVerificationScreen extends StatelessWidget {
+class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({Key? key}) : super(key: key);
 
+  @override
+  State<PhoneVerificationScreen> createState() =>
+      _PhoneVerificationScreenState();
+}
+
+class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithoutBackground(
-          header: phoneVerificationText,
+          header: AppLocalizations.of(context)!.phone_verification,
           leadingIcon: InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -49,7 +55,7 @@ class PhoneVerificationScreen extends StatelessWidget {
 
   buildPhoneVerificationDesc() {
     return Text(
-      phoneVerificationDesc,
+      AppLocalizations.of(context)!.enter_you_otp,
       style: AppStyles.baloo2FontWith400WeightAnd25Size,
     );
   }
@@ -86,7 +92,7 @@ class PhoneVerificationScreen extends StatelessWidget {
           },
           child: Center(
             child: Text(
-              continueText,
+              AppLocalizations.of(context)!.continue_text,
               style: AppStyles.baloo2FontWith400WeightAnd22Size,
             ),
           )),

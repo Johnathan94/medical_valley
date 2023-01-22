@@ -1,10 +1,23 @@
 {
-"sign_up" : "تسجيل الحساب ",
-"sign_in" : "تسجيل الدخول ",
-    "create_your_account" : "قم بانشاء حساب ",
-    "sign_up_with_apps" : ": قم بانشاء حساب عن طريق",
-    "already_have_account" : "تمتلك حساب بالفعل ؟",
-"email" : "ادخل الحساب",
-"yes" : "نعم",
-"no" : "لا"
+  "application_title": "Medical Valley",
+  "sign_up": "تسجيل الحساب ",
+  "sign_in": "تسجيل الدخول ",
+  "create_your_account": "قم بانشاء حساب ",
+  "sign_up_with_apps": ": قم بانشاء حساب عن طريق",
+  "already_have_account": "تمتلك حساب بالفعل ؟",
+  "email": "ادخل الحساب",
+  "yes": "نعم",
+  "no": "لا",
+  "login_title": "تسجيل الدخول",
+  "remember_me_text": "تذكرنى",
+  "sign_in_with_apps": "أو قم بتسجيل الدخول باستخدام:",
+  "donT_have_account": "ليس لديك حساب؟ ",
+  "phone_verification": "التحقق من الهاتف",
+  "enter_you_otp": "أدخل كود التفعيل الخاص بك هنا",
+  "continue_text": "استمرار",
+  "welcome_to_medical_valley": "مرحبا بكم في ميديكال فالي",
+  "choose_your_location_and_start": "اختر موقعك وابدأ",
+  "use_my_current_location": "استخدم موقعي الحالي",
+  "select_it_manually": "حدده يدويًا"
+
 }

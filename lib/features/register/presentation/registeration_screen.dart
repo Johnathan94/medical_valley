@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_sizes.dart';
@@ -11,8 +13,6 @@ import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/auth/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/register/data/insurance_model.dart';
 import 'package:medical_valley/features/register/widgets/primary_bg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Positioned(
       bottom: 0,
       child: GestureDetector(
-        onTap: ()=> optionDisplayed.sink.add(false),
+        onTap: () => optionDisplayed.sink.add(false),
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * .82,
@@ -97,10 +97,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     height: 16.h,
                   ),
                   GestureDetector(
-                    onTap: (){
-                    optionDisplayed.value ?
-                    optionDisplayed.sink.add(false):
-                    optionDisplayed.sink.add(true);
+                    onTap: () {
+                      optionDisplayed.value
+                          ? optionDisplayed.sink.add(false)
+                          : optionDisplayed.sink.add(true);
                     },
                     child: Container(
                       padding: mediumPaddingAll,
@@ -109,11 +109,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: primaryColor),
                       ),
-                      child:Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                           Text("Do you have a medical insurance ? "),
-                          Icon(Icons.arrow_drop_down,color: blackColor,)
+                          Text("Do you have a medical insurance ? "),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: blackColor,
+                          )
                         ],
                       ),
                     ),
@@ -122,55 +125,76 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     height: 2.h,
                   ),
                   StreamBuilder<bool>(
-                    stream: optionDisplayed.stream,
-                    builder: (context, snapshot) {
-                      return optionDisplayed.value ?
-                       Visibility(
-                        visible: optionDisplayed.value,
-                        child: Container(
-                          padding: smallPaddingAll,
-                          margin: smallPaddingH,
-                          height: 80.h,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: .2),
-                              color: Colors.white , borderRadius: BorderRadius.circular(8)),
-                          child: StreamBuilder<int>(
-                            stream: insuranceOption.stream,
-                            builder: (context, snapshot) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children:insuranceChoices.map((e) => Padding(
+                      stream: optionDisplayed.stream,
+                      builder: (context, snapshot) {
+                        return optionDisplayed.value
+                            ? Visibility(
+                                visible: optionDisplayed.value,
+                                child: Container(
                                   padding: smallPaddingAll,
-                                  child:
-                                  GestureDetector(
-                                    onTap : ()
-                                    {
-                                     insuranceOption.sink.add(insuranceChoices.indexOf(e));
-                                    },
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(e.hasInsurance? AppLocalizations.of(context)!.yes
-                                        : AppLocalizations.of(context)!.no),
-                                        insuranceOption.value == insuranceChoices.indexOf(e)  ?
-                                        const Icon(Icons.radio_button_checked):const Icon(Icons.circle_outlined)
-                                      ],
-                                    ),
-                                  ),
-                                )).toList(),
+                                  margin: smallPaddingH,
+                                  height: 80.h,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(width: .2),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: StreamBuilder<int>(
+                                      stream: insuranceOption.stream,
+                                      builder: (context, snapshot) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: insuranceChoices
+                                              .map((e) => Padding(
+                                                    padding: smallPaddingAll,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        insuranceOption.sink
+                                                            .add(
+                                                                insuranceChoices
+                                                                    .indexOf(
+                                                                        e));
+                                                      },
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(e.hasInsurance
+                                                              ? AppLocalizations
+                                                                      .of(
+                                                                          context)!
+                                                                  .yes
+                                                              : AppLocalizations
+                                                                      .of(context)!
+                                                                  .no),
+                                                          insuranceOption
+                                                                      .value ==
+                                                                  insuranceChoices
+                                                                      .indexOf(
+                                                                          e)
+                                                              ? const Icon(Icons
+                                                                  .radio_button_checked)
+                                                              : const Icon(Icons
+                                                                  .circle_outlined)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                        );
+                                      }),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 80.h,
                               );
-                            }
-                          ),
-
-                        ),
-                      ):
-                       SizedBox(height: 80.h,);
-                    }
-                  ),
+                      }),
                   SizedBox(
                     height: 10.h,
                   ),
-                  PrimaryButton(onPressed: (){
-                  },
+                  PrimaryButton(
+                    onPressed: () {},
                     text: AppLocalizations.of(context)!.sign_up,
                   ),
                   buildSignInApps(),
@@ -183,6 +207,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
   buildSignUp() {
     return Container(
       margin: const EdgeInsets.only(top: loginASignUpTextMarginTop),
@@ -196,12 +221,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextSpan(
                 text: AppLocalizations.of(context)!.sign_in,
                 style:
-                AppStyles.baloo2FontWith700WeightAnd15SizeWithPrimaryColor,
+                    AppStyles.baloo2FontWith700WeightAnd15SizeWithPrimaryColor,
               )
             ])),
       ),
     );
   }
+
   buildSignInApps() {
     return Container(
       margin: const EdgeInsets.only(top: 30),
@@ -231,6 +257,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
   buildApp(String image) {
     return Container(
       width: loginAnotherAppsWidth,
@@ -240,7 +267,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       decoration: const BoxDecoration(
           color: whiteColor,
           borderRadius:
-          BorderRadius.all(Radius.circular(loginAnotherAppsRadius)),
+              BorderRadius.all(Radius.circular(loginAnotherAppsRadius)),
           boxShadow: [
             BoxShadow(
               blurRadius: 9,
@@ -257,10 +284,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   navigateToLoginScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
-
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
-
-
 }
