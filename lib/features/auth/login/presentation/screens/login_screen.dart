@@ -5,14 +5,14 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/phone_verification/persentation/screens/phone_verification.dart';
-import 'package:medical_valley/features/register/presentation/registeration_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../core/app_colors.dart';
-import '../../../../core/app_paddings.dart';
-import '../../../../core/app_sizes.dart';
-import '../../../../core/widgets/authentication_app_widget.dart';
+import '../../../../../core/app_colors.dart';
+import '../../../../../core/app_paddings.dart';
+import '../../../../../core/app_sizes.dart';
+import '../../../phone_verification/persentation/screens/phone_verification.dart';
+import '../../../register/presentation/registeration_screen.dart';
+import '../../../widgets/authentication_app_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,7 +22,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  BehaviorSubject<bool> _checkBoxBehaviourSubject = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _checkBoxBehaviourSubject =
+      BehaviorSubject<bool>();
 
   @override
   initState() {

@@ -10,12 +10,12 @@ import 'package:medical_valley/core/widgets/app_bar.dart';
 import 'package:medical_valley/core/widgets/custom_text_field.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/auth/presentation/screens/login_screen.dart';
-import 'package:medical_valley/features/register/data/insurance_model.dart';
-import 'package:medical_valley/features/register/widgets/primary_bg.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/widgets/authentication_app_widget.dart';
+import '../../login/presentation/screens/login_screen.dart';
+import '../../widgets/authentication_app_widget.dart';
+import '../data/insurance_model.dart';
+import '../widgets/primary_bg.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);

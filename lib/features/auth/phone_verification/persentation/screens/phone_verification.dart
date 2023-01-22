@@ -4,9 +4,9 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
-import '../../../../core/app_sizes.dart';
-import '../../../../core/widgets/app_bar_with_null_background.dart';
-import '../../../welcome_page/presentation/screens/welcome_page_screen.dart';
+import '../../../../../core/app_sizes.dart';
+import '../../../../../core/widgets/app_bar_with_null_background.dart';
+import '../../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({Key? key}) : super(key: key);

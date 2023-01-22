@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../app_colors.dart';
-import '../app_sizes.dart';
+import '../../../../../core/app_colors.dart';
+import '../../../../../core/app_sizes.dart';
 
 class AuthenticationAppWidget extends StatelessWidget {
   final String appIcon;
