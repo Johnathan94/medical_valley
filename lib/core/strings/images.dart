@@ -18,3 +18,5 @@ const menuIconDeactivated = "${imagesPath}menu_icon_deactivated.png";
 const notificationIconActive = "${imagesPath}notification_icon_active.png";
 const notificationIconDeactivated =
     "${imagesPath}notification_icon_deactivated.png";
+const homeModelOneIcon = "${imagesPath}home_model_one.png";
+const homeModelTwoIcon = "${imagesPath}home_model_two.png";
