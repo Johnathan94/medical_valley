@@ -20,3 +20,5 @@ const notificationIconDeactivated =
     "${imagesPath}notification_icon_deactivated.png";
 const homeModelOneIcon = "${imagesPath}home_model_one.png";
 const homeModelTwoIcon = "${imagesPath}home_model_two.png";
+const transparentAppIcon = "${imagesPath}transparent_app_icon.png";
+const noInternetIcon = "${imagesPath}no_internet_icon.png";
