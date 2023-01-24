@@ -65,7 +65,6 @@ class CustomHomeAppBar extends AppBar {
                     height: appBarSearchHeight,
                     child: CustomSearchField(
                       textController: TextEditingController(),
-                      suffixIcon: emailIcon,
                       hintText: searchHint,
                       hintStyle: AppStyles
                           .baloo2FontWith400WeightAnd18SizeWithoutUnderline,

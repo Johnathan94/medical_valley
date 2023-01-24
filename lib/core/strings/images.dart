@@ -22,3 +22,4 @@ const homeModelOneIcon = "${imagesPath}home_model_one.png";
 const homeModelTwoIcon = "${imagesPath}home_model_two.png";
 const transparentAppIcon = "${imagesPath}transparent_app_icon.png";
 const noInternetIcon = "${imagesPath}no_internet_icon.png";
+const settingIcon = "${imagesPath}setting_icon.png";

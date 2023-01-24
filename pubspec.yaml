@@ -54,6 +54,7 @@ dev_dependencies:
   rxdart:
   flutter_otp_text_field:
   flutter_svg: "1.1.6"
+  grouped_list:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -91,6 +92,7 @@ flutter:
     - assets/images/home_model_two.png
     - assets/images/transparent_app_icon.png
     - assets/images/no_internet_icon.png
+    - assets/images/setting_icon.png
 #    - assets/images/1.0x/
 #    - assets/images/1.5x/
 #    - assets/images/2.0x/

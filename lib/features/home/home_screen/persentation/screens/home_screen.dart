@@ -3,20 +3,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
-import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
 import '../../data/models/service_model.dart';
 
-class HomeScreen extends HomeBaseStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => HomeState();
+  State<HomeScreen> createState() => HomeState();
 }
 
-class HomeState extends HomeBaseStatefulWidgetState {
+class HomeState extends State<HomeScreen> {
   final List<ServiceModel> _services = [];
 
   @override
@@ -25,8 +24,7 @@ class HomeState extends HomeBaseStatefulWidgetState {
     super.initState();
   }
 
-  @override
-  getBody() {
+  getHomeScreen() {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -35,7 +33,6 @@ class HomeState extends HomeBaseStatefulWidgetState {
     );
   }
 
-  @override
   buildAppBar() {
     return CustomHomeAppBar(
       isSearchableAppBar: true,
@@ -127,6 +124,14 @@ class HomeState extends HomeBaseStatefulWidgetState {
           )
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: buildAppBar(),
+      body: getHomeScreen(),
     );
   }
 }
