@@ -59,4 +59,4 @@ const double homeTitleMarginHorizontal = 27;
 const double homeModelItemWidth = 165;
 const double homeModelItemHeight = 90;
 const double homeModelItemRadius = 13;
-const double customAppBarHeight = 148;
+const double customAppBarHeight = 125;

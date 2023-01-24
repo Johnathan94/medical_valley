@@ -3,7 +3,7 @@ class NotificationModel {
   final String statusName, description, notificationTime, date, icon;
 
   NotificationModel(this.id, this.statusName, this.description,
-      this.notificationTime, this.icon, this.date);
+      this.notificationTime, this.date,this.icon, );
   Map<String, String> toMap() {
     Map<String, String> notifications = {};
     notifications["id"] = id.toString();

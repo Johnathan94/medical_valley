@@ -55,6 +55,7 @@ dev_dependencies:
   flutter_otp_text_field:
   flutter_svg: "1.1.6"
   grouped_list:
+  flutter_slidable: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -110,10 +111,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: MyCustomImages
+      fonts:
+        - asset: assets/fonts/MyCustomImages.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
