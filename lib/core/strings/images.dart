@@ -1,5 +1,5 @@
 const imagesPath = "assets/images/";
-const svgImagesPath = "assets/images/svg/";
+const svgImagesPath = "assets/icons/svg/";
 const iconsPath = "assets/icons/";
 const emailIcon = "${iconsPath}email.svg";
 const appIcon = "${imagesPath}app_icon.png";

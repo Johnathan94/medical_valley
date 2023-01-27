@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_sizes.dart';
 
+EdgeInsetsDirectional tinyPaddingAll = const EdgeInsetsDirectional.all(4);
 EdgeInsetsDirectional smallPaddingAll = const EdgeInsetsDirectional.all(8);
 EdgeInsetsDirectional smallPaddingT= const EdgeInsetsDirectional.only(top: 8);
 EdgeInsetsDirectional smallPaddingB= const EdgeInsetsDirectional.only(bottom: 8);

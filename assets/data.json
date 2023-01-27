@@ -1,0 +1,55 @@
+{
+    "items": [
+        {
+            "clinic_name": "اوكسي هيلث",
+            "image": "http://blazma.com/hospitals/286_web3.png",
+            "lat": 31.11,
+            "lng": 31.11,
+            "price": 31.4,
+            "time_ago": 3,
+            "time_unit": "min",
+            "rate": 3.2,
+            "distance": 750,
+            "distance_unit": "m",
+            "address": "الرياض ، الوادي المملكه العربيه السعوديه"
+        },
+        {
+            "clinic_name": "مركز عالم شاهين",
+            "image": "https://pbs.twimg.com/ext_tw_video_thumb/1602301498788020230/pu/img/zkhJvgOE3_RAw5oS.jpg",
+            "lat": 31.11,
+            "lng": 31.11,
+            "price": 31.4,
+            "time_ago": 3,
+            "time_unit": "min",
+            "rate": 3.2,
+            "distance": 900,
+            "distance_unit": "m",
+            "address": "الرياض ، الوادي المملكه العربيه السعوديه"
+        },
+        {
+            "clinic_name": "اوكسي هيلث",
+            "image": "http://blazma.com/hospitals/286_web3.png",
+            "lat": 31.11,
+            "lng": 31.11,
+            "price": 31.4,
+            "time_ago": 3,
+            "time_unit": "min",
+            "rate": 3.2,
+            "distance": 1.3,
+            "distance_unit": "k.m",
+            "address": "الرياض ، الوادي المملكه العربيه السعوديه"
+        },{
+            "clinic_name": "اوكسي هيلث",
+            "image": "http://blazma.com/hospitals/286_web3.png",
+            "lat": 31.11,
+            "lng": 31.11,
+            "price": 31.4,
+            "time_ago": 3,
+            "time_unit": "min",
+            "rate": 3.2,
+            "distance": 1.3,
+            "distance_unit": "k.m",
+            "address": "الرياض ، الوادي المملكه العربيه السعوديه"
+        }
+    ]
+}

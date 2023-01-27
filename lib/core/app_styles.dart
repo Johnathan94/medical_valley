@@ -70,9 +70,16 @@ class AppStyles {
       fontSize: text18.sp,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.underline);
+  static var baloo2FontWith400WeightAnd14Size = GoogleFonts.baloo2(
+      color: primaryColor,
+      fontSize: text14.sp,
+      fontWeight: FontWeight.w400,decoration: TextDecoration.none
+  );
 
   static var baloo2FontWith400WeightAnd18SizeAndBlack = GoogleFonts.baloo2(
       color: blackColor, fontSize: text18.sp, fontWeight: FontWeight.w400);
+static var baloo2FontWith400WeightAnd20SizeAndBlack = GoogleFonts.baloo2(
+      color: blackColor, fontSize: text20.sp, fontWeight: FontWeight.w400);
 
   static var baloo2FontWith400WeightAnd18SizeWithoutUnderline =
       GoogleFonts.baloo2(

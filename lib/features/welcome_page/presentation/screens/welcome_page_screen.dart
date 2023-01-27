@@ -23,16 +23,18 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         color: whiteColor,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            buildWelcomePageTitle(),
-            buildWelcomePageIcon(),
-            buildChooseYourLocationText(),
-            buildUseMyCurrentLocationButton(context),
-            buildSetItManually()
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              buildWelcomePageTitle(),
+              buildWelcomePageIcon(),
+              buildChooseYourLocationText(),
+              buildUseMyCurrentLocationButton(context),
+              buildSetItManually()
+            ],
+          ),
         ),
       ),
     );

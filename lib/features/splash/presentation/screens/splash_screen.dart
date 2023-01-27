@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
@@ -18,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
+      AppInitializer.initializeAppWithContext(context);
       goToLoginScreen(context);
     });
     super.initState();

@@ -3,7 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/features/home/history/presentation/history_screen.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/home_screen.dart';
+import 'package:medical_valley/features/home/more_screen/presentation/more_screen.dart';
 import 'package:medical_valley/features/home/notifications/persentation/screens/notifications_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -39,6 +41,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   }
 
   getBody() {
+
     return StreamBuilder<int>(
       stream: _index,
       builder: (context, snapshot) {
@@ -47,13 +50,9 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
         } else if (snapshot.data == 1) {
           return const NotificationsScreen();
         } else if (snapshot.data == 2) {
-          return Container(
-            color: Colors.red,
-          );
+          return const HistoryScreen();
         } else if (snapshot.data == 3) {
-          return Container(
-            color: Colors.yellow,
-          );
+          return const MoreScreen();
         }
         return Container(
           color: Colors.green,

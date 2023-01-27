@@ -8,11 +8,13 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final bool isWidgetButton;
   final Widget? body;
-  const PrimaryButton(
+   double? buttonCornerRadius ;
+   PrimaryButton(
       {this.onPressed,
       required this.text,
       this.isWidgetButton = false,
       this.body,
+      this.buttonCornerRadius,
       Key? key})
       : super(key: key);
 
@@ -25,7 +27,7 @@ class PrimaryButton extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(primaryColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(loginButtonRadius),
+              borderRadius: BorderRadius.circular(buttonCornerRadius ?? loginButtonRadius),
             ))),
         onPressed: onPressed,
         child: Center(

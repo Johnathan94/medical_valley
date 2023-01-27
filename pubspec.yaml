@@ -56,6 +56,10 @@ dev_dependencies:
   flutter_svg: "1.1.6"
   grouped_list:
   flutter_slidable: ^2.0.0
+  flutter_bloc: ^8.1.1
+  get_it:
+  flutter_dash: ^1.0.0
+  device_preview:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -94,7 +98,9 @@ flutter:
     - assets/images/transparent_app_icon.png
     - assets/images/no_internet_icon.png
     - assets/images/setting_icon.png
-#    - assets/images/1.0x/
+    - assets/data.json
+
+  #    - assets/images/1.0x/
 #    - assets/images/1.5x/
 #    - assets/images/2.0x/
 #    - assets/images/3.0x/
