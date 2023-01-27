@@ -9,7 +9,7 @@ import 'package:medical_valley/features/home/history/data/clinic_model.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dash/flutter_dash.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/features/home/history/widgets/filter_view.dart';
 import 'package:medical_valley/features/home/widgets/base_app_bar.dart';
@@ -238,15 +238,20 @@ class ClinicCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children:  [
                 Column(
-                  children:const  [
+                  children:  const [
                     Icon(Icons.circle, color: Colors.grey,size: 10,),
-                    Dash(
-                        direction: Axis.vertical,
-                        length: 30,
-                        dashLength: 5,
-                        dashColor: primaryColor
+                    DottedLine(
+                      direction: Axis.vertical,
+                      lineLength: 30,
+                      lineThickness: 1.0,
+                      dashLength: 4.0,
+                      dashColor: primaryColor,
+                      dashRadius: 0.0,
+                      dashGapLength: 4.0,
+                      dashGapColor: Colors.transparent,
+                      dashGapRadius: 0.0,
                     ),
-                    Icon(Icons.circle, color: primaryColor,size: 10,),
+                    const Icon(Icons.circle, color: primaryColor,size: 10,),
                   ],
                 ),
                 const SizedBox(width: 8,),

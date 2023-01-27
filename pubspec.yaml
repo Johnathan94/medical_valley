@@ -58,7 +58,7 @@ dev_dependencies:
   flutter_slidable: ^2.0.0
   flutter_bloc: ^8.1.1
   get_it:
-  flutter_dash: ^1.0.0
+  dotted_line: ^3.1.0
   device_preview:
 
 # For information on the generic Dart part of this file, see the
