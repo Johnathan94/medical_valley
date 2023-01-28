@@ -42,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: screenWidth,
+        height: screenHeight,
         color: primaryColor,
         child: Stack(
           children: [getLoginBackground(), getLoginBody()],
@@ -58,18 +58,18 @@ class _LoginScreenState extends State<LoginScreen> {
       margin: const EdgeInsets.only(top: loginIconMarginTop),
       child: Image.asset(
         appIcon,
-        width: loginIconWidth,
-        height: loginIconHeight,
+        width: loginIconWidth.w,
+        height: loginIconHeight.h,
       ),
     );
   }
 
   getLoginBody() {
     return Positioned(
-        top: loginBodyMarginTop,
+        top: loginBodyMarginTop.r,
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: screenWidth,
+          height: screenHeight,
           decoration: const BoxDecoration(
               color: whiteColor,
               borderRadius: BorderRadiusDirectional.only(
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               buildRememberMe(),
               Container(
-                margin: mediumPaddingHV,
+                margin: mediumPaddingHV.r,
                 child: PrimaryButton(
                   onPressed: () {
                     navigateToOtpScreen();
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   buildLoginScreenTitle() {
     return Container(
-      margin: const EdgeInsets.only(top: loginTitleMarginTop),
+      margin: EdgeInsets.only(top: loginTitleMarginTop.r),
       alignment: AlignmentDirectional.center,
       child: Text(
         AppLocalizations.of(context)!.login_title,
@@ -113,10 +113,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   buildMobilePhoneField() {
     return Container(
-      margin: const EdgeInsetsDirectional.only(
-          top: loginMobileNumberFieldMarginTop,
-          start: loginMobileNumberFieldMarginHorizontal,
-          end: loginMobileNumberFieldMarginHorizontal),
+      margin: EdgeInsetsDirectional.only(
+          top: loginMobileNumberFieldMarginTop.r,
+          start: loginMobileNumberFieldMarginHorizontal.r,
+          end: loginMobileNumberFieldMarginHorizontal.r),
       child: const PhoneIntlWidgetField(),
     );
   }
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   buildSignInApps() {
     return Container(
-      margin: const EdgeInsets.only(top: loginSignInAnotherAppsTextMarginTop),
+      margin: EdgeInsets.only(top: loginSignInAnotherAppsTextMarginTop.r),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            width: loginAllAnotherAppsWidth,
+            width: loginAllAnotherAppsWidth.w,
             alignment: AlignmentDirectional.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   buildSignUp() {
     return Container(
-      margin: const EdgeInsets.only(top: loginASignUpTextMarginTop),
+      margin: EdgeInsets.only(top: loginASignUpTextMarginTop.r),
       alignment: AlignmentDirectional.center,
       child: InkWell(
         onTap: () => navigateToRegisterScreen(),

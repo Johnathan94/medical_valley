@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
 import '../app_colors.dart';
@@ -21,6 +22,6 @@ class MyCustomAppBar extends AppBar {
           centerTitle: false,
           actions: [Image.asset(transparentAppIcon)],
           titleSpacing: -10,
-          toolbarHeight: customAppBarHeight,
+          toolbarHeight: customAppBarHeight.h,
         );
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/strings/images.dart';
@@ -39,8 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Center(
           child: Image.asset(
         appIcon,
-        width: splashIconWidth,
-        height: splashIconHeight,
+        width: splashIconWidth.w,
+        height: splashIconHeight.h,
       )),
     );
   }

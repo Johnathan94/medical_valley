@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 
@@ -56,7 +57,7 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
 
   buildChooseYourLocationText() {
     return SizedBox(
-      width: chooseYourLocationWidth,
+      width: chooseYourLocationWidth.w,
       child: Text(
         AppLocalizations.of(context)!.choose_your_location_and_start,
         textAlign: TextAlign.center,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/app_colors.dart';
 import '../../../../../core/app_sizes.dart';
@@ -11,8 +12,8 @@ class AuthenticationAppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: loginAnotherAppsWidth,
-      height: loginAnotherAppsHeight,
+      width: loginAnotherAppsWidth.w,
+      height: loginAnotherAppsHeight.h,
       alignment: AlignmentDirectional.center,
       margin: const EdgeInsets.only(top: loginAnotherAppsMarginTop),
       decoration: const BoxDecoration(
@@ -28,8 +29,8 @@ class AuthenticationAppWidget extends StatelessWidget {
           ]),
       child: Image.asset(
         appIcon,
-        width: loginAnotherAppsIconWidth,
-        height: loginAnotherAppsIconHeight,
+        width: loginAnotherAppsIconWidth.w,
+        height: loginAnotherAppsIconHeight.h,
       ),
     );
   }

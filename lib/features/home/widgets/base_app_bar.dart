@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_sizes.dart';
 import '../../../core/app_styles.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class CustomHeaderAppBar extends AppBar {
   final String goodMorningText;
   final String? searchHint;
-  CustomHeaderAppBar(
-      {this.searchHint,
-      required this.goodMorningText,
-      Key? key})
+  CustomHeaderAppBar({this.searchHint, required this.goodMorningText, Key? key})
       : super(
             key: key,
             elevation: 0,
@@ -24,8 +22,8 @@ class CustomHeaderAppBar extends AppBar {
                   children: [
                     Image.asset(
                       appIcon,
-                      width: appBarIconWidth,
-                      height: appBarIconHeight,
+                      width: appBarIconWidth.w,
+                      height: appBarIconHeight.h,
                     ),
                     const SizedBox(
                       width: 10,

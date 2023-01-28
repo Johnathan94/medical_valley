@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
 import '../../../../../core/app_sizes.dart';
+import '../../../home_search_screen/persentation/screen/home_search_screen.dart';
 import '../../../widgets/home_base_app_bar.dart';
 import '../../data/models/service_model.dart';
 
@@ -26,8 +28,8 @@ class HomeState extends State<HomeScreen> {
 
   getHomeScreen() {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      height: screenHeight,
+      width: screenWidth,
       color: whiteColor,
       child: getHomeScreenWidget(),
     );
@@ -38,15 +40,20 @@ class HomeState extends State<HomeScreen> {
       isSearchableAppBar: true,
       searchHint: AppLocalizations.of(context)!.search,
       goodMorningText: AppLocalizations.of(context)!.good_morning,
+      leadingIcon: Image.asset(
+        appIcon,
+        width: appBarIconWidth,
+        height: appBarIconHeight,
+      ),
+      isTwoLineTitle: true,
     );
   }
 
   getHomeScreenWidget() {
     return Container(
       margin: const EdgeInsetsDirectional.only(
-          top: homeTitleMarginTop,
-          start: homeTitleMarginHorizontal,
-          end: homeTitleMarginHorizontal),
+        top: homeTitleMarginTop,
+      ),
       child: Column(
         children: [
           buildHomeTitle(),
@@ -67,15 +74,17 @@ class HomeState extends State<HomeScreen> {
   }
 
   buildHomeTitleGridView() {
-    return GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 1.45,
-        crossAxisSpacing: 22,
-        children: List.generate(_services.length, (index) {
-          return Center(
-            child: buildHomeModelItem(_services[index]),
-          );
-        }));
+    return Container(
+      margin: EdgeInsetsDirectional.only(end: homeTitleMarginEnd.w),
+      child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 1.6,
+          children: List.generate(_services.length, (index) {
+            return Center(
+              child: buildHomeModelItem(_services[index]),
+            );
+          })),
+    );
   }
 
   void getServices() {
@@ -96,33 +105,46 @@ class HomeState extends State<HomeScreen> {
   }
 
   buildHomeModelItem(ServiceModel service) {
-    return Container(
-      height: homeModelItemHeight,
-      width: homeModelItemWidth,
-      padding: const EdgeInsetsDirectional.only(start: 11, top: 9, end: 53),
-      decoration: const BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.all(Radius.circular(homeModelItemRadius)),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 9,
-              spreadRadius: -1,
-              color: shadowColor,
-            )
-          ]),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(service.icon),
-          Expanded(
-            child: Text(
-              service.name,
-              style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                HomeSearchScreen(searchScreenTitle: service.name)));
+      },
+      child: Container(
+        height: homeModelItemHeight.h,
+        width: homeModelItemWidth.w,
+        margin: EdgeInsetsDirectional.only(
+            start: homeTitleMarginStart.w, end: homeTitleMarginEnd.w),
+        padding: EdgeInsetsDirectional.only(start: 11.w, top: 9.h, end: 45.w),
+        decoration: const BoxDecoration(
+            color: whiteColor,
+            borderRadius:
+                BorderRadius.all(Radius.circular(homeModelItemRadius)),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 9,
+                spreadRadius: -1,
+                color: shadowColor,
+              )
+            ]),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(service.icon),
+            Expanded(
+              child: Text(
+                service.name,
+                style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+              ),
             ),
-          )
-        ],
+            SizedBox(
+              height: 10.h,
+            )
+          ],
+        ),
       ),
     );
   }

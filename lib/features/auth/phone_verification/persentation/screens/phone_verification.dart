@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
@@ -37,7 +38,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
         color: whiteColor,
         child: Center(
           child: SizedBox(
-            height: phoneVerificationBodyHeight,
+            height: phoneVerificationBodyHeight.h,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,9 +63,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
 
   buildOtpField() {
     return OtpTextField(
-      fieldWidth: otpFieldWidth,
+      fieldWidth: otpFieldWidth.w,
       numberOfFields: otpFieldNumber,
-      borderWidth: otpFieldBorderWidth,
+      borderWidth: otpFieldBorderWidth.w,
       enabledBorderColor: greyWith80Percentage,
       focusedBorderColor: primaryColor,
       borderRadius:

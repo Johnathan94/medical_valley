@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
 import '../../../core/app_colors.dart';
@@ -8,12 +9,16 @@ import '../../../core/widgets/custom_search_field.dart';
 
 class CustomHomeAppBar extends AppBar {
   final bool isSearchableAppBar;
+  final bool isTwoLineTitle;
   final String goodMorningText;
   final String? searchHint;
+  final Widget leadingIcon;
   CustomHomeAppBar(
       {this.searchHint,
       required this.isSearchableAppBar,
       required this.goodMorningText,
+      required this.leadingIcon,
+      required this.isTwoLineTitle,
       Key? key})
       : super(
             key: key,
@@ -25,11 +30,7 @@ class CustomHomeAppBar extends AppBar {
               children: [
                 Row(
                   children: [
-                    Image.asset(
-                      appIcon,
-                      width: appBarIconWidth,
-                      height: appBarIconHeight,
-                    ),
+                    leadingIcon,
                     const SizedBox(
                       width: 10,
                     ),
@@ -45,36 +46,43 @@ class CustomHomeAppBar extends AppBar {
                               goodMorningText,
                               style: AppStyles.baloo2FontWith700WeightAnd17Size,
                             ),
-                            Image.asset(
-                              handIcon,
-                            )
+                            isTwoLineTitle
+                                ? Image.asset(
+                                    handIcon,
+                                  )
+                                : Container()
                           ],
                         ),
-                        Text(
-                          "Hossam Saeed",
-                          style: AppStyles.baloo2FontWith400WeightAnd22Size,
-                        ),
+                        isTwoLineTitle
+                            ? Text(
+                                "Hossam Saeed",
+                                style:
+                                    AppStyles.baloo2FontWith400WeightAnd22Size,
+                              )
+                            : Container(),
                       ],
                     )
                   ],
                 ),
-                Container(
-                  margin: const EdgeInsetsDirectional.only(
-                      top: 35, end: 60, start: 25),
-                  child: SizedBox(
-                    height: appBarSearchHeight,
-                    child: CustomSearchField(
-                      textController: TextEditingController(),
-                      hintText: searchHint,
-                      hintStyle: AppStyles
-                          .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
-                    ),
-                  ),
-                )
+                isSearchableAppBar
+                    ? Container(
+                        margin: const EdgeInsetsDirectional.only(
+                            top: 35, end: 60, start: 25),
+                        child: SizedBox(
+                          height: appBarSearchHeight.h,
+                          child: CustomSearchField(
+                            textController: TextEditingController(),
+                            hintText: searchHint,
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
+                          ),
+                        ),
+                      )
+                    : Container()
               ],
             ),
             backgroundColor: primaryColor,
             toolbarHeight: isSearchableAppBar
-                ? homeScreenAppBarWithSearchHeight
-                : homeScreenAppBarHeight);
+                ? homeScreenAppBarWithSearchHeight.h
+                : homeScreenAppBarHeight.h);
 }

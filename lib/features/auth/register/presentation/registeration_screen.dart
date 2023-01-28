@@ -243,7 +243,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ),
           Container(
-            width: loginAllAnotherAppsWidth,
+            width: loginAllAnotherAppsWidth.w,
             alignment: AlignmentDirectional.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
