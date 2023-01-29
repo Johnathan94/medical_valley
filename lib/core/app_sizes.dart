@@ -64,5 +64,6 @@ const double customAppBarHeight = 125;
 const double homeSearchScreenMarginHorizontal = 32;
 const double homeSearchItemMarginTop = 15;
 const double homeSearchScreenMarginTop = 15;
+const double homeSearchScreenMarginBottom = 50;
 const double homeSearchScreenHeight = 58;
 const double homeSearchScreenRadius = 13;

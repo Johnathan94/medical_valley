@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/core/app_styles.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
@@ -17,7 +18,7 @@ class HomeSearchScreen extends StatefulWidget {
 
 class _HomeSearchScreenState extends State<HomeSearchScreen> {
   late String _screenTitle;
-  List<HomeSearchModel> _searchModels = [];
+  final List<HomeSearchModel> _searchModels = [];
 
   @override
   initState() {
@@ -39,14 +40,18 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       isSearchableAppBar: true,
       searchHint: AppLocalizations.of(context)!.search,
       goodMorningText: _screenTitle,
-      leadingIcon: const Icon(
-        Icons.arrow_back_ios,
-        color: whiteColor,
+      leadingIcon: InkWell(
+        onTap: () => Navigator.pop(context),
+        child: const Icon(
+          Icons.arrow_back_ios,
+          color: whiteColor,
+        ),
       ),
       isTwoLineTitle: false,
     );
   }
 
+  var value;
   buildBody() {
     return Container(
       margin: const EdgeInsets.only(
@@ -54,9 +59,10 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       ),
       child: ListView.builder(
           shrinkWrap: true,
+          padding: const EdgeInsets.only(bottom: homeSearchScreenMarginBottom),
           itemCount: _searchModels.length,
           itemBuilder: (context, index) {
-            return buildSearchModelsItem(_searchModels[index]);
+            return buildSearchModelsItem(_searchModels[index], index);
           }),
     );
   }
@@ -74,7 +80,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     _searchModels.add(HomeSearchModel(10, "Heart disorders", false));
   }
 
-  buildSearchModelsItem(HomeSearchModel searchModel) {
+  buildSearchModelsItem(HomeSearchModel searchModel, int index) {
     return Container(
       height: homeSearchScreenHeight,
       margin: const EdgeInsetsDirectional.only(
@@ -88,17 +94,16 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
           boxShadow: [
             BoxShadow(spreadRadius: 1, blurRadius: 8, color: shadowColor)
           ]),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(searchModel.name),
-          /*       searchModel.isChecked
-              ? Container()
-              : Radio(
-                  value: value, groupValue: groupValue, onChanged: onChanged)
-       */
-        ],
+      child: RadioListTile(
+        activeColor: blackColor,
+        controlAffinity: ListTileControlAffinity.trailing,
+        value: index,
+        groupValue: value,
+        onChanged: (newValue) => setState(() => value = newValue),
+        title: Text(
+          searchModel.name,
+          style: AppStyles.baloo2FontWith400WeightAnd12Size,
+        ),
       ),
     );
   }
