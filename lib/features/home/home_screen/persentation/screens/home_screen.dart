@@ -104,7 +104,7 @@ class HomeState extends State<HomeScreen> {
     _services.add(ServiceModel(12, homeModelTwoIcon, "Ear, nose and Throat"));
   }
 
-  buildHomeModelItem(ServiceModel service) {
+  Widget buildHomeModelItem(ServiceModel service) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
