@@ -7,16 +7,16 @@ import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
 import '../../data/models/home_search_model.dart';
 
-class HomeSearchScreen extends StatefulWidget {
+class HomeDetailsScreen extends StatefulWidget {
   final String searchScreenTitle;
-  const HomeSearchScreen({Key? key, required this.searchScreenTitle})
+  const HomeDetailsScreen({Key? key, required this.searchScreenTitle})
       : super(key: key);
 
   @override
-  State<HomeSearchScreen> createState() => _HomeSearchScreenState();
+  State<HomeDetailsScreen> createState() => _HomeDetailsScreenState();
 }
 
-class _HomeSearchScreenState extends State<HomeSearchScreen> {
+class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   late String _screenTitle;
   final List<HomeSearchModel> _searchModels = [];
 

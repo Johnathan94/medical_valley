@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
 
 import '../../../../../core/app_sizes.dart';
-import '../../../home_search_screen/persentation/screen/home_search_screen.dart';
 import '../../../widgets/home_base_app_bar.dart';
 import '../../data/models/service_model.dart';
 
@@ -109,7 +109,7 @@ class HomeState extends State<HomeScreen> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                HomeSearchScreen(searchScreenTitle: service.name)));
+                HomeDetailsScreen(searchScreenTitle: service.name)));
       },
       child: Container(
         height: homeModelItemHeight.h,
