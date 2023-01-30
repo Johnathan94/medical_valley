@@ -7,6 +7,7 @@ import '../../../core/app_colors.dart';
 import '../../../core/app_sizes.dart';
 import '../../../core/app_styles.dart';
 import '../../../core/widgets/custom_search_field.dart';
+import 'home_base_stateful_widget.dart';
 
 class CustomHomeAppBar extends AppBar {
   final bool isSearchableAppBar;
@@ -34,6 +35,9 @@ class CustomHomeAppBar extends AppBar {
                 ? []
                 : [
                     InkWell(
+                      onTap: () {
+                        HomeBaseStatefulWidgetState.searchIconClicked();
+                      },
                       child: Container(
                         margin: const EdgeInsetsDirectional.only(
                             end: searchIconMarginEnd),

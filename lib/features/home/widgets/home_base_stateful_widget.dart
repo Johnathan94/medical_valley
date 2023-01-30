@@ -8,6 +8,7 @@ import 'package:medical_valley/features/home/more_screen/presentation/more_scree
 import 'package:medical_valley/features/home/notifications/persentation/screens/notifications_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../home_screen/persentation/screens/home_screen.dart';
 import '../home_search_screen/persentation/screens/home_search_screen.dart';
 
 class HomeBaseStatefulWidget extends StatefulWidget {
@@ -19,10 +20,12 @@ class HomeBaseStatefulWidget extends StatefulWidget {
 
 class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   final BehaviorSubject<int> _index = BehaviorSubject();
+  static BehaviorSubject<bool> _isSearchClicked = BehaviorSubject();
 
   @override
   initState() {
     _index.sink.add(0);
+    _isSearchClicked.sink.add(false);
     super.initState();
   }
 
@@ -30,6 +33,8 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   dispose() {
     _index.stream.drain();
     _index.close();
+    _isSearchClicked.stream.drain();
+    _isSearchClicked.close();
     super.dispose();
   }
 
@@ -46,7 +51,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       stream: _index,
       builder: (context, snapshot) {
         if (snapshot.data == 0) {
-          return const HomeSearchScreen();
+          return getHomeScreen();
         } else if (snapshot.data == 1) {
           return const NotificationsScreen();
         } else if (snapshot.data == 2) {
@@ -97,5 +102,21 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
             ],
           );
         });
+  }
+
+  getHomeScreen() {
+    return StreamBuilder<bool>(
+        stream: _isSearchClicked,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && (snapshot.data ?? false)) {
+            return const HomeSearchScreen();
+          } else {
+            return const HomeScreen();
+          }
+        });
+  }
+
+  static searchIconClicked() {
+    _isSearchClicked.sink.add(!_isSearchClicked.value);
   }
 }
