@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/strings/images.dart';
 
 import '../../../core/app_colors.dart';
@@ -26,63 +27,79 @@ class CustomHomeAppBar extends AppBar {
             leading: Container(),
             centerTitle: false,
             titleSpacing: appBarTitleNegativeMargin,
-            title: Column(
-              children: [
-                Row(
-                  children: [
-                    leadingIcon,
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              goodMorningText,
-                              style: AppStyles.baloo2FontWith700WeightAnd17Size,
-                            ),
-                            isTwoLineTitle
-                                ? Image.asset(
-                                    handIcon,
-                                  )
-                                : Container()
-                          ],
-                        ),
-                        isTwoLineTitle
-                            ? Text(
-                                "Hossam Saeed",
-                                style:
-                                    AppStyles.baloo2FontWith400WeightAnd22Size,
-                              )
-                            : Container(),
-                      ],
+            title: getTitleWidget(leadingIcon, goodMorningText, isTwoLineTitle,
+                isSearchableAppBar, searchHint),
+            backgroundColor: primaryColor,
+            actions: isSearchableAppBar
+                ? []
+                : [
+                    InkWell(
+                      child: Container(
+                        margin: const EdgeInsetsDirectional.only(
+                            end: searchIconMarginEnd),
+                        child: SvgPicture.asset(searchIcon),
+                      ),
                     )
                   ],
-                ),
-                isSearchableAppBar
-                    ? Container(
-                        margin: const EdgeInsetsDirectional.only(
-                            top: 35, end: 60, start: 25),
-                        child: SizedBox(
-                          height: appBarSearchHeight.h,
-                          child: CustomSearchField(
-                            textController: TextEditingController(),
-                            hintText: searchHint,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
-                          ),
-                        ),
-                      )
-                    : Container()
-              ],
-            ),
-            backgroundColor: primaryColor,
             toolbarHeight: isSearchableAppBar
                 ? homeScreenAppBarWithSearchHeight.h
                 : homeScreenAppBarHeight.h);
+
+  static Column getTitleWidget(Widget leadingIcon, String goodMorningText,
+      bool isTwoLineTitle, bool isSearchableAppBar, String? searchHint) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            leadingIcon,
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      goodMorningText,
+                      style: AppStyles.baloo2FontWith700WeightAnd17Size,
+                    ),
+                    isTwoLineTitle
+                        ? Image.asset(
+                            handIcon,
+                          )
+                        : Container()
+                  ],
+                ),
+                isTwoLineTitle
+                    ? Text(
+                        "Hossam Saeed",
+                        style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                      )
+                    : Container(),
+              ],
+            )
+          ],
+        ),
+        isSearchableAppBar
+            ? Container(
+                margin: const EdgeInsetsDirectional.only(
+                    top: 35, end: 60, start: 25),
+                child: SizedBox(
+                  height: appBarSearchHeight.h,
+                  child: CustomSearchField(
+                    textController: TextEditingController(),
+                    hintText: searchHint,
+                    hintStyle: AppStyles
+                        .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
+                  ),
+                ),
+              )
+            : Container()
+      ],
+    );
+  }
 }

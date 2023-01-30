@@ -67,3 +67,4 @@ const double homeSearchScreenMarginTop = 15;
 const double homeSearchScreenMarginBottom = 50;
 const double homeSearchScreenHeight = 58;
 const double homeSearchScreenRadius = 13;
+const double searchIconMarginEnd = 15;

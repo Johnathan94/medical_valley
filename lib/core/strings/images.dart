@@ -1,5 +1,5 @@
 const imagesPath = "assets/images/";
-const svgImagesPath = "assets/icons/svg/";
+const svgImagesPath = "assets/icons/";
 const iconsPath = "assets/icons/";
 const emailIcon = "${iconsPath}email.svg";
 const appIcon = "${imagesPath}app_icon.png";
@@ -23,3 +23,6 @@ const homeModelTwoIcon = "${imagesPath}home_model_two.png";
 const transparentAppIcon = "${imagesPath}transparent_app_icon.png";
 const noInternetIcon = "${imagesPath}no_internet_icon.png";
 const settingIcon = "${imagesPath}setting_icon.png";
+
+const searchIcon = "${svgImagesPath}search.svg";
+const arrowRightIcon = "${svgImagesPath}arrow_right.svg";
