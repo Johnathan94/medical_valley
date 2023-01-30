@@ -25,5 +25,5 @@ EdgeInsets largePaddingHV =
 
 EdgeInsets smallPaddingV = const EdgeInsets.symmetric(horizontal: 8);
 EdgeInsets mediumPaddingV = const EdgeInsets.symmetric(horizontal: 16);
-EdgeInsets bigPaddingV = const EdgeInsets.symmetric(horizontal: 24);
+EdgeInsets bigPaddingV = const EdgeInsets.symmetric(vertical: 24);
 EdgeInsets largePaddingV = const EdgeInsets.symmetric(horizontal: 32);

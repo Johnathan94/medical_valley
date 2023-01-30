@@ -114,7 +114,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children:
-                                                  AppInitializer.sortChoices
+                                                  AppInitializer.sortChoicesHistory
                                                       .map((e) => Padding(
                                                             padding:
                                                                 smallPaddingAll,
@@ -123,7 +123,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                               onTap: () {
                                                                 sortOption.sink.add(
                                                                     AppInitializer
-                                                                        .sortChoices
+                                                                        .sortChoicesHistory
                                                                         .indexOf(
                                                                             e));
                                                               },
@@ -134,12 +134,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                           .spaceBetween,
                                                                   children: [
                                                                     Text(AppInitializer
-                                                                        .sortChoices[AppInitializer
-                                                                            .sortChoices
+                                                                        .sortChoicesHistory[AppInitializer
+                                                                            .sortChoicesHistory
                                                                             .indexOf(e)]
                                                                         .sortOption),
                                                                     sortOption.value ==
-                                                                            AppInitializer.sortChoices.indexOf(
+                                                                            AppInitializer.sortChoicesHistory.indexOf(
                                                                                 e)
                                                                         ? const Icon(Icons
                                                                             .radio_button_checked)
