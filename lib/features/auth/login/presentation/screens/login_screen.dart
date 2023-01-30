@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Positioned(
         top: loginBodyMarginTop.r,
         child: Container(
-          width: screenWidth,
+          width: MediaQuery.of(context).size.width,
           height: screenHeight,
           decoration: const BoxDecoration(
               color: whiteColor,
