@@ -12,7 +12,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 215.h,
+      height: 290.h,
       padding: bigPaddingHV,
       decoration: BoxDecoration(
         color: whiteColor,

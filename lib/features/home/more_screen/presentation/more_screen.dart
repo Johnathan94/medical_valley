@@ -21,14 +21,14 @@ class MoreScreen extends StatelessWidget {
               Container(
                 alignment: Alignment.bottomRight,
                 width: screenWidth,
-                height: 140.h,
+                height: 230.h,
                 decoration: const BoxDecoration(color: primaryColor),
                 child: Image.asset("${imagesPath}transparent_app_icon.png"),
               ),
               Container(
                 alignment: Alignment.center,
                 width: screenWidth,
-                height: 140.h,
+                height: 270.h,
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: const ProfileImage(),
               ),

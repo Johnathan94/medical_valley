@@ -89,7 +89,7 @@ class _OffersScreenState extends State<OffersScreen> {
                             child: Container(
                               padding: smallPaddingAll,
                               margin: smallPaddingH,
-                              height: 140.h,
+                              height: 195.h,
                               width: 250.w,
                               decoration: BoxDecoration(
                                   border: Border.all(width: .2),

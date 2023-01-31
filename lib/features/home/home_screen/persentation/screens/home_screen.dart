@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/app_styles.dart';
@@ -56,60 +57,65 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView.builder(
           shrinkWrap: true,
           itemCount: _services.length,
-          padding: EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
+          padding: const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
           itemBuilder: (context, index) {
-            return DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _services[index].name,
-                        style: AppStyles.headlineStyle,
-                        overflow: TextOverflow.ellipsis,
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  isExpanded: true,
+                  hint: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _services[index].name,
+                          style: AppStyles.headlineStyle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                items: _services[index]
-                    .subServices
-                    .map((item) => DropdownMenuItem<SubServices>(
-                          value: item,
-                          child: Text(
-                            item.name,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                    ],
+                  ),
+                  items: _services[index]
+                      .subServices
+                      .map((item) => DropdownMenuItem<SubServices>(
+                            value: item,
+                            child: Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) {},
-                icon: SvgPicture.asset(arrowRightIcon),
-                buttonHeight: 50,
-                buttonWidth: 160,
-                buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-                buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: whiteColor,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    showBottomSheet(context: context, builder: (context)=> const AppointmentsBottomSheet());
+                  },
+                  icon: SvgPicture.asset(arrowRightIcon),
+                  buttonHeight: 50,
+                  buttonWidth: 160,
+                  buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                  buttonDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: whiteColor,
+                  ),
+                  buttonElevation: 2,
+                  itemHeight: 45,
+                  itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                  dropdownMaxHeight: 200,
+                  dropdownWidth: (MediaQuery.of(context).size.width - 54),
+                  dropdownPadding: null,
+                  dropdownDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: whiteColor,
+                  ),
+                  dropdownElevation: 8,
+                  scrollbarRadius: const Radius.circular(40),
+                  scrollbarThickness: 6,
+                  scrollbarAlwaysShow: true,
                 ),
-                buttonElevation: 2,
-                itemHeight: 45,
-                itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                dropdownMaxHeight: 200,
-                dropdownWidth: (MediaQuery.of(context).size.width - 54),
-                dropdownPadding: null,
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: whiteColor,
-                ),
-                dropdownElevation: 8,
-                scrollbarRadius: const Radius.circular(40),
-                scrollbarThickness: 6,
-                scrollbarAlwaysShow: true,
               ),
             );
           }),
