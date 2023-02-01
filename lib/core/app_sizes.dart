@@ -39,6 +39,7 @@ const double text25 = 25;
 const double text20 = 20;
 const double text18 = 18;
 const double text17 = 17;
+const double text40 = 40;
 
 const int otpFieldNumber = 4;
 const double otpFieldWidth = 83;

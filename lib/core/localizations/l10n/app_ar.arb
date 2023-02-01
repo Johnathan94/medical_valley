@@ -48,7 +48,10 @@
   "notifications": "الاشعارات",
   "history": "السجل",
   "more": "المزيد",
-  "how_we_serve_you": "كيف نخدمك ؟"
+  "how_we_serve_you": "كيف نخدمك ؟",
+  "chat_on_boarding_desc": "مرحبًا بك في ميديكال فالي بوت ، صديق رائع للدردشة معك",
+  "next": "التالي"
+
 
 
 }

@@ -112,6 +112,12 @@ class AppStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static var baloo2FontWith700WeightAnd40Size = GoogleFonts.baloo2(
+    color: blackColor,
+    fontSize: text40.sp,
+    fontWeight: FontWeight.w500,
+  );
+
   static var baloo2FontWith600WeightAnd18Size = GoogleFonts.baloo2(
     color: primaryColor,
     fontSize: text18.sp,

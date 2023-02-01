@@ -26,3 +26,5 @@ const settingIcon = "${imagesPath}setting_icon.png";
 
 const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";
+const floatingIcon = "${svgImagesPath}floating.svg";
+const chatOnBoardingIcon = "${svgImagesPath}chat_on_board_icon.svg";

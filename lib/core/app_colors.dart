@@ -1,6 +1,9 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
+
 const primaryColor = Color(0xff0787A4);
+const primaryColorLight = Color(0xffC0F3FF);
 const primaryLiteColor = Color(0xff1AB1D3);
 const secondaryColor = Color(0xffFF6969);
 const primary100 = Color(0xffE0ECEE);

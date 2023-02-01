@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
@@ -8,6 +10,7 @@ import 'package:medical_valley/features/home/more_screen/presentation/more_scree
 import 'package:medical_valley/features/home/notifications/persentation/screens/notifications_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../chat/on_boarding/peresentation/screens/chat_on_board_screen.dart';
 import '../home_screen/persentation/screens/home_screen.dart';
 import '../home_search_screen/persentation/screens/home_search_screen.dart';
 
@@ -41,8 +44,10 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: getBody(),
       bottomNavigationBar: buildBottomNavigationBar(),
+      floatingActionButton: getFloatingButton(),
     );
   }
 
@@ -118,5 +123,25 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
 
   static searchIconClicked() {
     _isSearchClicked.sink.add(!_isSearchClicked.value);
+  }
+
+  getFloatingButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const ChatOnBoardingScreen()));
+      },
+      child: Container(
+          width: 90.w,
+          height: 129.h,
+          decoration: const BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              boxShadow: [BoxShadow(color: shadowColor, blurRadius: 8)]),
+          child: SvgPicture.asset(
+            floatingIcon,
+            fit: BoxFit.cover,
+          )),
+    );
   }
 }

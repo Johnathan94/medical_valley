@@ -47,7 +47,9 @@
     "manage_notifications": "Manage notifications",
     "history": "History",
     "more": "More",
-    "how_we_serve_you": "How we serve you ?"
+    "how_we_serve_you": "How we serve you ?",
+    "chat_on_boarding_desc": "Welcome to medical valley bot, a great friend to chat with you",
+    "next": "Next"
 
 
 }
