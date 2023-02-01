@@ -50,7 +50,18 @@
   "more": "المزيد",
   "how_we_serve_you": "كيف نخدمك ؟",
   "chat_on_boarding_desc": "مرحبًا بك في ميديكال فالي بوت ، صديق رائع للدردشة معك",
-  "next": "التالي"
+  "next": "التالي",
+  "payment": "الدفع",
+  "saved_cards": "البطاقات المحفوظة",
+  "add_new_card": "إضافة بطاقة جديدة",
+  "other_payment_option": "خيار دفع آخر",
+  "visa": "Visa",
+  "paypal": "PayPal",
+  "google_pay": "Google Pay"
+
+
+
+
 
 
 

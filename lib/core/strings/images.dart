@@ -28,3 +28,7 @@ const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";
 const floatingIcon = "${svgImagesPath}floating.svg";
 const chatOnBoardingIcon = "${svgImagesPath}chat_on_board_icon.svg";
+const paymentCardIcon = "${svgImagesPath}card_icon.svg";
+const visaIcon = "${svgImagesPath}visa_icon.svg";
+const paypalIcon = "${svgImagesPath}paypal_icon.svg";
+const googlePayIcon = "${svgImagesPath}google_pay_icon.svg";

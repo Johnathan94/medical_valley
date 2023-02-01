@@ -49,7 +49,14 @@
     "more": "More",
     "how_we_serve_you": "How we serve you ?",
     "chat_on_boarding_desc": "Welcome to medical valley bot, a great friend to chat with you",
-    "next": "Next"
+    "next": "Next",
+    "payment": "Payment",
+    "saved_cards": "Saved Cards",
+    "add_new_card": "Add New Card",
+    "other_payment_option": "Other Payment Option",
+    "visa": "Visa",
+    "paypal": "PayPal",
+    "google_pay": "Google Pay"
 
 
 }

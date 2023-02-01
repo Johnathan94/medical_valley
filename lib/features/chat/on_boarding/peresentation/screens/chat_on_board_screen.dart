@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
 
 import '../../../../../core/strings/images.dart';
 
@@ -77,7 +78,12 @@ class ChatOnBoardingScreen extends StatelessWidget {
   buildNextButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(37.0),
-      child: PrimaryButton(text: AppLocalizations.of(context)!.next),
+      child: PrimaryButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const PaymentScreen()));
+          },
+          text: AppLocalizations.of(context)!.next),
     );
   }
 }
