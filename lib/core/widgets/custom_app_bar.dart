@@ -9,7 +9,12 @@ import '../app_styles.dart';
 class MyCustomAppBar extends AppBar {
   final String header;
   final Widget leadingIcon;
-  MyCustomAppBar({required this.header, required this.leadingIcon, Key? key})
+  final bool isActionButtonShown;
+  MyCustomAppBar(
+      {required this.header,
+      required this.leadingIcon,
+      this.isActionButtonShown = true,
+      Key? key})
       : super(
           key: key,
           title: Text(
@@ -20,7 +25,7 @@ class MyCustomAppBar extends AppBar {
           elevation: 0,
           backgroundColor: primaryColor,
           centerTitle: false,
-          actions: [Image.asset(transparentAppIcon)],
+          actions: isActionButtonShown ? [Image.asset(transparentAppIcon)] : [],
           titleSpacing: -10,
           toolbarHeight: customAppBarHeight.h,
         );

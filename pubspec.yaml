@@ -62,6 +62,8 @@ dev_dependencies:
   device_preview:
   dropdown_button2:
   awesome_card: ^1.1.7
+  calendar_date_picker2:
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
