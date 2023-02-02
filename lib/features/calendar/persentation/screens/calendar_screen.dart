@@ -35,6 +35,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   getBody() {
-    return  Container();
+    return Container();
   }
 }
