@@ -23,12 +23,13 @@ const homeModelTwoIcon = "${imagesPath}home_model_two.png";
 const transparentAppIcon = "${imagesPath}transparent_app_icon.png";
 const noInternetIcon = "${imagesPath}no_internet_icon.png";
 const settingIcon = "${imagesPath}setting_icon.png";
+const visaIcon = "${imagesPath}visa.png";
+const paypalIcon = "${imagesPath}paypal.png";
+const googlePayIcon = "${imagesPath}google_pay.png";
 
 const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";
 const floatingIcon = "${svgImagesPath}floating.svg";
 const chatOnBoardingIcon = "${svgImagesPath}chat_on_board_icon.svg";
 const paymentCardIcon = "${svgImagesPath}card_icon.svg";
-const visaIcon = "${imagesPath}visa.png";
-const paypalIcon = "${imagesPath}paypal.png";
-const googlePayIcon = "${imagesPath}google_pay.png";
+const error404Icon = "${svgImagesPath}error_404_icon.svg";

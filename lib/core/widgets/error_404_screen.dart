@@ -15,7 +15,7 @@ class NoInternetConnectionState extends BaseStatefulWidgetState {
   getScreenBody() {
     return Container(
       alignment: AlignmentDirectional.center,
-      child: Image.asset(noInternetIcon),
+      child: Image.asset(error404Icon),
     );
   }
 }
