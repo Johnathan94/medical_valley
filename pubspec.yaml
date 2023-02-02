@@ -61,7 +61,7 @@ dev_dependencies:
   dotted_line: ^3.1.0
   device_preview:
   dropdown_button2:
-
+  awesome_card: ^1.1.7
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

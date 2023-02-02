@@ -58,15 +58,16 @@ class ChatOnBoardingScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 71.w,
-            height: 18.h,
+            width: 30.w,
+            height: 10.h,
             decoration: const BoxDecoration(
                 color: primaryColor,
                 borderRadius: BorderRadius.all(Radius.circular(45))),
           ),
+          const SizedBox(width: 8,),
           Container(
-            width: 18.w,
-            height: 18.h,
+            width: 10.w,
+            height: 10.h,
             decoration: const BoxDecoration(
                 color: primaryColorLight, shape: BoxShape.circle),
           )

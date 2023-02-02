@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-
 import '../../../../core/app_colors.dart';
-import '../../../../core/strings/images.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../data/payment_data.dart';
-
+import 'package:awesome_card/awesome_card.dart';
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
 
@@ -17,18 +15,8 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  List<PaymentData> _payments = [];
-
   @override
   initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _payments
-          .add(PaymentData(1, AppLocalizations.of(context)!.visa, visaIcon));
-      _payments.add(
-          PaymentData(2, AppLocalizations.of(context)!.paypal, paypalIcon));
-      _payments.add(PaymentData(
-          3, AppLocalizations.of(context)!.google_pay, googlePayIcon));
-    });
     super.initState();
   }
 
@@ -61,14 +49,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
       width: MediaQuery.of(context).size.width,
       color: whiteColor,
       padding: const EdgeInsetsDirectional.only(top: 38),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          addPaymentTitle(),
-          cardImage(),
-          otherCards(),
-          confirmButton()
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            addPaymentTitle(),
+            cardImage(),
+            otherCards(),
+            confirmButton()
+          ],
+        ),
       ),
     );
   }
@@ -100,7 +90,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Container(
       margin: const EdgeInsets.only(top: 19),
       alignment: AlignmentDirectional.center,
-      child: SvgPicture.asset(paymentCardIcon),
+      child:CreditCard(
+          cardNumber: "5450 7879 4864 7854",
+          cardExpiry: "10/25",
+          cardHolderName: "Card Holder",
+          cvv: "456",
+          bankName: "Axis Bank",
+          cardType: CardType.other, // Optional if you want to override Card Type
+          showBackSide: false,
+          frontBackground: Container(color: primaryColor,),
+          backBackground: Container(color: primaryColor,),
+          showShadow: true,
+          textExpDate: 'Exp. Date',
+          textName: 'Name',
+          textExpiry: 'MM/YY'
+      ),
     );
   }
 
@@ -123,16 +127,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   buildOtherPayment() {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: _payments.length,
+        itemCount: AppInitializer.paymentMethods.length,
         itemBuilder: (context, index) {
-          return buildPaymentItem(_payments[index], index);
+          return buildPaymentItem(AppInitializer.paymentMethods[index], index);
         });
   }
 
   confirmButton() {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(top: 90.0, start: 35, end: 35),
+      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 35, end: 35),
       child: PrimaryButton(text: AppLocalizations.of(context)!.confirm),
     );
   }
@@ -140,6 +145,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var value;
 
   buildPaymentItem(PaymentData payment, int index) {
+    print(payment.icon);
     return RadioListTile(
       activeColor: blackColor,
       controlAffinity: ListTileControlAffinity.trailing,
@@ -148,7 +154,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       onChanged: (newValue) => setState(() => value = newValue),
       title: Row(
         children: [
-          SvgPicture.asset(payment.icon),
+          Container(
+              width: 30,
+              height: 30,
+              child: Image.asset(payment.icon,width: 30,height: 30,)),
+          const SizedBox(width: 8,),
           Text(
             payment.name,
             style: AppStyles.baloo2FontWith500WeightAnd22Size,
