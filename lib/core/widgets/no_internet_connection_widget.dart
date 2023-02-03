@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_valley/core/strings/images.dart';
-import 'package:medical_valley/core/widgets/error_404_screen.dart';
+import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import 'base_stateful_widget.dart';
 
@@ -16,7 +16,7 @@ class NoInternetConnectionState extends BaseStatefulWidgetState {
   getScreenBody() {
     return InkWell(
       onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const Error404Screen())),
+          MaterialPageRoute(builder: (context) => const HomeBaseStatefulWidget())),
       child: Container(
         alignment: AlignmentDirectional.center,
         child: Image.asset(noInternetIcon),

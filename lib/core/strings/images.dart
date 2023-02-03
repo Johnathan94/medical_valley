@@ -26,6 +26,8 @@ const settingIcon = "${imagesPath}setting_icon.png";
 const visaIcon = "${imagesPath}visa.png";
 const paypalIcon = "${imagesPath}paypal.png";
 const googlePayIcon = "${imagesPath}google_pay.png";
+const personImage = "${imagesPath}person.png";
+const insuranceIcon = "${imagesPath}insurance.png";
 
 const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";

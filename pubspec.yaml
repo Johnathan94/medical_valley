@@ -49,7 +49,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_screenutil:
-  google_fonts:
+  google_fonts: "3.0.0"
   intl_phone_field:
   rxdart:
   flutter_otp_text_field:

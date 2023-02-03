@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/info/presentation/info_screen_insurance.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../data/payment_data.dart';
@@ -138,14 +139,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
   confirmButton() {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 35, end: 35),
-      child: PrimaryButton(text: AppLocalizations.of(context)!.confirm),
+      child: PrimaryButton(text: AppLocalizations.of(context)!.confirm, onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (c){
+          return const InsuranceInfoScreen();
+        }));
+      },),
     );
   }
 
   var value;
 
   buildPaymentItem(PaymentData payment, int index) {
-    print(payment.icon);
     return RadioListTile(
       activeColor: blackColor,
       controlAffinity: ListTileControlAffinity.trailing,
