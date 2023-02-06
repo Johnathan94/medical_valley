@@ -1,20 +1,29 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/app_bar.dart';
 import 'package:medical_valley/core/widgets/custom_text_field.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/core/widgets/snackbars.dart';
+import 'package:medical_valley/features/auth/register/data/model/register_request_model.dart';
+import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_bloc.dart';
+import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../login/presentation/screens/login_screen.dart';
 import '../../widgets/authentication_app_widget.dart';
-import '../data/insurance_model.dart';
+import '../data/model/insurance_model.dart';
 import '../widgets/primary_bg.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -26,9 +35,12 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController controller = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
-  BehaviorSubject<int> insuranceOption = BehaviorSubject();
+  BehaviorSubject<String> optionDisplayed = BehaviorSubject();
+  BehaviorSubject<String> genderDisplayed = BehaviorSubject();
+  RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
+  var _formKey = GlobalKey<FormState>();
   List<InsuranceModel> insuranceChoices = [
     InsuranceModel(true),
     InsuranceModel(false),
@@ -36,23 +48,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void initState() {
-    optionDisplayed.sink.add(false);
-    insuranceOption.sink.add(0);
     super.initState();
   }
-
+@override
+  void didChangeDependencies() {
+  genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
+  optionDisplayed
+      .sink.add(AppLocalizations.of(context)!.yes);
+  super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        header: AppLocalizations.of(context)!.sign_up,
-        leadingIcon: const Icon(
-          Icons.arrow_back_ios,
-          color: whiteColor,
+
+    return BlocProvider<RegisterBloc>(
+      create:(c)=> registerBloc,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          header: AppLocalizations.of(context)!.sign_up,
+          leadingIcon: const Icon(
+            Icons.arrow_back_ios,
+            color: whiteColor,
+          ),
         ),
-      ),
-      body: Stack(
-        children: [const PrimaryBg(), buildRegisterView()],
+        body: Stack(
+          children: [const PrimaryBg(), buildRegisterView(),
+
+          ],
+        ),
       ),
     );
   }
@@ -60,148 +82,245 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget buildRegisterView() {
     return Positioned(
       bottom: 0,
-      child: GestureDetector(
-        onTap: () => optionDisplayed.sink.add(false),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * .82,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(registerBodyRadius))),
-          child: Padding(
-            padding: mediumPaddingHV,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.create_your_account,
-                    style: AppStyles.headlineStyle,
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  CustomTextField(
-                    textController: controller,
-                    prefixIcon: emailIcon,
-                    hintText: AppLocalizations.of(context)!.email,
-                    hintStyle: AppStyles.headlineStyle,
-                  ),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  const PhoneIntlWidgetField(),
-                  SizedBox(
-                    height: 16.h,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      optionDisplayed.value
-                          ? optionDisplayed.sink.add(false)
-                          : optionDisplayed.sink.add(true);
-                    },
-                    child: Container(
-                      padding: mediumPaddingAll,
-                      decoration: BoxDecoration(
-                        color: whiteRed100,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: primaryColor),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Do you have a medical insurance ? "),
-                          Icon(
-                            Icons.arrow_drop_down,
-                            color: blackColor,
-                          )
-                        ],
-                      ),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .82,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadiusDirectional.only(
+                topStart: Radius.circular(registerBodyRadius))),
+        child: Padding(
+          padding: mediumPaddingHV,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: BlocListener <RegisterBloc , RegisterState>(
+                bloc: registerBloc,
+                listener: (context, state) {
+                  if(state is RegisterStateLoading){
+
+                  }
+                  else if (state is RegisterStateSuccess)
+                    {
+                      navigateToLoginScreen();
+                    }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 30.h,
                     ),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  StreamBuilder<bool>(
-                      stream: optionDisplayed.stream,
-                      builder: (context, snapshot) {
-                        return optionDisplayed.value
-                            ? Visibility(
-                                visible: optionDisplayed.value,
-                                child: Container(
-                                  padding: smallPaddingAll,
-                                  margin: smallPaddingH,
-                                  height: 80.h,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(width: .2),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: StreamBuilder<int>(
-                                      stream: insuranceOption.stream,
-                                      builder: (context, snapshot) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: insuranceChoices
-                                              .map((e) => Padding(
-                                                    padding: smallPaddingAll,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        insuranceOption.sink
-                                                            .add(
-                                                                insuranceChoices
-                                                                    .indexOf(
-                                                                        e));
-                                                      },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(e.hasInsurance
-                                                              ? AppLocalizations
-                                                                      .of(
-                                                                          context)!
-                                                                  .yes
-                                                              : AppLocalizations
-                                                                      .of(context)!
-                                                                  .no),
-                                                          insuranceOption
-                                                                      .value ==
-                                                                  insuranceChoices
-                                                                      .indexOf(
-                                                                          e)
-                                                              ? const Icon(Icons
-                                                                  .radio_button_checked)
-                                                              : const Icon(Icons
-                                                                  .circle_outlined)
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                        );
-                                      }),
+                    Text(
+                      AppLocalizations.of(context)!.create_your_account,
+                      style: AppStyles.headlineStyle,
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CustomTextField(
+                      textController: controller,
+                      prefixIcon: emailIcon,
+                      hintText: AppLocalizations.of(context)!.email,
+                      hintStyle: AppStyles.headlineStyle,
+                      onValidator: (String? x){
+                        if(!x!.isEmailValid()){
+                          return AppLocalizations.of(context)!.email_invalid ;
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    CustomTextField(
+                      textController: fullNameController,
+                      prefixIcon: emailIcon,
+                      hintText: AppLocalizations.of(context)!.fullname,
+                      hintStyle: AppStyles.headlineStyle,
+                      onValidator: (String? x){
+                        if(x!.isEmpty){
+                          return AppLocalizations.of(context)!.empty_field ;
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    PhoneIntlWidgetField(phoneController),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    StreamBuilder<String>(
+                        stream: optionDisplayed.stream,
+                        builder: (context, snapshot) {
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.insurance_question,
+                                    style: AppStyles.headlineStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    optionDisplayed.value,
+                                    style: AppStyles.headlineStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+
+                                ],
+                              ),
+                              items:
+                              AppInitializer.optionsList
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    optionDisplayed.value == item ?
+                                    const  Icon(Icons.check_circle, color: primaryColor,size: 15,):
+                                    const SizedBox()
+                                  ],
                                 ),
-                              )
-                            : SizedBox(
-                                height: 80.h,
-                              );
-                      }),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  PrimaryButton(
-                    onPressed: () {},
-                    text: AppLocalizations.of(context)!.sign_up,
-                  ),
-                  buildSignInApps(),
-                  buildSignUp()
-                ],
+                              ))
+                                  .toList(),
+                              onChanged: (String? value) {
+                                optionDisplayed.sink.add(value!);
+                              },
+                              icon: const Padding(
+                                padding:  EdgeInsetsDirectional.only(end: 8.0),
+                                child:  Icon(Icons.arrow_drop_down_outlined),
+                              ),
+                              buttonHeight: 60,
+                              underline: const SizedBox(),
+                              buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: whiteRed100,
+                                  border: Border.all(color: primaryColor)
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 45,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: whiteColor,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                            ),
+                          );
+                        }
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    StreamBuilder<String>(
+                        stream: genderDisplayed.stream,
+                        builder: (context, snapshot) {
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.gender,
+                                    style: AppStyles.headlineStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    genderDisplayed.value,
+                                    style: AppStyles.headlineStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+
+                                ],
+                              ),
+                              items:
+                              [
+                                AppLocalizations.of(context)!.male,
+                                AppLocalizations.of(context)!.female,
+                              ]
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    optionDisplayed.value == item ?
+                                    const  Icon(Icons.check_circle, color: primaryColor,size: 15,):
+                                    const SizedBox()
+                                  ],
+                                ),
+                              ))
+                                  .toList(),
+                              onChanged: (String? value) {
+                                genderDisplayed.sink.add(value!);
+                              },
+                              icon: const Padding(
+                                padding:  EdgeInsetsDirectional.only(end: 8.0),
+                                child:  Icon(Icons.arrow_drop_down_outlined),
+                              ),
+                              buttonHeight: 60,
+                              underline: const SizedBox(),
+                              buttonDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: whiteRed100,
+                                  border: Border.all(color: primaryColor)
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 45,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: whiteColor,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                            ),
+                          );
+                        }
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    PrimaryButton(
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()){
+                          registerBloc.registerUser(RegisterEvent(RegisterRequestModel(
+
+                            email: controller.text , mobile: phoneController.text,fullName: fullNameController.text ,haveInsurance: optionDisplayed.value == AppLocalizations.of(context)!.yes ,rememberMe: true, genderStr: genderDisplayed.value , genderId: 0, )));
+                        }else {
+                          context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);
+                        }
+                      },
+                      text: AppLocalizations.of(context)!.sign_up,
+                    ),
+                    buildSignInApps(),
+                    buildSignUp()
+                  ],
+                ),
               ),
             ),
           ),
@@ -270,4 +389,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
+}
+
+class Gender {
 }

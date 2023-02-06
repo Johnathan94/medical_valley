@@ -4,13 +4,15 @@ import 'package:medical_valley/core/app_sizes.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../app_sizes.dart';
 class PhoneIntlWidgetField extends StatelessWidget {
-  const PhoneIntlWidgetField({Key? key}) : super(key: key);
+  final TextEditingController phoneController ;
+  const PhoneIntlWidgetField(this.phoneController ,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
       initialValue: "",
       disableLengthCheck: true,
+      controller: phoneController,
       cursorColor: primaryColor,
       dropdownIconPosition: IconPosition.trailing,
       dropdownIcon: const Icon(Icons.arrow_drop_down , color: greyWith80Percentage,),

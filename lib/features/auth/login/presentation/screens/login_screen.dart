@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child: const PhoneIntlWidgetField(),
+      child:  PhoneIntlWidgetField(TextEditingController()),
     );
   }
 
