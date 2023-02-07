@@ -1,10 +1,16 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
+import 'package:medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_colors.dart';
@@ -24,7 +30,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final BehaviorSubject<bool> _checkBoxBehaviourSubject =
       BehaviorSubject<bool>();
-
+  LoginBloc loginBloc = GetIt.instance<LoginBloc>();
+  TextEditingController phoneController = TextEditingController();
   @override
   initState() {
     _checkBoxBehaviourSubject.sink.add(false);
@@ -78,6 +85,27 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              BlocListener <LoginBloc , LoginState>(
+                bloc: loginBloc,
+                listener: (context, state) async{
+                  if(state is LoginStateLoading){
+                    await LoadingDialogs.showLoadingDialog(context);
+                  }
+                  else if (state is LoginStateSuccess)
+                  {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      context: context,
+                      onConfirmBtnTap: (){
+                        navigateToOtpScreen();
+                      },
+                      type: CoolAlertType.success,
+                      text: AppLocalizations.of(context)!.success_registered,
+                    );
+                  }
+                },
+                child: Container()
+              ),
               buildLoginScreenTitle(),
               buildMobilePhoneField(),
               SizedBox(
@@ -88,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: mediumPaddingHV.r,
                 child: PrimaryButton(
                   onPressed: () {
-                    navigateToOtpScreen();
+                    loginBloc.loginUser(LoginEvent(phoneController.text));
                   },
                   text: AppLocalizations.of(context)!.sign_in,
                 ),
@@ -117,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child:  PhoneIntlWidgetField(TextEditingController()),
+      child:  PhoneIntlWidgetField(phoneController),
     );
   }
 

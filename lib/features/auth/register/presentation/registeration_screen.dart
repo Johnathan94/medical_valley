@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/app_bar.dart';
@@ -47,7 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ];
 
   @override
-  void initState() {
+  void initState() {//close dialog
     super.initState();
   }
 @override
@@ -96,13 +98,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               key: _formKey,
               child: BlocListener <RegisterBloc , RegisterState>(
                 bloc: registerBloc,
-                listener: (context, state) {
+                listener: (context, state) async{
                   if(state is RegisterStateLoading){
-
+                   await LoadingDialogs.showLoadingDialog(context);
                   }
                   else if (state is RegisterStateSuccess)
                     {
-                      navigateToLoginScreen();
+                       LoadingDialogs.hideLoadingDialog();
+                       CoolAlert.show(
+                         context: context,
+                         onConfirmBtnTap: (){
+                           navigateToLoginScreen();
+                         },
+                         type: CoolAlertType.success,
+                         text: AppLocalizations.of(context)!.success_registered,
+                       );
                     }
                 },
                 child: Column(

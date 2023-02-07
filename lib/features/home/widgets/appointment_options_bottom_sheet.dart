@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
-import 'package:medical_valley/features/calendar/persentation/screens/calendar_screen.dart';
 import 'package:medical_valley/features/home/widgets/option_button.dart';
+import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 
 class AppointmentsBottomSheet extends StatelessWidget {
   const AppointmentsBottomSheet({Key? key}) : super(key: key);
@@ -97,7 +97,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (c) => const CalendarScreen()));
+                                builder: (c) => const OffersScreen()));
                       },
                       child: OptionButton(
                         textStyle: AppStyles.baloo2FontWith700WeightAnd22Size

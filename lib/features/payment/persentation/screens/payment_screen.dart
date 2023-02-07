@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/home/widgets/add_card_bottom_sheet.dart';
 import 'package:medical_valley/features/info/presentation/info_screen_insurance.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
@@ -25,7 +26,55 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: buildPaymentBody(),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: whiteColor,
+        padding: const EdgeInsetsDirectional.only(top: 38),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.saved_cards,
+                      style: AppStyles.baloo2FontWith600WeightAnd22Size,
+                    ),
+                    Builder(
+                      builder: (context) {
+                        return GestureDetector(
+                          onTap: (){
+                            showBottomSheet(context: context, builder: (context)=> const AddCardBottomSheet());
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.add,
+                                color: primaryColor,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.add_new_card,
+                                style: AppStyles.baloo2FontWith600WeightAnd16Size,
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                    )
+                  ],
+                ),
+              ),
+              cardImage(),
+              otherCards(),
+              confirmButton()
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -44,48 +93,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  buildPaymentBody() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      color: whiteColor,
-      padding: const EdgeInsetsDirectional.only(top: 38),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            addPaymentTitle(),
-            cardImage(),
-            otherCards(),
-            confirmButton()
-          ],
-        ),
-      ),
-    );
-  }
 
-  addPaymentTitle() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
-      child: Row(
-        children: [
-          Text(
-            AppLocalizations.of(context)!.saved_cards,
-            style: AppStyles.baloo2FontWith600WeightAnd22Size,
-          ),
-          const Spacer(),
-          const Icon(
-            Icons.add,
-            color: primaryColor,
-          ),
-          Text(
-            AppLocalizations.of(context)!.add_new_card,
-            style: AppStyles.baloo2FontWith600WeightAnd16Size,
-          )
-        ],
-      ),
-    );
-  }
+
+
 
   cardImage() {
     return Container(
