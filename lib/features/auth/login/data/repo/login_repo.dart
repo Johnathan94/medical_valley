@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:medical_valley/core/failures/failures.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 
 abstract class LoginRepo {
@@ -14,7 +15,8 @@ abstract class LoginRepo {
   Future<Either<Failure , Unit>> login(String mobile) async {
     try
      {
-       await client.login(mobile);
+       var result = await client.login(mobile);
+        LocalStorageManager.saveUser(result);
        return const Right(unit);
      }
       catch(e){

@@ -1,3 +1,4 @@
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/history/data/sortModel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,7 +9,8 @@ class AppInitializer {
   static  List<String> optionsList = [];
   static  List<PaymentData> paymentMethods = [];
 
-   static void initializeAppWithContext(context) {
+   static  initializeAppWithContext(context) async{
+     await LocalStorageManager.initialize();
       sortChoicesHistory.addAll([
         SortModel(true, AppLocalizations.of(context)!.accepted_neo),
         SortModel(true, AppLocalizations.of(context)!.pending_nego),

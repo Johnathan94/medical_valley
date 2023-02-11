@@ -58,6 +58,9 @@ dependencies:
   dio: ^4.0.6
   cool_alert: ^1.1.0
   simple_fontellico_progress_dialog: ^0.3.0
+  shared_preferences:
+  infinite_scroll_pagination: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_sizes.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import '../../../../core/app_colors.dart';
 
@@ -19,9 +21,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 1), () {
-      AppInitializer.initializeAppWithContext(context);
-      goToLoginScreen(context);
+    Future.delayed(const Duration(seconds: 1), () async{
+      await AppInitializer.initializeAppWithContext(context);
+      if(LocalStorageManager.getUser() == ""){
+        goToLoginScreen(context);
+      }else {
+        goToHomeScreen(context);
+      }
     });
     super.initState();
   }
@@ -29,6 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }goToHomeScreen(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomeBaseStatefulWidget()));
   }
 
   @override

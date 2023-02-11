@@ -1,0 +1,3 @@
+enum ErrorStates {
+  noConnection , serverError
+}

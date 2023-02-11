@@ -19,7 +19,6 @@ class HomeSearchScreen extends StatefulWidget {
 
 class HomeState extends State<HomeSearchScreen> {
   final List<ServiceModel> _services = [];
-
   @override
   initState() {
     getServices();
