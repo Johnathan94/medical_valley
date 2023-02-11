@@ -15,7 +15,7 @@ class AddCardBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500.h,
+      height: 550.h,
       padding: bigPaddingHV,
       decoration: BoxDecoration(
         color: whiteColor,

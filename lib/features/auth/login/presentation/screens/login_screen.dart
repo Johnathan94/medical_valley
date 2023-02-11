@@ -9,6 +9,7 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/login/presentation/bloc/loginState_state.dart';
 import 'package:medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
       BehaviorSubject<bool>();
   LoginBloc loginBloc = GetIt.instance<LoginBloc>();
   TextEditingController phoneController = TextEditingController();
+  var _formKey = GlobalKey<FormState>();
+
   @override
   initState() {
     _checkBoxBehaviourSubject.sink.add(false);
@@ -81,49 +84,69 @@ class _LoginScreenState extends State<LoginScreen> {
               color: whiteColor,
               borderRadius: BorderRadiusDirectional.only(
                   topStart: Radius.circular(loginBodyRadius))),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocListener <LoginBloc , LoginState>(
-                bloc: loginBloc,
-                listener: (context, state) async{
-                  if(state is LoginStateLoading){
-                    await LoadingDialogs.showLoadingDialog(context);
-                  }
-                  else if (state is LoginStateSuccess)
-                  {
-                    LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      context: context,
-                      onConfirmBtnTap: (){
-                        navigateToOtpScreen();
-                      },
-                      type: CoolAlertType.success,
-                      text: AppLocalizations.of(context)!.success_registered,
-                    );
-                  }
-                },
-                child: Container()
-              ),
-              buildLoginScreenTitle(),
-              buildMobilePhoneField(),
-              SizedBox(
-                height: 16.h,
-              ),
-              buildRememberMe(),
-              Container(
-                margin: mediumPaddingHV.r,
-                child: PrimaryButton(
-                  onPressed: () {
-                    loginBloc.loginUser(LoginEvent(phoneController.text));
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocListener <LoginBloc , LoginState>(
+                  bloc: loginBloc,
+                  listener: (context, state) async{
+                    if(state is LoginStateLoading){
+                      await LoadingDialogs.showLoadingDialog(context);
+                    }
+                    else if (state is LoginStateSuccess)
+                    {
+                      LoadingDialogs.hideLoadingDialog();
+                      CoolAlert.show(
+                        barrierDismissible: false,
+                        context: context,
+                        onConfirmBtnTap: (){
+                          navigateToOtpScreen();
+                        },
+                        type: CoolAlertType.success,
+                        text: AppLocalizations.of(context)!.success_registered,
+                      );
+                    }
+                    else {
+                      LoadingDialogs.hideLoadingDialog();
+                      CoolAlert.show(
+                        context: context,
+                        onConfirmBtnTap: (){
+                          Navigator.pop(context);
+                        },
+                        type: CoolAlertType.error,
+                        text: AppLocalizations.of(context)!.invalid_phone_number,
+                      );
+                    }
                   },
-                  text: AppLocalizations.of(context)!.sign_in,
+                  child: Container()
                 ),
-              ),
-              buildSignInApps(),
-              buildSignUp()
-            ],
+                buildLoginScreenTitle(),
+                buildMobilePhoneField(),
+                SizedBox(
+                  height: 16.h,
+                ),
+                buildRememberMe(),
+                Container(
+                  margin: mediumPaddingHV.r,
+                  child: PrimaryButton(
+                    onPressed: () {
+                      if(_formKey.currentState!.validate()){
+                      loginBloc.loginUser(LoginEvent(phoneController.text));
+                    }
+                      else {
+                        context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
+                      }
+                      },
+                    text: AppLocalizations.of(context)!.sign_in,
+                  ),
+                ),
+                buildSignInApps(),
+                buildSignUp()
+              ],
+            ),
           ),
         ));
   }
