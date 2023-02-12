@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
   final PagingController<int, CategoryModel> pagingController =
-  PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
   @override
@@ -35,10 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
     homeBloc.getCategories(nextPage, 10);
 
     pagingController.addPageRequestListener((pageKey) {
-      nextPageKey = 10+nextPage;
+      nextPageKey = 10 + nextPage;
       nextPage = pageKey + 1;
       homeBloc.getCategories(nextPage, 10);
-
     });
     super.initState();
   }
@@ -47,26 +46,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: BlocListener<HomeBloc,MyHomeState>(
+      body: BlocListener<HomeBloc, MyHomeState>(
         bloc: homeBloc,
-        listener: (c , state ){
-          if(state is SuccessHomeState){
-            if(state.category.data!.results!.length == 10){
-              pagingController.appendPage(state.category.data!.results!, nextPageKey);
-            }else {
+        listener: (c, state) {
+          if (state is SuccessHomeState) {
+            if (state.category.data!.results!.length == 10) {
+              pagingController.appendPage(
+                  state.category.data!.results!, nextPageKey);
+            } else {
               pagingController.appendLastPage(state.category.data!.results!);
             }
-          }
-          else if(state is ErrorHomeState){
+          } else if (state is ErrorHomeState) {
             CoolAlert.show(
               context: context,
-              onConfirmBtnTap: (){
+              onConfirmBtnTap: () {
                 Navigator.pop(context);
               },
               type: CoolAlertType.error,
               text: AppLocalizations.of(context)!.success_registered,
             );
-
           }
         },
         child: getBody(),
@@ -87,14 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  var value;
   Widget getBody() {
     return Container(
-      color: whiteColor,
-      child:PagedListView<int, CategoryModel>(
+        color: whiteColor,
+        child: PagedListView<int, CategoryModel>(
           pagingController: pagingController,
-        padding: const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
+          padding:
+              const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context,CategoryModel item, index) {
+            itemBuilder: (context, CategoryModel item, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButtonHideUnderline(
@@ -113,21 +113,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     items: item.services!
                         .map((item) => DropdownMenuItem<Services>(
-                      value: item,
-                      child: Text(
-                        item.englishName!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ))
+                              value: item,
+                              child: RadioListTile(
+                                  activeColor: blackColor,
+                                  value: index,
+                                  groupValue: value,
+                                  onChanged: (newValue) {
+                                    Navigator.pop(context);
+                                    showBottomSheet(
+                                        context: context,
+                                        builder: (context) =>
+                                            const AppointmentsBottomSheet());
+                                  },
+                                  title: Text(
+                                    item.englishName!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                            ))
                         .toList(),
-                    onChanged: (value) {
-                      showBottomSheet(context: context, builder: (context)=> const AppointmentsBottomSheet());
-                    },
+                    onChanged: (value) {},
                     icon: SvgPicture.asset(arrowRightIcon),
                     buttonHeight: 50,
                     buttonWidth: 160,
@@ -155,11 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          )
-
-
-    );
+        ));
   }
-
-
 }
