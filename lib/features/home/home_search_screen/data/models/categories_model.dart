@@ -1,3 +1,4 @@
+
 class CategoryResponse {
   bool? succeeded;
   String? message;

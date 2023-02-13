@@ -1,14 +1,20 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
+import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
+import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
+import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
-import '../../data/models/service_model.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({Key? key}) : super(key: key);
@@ -18,10 +24,20 @@ class HomeSearchScreen extends StatefulWidget {
 }
 
 class HomeState extends State<HomeSearchScreen> {
-  final List<ServiceModel> _services = [];
+  TextEditingController controller = TextEditingController();
+  HomeBloc homeBloc = GetIt.I<HomeBloc>();
+  final PagingController<int, Services> pagingController =
+  PagingController(firstPageKey: 1);
+  int nextPage = 1;
+  int nextPageKey = 1;
+  String keyword = "";
   @override
   initState() {
-    getServices();
+    pagingController.addPageRequestListener((pageKey) {
+      nextPageKey = pageKey;
+      homeBloc.searchWithKeyword(keyword,nextPage, 10);
+      nextPage += 1;
+    });
     super.initState();
   }
 
@@ -31,20 +47,6 @@ class HomeState extends State<HomeSearchScreen> {
       width: screenWidth,
       color: whiteColor,
       child: getHomeScreenWidget(),
-    );
-  }
-
-  buildAppBar() {
-    return CustomHomeAppBar(
-      isSearchableAppBar: true,
-      searchHint: AppLocalizations.of(context)!.search,
-      goodMorningText: AppLocalizations.of(context)!.good_morning,
-      leadingIcon: Image.asset(
-        appIcon,
-        width: appBarIconWidth,
-        height: appBarIconHeight,
-      ),
-      isTwoLineTitle: true,
     );
   }
 
@@ -73,42 +75,46 @@ class HomeState extends State<HomeSearchScreen> {
   }
 
   buildHomeTitleGridView() {
-    return Container(
-      margin: EdgeInsetsDirectional.only(end: homeTitleMarginEnd.w),
-      child: GridView.count(
-          crossAxisCount: 2,
-          childAspectRatio: 1.6,
-          children: List.generate(_services.length, (index) {
-            return Center(
-              child: buildHomeModelItem(_services[index]),
-            );
-          })),
+    return BlocListener<HomeBloc , MyHomeState>(
+      bloc: homeBloc,
+      listener: (context, state) {
+        if(state is SearchResultState)
+       {
+         if(state.searchResult.data!.results!.length == 10){
+           pagingController.appendPage(state.searchResult.data!.results!, nextPageKey);
+         }else {
+           pagingController.appendLastPage(state.searchResult.data!.results!);
+         }
+      }
+      },
+      child: Container(
+        margin: EdgeInsetsDirectional.only(end: homeTitleMarginEnd.w),
+        child: PagedGridView<int , Services>(
+            builderDelegate: PagedChildBuilderDelegate<Services>(
+              itemBuilder: (c , item , index){
+                return Center(
+                  child: buildHomeModelItem(item),
+                );
+              }
+            ),
+            pagingController: pagingController,
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 1,
+            mainAxisSpacing: 1,
+            childAspectRatio: MediaQuery.of(context).size.aspectRatio * 3
+          ),
+            ),
+      ),
     );
   }
 
-  void getServices() {
-    _services.add(ServiceModel(1, homeModelOneIcon, "Cardiology"));
-    _services.add(ServiceModel(2, homeModelTwoIcon, "Ear, nose and Throat"));
-    _services
-        .add(ServiceModel(3, homeModelOneIcon, "Elderly Services Department"));
-    _services.add(ServiceModel(4, homeModelTwoIcon, "Gastroenterology"));
-    _services.add(ServiceModel(5, homeModelOneIcon, "Cardiology"));
-    _services.add(ServiceModel(6, homeModelTwoIcon, "Gynecology"));
-    _services
-        .add(ServiceModel(7, homeModelOneIcon, "Elderly Services Department"));
-    _services.add(ServiceModel(8, homeModelTwoIcon, "Gastroenterology"));
-    _services.add(ServiceModel(9, homeModelOneIcon, "Cardiology"));
-    _services.add(ServiceModel(10, homeModelTwoIcon, "Ear, nose and Throat"));
-    _services.add(ServiceModel(11, homeModelOneIcon, "Cardiology"));
-    _services.add(ServiceModel(12, homeModelTwoIcon, "Ear, nose and Throat"));
-  }
-
-  Widget buildHomeModelItem(ServiceModel service) {
+  Widget buildHomeModelItem(Services service) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                HomeDetailsScreen(searchScreenTitle: service.name)));
+                HomeDetailsScreen(searchScreenTitle: service.englishName!)));
       },
       child: Container(
         height: homeModelItemHeight.h,
@@ -132,10 +138,10 @@ class HomeState extends State<HomeSearchScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(service.icon),
+            Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
-                service.name,
+                service.englishName!,
                 style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
               ),
             ),
@@ -151,7 +157,23 @@ class HomeState extends State<HomeSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: CustomHomeAppBar(
+        isSearchableAppBar: true,
+        searchHint: AppLocalizations.of(context)!.search,
+        onSubmit :(String? text){
+          nextPage = 1;
+          keyword = text!;
+          pagingController.refresh();
+        },
+        goodMorningText: AppLocalizations.of(context)!.good_morning,
+        leadingIcon: Image.asset(
+          appIcon,
+          width: appBarIconWidth,
+          height: appBarIconHeight,
+        ),
+        isTwoLineTitle: true,
+        controller: controller,
+      ),
       body: getHomeScreen(),
     );
   }

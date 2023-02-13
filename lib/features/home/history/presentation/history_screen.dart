@@ -43,6 +43,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       onTap: () => optionDisplayed.sink.add(false),
       child: Scaffold(
         appBar: CustomHomeAppBar(
+          controller: TextEditingController(),
           searchHint: AppLocalizations.of(context)!.search,
           goodMorningText: AppLocalizations.of(context)!.good_morning,
           leadingIcon: Image.asset(

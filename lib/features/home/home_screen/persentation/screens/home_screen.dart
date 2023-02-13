@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pop(context);
               },
               type: CoolAlertType.error,
-              text: AppLocalizations.of(context)!.success_registered,
+              text: AppLocalizations.of(context)!.server_error,
             );
 
           }
@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
   buildAppBar() {
     return CustomHomeAppBar(
       isSearchableAppBar: false,
+      controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,
       leadingIcon: Image.asset(
         appIcon,

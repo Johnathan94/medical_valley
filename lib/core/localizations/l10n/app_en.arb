@@ -12,6 +12,7 @@
     "accepted_neo" : "Accepted negotiations",
     "yes" : "Yes",
     "no" : "No",
+              "server_error": "there is a server error",
           "loading": "Loading...",
     "login_title": "Login",
     "invalid_phone_number": "Invalid phone number",

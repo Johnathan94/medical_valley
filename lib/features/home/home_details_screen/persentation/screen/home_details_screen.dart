@@ -38,6 +38,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   buildAppBar() {
     return CustomHomeAppBar(
       isSearchableAppBar: true,
+      controller: TextEditingController(),
       searchHint: AppLocalizations.of(context)!.search,
       goodMorningText: _screenTitle,
       leadingIcon: InkWell(

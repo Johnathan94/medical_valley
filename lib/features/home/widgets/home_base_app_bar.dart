@@ -15,11 +15,17 @@ class CustomHomeAppBar extends AppBar {
   final String goodMorningText;
   final String? searchHint;
   final Widget leadingIcon;
+  final TextEditingController controller ;
+  final Function (String? text)? onSubmit ;
+
+
   CustomHomeAppBar(
       {this.searchHint,
       required this.isSearchableAppBar,
       required this.goodMorningText,
       required this.leadingIcon,
+      required this.controller,
+       this.onSubmit,
       required this.isTwoLineTitle,
       Key? key})
       : super(
@@ -28,8 +34,61 @@ class CustomHomeAppBar extends AppBar {
             leading: Container(),
             centerTitle: false,
             titleSpacing: appBarTitleNegativeMargin,
-            title: getTitleWidget(leadingIcon, goodMorningText, isTwoLineTitle,
-                isSearchableAppBar, searchHint),
+            title: Column(
+              children: [
+                Row(
+                  children: [
+                    leadingIcon,
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              goodMorningText,
+                              style: AppStyles.baloo2FontWith700WeightAnd17Size,
+                            ),
+                            isTwoLineTitle
+                                ? Image.asset(
+                              handIcon,
+                            )
+                                : Container()
+                          ],
+                        ),
+                        isTwoLineTitle
+                            ? Text(
+                          "Hossam Saeed",
+                          style: AppStyles.baloo2FontWith400WeightAnd22Size,
+                        )
+                            : Container(),
+                      ],
+                    )
+                  ],
+                ),
+                isSearchableAppBar
+                    ? Container(
+                  margin: const EdgeInsetsDirectional.only(
+                      top: 35, end: 60, start: 25),
+                  child: SizedBox(
+                    height: appBarSearchHeight.h,
+                    child: CustomSearchField(
+                      textController: controller,
+                      hintText: searchHint,
+                      onFieldSubmit: onSubmit,
+                      hintStyle: AppStyles
+                          .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
+                    ),
+                  ),
+                )
+                    : Container()
+              ],
+            ),
             backgroundColor: primaryColor,
             actions: isSearchableAppBar
                 ? []
@@ -49,61 +108,4 @@ class CustomHomeAppBar extends AppBar {
                 ? homeScreenAppBarWithSearchHeight.h
                 : homeScreenAppBarHeight.h);
 
-  static Column getTitleWidget(Widget leadingIcon, String goodMorningText,
-      bool isTwoLineTitle, bool isSearchableAppBar, String? searchHint) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            leadingIcon,
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      goodMorningText,
-                      style: AppStyles.baloo2FontWith700WeightAnd17Size,
-                    ),
-                    isTwoLineTitle
-                        ? Image.asset(
-                            handIcon,
-                          )
-                        : Container()
-                  ],
-                ),
-                isTwoLineTitle
-                    ? Text(
-                        "Hossam Saeed",
-                        style: AppStyles.baloo2FontWith400WeightAnd22Size,
-                      )
-                    : Container(),
-              ],
-            )
-          ],
-        ),
-        isSearchableAppBar
-            ? Container(
-                margin: const EdgeInsetsDirectional.only(
-                    top: 35, end: 60, start: 25),
-                child: SizedBox(
-                  height: appBarSearchHeight.h,
-                  child: CustomSearchField(
-                    textController: TextEditingController(),
-                    hintText: searchHint,
-                    hintStyle: AppStyles
-                        .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
-                  ),
-                ),
-              )
-            : Container()
-      ],
-    );
-  }
 }

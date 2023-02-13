@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/core/app_styles.dart';
 
-class CustomSearchField extends TextFormField {
+class CustomSearchField extends TextField {
   String? hintText;
   TextStyle? hintStyle;
   String? suffixIcon;
-  TextInputType? keyboardType;
+  TextInputType? myKeyboardType;
   TextEditingController textController;
   Function(String)? onFieldSubmit;
   String? Function(String?)? onValidator;
@@ -15,15 +16,17 @@ class CustomSearchField extends TextFormField {
       this.onValidator,
       this.onFieldSubmit,
       this.hintText,
-      this.keyboardType,
+      this.myKeyboardType,
       this.suffixIcon,
       Key? key})
       : super(
             key: key,
-            keyboardType: keyboardType,
+            keyboardType: myKeyboardType,
             controller: textController,
-            onFieldSubmitted: onFieldSubmit,
-            validator: onValidator,
+            onSubmitted: (String? text){
+              onFieldSubmit!(text!);
+            },
+      style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: Colors.white,decoration: TextDecoration.none),
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               hintText: hintText ?? "",
