@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_sizes.dart';
@@ -7,7 +8,11 @@ import '../app_sizes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PhoneIntlWidgetField extends StatelessWidget {
   final TextEditingController phoneController ;
-  const PhoneIntlWidgetField(this.phoneController ,{Key? key}) : super(key: key);
+  final Function(Country country)onCountryChanged ;
+  const PhoneIntlWidgetField(
+      this.phoneController ,
+      this.onCountryChanged ,
+      {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,9 @@ class PhoneIntlWidgetField extends StatelessWidget {
       ),
       initialCountryCode: 'SA',
       onChanged: (phone) {
-        print(phone.completeNumber);
+        phone.completeNumber;
       },
+      onCountryChanged: onCountryChanged
     );
   }
 }

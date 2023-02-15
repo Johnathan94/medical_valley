@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_paddings.dart';
@@ -40,9 +41,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
+  String dialCode = "+966";
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   List<InsuranceModel> insuranceChoices = [
     InsuranceModel(true),
     InsuranceModel(false),
@@ -156,7 +158,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(
                       height: 16.h,
                     ),
-                    PhoneIntlWidgetField(phoneController),
+                    PhoneIntlWidgetField(phoneController,(Country country){
+                      dialCode = country.dialCode;
+                    }),
                     SizedBox(
                       height: 16.h,
                     ),

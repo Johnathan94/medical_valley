@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/strings/images.dart';
@@ -33,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       BehaviorSubject<bool>();
   LoginBloc loginBloc = GetIt.instance<LoginBloc>();
   TextEditingController phoneController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   initState() {
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: PrimaryButton(
                     onPressed: () {
                       if(_formKey.currentState!.validate()){
-                      loginBloc.loginUser(LoginEvent(phoneController.text));
+                      loginBloc.loginUser(LoginEvent(dialCode+phoneController.text));
                     }
                       else {
                         context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
@@ -161,14 +162,16 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
+  String dialCode = "+966";
   buildMobilePhoneField() {
     return Container(
       margin: EdgeInsetsDirectional.only(
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child:  PhoneIntlWidgetField(phoneController),
+      child:  PhoneIntlWidgetField(phoneController,(Country country){
+        dialCode = country.dialCode;
+      }),
     );
   }
 
