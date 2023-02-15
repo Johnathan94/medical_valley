@@ -32,9 +32,8 @@ class APIsInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     var data = response.data;
-    var baseUrl = response.requestOptions.baseUrl;
     var path = response.requestOptions.path;
-    debugPrint("Response $baseUrl$path ->  \n $data => $path" );
+    debugPrint("Response  ->  \n $data => $path" );
     super.onResponse(response, handler);
   }
 
