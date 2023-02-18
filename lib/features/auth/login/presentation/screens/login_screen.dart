@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  String dialCode = "+966";
+  String dialCode = "966";
   buildMobilePhoneField() {
     return Container(
       margin: EdgeInsetsDirectional.only(

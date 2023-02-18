@@ -15,11 +15,15 @@ abstract class RegisterUserRepo {
   Future<Either<Failure , Unit>> register(RegisterRequestModel model) async {
     try
      {
-       await client.register(model);
+       var result = await client.register(model);
+        if(result["responseCode"] >= 200 && result["responseCode"] < 300 ){
        return const Right(unit);
+     }else {
+          return Left(ServerFailure(error: result["message"]));
+        }
      }
       catch(e){
-      return Left(ServerFailure());
+      return Left(ServerFailure(error: e.toString()));
      }
   }
 }

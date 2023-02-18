@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:medical_valley/features/auth/register/data/model/register_request_model.dart';
 import 'package:retrofit/retrofit.dart';
-part 'register_client.g.dart';
-@RestApi()
-abstract class RegisterClient {
+ class RegisterClient {
   @POST("/User/SignUp")
-  Future<RegisterRequestModel> register(@Body() RegisterRequestModel requestModel);
-  factory RegisterClient(Dio dio, {String baseUrl}) = _RegisterClient;
+  Dio dio ;
 
+  RegisterClient(this.dio);
+
+  register(RegisterRequestModel model)async{
+    Response response =  await dio.post("${dio.options.baseUrl}/User/SignUp",data: model.toJson()
+    );
+    return response.data;
+  }
 }

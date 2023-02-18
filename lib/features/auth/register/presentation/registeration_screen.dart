@@ -41,7 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
-  String dialCode = "+966";
+  String dialCode = "966";
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
   final _formKey = GlobalKey<FormState>();
@@ -67,6 +67,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return BlocProvider<RegisterBloc>(
       create:(c)=> registerBloc,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: CustomAppBar(
           header: AppLocalizations.of(context)!.sign_up,
           leadingIcon: const Icon(
@@ -116,6 +117,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                          text: AppLocalizations.of(context)!.success_registered,
                        );
                     }
+                  else if (state is RegisterStateError){
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      context: context,
+                      onConfirmBtnTap: (){
+                      Navigator.pop(context);
+                      },
+                      type: CoolAlertType.error,
+                      text: state.error,
+                    );
+                  }
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
