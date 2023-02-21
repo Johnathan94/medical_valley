@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           navigateToOtpScreen();
                         },
                         type: CoolAlertType.success,
-                        text: AppLocalizations.of(context)!.success_registered,
+                        text: AppLocalizations.of(context)!.success_login,
                       );
                     }
                     else {
