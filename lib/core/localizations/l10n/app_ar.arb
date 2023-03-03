@@ -34,6 +34,10 @@
           "female": "آنثى",
           "server_error": "هناك خطآ من الخادم",
               "success_login": "لقد قمت بتجسيل الدخوب بنجاح ",
+        "success_logout": "لقد قمت بتسجيل الخروج",
+        "booked_successed": "لقد قمت بارسال طلب بحجز موعد",
+        "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
+
         "invalid_phone_number": "رقم الهاتف غير مسجل",
               "success_registered": "لقد قمت بانشاء حساب بنجاح",
               "insurance_question": "هل تمتلك خدمه التأمين الطبي",

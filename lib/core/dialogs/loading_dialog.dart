@@ -8,7 +8,7 @@ class LoadingDialogs {
   static showLoadingDialog(context)async{
     _dialog =
     SimpleFontelicoProgressDialog(context: context,barrierDimisable: true);
-    _dialog.show(message: AppLocalizations.of(context)!.loading, type: SimpleFontelicoProgressDialogType.normal,indicatorColor: primaryColor);
+    _dialog.show(message: AppLocalizations.of(context)!.loading, type: SimpleFontelicoProgressDialogType.normal,indicatorColor: primaryColor,);
   }
   static hideLoadingDialog(){
     _dialog.hide();

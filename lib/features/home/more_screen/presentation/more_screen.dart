@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,9 +7,12 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/home/more_screen/widget/profile_image.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
@@ -177,7 +181,21 @@ class MoreScreen extends StatelessWidget {
             padding: mediumPaddingHV,
             child: PrimaryButton(
               buttonCornerRadius: 22,
-              onPressed: () {},
+              onPressed: () async{
+                LoadingDialogs.showLoadingDialog(context);
+               await LocalStorageManager.remove();
+               LoadingDialogs.hideLoadingDialog();
+               CoolAlert.show(
+                 barrierDismissible: false,
+                 context: context,
+                 onConfirmBtnTap: ()async{
+                   await LocalStorageManager.deleteUser();
+                   Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
+                 },
+                 type: CoolAlertType.success,
+                 text: AppLocalizations.of(context)!.success_logout,
+               );
+              },
               text: AppLocalizations.of(context)!.sign_out,
             ),
           ),
