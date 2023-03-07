@@ -13,6 +13,7 @@ class CustomHomeAppBar extends AppBar {
   final bool isSearchableAppBar;
   final bool isTwoLineTitle;
   final String goodMorningText;
+  final String username;
   final String? searchHint;
   final Widget leadingIcon;
   final TextEditingController controller ;
@@ -25,6 +26,7 @@ class CustomHomeAppBar extends AppBar {
       required this.goodMorningText,
       required this.leadingIcon,
       required this.controller,
+      required this.username,
        this.onSubmit,
       required this.isTwoLineTitle,
       Key? key})
@@ -63,7 +65,7 @@ class CustomHomeAppBar extends AppBar {
                         ),
                         isTwoLineTitle
                             ? Text(
-                          "Hossam Saeed",
+                          username,
                           style: AppStyles.baloo2FontWith400WeightAnd22Size,
                         )
                             : Container(),

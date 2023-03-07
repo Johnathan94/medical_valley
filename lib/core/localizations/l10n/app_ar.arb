@@ -64,6 +64,7 @@
           "earliest": " (0-24 س ) حجز قريب ",
           "schedule_on": "حجز ميعاد مجدول",
               "confirm": "تآكيد",
+              "send_request": "ارسال الطلب",
               "location": "الموقع",
                   "lowest_price": "اقل سعر",
                   "highest_price": "اعلى  سعر",

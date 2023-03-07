@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
@@ -19,10 +22,12 @@ class HomeDetailsScreen extends StatefulWidget {
 class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   late String _screenTitle;
   final List<HomeSearchModel> _searchModels = [];
-
+  Map<String , dynamic > currentUser = {} ;
   @override
   initState() {
     _screenTitle = widget.searchScreenTitle;
+    String user = LocalStorageManager.getUser();
+    currentUser =  jsonDecode(user);
     getSearchModels();
     super.initState();
   }
@@ -49,6 +54,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
         ),
       ),
       isTwoLineTitle: false,
+      username: currentUser["result"]["data"]["fullName"],
     );
   }
 

@@ -2,22 +2,23 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:medical_valley/core/app_colors.dart';
-import 'package:medical_valley/core/app_initialized.dart';
-import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/features/home/history/data/clinic_model.dart';
-import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
-import 'package:medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
-import 'package:medical_valley/features/home/history/widgets/filter_view.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_state.dart';
 import 'package:medical_valley/features/offers/widgets/offers_options_button.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class OffersScreen extends StatefulWidget {
-  const OffersScreen({Key? key}) : super(key: key);
+ final int serviceId , categoryId ;
+  const OffersScreen({
+    required this.categoryId ,
+    required this.serviceId,
+    Key? key}) : super(key: key);
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -25,12 +26,12 @@ class OffersScreen extends StatefulWidget {
 
 class _OffersScreenState extends State<OffersScreen> {
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
-  ClinicsBloc clinicsBloc = getIt.get<ClinicsBloc>();
+  OffersBloc offersBloc = getIt.get<OffersBloc>();
   BehaviorSubject<int> sortOption = BehaviorSubject();
 
   @override
   void initState() {
-    clinicsBloc.getAllClinics();
+    offersBloc.getOffers(OffersEvent(1, 10 , widget.serviceId  , widget.categoryId));
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
     super.initState();
@@ -48,11 +49,15 @@ class _OffersScreenState extends State<OffersScreen> {
               },
               child: const Icon(Icons.arrow_back_ios)),
         ),
-        body: BlocBuilder<ClinicsBloc , ClinicsState>(
-          bloc: clinicsBloc,
+        body: BlocBuilder<OffersBloc, OffersState>(
+          bloc: offersBloc,
           builder: (context, state) {
-            if(state.states == ActionStates.success){
-              return Stack(
+            if(state is OffersStateLoading){
+              return CircularProgressIndicator();
+              }
+
+              return SizedBox();
+            /*Stack(
                 children: [
                   Column(
                     children: [
@@ -156,11 +161,8 @@ class _OffersScreenState extends State<OffersScreen> {
                     ),
                   ),
                 ],
-              );
+              )*/
             }
-            return Container();
-
-          }
         ),
       ),
     );
@@ -267,3 +269,96 @@ class OfferCard extends StatelessWidget {
     );
   }
 }
+/*
+return PagedListView<int, CategoryModel>(
+                pagingController: pagingController,
+                padding:
+                const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, CategoryModel item, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          isExpanded: true,
+                          hint: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  item.name ?? "",
+                                  style: AppStyles.headlineStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          items: item.services!
+                              .map((item) => DropdownMenuItem<Services>(
+                            value: item,
+                            child: RadioListTile(
+                                activeColor: blackColor,
+                                value: index,
+                                groupValue: value,
+                                onChanged: (newValue) {
+                                  Navigator.pop(context);
+                                  showBottomSheet(
+                                      context: context,
+                                      builder: (context) =>
+                                          AppointmentsBottomSheet(
+                                            onBookRequest: (int id)async{
+                                              if (id == 1 || id  == 2 ){
+                                                String user = LocalStorageManager.getUser();
+                                                Map<String,dynamic > result = jsonDecode(user) ;
+                                                bookRequestBloc.requestBook(BookRequestModel(
+                                                    serviceId: item.id!,
+                                                    categoryId: item.categoryId!,
+                                                    bookingTypeId: id,
+                                                    userId: result["id"]
+                                                ));
+                                              }
+                                            }, onScheduledPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (c)=>  CalenderScreen(services: item,)));
+                                          },
+                                          ));
+                                },
+                                title: Text(
+                                  item.englishName!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                )),
+                          ))
+                              .toList(),
+                          onChanged: (value) {},
+                          icon: SvgPicture.asset(arrowRightIcon),
+                          buttonHeight: 50,
+                          buttonWidth: 160,
+                          buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                          buttonDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: whiteColor,
+                          ),
+                          buttonElevation: 2,
+                          itemHeight: 45,
+                          itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                          dropdownMaxHeight: 200,
+                          dropdownWidth: (MediaQuery.of(context).size.width - 54),
+                          dropdownPadding: null,
+                          dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: whiteColor,
+                          ),
+                          dropdownElevation: 8,
+                          scrollbarRadius: const Radius.circular(40),
+                          scrollbarThickness: 6,
+                          scrollbarAlwaysShow: true,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
+ */

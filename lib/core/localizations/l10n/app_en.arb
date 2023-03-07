@@ -67,6 +67,7 @@
     "immediate": "Immediate (0-3H) ",
     "earliest": "Earliest  (3-24H)",
     "schedule_on": "Schedule on Appointment",
+    "send_request": "Send Request",
     "are_you_sure_about_the_service": "Are you sure about the service ? ",
           "languages": "Languages",
           "contact_us": "Contact us",

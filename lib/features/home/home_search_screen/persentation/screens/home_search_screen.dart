@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
@@ -31,6 +34,8 @@ class HomeState extends State<HomeSearchScreen> {
   int nextPage = 1;
   int nextPageKey = 1;
   String keyword = "";
+  Map<String , dynamic > currentUser = {} ;
+
   @override
   initState() {
     pagingController.addPageRequestListener((pageKey) {
@@ -38,6 +43,8 @@ class HomeState extends State<HomeSearchScreen> {
       homeBloc.searchWithKeyword(keyword,nextPage, 10);
       nextPage += 1;
     });
+    String user = LocalStorageManager.getUser();
+    currentUser =  jsonDecode(user);
     super.initState();
   }
 
@@ -141,7 +148,7 @@ class HomeState extends State<HomeSearchScreen> {
             Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
-                service.englishName!,
+                service.englishName?? "",
                 style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
               ),
             ),
@@ -158,6 +165,7 @@ class HomeState extends State<HomeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHomeAppBar(
+        username: currentUser["result"]["data"]["fullName"],
         isSearchableAppBar: true,
         searchHint: AppLocalizations.of(context)!.search,
         onSubmit :(String? text){

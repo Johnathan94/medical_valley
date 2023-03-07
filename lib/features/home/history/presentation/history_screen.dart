@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,7 @@ import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/medical_injection.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/home/history/data/clinic_model.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
@@ -28,12 +31,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   ClinicsBloc clinicsBloc = getIt.get<ClinicsBloc>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   BehaviorSubject<int> sortOption = BehaviorSubject();
+  Map<String , dynamic > currentUser = {} ;
 
   @override
   void initState() {
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
     clinicsBloc.getAllClinics();
+    String user = LocalStorageManager.getUser();
+    currentUser =  jsonDecode(user);
+
     super.initState();
   }
 
@@ -52,7 +59,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             height: appBarIconHeight.h,
           ),
           isTwoLineTitle: true,
-          isSearchableAppBar: false,
+          isSearchableAppBar: false, username: currentUser["result"]["data"]["fullName"],
         ),
         body: BlocBuilder<ClinicsBloc, ClinicsState>(
             bloc: clinicsBloc,

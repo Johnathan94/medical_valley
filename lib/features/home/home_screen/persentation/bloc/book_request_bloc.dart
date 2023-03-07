@@ -10,7 +10,7 @@ class BookRequestBloc extends Cubit<BookRequestState>{
       {
         emit(BookRequestState(BookedState.loading));
         await requestRepo.requestBook(model);
-     emit(BookRequestState(BookedState.success));
+     emit(BookRequestState(BookedState.success,serviceId: model.serviceId, categoryId: model.categoryId));
       }
           catch(e){
             emit(BookRequestState(BookedState.fail));
@@ -20,8 +20,9 @@ class BookRequestBloc extends Cubit<BookRequestState>{
   }
   class BookRequestState {
     BookedState state ;
+    int? serviceId , categoryId ;
 
-    BookRequestState(this.state);
+    BookRequestState(this.state, {this.categoryId , this.serviceId});
 }
   enum BookedState {
   ideal ,

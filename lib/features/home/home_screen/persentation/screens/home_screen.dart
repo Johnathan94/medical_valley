@@ -11,9 +11,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
-import 'package:medical_valley/features/home/home_screen/data/book_request_client.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
-import 'package:medical_valley/features/home/home_screen/data/repo/book_request_repo.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/calender_screen.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
@@ -41,15 +39,17 @@ class _HomeScreenState extends State<HomeScreen> {
       PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
+  Map<String , dynamic > currentUser = {} ;
   @override
   initState() {
     homeBloc.getCategories(nextPage, 10);
-
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = 10 + nextPage;
       nextPage = pageKey + 1;
       homeBloc.getCategories(nextPage, 10);
     });
+    String user = LocalStorageManager.getUser();
+    currentUser =  jsonDecode(user);
     super.initState();
   }
 
@@ -84,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   buildAppBar() {
+
     return CustomHomeAppBar(
+      username : currentUser["result"]["data"]["fullName"],
       isSearchableAppBar: false,
       controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,
@@ -113,7 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             onConfirmBtnTap: ()async{
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (c)=>const OffersScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> OffersScreen(
+                serviceId: state.serviceId?? 1,
+                categoryId: state.categoryId ?? 1,
+              )));
             },
             type: CoolAlertType.success,
             text: AppLocalizations.of(context)!.booked_successed,

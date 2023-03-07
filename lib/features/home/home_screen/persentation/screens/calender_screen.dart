@@ -78,7 +78,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
             context: context,
             onConfirmBtnTap: ()async{
               Navigator.pop(context);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const OffersScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> OffersScreen(serviceId: state.serviceId ?? 1,categoryId: state.categoryId ??1,)));
             },
             type: CoolAlertType.success,
             text: AppLocalizations.of(context)!.booked_successed,
@@ -217,7 +217,7 @@ Widget _buildDefaultSingleDatePickerWithValue() {
               notes: notesController.text
             ));
           },
-          text: AppLocalizations.of(context)!.sign_in,
+          text: AppLocalizations.of(context)!.send_request,
         ),
       ),
     ],
