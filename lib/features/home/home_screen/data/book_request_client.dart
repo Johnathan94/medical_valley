@@ -8,7 +8,7 @@ class BookRequestClient{
   BookRequestClient();
 
   bookRequest (BookRequestModel requestModel)async{
-    Response response =  await dio.post("${dio.options.baseUrl}/Provider/BookRequest",
+    Response response =  await dio.post("${dio.options.baseUrl}/Request/BookRequest",
     data: requestModel.toJson());
     return response.data;
   }

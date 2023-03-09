@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_theme.dart';
 import 'package:medical_valley/core/base_service/flavors.dart';
+import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/strings/urls.dart';
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
@@ -17,10 +18,10 @@ class MyHttpOverrides extends HttpOverrides{
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
-void main() {
+void main()async {
   HttpOverrides.global = MyHttpOverrides();
-
   WidgetsFlutterBinding.ensureInitialized();
+  await LocationServiceProvider.determinePosition();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
   configureDependencies();
   runApp(const MyApp());

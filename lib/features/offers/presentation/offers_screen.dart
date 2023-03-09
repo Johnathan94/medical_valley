@@ -1,11 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/medical_injection.dart';
+import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
-import 'package:medical_valley/features/home/history/data/clinic_model.dart';
+import 'package:medical_valley/features/offers/presentation/data/model/offers_response.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_state.dart';
 import 'package:medical_valley/features/offers/widgets/offers_options_button.dart';
@@ -28,16 +31,28 @@ class _OffersScreenState extends State<OffersScreen> {
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   OffersBloc offersBloc = getIt.get<OffersBloc>();
   BehaviorSubject<int> sortOption = BehaviorSubject();
+  final PagingController<int, OfferModel> pagingController =
+  PagingController(firstPageKey: 1);
+  int nextPage = 1 ;
+  int nextPageKey = 1 ;
 
   @override
   void initState() {
-    offersBloc.getOffers(OffersEvent(1, 10 , widget.serviceId  , widget.categoryId));
+    //offersBloc.getOffers(OffersEvent(1, 10 , widget.serviceId  , widget.categoryId));
+    offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
+
+    pagingController.addPageRequestListener((pageKey) {
+      nextPageKey = pageKey;
+      nextPage += 1;
+      offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
+    });
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: ()=>optionDisplayed.sink.add(false),
       child: Scaffold(
@@ -53,9 +68,29 @@ class _OffersScreenState extends State<OffersScreen> {
           bloc: offersBloc,
           builder: (context, state) {
             if(state is OffersStateLoading){
-              return CircularProgressIndicator();
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: const Center(child: CircularProgressIndicator()));
               }
-
+            if(state is OffersStateSuccess){
+              if(state.offersResponse.data!.results!.length == 10){
+                pagingController.appendPage(state.offersResponse.data!.results!, nextPageKey);
+              }else {
+                if(pagingController.value.itemList != state.offersResponse.data!.results) {
+                  pagingController.appendLastPage(
+                      state.offersResponse.data!.results!);
+                }
+              }
+              return PagedListView<int, OfferModel>(
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, OfferModel item, index) {
+                    return OfferCard(item);
+                  },
+                ),
+              );
+            }
               return SizedBox();
             /*Stack(
                 children: [
@@ -169,7 +204,7 @@ class _OffersScreenState extends State<OffersScreen> {
   }
 }
 class OfferCard extends StatelessWidget {
-  final Items items;
+  final OfferModel items;
 
   const OfferCard(this.items,{Key? key}) : super(key: key);
 
@@ -200,50 +235,52 @@ class OfferCard extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text( "${items.timeAgo.toString()} ${items.timeUnit.toString()}" , style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
+                      Text( "3 min" , style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
                       Container(
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(color:Colors.grey.shade300 ),
-                            image: DecorationImage(
-                              image: NetworkImage(items.image!),
+                            image: const DecorationImage(
+                              image: AssetImage(personImage),
                             )
                         ),
                       ),
                       Row(
                         children: [
                           const Icon(Icons.star , color: Color(0xffEB8B17),size: 16,),
-                          Text(" ${items.rate}", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack.copyWith(color: const Color(0xffD8D7D9)),),
+                          Text("4.2", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack.copyWith(color: const Color(0xffD8D7D9)),),
                         ],
                       ),
                     ],
                   ),
                   const SizedBox(width:16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(items.clinicName ?? "", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
-                      const SizedBox(height:2),
-                      Row(
-                        children: [
-                          const Icon(Icons.location_pin, color: primaryColor,),
-                          Text(items.distance.toString() , style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
-                          Text(" ${items.distanceUnit}" , style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const SizedBox(height:8),
-                          Container(
-                            decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(8)),                      alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            child: Text("${items.price} RS", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack.copyWith(color: whiteColor,fontSize: 14),),
-                          )
-                        ],
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(items.providerStr ?? "", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
+                        const SizedBox(height:2),
+                        Row(
+                          children: [
+                            const Icon(Icons.location_pin, color: primaryColor,),
+                            Expanded(child: Text(items.distanceInMeter.toString(), style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                            Text("m" , style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(height:8),
+                            Container(
+                              decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(8)),                      alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              child: Text("${items.price} RS", style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack.copyWith(color: whiteColor,fontSize: 14),),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(width:16),
                 ],
@@ -268,97 +305,7 @@ class OfferCard extends StatelessWidget {
       ),
     );
   }
+
+
+
 }
-/*
-return PagedListView<int, CategoryModel>(
-                pagingController: pagingController,
-                padding:
-                const EdgeInsetsDirectional.only(top: 22, start: 27, end: 27),
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, CategoryModel item, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          isExpanded: true,
-                          hint: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  item.name ?? "",
-                                  style: AppStyles.headlineStyle,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          items: item.services!
-                              .map((item) => DropdownMenuItem<Services>(
-                            value: item,
-                            child: RadioListTile(
-                                activeColor: blackColor,
-                                value: index,
-                                groupValue: value,
-                                onChanged: (newValue) {
-                                  Navigator.pop(context);
-                                  showBottomSheet(
-                                      context: context,
-                                      builder: (context) =>
-                                          AppointmentsBottomSheet(
-                                            onBookRequest: (int id)async{
-                                              if (id == 1 || id  == 2 ){
-                                                String user = LocalStorageManager.getUser();
-                                                Map<String,dynamic > result = jsonDecode(user) ;
-                                                bookRequestBloc.requestBook(BookRequestModel(
-                                                    serviceId: item.id!,
-                                                    categoryId: item.categoryId!,
-                                                    bookingTypeId: id,
-                                                    userId: result["id"]
-                                                ));
-                                              }
-                                            }, onScheduledPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (c)=>  CalenderScreen(services: item,)));
-                                          },
-                                          ));
-                                },
-                                title: Text(
-                                  item.englishName!,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                          ))
-                              .toList(),
-                          onChanged: (value) {},
-                          icon: SvgPicture.asset(arrowRightIcon),
-                          buttonHeight: 50,
-                          buttonWidth: 160,
-                          buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-                          buttonDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: whiteColor,
-                          ),
-                          buttonElevation: 2,
-                          itemHeight: 45,
-                          itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                          dropdownMaxHeight: 200,
-                          dropdownWidth: (MediaQuery.of(context).size.width - 54),
-                          dropdownPadding: null,
-                          dropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: whiteColor,
-                          ),
-                          dropdownElevation: 8,
-                          scrollbarRadius: const Radius.circular(40),
-                          scrollbarThickness: 6,
-                          scrollbarAlwaysShow: true,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
- */

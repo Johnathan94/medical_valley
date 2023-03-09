@@ -7,12 +7,12 @@ class OffersBloc extends Cubit<OffersState >{
   OffersRepo offersRepo ;
   void getOffers (OffersEvent event )async{
     emit(OffersStateLoading());
-    var loginUser = await offersRepo.getOffers(event.page , event.pageSize, event.serviceId , event.categoryId);
-    loginUser.fold(
+    var offers = await offersRepo.getOffers(event.page , event.pageSize, event.serviceId , event.categoryId);
+    offers.fold(
             (l) {
           emit(OffersStateError());
-        }, (r) {
-      emit(OffersStateSuccess());
+        }, (right) {
+      emit(OffersStateSuccess(right));
     }
     );
   }
