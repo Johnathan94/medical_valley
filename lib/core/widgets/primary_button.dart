@@ -7,15 +7,19 @@ class PrimaryButton extends StatelessWidget {
   final Function()? onPressed;
   final String text;
   final bool isWidgetButton;
+  final bool isLightButton;
   final Widget? body;
-   double? buttonCornerRadius ;
-   PrimaryButton(
+  final Color backgroundColor;
+  double? buttonCornerRadius;
+  PrimaryButton(
       {this.onPressed,
-      required this.text,
-      this.isWidgetButton = false,
-      this.body,
-      this.buttonCornerRadius,
-      Key? key})
+        required this.text,
+        this.isWidgetButton = false,
+        this.isLightButton = false,
+        this.body,
+        this.buttonCornerRadius,
+        this.backgroundColor = primaryColor,
+        Key? key})
       : super(key: key);
 
   @override
@@ -24,19 +28,23 @@ class PrimaryButton extends StatelessWidget {
         style: ButtonStyle(
             textStyle: MaterialStateProperty.all(
                 AppStyles.baloo2FontWith400WeightAnd22Size),
-            backgroundColor: MaterialStateProperty.all(primaryColor),
+            backgroundColor: MaterialStateProperty.all(backgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(buttonCornerRadius ?? loginButtonRadius),
-            ))),
+                  borderRadius: BorderRadius.circular(
+                      buttonCornerRadius ?? loginButtonRadius),
+                ))),
         onPressed: onPressed,
         child: Center(
           child: isWidgetButton
               ? body
               : Text(
-                  text,
-                  style: AppStyles.baloo2FontWith400WeightAnd22Size,
-                ),
+            text,
+            style: isLightButton
+                ? AppStyles.baloo2FontWith400WeightAnd22Size
+                .copyWith(color: blackColor)
+                : AppStyles.baloo2FontWith400WeightAnd22Size,
+          ),
         ));
   }
 }

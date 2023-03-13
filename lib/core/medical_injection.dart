@@ -19,8 +19,11 @@ import 'package:medical_valley/features/home/home_search_screen/data/api/search_
 import 'package:medical_valley/features/home/home_search_screen/domain/get_categories_use_case.dart';
 import 'package:medical_valley/features/home/home_search_screen/domain/search_with_keyword.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
+import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/offers_client.dart';
+import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_repo.dart';
 import 'package:medical_valley/features/offers/presentation/data/repo/offers_repo.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
 final getIt = GetIt.instance;
 
@@ -31,4 +34,5 @@ configureDependencies (){
   getIt.registerFactory(() => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(GetCategoriesUseCase(CategoriesClient(DioManager.getDio())),SearchWithKeyboard(SearchClient(DioManager.getDio()))));
   getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
+  getIt.registerFactory(() => NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
 }

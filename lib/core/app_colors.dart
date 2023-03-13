@@ -10,6 +10,7 @@ const primary100 = Color(0xffE0ECEE);
 const whiteColor = Color(0xFFFFFFFF);
 const whiteColorWithHalfOpacity = Color(0x80FFFFFF);
 const hintTextColor = Color(0x80C1C1C1);
+const secondaryColorLight = Color(0xFFFFBEBE);
 const buttonGrey = Color(0xffD3D3D3);
 const shadowGrey = Color(0xffDADADA);
 const dividerGrey = Color(0xffE5E5E5);
