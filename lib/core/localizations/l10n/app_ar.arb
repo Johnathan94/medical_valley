@@ -69,6 +69,7 @@
   "loading_screen_text": "تم إرسال التفاوض إلى العميل",
               "location": "الموقع",
                     "cancel": "الغاء",
+            "negotiate_successed": "تم ارسال التفاوض",
                   "lowest_price": "اقل سعر",
                   "highest_price": "اعلى  سعر",
                   "time": "الوقت",

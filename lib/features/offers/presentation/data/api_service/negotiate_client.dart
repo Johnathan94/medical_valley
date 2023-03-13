@@ -8,7 +8,7 @@ class NegotiateClient{
   NegotiateClient(this.dio);
 
   negotiate(NegotiateModel model)async{
-    Response response =  await dio.post("${dio.options.baseUrl}/Request/Negotiate",data: model.toJson());
+    Response response =  await dio.post("${dio.options.baseUrl}/Request/Negotiate",data: model.toJson()['data']);
     return response.data;
   }
 

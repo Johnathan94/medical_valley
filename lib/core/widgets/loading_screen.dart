@@ -21,8 +21,8 @@ class LoadingScreen extends StatelessWidget {
             Stack(
               children: const [
                 SpinKitRipple(
-                  color: Colors.red,
-                  borderWidth: 60.0,
+                  color: whiteColor,
+                  borderWidth: 20.0,
                   size: 500,
                 ),
               ],

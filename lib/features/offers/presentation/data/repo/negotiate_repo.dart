@@ -5,7 +5,7 @@ import 'package:medical_valley/core/failures/failures.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/negotiate_model.dart';
-import 'package:medical_valley/features/offers/presentation/data/model/offers_response.dart';
+import 'package:medical_valley/features/offers/presentation/data/model/negotiate_reponse.dart';
 
 abstract class NegotiateRepo {
   Future<Either<Failure , Unit>> negotiate (List<int?> offerIds);
@@ -23,12 +23,11 @@ abstract class NegotiateRepo {
        Map<String , dynamic > currentUser = {} ;
        currentUser =  jsonDecode(user);
        var result = await client.negotiate(NegotiateModel(
-         id: currentUser["result"]["data"]["id"],
-         offerId: []
+         data: offerIds.map((int? e) => NegotiateData(offerId: e)).toList()
        ));
-       OffersResponse response = OffersResponse.fromJson(result);
+       NegotiateResponse response = NegotiateResponse.fromJson(result);
 
-       if(response.responseCode==200){
+       if(response.responseCode! >= 200 && response.responseCode! < 300){
         return  const Right(unit);
        }
        return Left(ServerFailure());

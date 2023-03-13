@@ -17,6 +17,7 @@
     "login_title": "Login",
         "something_went_wrong": "Something went wrong",
             "booked_successed": "You send booking request successfully",
+            "negotiate_successed": "Negotiation Sent",
     "invalid_phone_number": "Invalid phone number",
     "success_login": "You are successfully Logged in",
     "success_logout": "You are successfully Logged out",

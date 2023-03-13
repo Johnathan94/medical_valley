@@ -135,7 +135,7 @@ class _OffersScreenState extends State<OffersScreen> {
                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> const LoadingScreen()));
                             },
                             type: CoolAlertType.success,
-                            text: AppLocalizations.of(context)!.booked_successed,
+                            text: AppLocalizations.of(context)!.negotiate_successed,
                           );
                         }
                         else {
