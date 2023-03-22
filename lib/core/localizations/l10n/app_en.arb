@@ -57,7 +57,7 @@
     "card_name": "Card holder name",
           "cvv": "CVV",
     "success_registered": "You are successfully registered",
-    "insurance_question": "Do you have social insurance ?",
+    "insurance_question": "Do you have medical insurance ?",
     "email_invalid": "Invalid email",
     "male": "Male",
     "female": "Female",

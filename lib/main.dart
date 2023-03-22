@@ -21,10 +21,11 @@ class MyHttpOverrides extends HttpOverrides{
 void main()async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  await LocationServiceProvider.determinePosition();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
   configureDependencies();
   runApp(const MyApp());
+  await LocationServiceProvider.determinePosition();
+
 }
 
 class MyApp extends StatelessWidget {
