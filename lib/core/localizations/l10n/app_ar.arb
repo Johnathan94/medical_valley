@@ -70,6 +70,10 @@
               "location": "الموقع",
                     "cancel": "الغاء",
             "negotiate_successed": "تم ارسال التفاوض",
+                        "booked_done": "تم تاكيد الحجز الخاص بك",
+                        "booking_confirmed": "لقد تم تاكيد الحجز",
+                        "go_to_home": "اذهب الي الصفحه الرئيسيه",
+
                   "lowest_price": "اقل سعر",
                   "highest_price": "اعلى  سعر",
                   "time": "الوقت",

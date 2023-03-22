@@ -13,6 +13,15 @@ class LocalStorageManager {
   static String getUser (){
     return sharedPreferences.getString("user") ?? "";
   }
+  static saveNegotiationCount ()async{
+    await sharedPreferences.setInt("nego_count", getNegotiationCount()+1);
+  }
+  static resetNegotiationCount ()async{
+    await sharedPreferences.setInt("nego_count", 0);
+  }
+  static int getNegotiationCount (){
+    return sharedPreferences.getInt("nego_count") ?? 0;
+  }
   static deleteUser ()async{
     await sharedPreferences.setString("user","");
   }

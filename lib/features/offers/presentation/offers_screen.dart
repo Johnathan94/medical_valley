@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +6,16 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/medical_injection.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
-import 'package:medical_valley/core/widgets/loading_screen.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/offers_response.dart';
+import 'package:medical_valley/features/offers/presentation/data/model/verifyModel/verify_model.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_state.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/success_screen.dart';
 import 'package:medical_valley/features/offers/widgets/offers_options_button.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -44,17 +45,20 @@ class _OffersScreenState extends State<OffersScreen> {
 
   @override
   void initState() {
-    offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
+    //offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
+   offersBloc.getOffers(OffersEvent(nextPage, 10 , widget.serviceId  , widget.categoryId));
     negotiatedOffersSubject.sink.add([]);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
-      offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
+      offersBloc.getOffers(OffersEvent(nextPage, 10 , widget.serviceId  , widget.categoryId));
+
     });
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
     super.initState();
   }
+  BehaviorSubject<int> rxNegotiateCount = BehaviorSubject();
   @override
   Widget build(BuildContext context) {
 
@@ -66,6 +70,7 @@ class _OffersScreenState extends State<OffersScreen> {
           leadingIcon: GestureDetector(
               onTap: (){
                 Navigator.pop(context);
+                LocalStorageManager.resetNegotiationCount();
               },
               child: const Icon(Icons.arrow_back_ios)),
         ),
@@ -98,10 +103,19 @@ class _OffersScreenState extends State<OffersScreen> {
                             pagingController: pagingController,
                             builderDelegate: PagedChildBuilderDelegate(
                               itemBuilder: (context, OfferModel item, index) {
-                                return OfferCard(items:item,
-                                  onNegotiatePressed: onNegotiatePressed,
-                                  onBookPressed: (int? id) {    },
-                                  isEnabled: !offersNegotiatedIds.contains(item.id),
+                                return StreamBuilder<int>(
+                                  stream: rxNegotiateCount.stream,
+                                  builder: (context, snapshot) {
+                                    return OfferCard(
+                                      negoCount : rxNegotiateCount.hasValue ? rxNegotiateCount.value : 0,
+                                      items:item,
+                                      onNegotiatePressed: onNegotiatePressed,
+                                      onBookPressed: (int? id) {
+                                        negotiateBloc.verifyRequest(VerifyRequest(requestId: id));
+                                      },
+                                      isEnabled: !offersNegotiatedIds.contains(item.id),
+                                    );
+                                  }
                                 );
                               },
                             ),
@@ -121,18 +135,27 @@ class _OffersScreenState extends State<OffersScreen> {
                     child:
                     BlocListener<NegotiateBloc, NegotiateState >(
                       bloc: negotiateBloc,
+                      listenWhen: (prev , current ) => current is NegotiateStateLoading ||
+                          current is NegotiateStateSuccess ||
+                          current is NegotiateStateError
+                        ,
                       listener: (context, state) {
                         if(state is NegotiateStateLoading ){
                           LoadingDialogs.showLoadingDialog(context);
                         }
                         else if(state  is NegotiateStateSuccess ){
                           LoadingDialogs.hideLoadingDialog();
+                          LocalStorageManager.saveNegotiationCount();
+                          rxNegotiateCount.sink.add(LocalStorageManager.getNegotiationCount());
                           CoolAlert.show(
                             barrierDismissible: false,
                             context: context,
                             onConfirmBtnTap: ()async{
                               Navigator.pop(context);
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> const LoadingScreen()));
+                              pagingController.refresh();
+                              nextPage =1 ;
+                              nextPageKey =1 ;
+                              offersBloc.getOffers(OffersEvent(nextPage, 10 , widget.serviceId  , widget.categoryId));
                             },
                             type: CoolAlertType.success,
                             text: AppLocalizations.of(context)!.negotiate_successed,
@@ -152,7 +175,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         }
                       },
                       child : GestureDetector(
-                        onTap: ()=>negotiateBloc.negotiate(offersNegotiatedIds),
+                        onTap: ()=> negotiateBloc.negotiate(offersNegotiatedIds),
                         child: Container(
                         height: 90.h,
                         alignment: Alignment.center,
@@ -165,6 +188,45 @@ class _OffersScreenState extends State<OffersScreen> {
                     )
                 );
               }
+            ),
+            BlocListener<NegotiateBloc, NegotiateState >(
+                bloc: negotiateBloc,
+                listenWhen: (prev , current ) => current is VerifyRequestStateLoading ||
+                    current is VerifyRequestStateSuccess ||
+                    current is VerifyRequestStateError
+                ,
+                listener: (context, state) {
+                  if(state is VerifyRequestStateLoading ){
+                    LoadingDialogs.showLoadingDialog(context);
+
+                  }
+                  else if(state  is VerifyRequestStateSuccess ){
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      onConfirmBtnTap: ()async{
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(context , MaterialPageRoute(builder: (c)=> const SuccessScreen()));
+                      },
+                      type: CoolAlertType.success,
+                      text: AppLocalizations.of(context)!.booked_done,
+                    );
+                  }
+                  else {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      onConfirmBtnTap: ()async{
+                        Navigator.pop(context);
+                      },
+                      type: CoolAlertType.error,
+                      text: AppLocalizations.of(context)!.something_went_wrong,
+                    );
+                  }
+                },
+                child : const SizedBox()
             )
           ],
         ),
@@ -177,15 +239,17 @@ class _OffersScreenState extends State<OffersScreen> {
     negotiatedOffersSubject.sink.add(offersNegotiatedIds);
   }
 
-  onBookPressed (int? id ) {
 
-  }
 }
 class OfferCard extends StatelessWidget {
   final OfferModel items;
   final Function(int? id) onNegotiatePressed , onBookPressed ;
   final bool isEnabled ;
-   const OfferCard({required this.items,required this.onNegotiatePressed,
+  final int negoCount ;
+   const OfferCard({
+     required this.items,
+     required this.negoCount,
+     required this.onNegotiatePressed,
      required this.onBookPressed ,
      required this.isEnabled ,
      Key? key}) : super(key: key);
@@ -273,14 +337,17 @@ class OfferCard extends StatelessWidget {
             flex: 2,
             child: Column(
               children: [
-                Expanded(
-                    flex: Random(5).nextInt(10),
-                    child: GestureDetector(
-                        onTap: ()=> onNegotiatePressed(items.id),
-                        child: OffersOptionsButton(buttonType : ButtonType.negotiate,title :  AppLocalizations.of(context)!.negotiate,isEnabled: isEnabled, ))),
+                 Visibility(
+                   visible: 3 - negoCount != 0 ,
+                  child: Expanded(
+                      flex: 3 - negoCount,
+                      child: GestureDetector(
+                          onTap: ()=> onNegotiatePressed(items.id),
+                          child: OffersOptionsButton(buttonType : ButtonType.negotiate,title :  AppLocalizations.of(context)!.negotiate,isEnabled: isEnabled, ))),
+                ),
                 const SizedBox(height: 4,),
                 Expanded(
-                    flex: Random(5).nextInt(10),
+                    flex: negoCount,
                     child: GestureDetector(
                         onTap: ()=> onBookPressed(items.id),
                         child: OffersOptionsButton(buttonType :ButtonType.book,title : AppLocalizations.of(context)!.book,isEnabled: isEnabled))),

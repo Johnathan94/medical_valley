@@ -21,6 +21,7 @@ class APIsInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var path = options.path;
     var baseUrl = options.baseUrl;
+    debugPrint("url-> $baseUrl$path " );
 
     if (options.data != null) {
       var body = options.data;

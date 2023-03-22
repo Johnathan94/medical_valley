@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 
 class OffersClient{
   Dio dio ;
@@ -7,9 +10,9 @@ class OffersClient{
   OffersClient(this.dio);
 
   getOffers(int page , int pageSize , int serviceId , int categoryId , int userId)async{
-    https://services.medvally.com/api/v1/Request/Offers?PageNumber=1&PageSize=10&UserId=30&CategoryId=11&ServiceId=24509
-
-    Response response =  await dio.get("${dio.options.baseUrl}/Request/Offers?PageNumber=$page&PageSize=$pageSize&CategoryId=$categoryId&ServiceId=$serviceId&UserId=70",);
+    String userEncoded = LocalStorageManager.getUser();
+    Map<String, dynamic> user = jsonDecode(userEncoded);
+    Response response =  await dio.get("${dio.options.baseUrl}/Request/Offers?PageNumber=$page&PageSize=$pageSize&CategoryId=$categoryId&ServiceId=$serviceId&UserId=${user["result"]["data"]["id"]}",);
     return response.data;
   }
 
