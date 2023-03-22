@@ -24,20 +24,6 @@ abstract class OffersRepo {
        currentUser =  jsonDecode(user);
        var result = await client.getOffers(page, pageSize, serviceId, categoryId,currentUser["result"]["data"]["id"]);
        OffersResponse response = OffersResponse.fromJson(result);
-      response.data!.results!..add(
-            OfferModel(
-              id: 1, price: 20,
-                latitude: 32,
-                longitude: 32
-            ),
-      );
-      response.data!.results!..add(
-            OfferModel(
-              id: 2, price: 60,
-              latitude: 31,
-              longitude: 31
-            ),
-      );
        if(response.responseCode==200){
         return  getDistances(response);
        }
