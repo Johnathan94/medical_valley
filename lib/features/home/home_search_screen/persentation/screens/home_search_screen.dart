@@ -12,7 +12,7 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
-import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
+import 'package:medical_valley/features/home/home_search_screen/data/models/services_model.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 
@@ -29,7 +29,7 @@ class HomeSearchScreen extends StatefulWidget {
 class HomeState extends State<HomeSearchScreen> {
   TextEditingController controller = TextEditingController();
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
-  final PagingController<int, Services> pagingController =
+  final PagingController<int, Service> pagingController =
   PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
@@ -96,8 +96,8 @@ class HomeState extends State<HomeSearchScreen> {
       },
       child: Container(
         margin: EdgeInsetsDirectional.only(end: homeTitleMarginEnd.w),
-        child: PagedGridView<int , Services>(
-            builderDelegate: PagedChildBuilderDelegate<Services>(
+        child: PagedGridView<int , Service>(
+            builderDelegate: PagedChildBuilderDelegate<Service>(
               itemBuilder: (c , item , index){
                 return Center(
                   child: buildHomeModelItem(item),
@@ -116,12 +116,12 @@ class HomeState extends State<HomeSearchScreen> {
     );
   }
 
-  Widget buildHomeModelItem(Services service) {
+  Widget buildHomeModelItem(Service service) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                HomeDetailsScreen(searchScreenTitle: service.englishName!)));
+                HomeDetailsScreen(categoryName: service.englishName!, categoryId: 1,)));
       },
       child: Container(
         height: homeModelItemHeight.h,

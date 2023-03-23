@@ -14,14 +14,14 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
-import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/widgets/primary_button.dart';
+import '../../../home_search_screen/data/models/services_model.dart';
 
 class CalenderScreen extends StatefulWidget {
-  final Services services ;
+  final Service services ;
   const CalenderScreen(
       {
         required this.services,

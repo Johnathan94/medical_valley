@@ -6,8 +6,8 @@ class CategoriesClient {
 
   CategoriesClient(this.dio);
 
-  getCategories(int page , int pageSize)async{
-    Response response =  await dio.get("${dio.options.baseUrl}/Service/Categories?PageNumber=$page&PageSize=$pageSize",);
+  getCategories()async{
+    Response response =  await dio.get("${dio.options.baseUrl}/Service/Categories",);
     return response.data;
   }
 }

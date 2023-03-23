@@ -1,4 +1,4 @@
-import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
+import 'package:medical_valley/features/home/home_search_screen/data/models/services_model.dart';
 
 class SearchResult {
   bool? succeeded;
@@ -34,7 +34,7 @@ class Data {
   int? totalCount;
   bool? hasPrevious;
   bool? hasNext;
-  List<Services>? results;
+  List<Service>? results;
 
   Data(
       {this.currentPage,
@@ -53,9 +53,9 @@ class Data {
     hasPrevious = json['hasPrevious'];
     hasNext = json['hasNext'];
     if (json['results'] != null) {
-      results = <Services>[];
+      results = <Service>[];
       json['results'].forEach((v) {
-        results!.add( Services.fromJson(v));
+        results!.add( Service.fromJson(v));
       });
     }
   }
