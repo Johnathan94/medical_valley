@@ -59,7 +59,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             height: appBarIconHeight.h,
           ),
           isTwoLineTitle: true,
-          isSearchableAppBar: false, username: currentUser["result"]["data"]["fullName"],
+          isSearchableAppBar: false, username: currentUser["result"]["data"]["fullName"], context: context,
+          onBackPressed: (){},
         ),
         body: BlocBuilder<ClinicsBloc, ClinicsState>(
             bloc: clinicsBloc,

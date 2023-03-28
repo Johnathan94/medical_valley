@@ -188,13 +188,14 @@ class MoreScreen extends StatelessWidget {
                CoolAlert.show(
                  barrierDismissible: false,
                  context: context,
-                 onConfirmBtnTap: ()async{
-                   await LocalStorageManager.deleteUser();
-                   Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
-                 },
+                 autoCloseDuration: const Duration(seconds: 1),
                  type: CoolAlertType.success,
                  text: AppLocalizations.of(context)!.success_logout,
                );
+               Future.delayed(const Duration(seconds: 2), ()async{
+                 await LocalStorageManager.deleteUser();
+                 Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
+               });
               },
               text: AppLocalizations.of(context)!.sign_out,
             ),

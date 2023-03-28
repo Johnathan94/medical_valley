@@ -150,28 +150,30 @@ class _OffersScreenState extends State<OffersScreen> {
                           CoolAlert.show(
                             barrierDismissible: false,
                             context: context,
-                            onConfirmBtnTap: ()async{
-                              Navigator.pop(context);
-                              pagingController.refresh();
-                              nextPage =1 ;
-                              nextPageKey =1 ;
-                              offersBloc.getOffers(OffersEvent(nextPage, 10 , widget.serviceId  , widget.categoryId));
-                            },
+                            autoCloseDuration: const Duration(seconds: 1),
                             type: CoolAlertType.success,
                             text: AppLocalizations.of(context)!.negotiate_successed,
                           );
+                          Future.delayed(const Duration(seconds: 2), ()async{
+                            Navigator.pop(context);
+                            pagingController.refresh();
+                            nextPage =1 ;
+                            nextPageKey =1 ;
+                            offersBloc.getOffers(OffersEvent(nextPage, 10 , widget.serviceId  , widget.categoryId));
+                          });
                         }
                         else {
                           LoadingDialogs.hideLoadingDialog();
                           CoolAlert.show(
                             barrierDismissible: false,
                             context: context,
-                            onConfirmBtnTap: ()async{
-                              Navigator.pop(context);
-                            },
+                            autoCloseDuration: const Duration(seconds: 1),
                             type: CoolAlertType.error,
                             text: AppLocalizations.of(context)!.something_went_wrong,
                           );
+                          Future.delayed(const Duration(seconds: 2),  ()async{
+                            Navigator.pop(context);
+                          });
                         }
                       },
                       child : GestureDetector(
@@ -205,25 +207,27 @@ class _OffersScreenState extends State<OffersScreen> {
                     CoolAlert.show(
                       barrierDismissible: false,
                       context: context,
-                      onConfirmBtnTap: ()async{
-                        Navigator.pop(context);
-                        Navigator.pushReplacement(context , MaterialPageRoute(builder: (c)=> const SuccessScreen()));
-                      },
+                      autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.booked_done,
                     );
+                    Future.delayed(const Duration(seconds: 2),  ()async{
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(context , MaterialPageRoute(builder: (c)=> const SuccessScreen()));
+                    });
                   }
                   else {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       barrierDismissible: false,
                       context: context,
-                      onConfirmBtnTap: ()async{
-                        Navigator.pop(context);
-                      },
+                      autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.something_went_wrong,
                     );
+                    Future.delayed(const Duration(seconds: 2),  ()async{
+                      Navigator.pop(context);
+                    });
                   }
                 },
                 child : const SizedBox()

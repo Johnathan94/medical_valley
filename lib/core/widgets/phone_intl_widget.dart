@@ -22,12 +22,7 @@ class PhoneIntlWidgetField extends StatelessWidget {
       controller: phoneController,
       cursorColor: primaryColor,
       dropdownIconPosition: IconPosition.trailing,
-      validator: (PhoneNumber? number){
-        if(number!.completeNumber.length != 13){
-          return AppLocalizations.of(context)!.invalid_phone;
-        }
-      },
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       dropdownIcon: const Icon(Icons.arrow_drop_down , color: greyWith80Percentage,),
       flagsButtonPadding: const EdgeInsetsDirectional.only(
           start: loginMobileNumberFieldPadding),

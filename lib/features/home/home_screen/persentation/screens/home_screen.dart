@@ -70,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
         width: appBarIconWidth,
         height: appBarIconHeight,
       ),
-      isTwoLineTitle: true,
+      isTwoLineTitle: true, context: context,
+      onBackPressed: (){},
     );
   }
 

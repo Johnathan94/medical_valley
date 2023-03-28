@@ -51,9 +51,9 @@ dependencies:
   dotted_line: ^3.1.0
   device_preview:
   json_annotation: ^4.4.0
-  dropdown_button2:
+  dropdown_button2: "1.9.0"
   awesome_card: ^1.1.7
-  calendar_date_picker2:
+  calendar_date_picker2: "0.3.7"
   dartz: ^0.10.1
   dio: ^4.0.6
   cool_alert: ^1.1.0

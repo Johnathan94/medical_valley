@@ -110,23 +110,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                        LoadingDialogs.hideLoadingDialog();
                        CoolAlert.show(
                          context: context,
-                         onConfirmBtnTap: (){
-                           navigateToLoginScreen();
-                         },
+                         autoCloseDuration: const Duration(seconds: 1),
                          type: CoolAlertType.success,
                          text: AppLocalizations.of(context)!.success_registered,
                        );
+                       Future.delayed(const Duration(seconds: 2) , (){
+                         navigateToLoginScreen();
+                       });
                     }
                   else if (state is RegisterStateError){
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
-                      onConfirmBtnTap: (){
-                      Navigator.pop(context);
-                      },
+
+                      autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.error,
                       text: state.error,
                     );
+                    Future.delayed(const Duration(seconds: 2), (){
+                      Navigator.pop(context);
+
+                    });
                   }
                 },
                 child: Column(

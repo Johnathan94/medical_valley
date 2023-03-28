@@ -16,8 +16,10 @@ class CustomHomeAppBar extends AppBar {
   final String username;
   final String? searchHint;
   final Widget leadingIcon;
+  final BuildContext context;
   final TextEditingController controller ;
   final Function (String? text)? onSubmit ;
+  final Function  onBackPressed ;
 
 
   CustomHomeAppBar(
@@ -27,6 +29,8 @@ class CustomHomeAppBar extends AppBar {
       required this.leadingIcon,
       required this.controller,
       required this.username,
+      required this.context,
+      required this.onBackPressed,
        this.onSubmit,
       required this.isTwoLineTitle,
       Key? key})
@@ -40,6 +44,12 @@ class CustomHomeAppBar extends AppBar {
               children: [
                 Row(
                   children: [
+                    isSearchableAppBar ? GestureDetector(
+                        onTap: (){
+                          onBackPressed();
+                        } ,
+                        child:const  Icon(Icons.arrow_back_ios,size: 20,)) :
+                    const SizedBox(),
                     leadingIcon,
                     const SizedBox(
                       width: 10,
@@ -76,13 +86,15 @@ class CustomHomeAppBar extends AppBar {
                 isSearchableAppBar
                     ? Container(
                   margin: const EdgeInsetsDirectional.only(
-                      top: 35, end: 60, start: 25),
+                      top: 35, end: 60, start: 10),
                   child: SizedBox(
                     height: appBarSearchHeight.h,
                     child: CustomSearchField(
                       textController: controller,
                       hintText: searchHint,
-                      onFieldSubmit: onSubmit,
+                      onFieldSubmit: (String? text){
+                        onSubmit!(text);
+                      },
                       hintStyle: AppStyles
                           .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
                     ),

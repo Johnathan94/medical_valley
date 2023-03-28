@@ -77,30 +77,32 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                onConfirmBtnTap: () async {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (c) => OffersScreen(
-                                serviceId: state.serviceId ?? 1,
-                                categoryId: state.categoryId ?? 1,
-                              )));
-                },
+                autoCloseDuration: const Duration(seconds: 1),
                 type: CoolAlertType.success,
                 text: AppLocalizations.of(context)!.booked_successed,
               );
+              Future.delayed(const Duration(seconds: 2), () async {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => OffersScreen(
+                          serviceId: state.serviceId ?? 1,
+                          categoryId: state.categoryId ?? 1,
+                        )));
+              });
             } else {
               LoadingDialogs.hideLoadingDialog();
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                onConfirmBtnTap: () async {
-                  Navigator.pop(context);
-                },
+                autoCloseDuration: const Duration(seconds: 1),
                 type: CoolAlertType.error,
                 text: AppLocalizations.of(context)!.something_went_wrong,
               );
+              Future.delayed(const Duration(seconds: 2), () async {
+                Navigator.pop(context);
+              });
             }
           },
           child: buildBody(),
@@ -167,7 +169,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                   String user = LocalStorageManager.getUser();
                   Map<String, dynamic> result = jsonDecode(user);
                   bookRequestBloc.requestBook(BookRequestModel(
-                      serviceId: service.id!,
+                      serviceId: service.serviceId!,
                       categoryId: widget.categoryId,
                       bookingTypeId: id,
                       userId: result["id"]));
@@ -200,12 +202,17 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              service.englishName ?? "",
-              maxLines: 2,
-              style: AppStyles.baloo2FontWith400WeightAnd12Size,
+            Expanded(
+              flex: 90,
+              child: Text(
+                service.serviceName ?? "",
+                maxLines: 2,
+                style: AppStyles.baloo2FontWith400WeightAnd12Size,
+              ),
             ),
-            const Icon(Icons.circle_outlined)
+            const Expanded(
+                flex: 10,
+                child:  Icon(Icons.circle_outlined))
           ],
         )
       ),

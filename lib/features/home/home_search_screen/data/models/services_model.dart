@@ -86,97 +86,47 @@ class Services {
 }
 
 class Service {
-  int? id;
-  String? englishName;
-  String? arabicName;
-  double? price;
+  int? serviceId;
+  String? serviceName;
+  String? categoryName;
   String? dateFrom;
   String? dateTo;
-  int? discount1;
-  int? discount2;
-  int? discount3;
-  String? description;
-  int? statusId;
-  bool? autoReply;
   String? statusStr;
+  bool? autoReply;
   bool? isActive;
-  List<String>? serviceDays;
-  int? serviceEstTimeInMin;
-  int? categoryId;
-  String? categoryStr;
-  int? userId;
-  String? providerStr;
-  List<String>? providerServices;
 
   Service(
-      {this.id,
-        this.englishName,
-        this.arabicName,
-        this.price,
+      {this.serviceId,
+        this.serviceName,
+        this.categoryName,
         this.dateFrom,
         this.dateTo,
-        this.discount1,
-        this.discount2,
-        this.discount3,
-        this.description,
-        this.statusId,
-        this.autoReply,
         this.statusStr,
-        this.isActive,
-        this.serviceDays,
-        this.serviceEstTimeInMin,
-        this.categoryId,
-        this.categoryStr,
-        this.userId,
-        this.providerStr,
-        this.providerServices});
+        this.autoReply,
+        this.isActive});
 
   Service.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    englishName = json['englishName'];
-    arabicName = json['arabicName'];
-    price = json['price'];
+    serviceId = json['serviceId'];
+    serviceName = json['serviceName'];
+    categoryName = json['categoryName'];
     dateFrom = json['dateFrom'];
     dateTo = json['dateTo'];
-    discount1 = json['discount1'];
-    discount2 = json['discount2'];
-    discount3 = json['discount3'];
-    description = json['description'];
-    statusId = json['statusId'];
-    autoReply = json['autoReply'];
     statusStr = json['statusStr'];
+    autoReply = json['autoReply'];
     isActive = json['isActive'];
-    
-    serviceEstTimeInMin = json['serviceEstTimeInMin'];
-    categoryId = json['categoryId'];
-    categoryStr = json['categoryStr'];
-    userId = json['userId'];
-    providerStr = json['providerStr'];
-   
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
-    data['id'] = id;
-    data['englishName'] = englishName;
-    data['arabicName'] = arabicName;
-    data['price'] = price;
-    data['dateFrom'] = dateFrom;
-    data['dateTo'] = dateTo;
-    data['discount1'] = discount1;
-    data['discount2'] = discount2;
-    data['discount3'] = discount3;
-    data['description'] = description;
-    data['statusId'] = statusId;
-    data['autoReply'] = autoReply;
-    data['statusStr'] = statusStr;
-    data['isActive'] = isActive;
-    
-    data['serviceEstTimeInMin'] = serviceEstTimeInMin;
-    data['categoryId'] = categoryId;
-    data['categoryStr'] = categoryStr;
-    data['userId'] = userId;
-    data['providerStr'] = providerStr;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['serviceId'] = this.serviceId;
+    data['serviceName'] = this.serviceName;
+    data['categoryName'] = this.categoryName;
+    data['dateFrom'] = this.dateFrom;
+    data['dateTo'] = this.dateTo;
+    data['statusStr'] = this.statusStr;
+    data['autoReply'] = this.autoReply;
+    data['isActive'] = this.isActive;
     return data;
   }
 }
+

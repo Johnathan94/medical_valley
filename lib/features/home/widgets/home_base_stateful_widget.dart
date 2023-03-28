@@ -114,7 +114,10 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
         stream: _isSearchClicked,
         builder: (context, snapshot) {
           if (snapshot.hasData && (snapshot.data ?? false)) {
-            return const HomeSearchScreen();
+            return  HomeSearchScreen(
+              isBackPressed: (){
+              _isSearchClicked.sink.add(false);
+            },);
           } else {
             return const HomeScreen();
           }

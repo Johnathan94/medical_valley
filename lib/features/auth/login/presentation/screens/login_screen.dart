@@ -103,23 +103,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       CoolAlert.show(
                         barrierDismissible: false,
                         context: context,
-                        onConfirmBtnTap: (){
-                          navigateToOtpScreen();
-                        },
+                        autoCloseDuration: const Duration(seconds: 1),
                         type: CoolAlertType.success,
                         text: AppLocalizations.of(context)!.success_login,
                       );
+                      navigateToOtpScreen();
                     }
                     else {
                       LoadingDialogs.hideLoadingDialog();
                       CoolAlert.show(
                         context: context,
-                        onConfirmBtnTap: (){
-                          Navigator.pop(context);
-                        },
+                        autoCloseDuration: const Duration(seconds: 1),
                         type: CoolAlertType.error,
                         text: AppLocalizations.of(context)!.invalid_phone_number,
                       );
+                      Future.delayed(Duration(seconds: 2) , (){
+                        Navigator.pop(context);
+
+                      });
                     }
                   },
                   child: Container()
@@ -134,8 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate()){
-                      loginBloc.loginUser(LoginEvent(dialCode+phoneController.text));
+                      if(_formKey.currentState!.validate() && phoneController.text.length == 9 || phoneController.text.length == 10){
+                      loginBloc.loginUser(LoginEvent(phoneController.text));
                     }
                       else {
                         context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
@@ -162,7 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  String dialCode = "966";
   buildMobilePhoneField() {
     return Container(
       margin: EdgeInsetsDirectional.only(
@@ -170,7 +170,6 @@ class _LoginScreenState extends State<LoginScreen> {
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
       child:  PhoneIntlWidgetField(phoneController,(Country country){
-        dialCode = country.dialCode;
       }),
     );
   }

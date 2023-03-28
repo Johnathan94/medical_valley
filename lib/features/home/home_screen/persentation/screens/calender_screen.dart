@@ -76,25 +76,28 @@ class _CalenderScreenState extends State<CalenderScreen> {
           CoolAlert.show(
             barrierDismissible: false,
             context: context,
-            onConfirmBtnTap: ()async{
-              Navigator.pop(context);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> OffersScreen(serviceId: state.serviceId ?? 1,categoryId: state.categoryId ??1,)));
-            },
+            autoCloseDuration: const Duration(seconds: 1),
             type: CoolAlertType.success,
             text: AppLocalizations.of(context)!.booked_successed,
           );
+          Future.delayed(const Duration(seconds: 2),()async{
+            Navigator.pop(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> OffersScreen(serviceId: state.serviceId ?? 1,categoryId: state.categoryId ??1,)));
+          } );
         }
         else {
           LoadingDialogs.hideLoadingDialog();
           CoolAlert.show(
             barrierDismissible: false,
             context: context,
-            onConfirmBtnTap: ()async{
-              Navigator.pop(context);
-            },
+            autoCloseDuration: const Duration(seconds: 1),
+
             type: CoolAlertType.error,
             text: AppLocalizations.of(context)!.something_went_wrong,
           );
+          Future.delayed(const Duration(seconds: 2),()async{
+            Navigator.pop(context);
+          });
         }
       },
     child:_buildDefaultSingleDatePickerWithValue(),
@@ -205,8 +208,8 @@ Widget _buildDefaultSingleDatePickerWithValue() {
             String user = LocalStorageManager.getUser();
             Map<String, dynamic> result = jsonDecode(user);
             bookRequestBloc.requestBook(BookRequestModel(
-                serviceId: widget.services.id!,
-                categoryId: widget.services.categoryId!,
+                serviceId: widget.services.serviceId!,
+               // categoryId: widget.services.categoryName!,
                 bookingTypeId: 3,
                 userId: result["id"],
               appointmentDate: _getValueText(
