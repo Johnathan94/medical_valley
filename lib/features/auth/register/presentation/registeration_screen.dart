@@ -41,7 +41,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
-  String dialCode = "966";
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
   final _formKey = GlobalKey<FormState>();
@@ -175,7 +174,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       height: 16.h,
                     ),
                     PhoneIntlWidgetField(phoneController,(Country country){
-                      dialCode = country.dialCode;
                     }),
                     SizedBox(
                       height: 16.h,
@@ -339,7 +337,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: () {
                         if(_formKey.currentState!.validate()){
                           registerBloc.registerUser(RegisterEvent(RegisterRequestModel(
-                            email: controller.text , mobile: dialCode+phoneController.text,fullName: fullNameController.text ,haveInsurance: optionDisplayed.value == AppLocalizations.of(context)!.yes , genderId: 1, )));
+                            email: controller.text , mobile: phoneController.text,fullName: fullNameController.text ,haveInsurance: optionDisplayed.value == AppLocalizations.of(context)!.yes , genderId: 1, )));
                         }else {
                           context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data);
                         }

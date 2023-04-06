@@ -107,7 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         type: CoolAlertType.success,
                         text: AppLocalizations.of(context)!.success_login,
                       );
-                      navigateToOtpScreen();
+                      Future.delayed(const Duration(seconds: 2) , (){
+                        navigateToOtpScreen();
+                      });
+
                     }
                     else {
                       LoadingDialogs.hideLoadingDialog();
@@ -117,10 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         type: CoolAlertType.error,
                         text: AppLocalizations.of(context)!.invalid_phone_number,
                       );
-                      Future.delayed(Duration(seconds: 2) , (){
-                        Navigator.pop(context);
 
-                      });
                     }
                   },
                   child: Container()
