@@ -76,6 +76,7 @@
     "earliest": "Earliest  (3-24H)",
     "schedule_on": "Schedule on Appointment",
             "there_is_no_data": "There is no data",
+            "medical_valley": "MedicalValley",
     "send_request": "Send Request",
     "are_you_sure_about_the_service": "Are you sure about the service ? ",
           "languages": "Languages",
