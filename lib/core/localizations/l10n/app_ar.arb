@@ -10,6 +10,10 @@
   "no": "لا",
   "most_recent" : "الاحدث",
       "oldest" : "الاقدم",
+      "input_your_problem": "أدخل مشكلتك",
+        "input": "إدخال",
+      "facebook_page": "صفحه الفيسبوك",
+       "twitter_page": "صفحه تويتر",
       "pending_nego" : "المفاوضات الجارية ",
       "accepted_neo" : "المفاوضات المقبولة",
   "login_title": "تسجيل الدخول",
@@ -39,6 +43,7 @@
         "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
 
         "invalid_phone_number": "رقم الهاتف غير مسجل",
+        "there_is_no_data": "لا يوجد بيانات",
               "success_registered": "لقد قمت بانشاء حساب بنجاح",
               "insurance_question": "هل تمتلك خدمه التأمين الطبي",
               "empty_field": "لا يمكن ترك الحقل فارغ",

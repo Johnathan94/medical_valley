@@ -147,7 +147,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     CustomTextField(
                       textController: controller,
-                      prefixIcon: emailIcon,
+                      prefixIcon:emailIcon,
                       hintText: AppLocalizations.of(context)!.email,
                       hintStyle: AppStyles.headlineStyle,
                       onValidator: (String? x){

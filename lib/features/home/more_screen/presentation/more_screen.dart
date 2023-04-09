@@ -10,9 +10,11 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/core/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:medical_valley/features/home/contact_us/contact_us.dart';
 import 'package:medical_valley/features/home/more_screen/widget/profile_image.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
@@ -139,6 +141,7 @@ class MoreScreen extends StatelessWidget {
                     endIndent: 8,
                   ),
                   ListTile(
+                    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (c)=>const TermsAndConditionsScreen())),
                     leading: const IconBG(
                       color: Color(0xffFE01C3),
                       image: Icons.list_alt_rounded,
@@ -172,6 +175,7 @@ class MoreScreen extends StatelessWidget {
                       Icons.arrow_forward_ios,
                       color: greyWith80Percentage,
                     ),
+                    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> const ContactUsScreen())),
                   ),
                 ],
               ),

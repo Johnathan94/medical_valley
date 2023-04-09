@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/base_service/dio_manager.dart';
+import 'package:medical_valley/core/terms_and_conditions/data/terms_and_conditions_client.dart';
+import 'package:medical_valley/core/terms_and_conditions/domain/terms_and_conditions_repo.dart';
+import 'package:medical_valley/core/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 import 'package:medical_valley/features/auth/login/data/repo/login_repo.dart';
 import 'package:medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
@@ -36,4 +39,5 @@ configureDependencies (){
   getIt.registerFactory(() => HomeBloc(GetCategoriesUseCase(CategoriesClient(DioManager.getDio()), ServicesClient(DioManager.getDio())),SearchWithKeyboard(SearchClient(DioManager.getDio()))));
   getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
   getIt.registerFactory(() => NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
+  getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
 }

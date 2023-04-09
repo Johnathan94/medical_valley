@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../features/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import '../strings/images.dart';
+import '../terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import 'base_stateful_widget.dart';
 
 class Error404Screen extends BaseStatefulWidget {

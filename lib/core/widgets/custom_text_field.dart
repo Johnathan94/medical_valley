@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
 
 class CustomTextField extends TextFormField{
@@ -9,7 +10,11 @@ class CustomTextField extends TextFormField{
   TextEditingController textController ;
   Function (String) ? onFieldSubmit ;
   String? Function (String?) ? onValidator ;
-   CustomTextField({required this.textController , this.hintStyle, this.onValidator, this.onFieldSubmit, this.hintText,this.keyboardType,this.prefixIcon , Key? key}) : super(key: key ,
+  InputBorder? customEnabledBorder , customFocusedBorder;
+   CustomTextField({required this.textController , this.hintStyle, this.onValidator, this.onFieldSubmit, this.hintText,this.keyboardType,this.prefixIcon ,
+     this.customEnabledBorder ,
+     this.customFocusedBorder ,
+     Key? key}) : super(key: key ,
     keyboardType: keyboardType,
     controller: textController,
     onFieldSubmitted:onFieldSubmit ,
@@ -18,14 +23,18 @@ class CustomTextField extends TextFormField{
     decoration:  InputDecoration(
       hintText:  hintText ?? "",
       fillColor: whiteRed100,
-      prefixIcon: const Icon(Icons.mail_outline , color: primaryColor,),
+      prefixIcon:Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SvgPicture.asset(prefixIcon! , color: primaryColor,
+        ),
+      ),
       filled: true,
       hintStyle: hintStyle ?? const TextStyle(),
-      enabledBorder:  OutlineInputBorder(
+      enabledBorder: customEnabledBorder ?? OutlineInputBorder(
         borderSide: const BorderSide(color: primary100),
         borderRadius: BorderRadius.circular(18)
       ),
-      focusedBorder:  OutlineInputBorder(
+      focusedBorder:  customFocusedBorder ?? OutlineInputBorder(
         borderSide: const BorderSide(color: primaryColor),
         borderRadius: BorderRadius.circular(18)
       ),
