@@ -169,7 +169,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                   String user = LocalStorageManager.getUser();
                   Map<String, dynamic> result = jsonDecode(user);
                   bookRequestBloc.requestBook(BookRequestModel(
-                      serviceId: service.serviceId!,
+                      serviceId: service.id!,
                       categoryId: widget.categoryId,
                       bookingTypeId: id,
                       userId: result["id"]));
@@ -205,7 +205,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             Expanded(
               flex: 90,
               child: Text(
-                service.serviceName ?? "",
+                service.englishName ?? "",
                 maxLines: 2,
                 style: AppStyles.baloo2FontWith400WeightAnd12Size,
               ),

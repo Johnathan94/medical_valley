@@ -103,11 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       CoolAlert.show(
                         barrierDismissible: false,
                         context: context,
-                        autoCloseDuration: const Duration(seconds: 1),
+                        autoCloseDuration: const Duration(milliseconds: 300),
                         type: CoolAlertType.success,
                         text: AppLocalizations.of(context)!.success_login,
                       );
-                      Future.delayed(const Duration(seconds: 2) , (){
+                      Future.delayed(const Duration(milliseconds: 350) , (){
                         navigateToOtpScreen();
                       });
 
@@ -267,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   navigateToOtpScreen() {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const PhoneVerificationScreen()));
   }
 }

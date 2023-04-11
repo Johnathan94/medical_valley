@@ -185,7 +185,7 @@ class HomeState extends State<HomeSearchScreen> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
-                HomeDetailsScreen(categoryName: service.serviceName!, categoryId: 1,)));
+                HomeDetailsScreen(categoryName: service.englishName!, categoryId: 1,)));
       },
       child: Container(
         height: homeModelItemHeight.h,
@@ -212,7 +212,7 @@ class HomeState extends State<HomeSearchScreen> {
             Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
-                service.serviceName?? "",
+                service.englishName?? "",
                 style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
               ),
             ),
@@ -235,7 +235,7 @@ class HomeState extends State<HomeSearchScreen> {
                   String user = LocalStorageManager.getUser();
                   Map<String, dynamic> result = jsonDecode(user);
                   bookRequestBloc.requestBook(BookRequestModel(
-                      serviceId: service.serviceId!,
+                      serviceId: service.id!,
                      // categoryId: service.categoryName,
                       bookingTypeId: id,
                       userId: result["id"]));
@@ -271,7 +271,7 @@ class HomeState extends State<HomeSearchScreen> {
               Expanded(
                 flex: 90,
                 child: Text(
-                  service.serviceName ?? "",
+                  service.englishName ?? "",
                   maxLines: 2,
                   style: AppStyles.baloo2FontWith400WeightAnd12Size,
                 ),

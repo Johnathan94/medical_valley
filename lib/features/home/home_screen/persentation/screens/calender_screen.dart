@@ -208,7 +208,7 @@ Widget _buildDefaultSingleDatePickerWithValue() {
             String user = LocalStorageManager.getUser();
             Map<String, dynamic> result = jsonDecode(user);
             bookRequestBloc.requestBook(BookRequestModel(
-                serviceId: widget.services.serviceId!,
+                serviceId: widget.services.id!,
                // categoryId: widget.services.categoryName!,
                 bookingTypeId: 3,
                 userId: result["id"],

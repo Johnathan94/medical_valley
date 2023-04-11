@@ -86,47 +86,113 @@ class Services {
 }
 
 class Service {
-  int? serviceId;
-  String? serviceName;
-  String? categoryName;
+  int? id;
+  String? englishName;
+  String? arabicName;
+  double? price;
   String? dateFrom;
   String? dateTo;
-  String? statusStr;
+  int? discount1;
+  int? discount2;
+  int? discount3;
+  String? description;
+  int? statusId;
   bool? autoReply;
+  String? statusStr;
   bool? isActive;
+  List<String>? serviceDays;
+  int? serviceEstTimeInMin;
+  int? categoryId;
+  String? categoryStr;
+  int? userId;
+  String? providerStr;
+  List<String>? providerServices;
 
   Service(
-      {this.serviceId,
-        this.serviceName,
-        this.categoryName,
+      {this.id,
+        this.englishName,
+        this.arabicName,
+        this.price,
         this.dateFrom,
         this.dateTo,
-        this.statusStr,
+        this.discount1,
+        this.discount2,
+        this.discount3,
+        this.description,
+        this.statusId,
         this.autoReply,
-        this.isActive});
+        this.statusStr,
+        this.isActive,
+        this.serviceDays,
+        this.serviceEstTimeInMin,
+        this.categoryId,
+        this.categoryStr,
+        this.userId,
+        this.providerStr,
+        this.providerServices});
 
   Service.fromJson(Map<String, dynamic> json) {
-    serviceId = json['serviceId'];
-    serviceName = json['serviceName'];
-    categoryName = json['categoryName'];
+    id = json['id'];
+    englishName = json['englishName'];
+    arabicName = json['arabicName'];
+    price = json['price'];
     dateFrom = json['dateFrom'];
     dateTo = json['dateTo'];
-    statusStr = json['statusStr'];
+    discount1 = json['discount1'];
+    discount2 = json['discount2'];
+    discount3 = json['discount3'];
+    description = json['description'];
+    statusId = json['statusId'];
     autoReply = json['autoReply'];
+    statusStr = json['statusStr'];
     isActive = json['isActive'];
+    if (json['serviceDays'] != null) {
+      serviceDays = <String>[];
+      json['serviceDays'].forEach((v) {
+        serviceDays!.add( v);
+      });
+    }
+    serviceEstTimeInMin = json['serviceEstTimeInMin'];
+    categoryId = json['categoryId'];
+    categoryStr = json['categoryStr'];
+    userId = json['userId'];
+    providerStr = json['providerStr'];
+    if (json['providerServices'] != null) {
+      providerServices = <String>[];
+      json['providerServices'].forEach((v) {
+        providerServices!.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['serviceId'] = this.serviceId;
-    data['serviceName'] = this.serviceName;
-    data['categoryName'] = this.categoryName;
-    data['dateFrom'] = this.dateFrom;
-    data['dateTo'] = this.dateTo;
-    data['statusStr'] = this.statusStr;
-    data['autoReply'] = this.autoReply;
-    data['isActive'] = this.isActive;
+    final Map<String, dynamic> data =  {};
+    data['id'] = id;
+    data['englishName'] = englishName;
+    data['arabicName'] = arabicName;
+    data['price'] = price;
+    data['dateFrom'] = dateFrom;
+    data['dateTo'] = dateTo;
+    data['discount1'] = discount1;
+    data['discount2'] = discount2;
+    data['discount3'] = discount3;
+    data['description'] = description;
+    data['statusId'] = statusId;
+    data['autoReply'] = autoReply;
+    data['statusStr'] = statusStr;
+    data['isActive'] = isActive;
+    if (serviceDays != null) {
+      data['serviceDays'] = serviceDays!.map((v) => v).toList();
+    }
+    data['serviceEstTimeInMin'] = serviceEstTimeInMin;
+    data['categoryId'] = categoryId;
+    data['categoryStr'] = categoryStr;
+    data['userId'] = userId;
+    data['providerStr'] = providerStr;
+    if (providerServices != null) {
+      data['providerServices'] =
+          providerServices!.map((v) => v).toList();
+    }
     return data;
   }
 }
-
