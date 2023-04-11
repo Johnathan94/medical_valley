@@ -30,6 +30,8 @@ const paypalIcon = "${imagesPath}paypal.png";
 const googlePayIcon = "${imagesPath}google_pay.png";
 const personImage = "${imagesPath}person.png";
 const insuranceIcon = "${imagesPath}insurance.png";
+const saudiIcon = "${imagesPath}saudi.png";
+const emailGreyIcon = "${imagesPath}email.png";
 
 const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";

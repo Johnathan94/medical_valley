@@ -43,9 +43,6 @@ abstract class NegotiateRepo {
   Future<Either<Failure, Unit>> verifyBook(VerifyRequest verifyRequest) async{
     try
     {
-      String user = LocalStorageManager.getUser();
-      Map<String , dynamic > currentUser = {} ;
-      currentUser =  jsonDecode(user);
       var result = await client.verifyRequest(verifyRequest);
       NegotiateResponse response = NegotiateResponse.fromJson(result);
 

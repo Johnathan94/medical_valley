@@ -10,6 +10,9 @@ import 'package:medical_valley/features/auth/register/data/api_service/register_
 import 'package:medical_valley/features/auth/register/data/repo/register_repo.dart';
 import 'package:medical_valley/features/auth/register/domain/register_usecase.dart';
 import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_bloc.dart';
+import 'package:medical_valley/features/home/contact_us/data/api/contact_us_client.dart';
+import 'package:medical_valley/features/home/contact_us/domain/contact_us_repo.dart';
+import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
 import 'package:medical_valley/features/home/history/data/get_clinic_repo.dart';
 import 'package:medical_valley/features/home/history/data/source/json_data.dart';
 import 'package:medical_valley/features/home/history/domain/get_clinic_usecase.dart';
@@ -40,4 +43,5 @@ configureDependencies (){
   getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
   getIt.registerFactory(() => NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
   getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
+  getIt.registerFactory(() => ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
 }

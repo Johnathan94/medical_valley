@@ -44,6 +44,7 @@
 
         "invalid_phone_number": "رقم الهاتف غير مسجل",
         "there_is_no_data": "لا يوجد بيانات",
+        "phone_number": "رقم الهاتف",
                     "medical_valley": "MedicalValley",
               "success_registered": "لقد قمت بانشاء حساب بنجاح",
               "insurance_question": "هل تمتلك خدمه التأمين الطبي",
