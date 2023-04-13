@@ -4,6 +4,7 @@ const iconsPath = "assets/icons/";
 const emailIcon = "${iconsPath}email.svg";
 const faceBookIcon = "${iconsPath}facebook.svg";
 const notificationIcon = "${iconsPath}notification.svg";
+
 const appIcon = "${imagesPath}app_icon.png";
 const googleIcon = "${imagesPath}google_icon.png";
 const facebookIcon = "${imagesPath}facebook_icon.png";
