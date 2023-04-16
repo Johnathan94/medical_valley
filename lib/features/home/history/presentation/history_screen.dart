@@ -28,7 +28,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  ClinicsBloc clinicsBloc = getIt.get<ClinicsBloc>();
+  HistoryBloc clinicsBloc = getIt.get<HistoryBloc>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   BehaviorSubject<int> sortOption = BehaviorSubject();
   Map<String , dynamic > currentUser = {} ;
@@ -37,7 +37,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void initState() {
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
-    clinicsBloc.getAllClinics();
+    clinicsBloc.getAllHistoryNegotiations(1, 10);
     String user = LocalStorageManager.getUser();
     currentUser =  jsonDecode(user);
 
@@ -62,7 +62,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           isSearchableAppBar: false, username: currentUser["result"]["data"]["fullName"], context: context,
           onBackPressed: (){},
         ),
-        body: BlocBuilder<ClinicsBloc, ClinicsState>(
+        body: BlocBuilder<HistoryBloc, ClinicsState>(
             bloc: clinicsBloc,
             builder: (context, state) {
               if (state.states == ActionStates.loading ||
@@ -107,7 +107,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     child: Container(
                                       padding: smallPaddingAll,
                                       margin: smallPaddingH,
-                                      height: 160.h,
+                                      height: 180.h,
                                       width: 250.w,
                                       decoration: BoxDecoration(
                                           border: Border.all(width: .2),
@@ -136,26 +136,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                                         .indexOf(
                                                                             e));
                                                               },
-                                                              child: Container(
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Text(AppInitializer
-                                                                        .sortChoicesHistory[AppInitializer
-                                                                            .sortChoicesHistory
-                                                                            .indexOf(e)]
-                                                                        .sortOption),
-                                                                    sortOption.value ==
-                                                                            AppInitializer.sortChoicesHistory.indexOf(
-                                                                                e)
-                                                                        ? const Icon(Icons
-                                                                            .radio_button_checked)
-                                                                        : const Icon(
-                                                                            Icons.circle_outlined)
-                                                                  ],
-                                                                ),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(AppInitializer
+                                                                      .sortChoicesHistory[AppInitializer
+                                                                          .sortChoicesHistory
+                                                                          .indexOf(e)]
+                                                                      .sortOption),
+                                                                  sortOption.value ==
+                                                                          AppInitializer.sortChoicesHistory.indexOf(
+                                                                              e)
+                                                                      ? const Icon(Icons
+                                                                          .radio_button_checked)
+                                                                      : const Icon(
+                                                                          Icons.circle_outlined)
+                                                                ],
                                                               ),
                                                             ),
                                                           ))
@@ -309,7 +307,7 @@ class ClinicCard extends StatelessWidget {
                       dashGapColor: Colors.transparent,
                       dashGapRadius: 0.0,
                     ),
-                    const Icon(
+                     Icon(
                       Icons.circle,
                       color: primaryColor,
                       size: 10,

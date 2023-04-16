@@ -13,8 +13,7 @@ import 'package:medical_valley/features/auth/register/presentation/register_bloc
 import 'package:medical_valley/features/home/contact_us/data/api/contact_us_client.dart';
 import 'package:medical_valley/features/home/contact_us/domain/contact_us_repo.dart';
 import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
-import 'package:medical_valley/features/home/history/data/get_clinic_repo.dart';
-import 'package:medical_valley/features/home/history/data/source/json_data.dart';
+import 'package:medical_valley/features/home/history/data/get_negotiations_api.dart';
 import 'package:medical_valley/features/home/history/domain/get_clinic_usecase.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_client.dart';
@@ -35,7 +34,7 @@ import 'package:medical_valley/features/offers/presentation/presentation/bloc/of
 final getIt = GetIt.instance;
 
 configureDependencies (){
-  getIt.registerFactory(() => ClinicsBloc(GetClinicUseCaseImpl(GetClinicRepoImpl(JsonDataSrc()))));
+  getIt.registerFactory(() => HistoryBloc(GetHistoryUseCaseImpl(HistoryClient(DioManager.getDio()))));
   getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
   getIt.registerFactory(() => BookRequestBloc(BookRequestRepo(BookRequestClient())));
   getIt.registerFactory(() => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));

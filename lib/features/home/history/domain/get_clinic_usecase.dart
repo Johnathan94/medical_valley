@@ -1,18 +1,18 @@
 import 'package:medical_valley/features/home/history/data/clinic_model.dart';
-import 'package:medical_valley/features/home/history/data/get_clinic_repo.dart';
+import 'package:medical_valley/features/home/history/data/get_negotiations_api.dart';
 
-abstract class GetClinicUseCase {
- Future<Clinics> getAllClinics();
+abstract class GetHistoryUseCase {
+ Future<Clinics> getAllHistoryNegotiations(int page , int pageSize);
 }
 
-class GetClinicUseCaseImpl extends GetClinicUseCase{
-  GetClinicRepo getClinicRepo ;
+class GetHistoryUseCaseImpl extends GetHistoryUseCase{
+  HistoryClient historyClient ;
 
-  GetClinicUseCaseImpl( this.getClinicRepo);
+  GetHistoryUseCaseImpl( this.historyClient);
 
   @override
-  Future<Clinics> getAllClinics() async{
-    return await getClinicRepo.getAllClinics();
+  Future<Clinics> getAllHistoryNegotiations(int page , int pageSize) async{
+    return await historyClient.getHistoryNegotiations(page, pageSize);
   }
 
 
