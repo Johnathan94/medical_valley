@@ -180,9 +180,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   fillColor: textFieldBg,
                   isDense: true,
                   filled: true,
-                  enabledBorder: InputBorder.none,
+                  focusedBorder:  const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)
+                  ),
                   hintText: AppLocalizations.of(context)!.email,
                   hintStyle: AppStyles.headlineStyle,
+
                 ),
               ),
               SizedBox(
@@ -200,6 +203,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   filled: true,
                   enabledBorder: InputBorder.none,
                   isDense: true,
+                  focusedBorder:  const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)
+                  ),
                   hintText: AppLocalizations.of(context)!.fullname,
                   hintStyle: AppStyles.headlineStyle,
                 ),
@@ -221,6 +227,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   enabledBorder: InputBorder.none,
                   prefixIcon: Image.asset(saudiIcon,),
                   isDense: true,
+                  focusedBorder:  const OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor)
+                  ),
                   hintText: AppLocalizations.of(context)!.phone_number,
                   hintStyle: AppStyles.headlineStyle,
                 ),
@@ -253,9 +262,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
            TextFormField(
             keyboardType: TextInputType.multiline,
             controller: problemController,
-            validator: (String? text){
-              return text!.isNotEmpty?  null : AppLocalizations.of(context)!.please_fill_all_data ;
-            },
+             decoration:const  InputDecoration(
+             enabledBorder:  OutlineInputBorder(
+               borderSide: BorderSide(color: greenCheckBox)
+             ),
+               focusedBorder:  OutlineInputBorder(
+               borderSide: BorderSide(color: primaryColor)
+             ),
+
+           ),
             minLines: 8, //Normal textInputField will be displayed
             maxLines: 15, // when user presses enter it will adapt to it
           ),
@@ -267,7 +282,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   buildInputButton() {
     return Padding(
       padding: const EdgeInsetsDirectional.only(start: 22, end: 22, top: 35),
-      child: PrimaryButton(text: AppLocalizations.of(context)!.input,
+      child: PrimaryButton(text: AppLocalizations.of(context)!.send,
       onPressed: (){
         if (_formKey.currentState!.validate() && (phoneController.text.length == 9 || phoneController.text.length == 10)){
           contactUsBloc.contactUs(ContactUsEvent(

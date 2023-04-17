@@ -66,6 +66,7 @@
           "fullname": "Fullname",
           "gender": "Gender",
           "notes": "Notes",
+                   "send": "Send",
                 "your_insurance": "Your insurance",
           "date_of_birth": "Date of birth",
           "national_id": "National ID",
