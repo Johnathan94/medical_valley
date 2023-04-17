@@ -8,7 +8,7 @@ import 'package:retrofit/retrofit.dart';
   RegisterClient(this.dio);
 
   register(RegisterRequestModel model)async{
-    Response response =  await dio.post("${dio.options.baseUrl}/User/SignUp",data: model.toJson()
+    Response response =  await dio.post("${dio.options.baseUrl}/User/RegisterUser",data: model.toJson()
     );
     return response.data;
   }
