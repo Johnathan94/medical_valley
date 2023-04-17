@@ -6,6 +6,9 @@ import 'package:medical_valley/core/terms_and_conditions/persentation/bloc/terms
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 import 'package:medical_valley/features/auth/login/data/repo/login_repo.dart';
 import 'package:medical_valley/features/auth/login/presentation/bloc/login_bloc.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/otp_client.dart';
+import 'package:medical_valley/features/auth/phone_verification/domain/verify_otp_use_case.dart';
+import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:medical_valley/features/auth/register/data/api_service/register_client.dart';
 import 'package:medical_valley/features/auth/register/data/repo/register_repo.dart';
 import 'package:medical_valley/features/auth/register/domain/register_usecase.dart';
@@ -43,4 +46,5 @@ configureDependencies (){
   getIt.registerFactory(() => NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
   getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
   getIt.registerFactory(() => ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
+  getIt.registerFactory(() => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
 }

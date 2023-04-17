@@ -16,14 +16,14 @@ abstract class RegisterUserRepo {
     try
      {
        var result = await client.register(model);
-        if(result["responseCode"] >= 200 && result["responseCode"] < 300 ){
+        if(result["phone"] != null ){
        return const Right(unit);
      }else {
           return Left(ServerFailure(error: result["message"]));
         }
      }
       catch(e){
-      return Left(ServerFailure(error: e.toString()));
+      return Left(ServerFailure(error: "There is an Error"));
      }
   }
 }

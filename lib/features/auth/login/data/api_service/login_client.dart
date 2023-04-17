@@ -6,7 +6,7 @@ class LoginClient{
   LoginClient(this.dio);
 
     login(String mobile)async{
-    Response response =  await dio.get("${dio.options.baseUrl}/User/SignIn?mobile=$mobile",);
+    Response response =  await dio.post("${dio.options.baseUrl}/User/LoginUser?mobile=$mobile",);
     return response.data;
   }
 

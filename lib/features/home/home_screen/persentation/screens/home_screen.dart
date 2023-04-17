@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildAppBar() {
     return CustomHomeAppBar(
-      username : currentUser["result"]["data"]["fullName"],
+      username : currentUser["data"]["data"]["fullName"],
       isSearchableAppBar: false,
       controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,

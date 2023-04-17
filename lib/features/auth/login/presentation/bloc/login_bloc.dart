@@ -12,7 +12,7 @@ class LoginBloc extends Cubit<LoginState >{
             (l) {
           emit(LoginStateError());
         }, (r) {
-      emit(LoginStateSuccess());
+      emit(LoginStateSuccess(r));
     }
     );
   }

@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: AppLocalizations.of(context)!.success_login,
                       );
                       Future.delayed(const Duration(milliseconds: 350) , (){
-                        navigateToOtpScreen();
+                        navigateToOtpScreen(state.mobile);
                       });
 
                     }
@@ -266,8 +266,8 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const RegistrationScreen()));
   }
 
-  navigateToOtpScreen() {
+  navigateToOtpScreen(String mobile) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const PhoneVerificationScreen()));
+        builder: (context) =>  PhoneVerificationScreen(mobile: mobile,)));
   }
 }

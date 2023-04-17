@@ -121,15 +121,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
-
                       autoCloseDuration: const Duration(seconds: 1),
                       type: CoolAlertType.error,
                       text: state.error,
                     );
-                    Future.delayed(const Duration(seconds: 2), (){
-                      Navigator.pop(context);
 
-                    });
                   }
                 },
                 child: Column(

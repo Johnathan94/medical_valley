@@ -289,7 +289,7 @@ class HomeState extends State<HomeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHomeAppBar(
-        username: currentUser["result"]["data"]["fullName"],
+        username: currentUser["data"]["data"]["fullName"],
         isSearchableAppBar: true,
         searchHint: AppLocalizations.of(context)!.search,
         onSubmit :(String? text){

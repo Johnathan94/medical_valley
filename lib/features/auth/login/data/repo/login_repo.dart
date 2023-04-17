@@ -4,7 +4,7 @@ import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 
 abstract class LoginRepo {
-  Future<Either<Failure , Unit>> login (String mobile);
+  Future<Either<Failure , String>> login (String mobile);
 }
  class LoginRepoImpl extends LoginRepo{
   LoginClient client ;
@@ -12,13 +12,12 @@ abstract class LoginRepo {
   LoginRepoImpl(this.client);
 
   @override
-  Future<Either<Failure , Unit>> login(String mobile) async {
+  Future<Either<Failure , String>> login(String mobile) async {
     try
      {
        var result = await client.login(mobile);
-       if(result["result"]["responseCode"]==200){
-          LocalStorageManager.saveUser(result);
-         return const Right(unit);
+       if(result["phone"]!=null){
+         return  Right(result["phone"].toString());
        }
        return Left(ServerFailure());
      }
