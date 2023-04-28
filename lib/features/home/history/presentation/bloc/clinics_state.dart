@@ -1,9 +1,9 @@
 import 'package:medical_valley/features/home/history/data/clinic_model.dart';
 
-class ClinicsState {
-  Clinics? clinics ;
+class HistoryState {
+  NegotiationsHistoryModel? history ;
   ActionStates states ;
-  ClinicsState(this.states ,{this.clinics });
+  HistoryState(this.states ,{this.history });
 }
 enum ActionStates {
   idle ,loading , success , error
