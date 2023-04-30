@@ -48,9 +48,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       historyBloc.getAllHistoryNegotiations(nextPage, 10);
 
     });
-    String user = LocalStorageManager.getUser();
-    currentUser =  jsonDecode(user);
-
+    currentUser = LocalStorageManager.getUser();
     super.initState();
   }
 

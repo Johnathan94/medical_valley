@@ -19,10 +19,8 @@ abstract class OffersRepo {
   Future<Either<Failure , OffersResponse>> getOffers(int page , int pageSize , int serviceId , int categoryId) async {
     try
      {
-       String user = LocalStorageManager.getUser();
-       Map<String , dynamic > currentUser = {} ;
-       currentUser =  jsonDecode(user);
-       var result = await client.getOffers(page, pageSize, serviceId, categoryId,currentUser["result"]["data"]["id"]);
+       Map<String , dynamic > currentUser = LocalStorageManager.getUser();
+       var result = await client.getOffers(page, pageSize, serviceId, categoryId,currentUser["data"]["data"]["id"]);
        OffersResponse response = OffersResponse.fromJson(result);
        if(response.responseCode==200){
         return  getDistances(response);

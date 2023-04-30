@@ -205,8 +205,7 @@ Widget _buildDefaultSingleDatePickerWithValue() {
         margin: mediumPaddingHV.r,
         child: PrimaryButton(
           onPressed: () {
-            String user = LocalStorageManager.getUser();
-            Map<String, dynamic> result = jsonDecode(user);
+            Map<String, dynamic> result = LocalStorageManager.getUser();
             bookRequestBloc.requestBook(BookRequestModel(
                 serviceId: widget.services.id!,
                // categoryId: widget.services.categoryName!,

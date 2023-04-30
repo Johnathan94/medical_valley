@@ -21,9 +21,7 @@ abstract class NegotiateRepo {
   Future<Either<Failure , Unit>> negotiate(List<int?> offerIds) async {
     try
      {
-       String user = LocalStorageManager.getUser();
-       Map<String , dynamic > currentUser = {} ;
-       currentUser =  jsonDecode(user);
+       Map<String, dynamic> currentUser = LocalStorageManager.getUser();
        var result = await client.negotiate(NegotiateModel(
          data: offerIds.map((int? e) => NegotiateData(offerId: e)).toList()
        ));

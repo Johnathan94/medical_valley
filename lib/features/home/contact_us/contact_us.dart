@@ -37,8 +37,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   void initState() {
-    String user = LocalStorageManager.getUser();
-    Map<String, dynamic> data = jsonDecode(user);
+    Map<String, dynamic> data = LocalStorageManager.getUser();
    fullNameController.text =  data["data"]["data"]["fullName"];
    emailController.text =  data["data"]["data"]["email"];
    phoneController.text =  data["data"]["data"]["mobile"];

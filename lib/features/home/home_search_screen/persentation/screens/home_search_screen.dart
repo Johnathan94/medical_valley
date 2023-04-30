@@ -54,8 +54,7 @@ class HomeState extends State<HomeSearchScreen> {
       }
 
     });
-    String user = LocalStorageManager.getUser();
-    currentUser =  jsonDecode(user);
+    currentUser = LocalStorageManager.getUser();
     super.initState();
   }
 
@@ -232,11 +231,10 @@ class HomeState extends State<HomeSearchScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  String user = LocalStorageManager.getUser();
-                  Map<String, dynamic> result = jsonDecode(user);
+                  Map<String, dynamic> result  = LocalStorageManager.getUser();
                   bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
-                     // categoryId: service.categoryName,
+                      categoryId: service.categoryId,
                       bookingTypeId: id,
                       userId: result["id"]));
                 }

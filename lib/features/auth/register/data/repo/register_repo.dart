@@ -19,11 +19,11 @@ abstract class RegisterUserRepo {
         if(result["phone"] != null ){
        return const Right(unit);
      }else {
-          return Left(ServerFailure(error: result["message"]));
+          return Left(ServerFailure(error: result));
         }
      }
       catch(e){
-      return Left(ServerFailure(error: "There is an Error"));
+      return Left(ServerFailure(error: "something went wrong"));
      }
   }
 }

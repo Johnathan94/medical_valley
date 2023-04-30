@@ -11,8 +11,7 @@ class HistoryClient{
 
   getHistoryNegotiations(int page , int pageSize ,{int? serviceId , int? categoryId })async{
     Response response;
-    String userEncoded = LocalStorageManager.getUser();
-    Map<String, dynamic> user = jsonDecode(userEncoded);
+    Map<String, dynamic> user  = LocalStorageManager.getUser();
     if(serviceId!= null && categoryId!= null){
       response =  await dio.get("${dio.options.baseUrl}/Request/Negotiations?PageNumber=$page&PageSize=$pageSize&CategoryId=$categoryId&ServiceId=$serviceId&UserId=${user["result"]["data"]["id"]}",);
     }else

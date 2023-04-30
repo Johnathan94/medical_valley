@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   initState() {
     homeBloc.getCategories();
-    String user = LocalStorageManager.getUser();
-    currentUser =  jsonDecode(user);
+    currentUser = LocalStorageManager.getUser();
+
     super.initState();
   }
 

@@ -51,8 +51,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   initState() {
     categoryTitle = widget.categoryName;
     homeBloc.getServices(widget.categoryId, nextPage, 10);
-    String user = LocalStorageManager.getUser();
-    currentUser = jsonDecode(user);
+    currentUser = LocalStorageManager.getUser();
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
@@ -98,11 +97,9 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                 context: context,
                 autoCloseDuration: const Duration(seconds: 1),
                 type: CoolAlertType.error,
-                text: AppLocalizations.of(context)!.something_went_wrong,
+                text: state.error,
               );
-              Future.delayed(const Duration(seconds: 2), () async {
-                Navigator.pop(context);
-              });
+
             }
           },
           child: buildBody(),
@@ -166,13 +163,12 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  String user = LocalStorageManager.getUser();
-                  Map<String, dynamic> result = jsonDecode(user);
+                  Map<String, dynamic> result = LocalStorageManager.getUser();
                   bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
                       categoryId: widget.categoryId,
                       bookingTypeId: id,
-                      userId: result["id"]));
+                      userId: result["data"]["data"]["id"]));
                 }
               },
               onScheduledPressed: () {
