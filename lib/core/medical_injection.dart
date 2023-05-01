@@ -28,6 +28,9 @@ import 'package:medical_valley/features/home/home_search_screen/data/api/service
 import 'package:medical_valley/features/home/home_search_screen/domain/get_categories_use_case.dart';
 import 'package:medical_valley/features/home/home_search_screen/domain/search_with_keyword.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
+import 'package:medical_valley/features/home/notifications/data/api/categories_client.dart';
+import 'package:medical_valley/features/home/notifications/domain/get_notification_use_case.dart';
+import 'package:medical_valley/features/home/notifications/persentation/screens/bloc/notification_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/offers_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_repo.dart';
@@ -47,4 +50,7 @@ configureDependencies (){
   getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
   getIt.registerFactory(() => ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
   getIt.registerFactory(() => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
+  getIt.registerFactory(() =>
+      NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getDio()))));
+
 }

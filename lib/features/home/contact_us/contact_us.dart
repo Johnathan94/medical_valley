@@ -12,6 +12,7 @@ import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/contact_us/data/model/contact_us_response_model.dart';
 import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
 
@@ -37,10 +38,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   void initState() {
-    Map<String, dynamic> data = LocalStorageManager.getUser();
-   fullNameController.text =  data["data"]["data"]["fullName"];
-   emailController.text =  data["data"]["data"]["email"];
-   phoneController.text =  data["data"]["data"]["mobile"];
+    UserDate currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
+   fullNameController.text =  currentUser.fullName ?? "";
+   emailController.text =  currentUser.email ?? "";
+   phoneController.text =  currentUser.mobile ?? "";
     super.initState();
   }
   @override

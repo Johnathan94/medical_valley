@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/models/categories_model.dart';
@@ -30,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int nextPage = 1;
   int nextPageKey = 1;
-  Map<String , dynamic > currentUser = {} ;
+  late UserDate currentUser  ;
   @override
   initState() {
     homeBloc.getCategories();
-    currentUser = LocalStorageManager.getUser();
+    currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
 
     super.initState();
   }
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildAppBar() {
     return CustomHomeAppBar(
-      username : currentUser["data"]["data"]["fullName"],
+      username : currentUser.fullName!,
       isSearchableAppBar: false,
       controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,

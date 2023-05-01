@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 1), () async{
       await AppInitializer.initializeAppWithContext(context);
-      if(LocalStorageManager.getUser() == ""){
+      if(LocalStorageManager.getUser() == null){
         goToLoginScreen(context);
       }else {
         goToHomeScreen(context);

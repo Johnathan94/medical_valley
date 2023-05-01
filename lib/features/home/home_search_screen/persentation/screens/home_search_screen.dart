@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +10,7 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
@@ -42,7 +42,7 @@ class HomeState extends State<HomeSearchScreen> {
   int nextPage = 1;
   int nextPageKey = 1;
   String keyword = "";
-  Map<String , dynamic > currentUser = {} ;
+  late UserDate currentUser  ;
   bool isSearchStarted = false ;
   @override
   initState() {
@@ -54,7 +54,7 @@ class HomeState extends State<HomeSearchScreen> {
       }
 
     });
-    currentUser = LocalStorageManager.getUser();
+    currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
     super.initState();
   }
 
@@ -231,12 +231,12 @@ class HomeState extends State<HomeSearchScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  Map<String, dynamic> result  = LocalStorageManager.getUser();
+                  UserDate result = UserDate.fromJson(LocalStorageManager.getUser()!);
                   bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
                       categoryId: service.categoryId,
                       bookingTypeId: id,
-                      userId: result["id"]));
+                      userId: result.id));
                 }
               },
               onScheduledPressed: () {
@@ -287,7 +287,7 @@ class HomeState extends State<HomeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomHomeAppBar(
-        username: currentUser["data"]["data"]["fullName"],
+        username: currentUser.fullName ?? "",
         isSearchableAppBar: true,
         searchHint: AppLocalizations.of(context)!.search,
         onSubmit :(String? text){

@@ -10,7 +10,7 @@ class LoginBloc extends Cubit<LoginState >{
     var loginUser = await loginRepo.login(event.mobilePhone);
     loginUser.fold(
             (l) {
-          emit(LoginStateError());
+          emit(LoginStateError(message: l.error));
         }, (r) {
       emit(LoginStateSuccess(r));
     }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/features/home/notifications/persentation/screens/bloc/notification_bloc.dart';
 import 'package:medical_valley/features/home/notifications/persentation/widgets/notification_item_view.dart';
 
-import '../../../../../core/strings/images.dart';
 import '../../../../../core/widgets/custom_app_bar.dart';
 import '../../data/models/notification_model.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -19,7 +21,7 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   List<NotificationModel> _notifications = [];
-
+NotificationBloc notificationBloc = GetIt.instance<NotificationBloc>();
   @override
   initState() {
     getNotifications();
@@ -31,7 +33,27 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: buildMyAppBar(),
-      body: getNotificationsBody(),
+      body: BlocBuilder <NotificationBloc , NotificationState>(
+        bloc: notificationBloc,
+        builder: (context, state) {
+          if(state is NotificationStateLoading){
+            return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: const Center(child: CircularProgressIndicator()));
+          }
+            else if (state is NotificationStateSuccess){
+              _notifications = state.notifications;
+            return getNotificationsBody();
+          }
+          else {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child:  Center(child: Text(AppLocalizations.of(context)!.something_went_wrong)));
+          }
+        }
+      ),
     );
   }
 
@@ -39,69 +61,27 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return MyCustomAppBar(
       header: AppLocalizations.of(context)!.notifications,
       leadingIcon: Container(),
-
     );
   }
 
   void getNotifications() {
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "3 min",
-        "yesterday",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "30 min",
-        "yesterday",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "6:12 AM",
-        "yesterday",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "6:12 PM",
-        "September",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "6:12 PM",
-        "September",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "6:12 PM",
-        "September",
-        settingIcon));
-    _notifications.add(NotificationModel(
-        1,
-        "Congratulations!",
-        "This text is a test script to facilitate the user experience service",
-        "6:12 PM",
-        "September",
-        settingIcon));
+  notificationBloc.getNotifications();
   }
 
-  getNotificationsBody() {
-     return GroupedListView<NotificationModel, String>(
+  Widget getNotificationsBody() {
+    return _notifications.isEmpty ?
+        Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            alignment: Alignment.center,
+            child: Text("There is no Notifications", style: AppStyles.baloo2FontWith700WeightAnd15Size,))
+        :
+      GroupedListView<NotificationModel, String>(
        groupBy: (NotificationModel a){
-         return a.date;
+         return a.userId.toString();
        },
        itemComparator: (item1, item2) =>
-           item1.date.compareTo(item2.date),
+           item1.userId.toString().compareTo(item2.userId.toString()),
        groupComparator: (value1, value2) => value2.compareTo(value1),
        order: GroupedListOrder.DESC,
        groupSeparatorBuilder: (String value) => Row(

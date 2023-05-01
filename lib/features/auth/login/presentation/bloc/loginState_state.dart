@@ -5,4 +5,8 @@ abstract class LoginState {}
  LoginStateSuccess(this.mobile);
 }
  class LoginStateLoading extends LoginState{}
- class LoginStateError extends LoginState{}
+ class LoginStateError extends LoginState{
+ String? message ;
+
+ LoginStateError({this.message});
+}

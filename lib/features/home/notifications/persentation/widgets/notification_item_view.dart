@@ -6,7 +6,6 @@ import 'package:medical_valley/features/home/notifications/data/models/notificat
 import 'package:medical_valley/features/home/notifications/persentation/widgets/circle_image_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:medical_valley/my_custom_images_icons.dart';
 class NotificationView extends StatelessWidget {
   final NotificationModel notificationModel ;
   const NotificationView({required this.notificationModel , Key? key}) : super(key: key);
@@ -42,13 +41,13 @@ class NotificationView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(notificationModel.statusName , style: AppStyles.baloo2FontWith600WeightAnd18Size.copyWith(color: blackColor),),
-                    Text(notificationModel.notificationTime , style: AppStyles.baloo2FontWith400WeightAnd12Size,),
+                    Text(notificationModel.providerName ?? "", style: AppStyles.baloo2FontWith600WeightAnd18Size.copyWith(color: blackColor),),
+                    Text(notificationModel.notificationActionStr ?? "" , style: AppStyles.baloo2FontWith400WeightAnd12Size,),
 
                   ],
                 ),
                 SizedBox(height: 0.h,),
-                Text(notificationModel.description ,overflow: TextOverflow.ellipsis,
+                Text(notificationModel.englishText ?? "" ,overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: AppStyles.baloo2FontWith500WeightAnd15Size.copyWith(color: textGrey),),
 
@@ -69,17 +68,7 @@ class NotificationView extends StatelessWidget {
             closeThreshold:.1,
           motion: const DrawerMotion(),
           children: [
-            SlidableAction(
-              flex: 1,
-              onPressed:  (c){
-              },
-              padding:bigPaddingH,
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(13), bottomRight:Radius.circular(13), ),
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              icon: MyCustomImages.delete,
 
-            ),
           ],
         ),
 

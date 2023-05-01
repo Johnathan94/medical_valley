@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:medical_valley/core/failures/failures.dart';
-import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/negotiate_model.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/negotiate_reponse.dart';
@@ -21,7 +18,6 @@ abstract class NegotiateRepo {
   Future<Either<Failure , Unit>> negotiate(List<int?> offerIds) async {
     try
      {
-       Map<String, dynamic> currentUser = LocalStorageManager.getUser();
        var result = await client.negotiate(NegotiateModel(
          data: offerIds.map((int? e) => NegotiateData(offerId: e)).toList()
        ));

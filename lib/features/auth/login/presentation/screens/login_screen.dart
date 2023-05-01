@@ -113,12 +113,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     }
                     else {
+                      var errorState = (state as LoginStateError);
                       LoadingDialogs.hideLoadingDialog();
                       CoolAlert.show(
                         context: context,
                         autoCloseDuration: const Duration(seconds: 1),
                         type: CoolAlertType.error,
-                        text: AppLocalizations.of(context)!.invalid_phone_number,
+                        text: errorState.message ?? AppLocalizations.of(context)!.invalid_phone_number,
                       );
 
                     }

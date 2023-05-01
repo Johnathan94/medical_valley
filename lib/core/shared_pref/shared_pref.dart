@@ -10,11 +10,19 @@ class LocalStorageManager {
   static saveUser (Map<String, dynamic> userDate)async{
     await sharedPreferences.setString("user", jsonEncode(userDate));
   }
-  static Map<String , dynamic > getUser (){
+  static saveToken (String token)async{
+    await sharedPreferences.setString("token", token);
+  }
+  static Map<String , dynamic >? getUser (){
     String user = sharedPreferences.getString("user") ?? "";
+
     Map<String , dynamic > currentUser = {} ;
-    currentUser =  jsonDecode(user);
-    return currentUser;
+    if(user != "") {
+      currentUser =  jsonDecode(user);
+      return currentUser;
+    }
+    return null;
+
   }
   static saveNegotiationCount ()async{
     await sharedPreferences.setInt("nego_count", getNegotiationCount()+1);

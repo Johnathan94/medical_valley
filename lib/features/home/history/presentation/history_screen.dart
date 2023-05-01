@@ -12,6 +12,7 @@ import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/history/data/clinic_model.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
@@ -32,7 +33,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   HistoryBloc historyBloc = getIt.get<HistoryBloc>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   BehaviorSubject<int> sortOption = BehaviorSubject();
-  Map<String , dynamic > currentUser = {} ;
+  late UserDate currentUser  ;
   final PagingController<int, HistoryItem> pagingController =
   PagingController(firstPageKey: 1);
   int nextPage = 1 ;
@@ -48,7 +49,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       historyBloc.getAllHistoryNegotiations(nextPage, 10);
 
     });
-    currentUser = LocalStorageManager.getUser();
+    currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
     super.initState();
   }
 
@@ -67,7 +68,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             height: appBarIconHeight.h,
           ),
           isTwoLineTitle: true,
-          isSearchableAppBar: false, username: currentUser["data"]["data"]["fullName"], context: context,
+          isSearchableAppBar: false, username: currentUser.fullName ?? "", context: context,
           onBackPressed: (){},
         ),
         body: BlocBuilder<HistoryBloc, HistoryState>(

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,6 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   late String categoryTitle;
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
 
-  Map<String, dynamic> currentUser = {};
 
   final PagingController<int, Service> pagingController =
       PagingController(firstPageKey: 1);
@@ -51,7 +49,6 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   initState() {
     categoryTitle = widget.categoryName;
     homeBloc.getServices(widget.categoryId, nextPage, 10);
-    currentUser = LocalStorageManager.getUser();
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
@@ -163,7 +160,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  Map<String, dynamic> result = LocalStorageManager.getUser();
+                  Map<String, dynamic> result = LocalStorageManager.getUser()!;
                   bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
                       categoryId: widget.categoryId,

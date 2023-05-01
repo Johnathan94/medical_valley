@@ -12,6 +12,7 @@ import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
@@ -205,12 +206,12 @@ Widget _buildDefaultSingleDatePickerWithValue() {
         margin: mediumPaddingHV.r,
         child: PrimaryButton(
           onPressed: () {
-            Map<String, dynamic> result = LocalStorageManager.getUser();
+            UserDate result = UserDate.fromJson(LocalStorageManager.getUser()!);
             bookRequestBloc.requestBook(BookRequestModel(
                 serviceId: widget.services.id!,
                // categoryId: widget.services.categoryName!,
                 bookingTypeId: 3,
-                userId: result["id"],
+                userId: result.id!,
               appointmentDate: _getValueText(
                 config.calendarType,
                 _singleDatePickerValueWithDefaultValue,

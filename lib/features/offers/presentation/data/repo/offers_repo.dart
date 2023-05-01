@@ -1,9 +1,9 @@
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:medical_valley/core/failures/failures.dart';
 import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/offers_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/offers_response.dart';
 
@@ -19,8 +19,8 @@ abstract class OffersRepo {
   Future<Either<Failure , OffersResponse>> getOffers(int page , int pageSize , int serviceId , int categoryId) async {
     try
      {
-       Map<String , dynamic > currentUser = LocalStorageManager.getUser();
-       var result = await client.getOffers(page, pageSize, serviceId, categoryId,currentUser["data"]["data"]["id"]);
+       UserDate  currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
+       var result = await client.getOffers(page, pageSize, serviceId, categoryId,currentUser.id!);
        OffersResponse response = OffersResponse.fromJson(result);
        if(response.responseCode==200){
         return  getDistances(response);
