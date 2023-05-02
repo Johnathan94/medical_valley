@@ -19,6 +19,7 @@ import 'package:medical_valley/core/widgets/custom_text_field.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
+import 'package:medical_valley/features/auth/phone_verification/persentation/screens/phone_verification.dart';
 import 'package:medical_valley/features/auth/register/data/model/register_request_model.dart';
 import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_bloc.dart';
 import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_state.dart';
@@ -114,7 +115,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                          text: AppLocalizations.of(context)!.success_registered,
                        );
                        Future.delayed(const Duration(seconds: 2) , (){
-                         navigateToLoginScreen();
+                         navigateToOtpScreen(state.mobile??'');
                        });
                     }
                   else if (state is RegisterStateError){
@@ -408,9 +409,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
+  navigateToOtpScreen(String mobile) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) =>  PhoneVerificationScreen(mobile: mobile)));
+  }
   navigateToLoginScreen() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
+        .push(MaterialPageRoute(builder: (context) =>  LoginScreen()));
   }
 }
 

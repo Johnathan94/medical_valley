@@ -14,7 +14,7 @@ void registerUser (RegisterEvent event )async{
           (l) {
       emit(RegisterStateError((l as ServerFailure).error));
   }, (r) {
-    emit(RegisterStateSuccess());
+    emit(RegisterStateSuccess(r));
   }
   );
 }

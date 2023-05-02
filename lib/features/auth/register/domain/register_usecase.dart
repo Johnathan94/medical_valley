@@ -5,7 +5,7 @@ import 'package:medical_valley/features/auth/register/data/model/register_reques
 import 'package:medical_valley/features/auth/register/data/repo/register_repo.dart';
 
 abstract class RegisterUseCase {
-  Future<Either<Failure , Unit>> registerUser (RegisterRequestModel model);
+  Future<Either<Failure , String>> registerUser (RegisterRequestModel model);
 }
  class RegisterUseCaseImpl extends RegisterUseCase{
   RegisterUserRepo registerUserRepo ;
@@ -13,7 +13,7 @@ abstract class RegisterUseCase {
   RegisterUseCaseImpl(this.registerUserRepo);
 
   @override
-  Future<Either<Failure, Unit>> registerUser(RegisterRequestModel model) async{
+  Future<Either<Failure, String>> registerUser(RegisterRequestModel model) async{
     return await registerUserRepo.register(model);
   }
 
