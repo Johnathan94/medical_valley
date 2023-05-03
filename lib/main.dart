@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,21 +12,28 @@ import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/strings/urls.dart';
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
-class MyHttpOverrides extends HttpOverrides{
+
+import 'firebase_options.dart';
+
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
-void main()async {
+
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
   configureDependencies();
   runApp(const MyApp());
   await LocationServiceProvider.determinePosition();
-
 }
 
 class MyApp extends StatelessWidget {
