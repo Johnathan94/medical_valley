@@ -62,7 +62,7 @@ dependencies:
   infinite_scroll_pagination: ^3.1.0
   geolocator: ^9.0.2
   flutter_spinkit:
-  firebase_core:
+  firebase_core: ^2.8.0
 
 dev_dependencies:
   flutter_test:
