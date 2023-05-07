@@ -139,7 +139,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
           onPressed: () {
             code.length ==  6 ?
             otpBloc.verifyOtp(code, widget.mobile):
-            context.showSnackBar("you must write 6 digits ");
+            context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
           child: Center(
             child: Text(

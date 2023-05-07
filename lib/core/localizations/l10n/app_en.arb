@@ -10,6 +10,7 @@
   "description": "Description",
     "most_recent" : "Most recent",
       "services": "Services",
+      "otp_error": "you must write 6 digits ",
 
     "oldest" : "Oldest",
     "pending_nego" : "Pending negotiations",

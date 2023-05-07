@@ -12,6 +12,7 @@
     "description": "الوصف",
           "services": "الخدمات",
   "most_recent" : "الاحدث",
+  "otp_error" : "يجب ان تكتب ٦ ارقام",
       "oldest" : "الاقدم",
       "input_your_problem": "أدخل مشكلتك",
         "input": "إدخال",

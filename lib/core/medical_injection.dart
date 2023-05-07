@@ -31,6 +31,10 @@ import 'package:medical_valley/features/home/home_search_screen/persentation/blo
 import 'package:medical_valley/features/home/notifications/data/api/categories_client.dart';
 import 'package:medical_valley/features/home/notifications/domain/get_notification_use_case.dart';
 import 'package:medical_valley/features/home/notifications/persentation/screens/bloc/notification_bloc.dart';
+import 'package:medical_valley/features/info/data/medical_file_api.dart';
+import 'package:medical_valley/features/info/domain/get_medical_file_use_case.dart';
+import 'package:medical_valley/features/info/domain/set_medical_file_use_case.dart';
+import 'package:medical_valley/features/info/presentation/bloc/medical_file_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/api_service/offers_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_repo.dart';
@@ -50,6 +54,8 @@ configureDependencies (){
   getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
   getIt.registerFactory(() => ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
   getIt.registerFactory(() => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
+  getIt.registerFactory(() => MedicalFileBloc(GetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio())),
+      SetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getDio()))));
 

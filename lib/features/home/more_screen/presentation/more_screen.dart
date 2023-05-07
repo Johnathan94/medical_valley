@@ -16,6 +16,7 @@ import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/home/contact_us/contact_us.dart';
 import 'package:medical_valley/features/home/more_screen/widget/profile_image.dart';
+import 'package:medical_valley/features/info/presentation/info_screen.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
 
@@ -41,7 +42,9 @@ class MoreScreen extends StatelessWidget {
                 width: screenWidth,
                 height: 270.h,
                 decoration: const BoxDecoration(color: Colors.transparent),
-                child: const ProfileImage(),
+                child: GestureDetector(
+                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (c)=>const InfoScreen())),
+                    child: const ProfileImage()),
               ),
             ],
           ),
