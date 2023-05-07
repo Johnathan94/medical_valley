@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,6 +16,10 @@ import 'package:medical_valley/core/strings/urls.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/language_state.dart';
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
+
+import 'firebase_options.dart';
+
+class MyHttpOverrides extends HttpOverrides {
 LanguageBloc languageBloc = LanguageBloc();
 
 class MyHttpOverrides extends HttpOverrides{
@@ -24,7 +29,11 @@ class MyHttpOverrides extends HttpOverrides{
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
-void main()async {
+
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
