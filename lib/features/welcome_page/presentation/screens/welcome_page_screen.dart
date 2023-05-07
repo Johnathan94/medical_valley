@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
 import '../../../../core/strings/images.dart';
-import '../../../../core/widgets/no_internet_connection_widget.dart';
 
 class WelcomePageScreen extends StatefulWidget {
   const WelcomePageScreen({Key? key}) : super(key: key);
@@ -108,6 +108,6 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
 
   void navigateToHomeScreen() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const NoInternetConnectionWidget()));
+        builder: (context) => const HomeBaseStatefulWidget()));
   }
 }

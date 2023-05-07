@@ -6,6 +6,7 @@
     "sign_up_with_apps" : "Sign up with : ",
     "already_have_account" : "Already have an account ? ",
     "email" : "Email",
+  "invalid_otp": "Invalid Otp",
     "most_recent" : "Most recent",
     "oldest" : "Oldest",
     "pending_nego" : "Pending negotiations",

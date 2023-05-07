@@ -8,6 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 
 import '../../../../../core/app_sizes.dart';
@@ -79,7 +81,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                     context: context,
                     autoCloseDuration: const Duration(seconds: 1),
                     type: CoolAlertType.error,
-                    text: AppLocalizations.of(context)!.invalid_phone_number,
+                    text: AppLocalizations.of(context)!.invalid_otp,
                   );
 
                 }
@@ -100,18 +102,25 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       style: AppStyles.baloo2FontWith400WeightAnd25Size,
     );
   }
-
+  String code = "";
   buildOtpField() {
-    return OtpTextField(
-      fieldWidth: otpFieldWidth.w,
-      numberOfFields: otpFieldNumber,
-      borderWidth: otpFieldBorderWidth.w,
-      enabledBorderColor: greyWith80Percentage,
-      focusedBorderColor: primaryColor,
-      borderRadius:
-          const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
-      showFieldAsBox: true,
-    );
+    return
+      Directionality(
+        textDirection: LocalStorageManager.getCurrentLanguage() =="ar" ? TextDirection.rtl : TextDirection.ltr,
+        child : OtpTextField(
+        fieldWidth: otpFieldWidth.w,
+        numberOfFields: otpFieldNumber,
+        borderWidth: otpFieldBorderWidth.w,
+        enabledBorderColor: greyWith80Percentage,
+        focusedBorderColor: primaryColor,
+        onSubmit: (String text){
+          code = text;
+        },
+        borderRadius:
+            const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
+        showFieldAsBox: true,
+    ),
+      );
   }
 
   buildConfirmButton(BuildContext context) {
@@ -128,7 +137,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            otpBloc.verifyOtp("846579", widget.mobile);
+            code.length ==  6 ?
+            otpBloc.verifyOtp(code, widget.mobile):
+            context.showSnackBar("you must write 6 digits ");
           },
           child: Center(
             child: Text(

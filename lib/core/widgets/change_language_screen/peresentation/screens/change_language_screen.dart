@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
+import 'package:medical_valley/main.dart';
+
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../app_initialized.dart';
 import '../../data/models/language_model.dart';
-import '../blocks/chnage_language_block.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   const ChangeLanguageScreen({Key? key}) : super(key: key);
@@ -17,14 +17,32 @@ class ChangeLanguageScreen extends StatefulWidget {
 }
 
 class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
-  late BehaviorSubject<List<LanguageModel>> _languages = BehaviorSubject();
-  LanguageBloc? _bloc;
+  final BehaviorSubject<LanguageModel> _languages = BehaviorSubject();
 
   @override
   initState() {
-    _languages.sink.add(AppInitializer.languages);
-    _bloc = BlocProvider.of<LanguageBloc>(context);
-
+    var currentLanguage = LocalStorageManager.getCurrentLanguage();
+    switch(currentLanguage){
+      case "":
+        lang = [
+          LanguageModel(0 ,"English ", "English Language", true),
+          LanguageModel(1 ,"Arabic ", "اللغه العربيه", false ),
+        ];
+        break ;
+      case "en":
+        lang = [
+          LanguageModel(0 ,"English ", "English Language", true ),
+          LanguageModel(1 ,"Arabic ", "اللغه العربيه", false ),
+        ];
+        break ;
+      case "ar":
+        lang = [
+          LanguageModel(0 ,"English ", "English Language", false ),
+          LanguageModel(1 ,"Arabic ", "اللغه العربيه", true ),
+        ];
+        break ;
+    }
+    _languages.sink.add(lang.first);
     super.initState();
   }
 
@@ -56,32 +74,37 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   }
 
   getBody() {
-    return StreamBuilder<List<LanguageModel>>(
-        stream: _languages,
+    return StreamBuilder<LanguageModel>(
+        stream: _languages.stream,
         builder: (context, snapshot) {
           return ListView.builder(
               shrinkWrap: true,
-              itemCount: snapshot.data?.length,
+              itemCount: lang.length,
               padding:
-                  const EdgeInsetsDirectional.only(start: 25, end: 25, top: 18),
+              const EdgeInsetsDirectional.only(start: 25, end: 25, top: 18),
               itemBuilder: (context, index) {
-                return buildPaymentItem(snapshot.data![index]);
+                return buildLangItem(lang[index]);
               });
         });
   }
 
-  buildPaymentItem(LanguageModel language) {
+  buildLangItem(LanguageModel language) {
     return Padding(
       padding: const EdgeInsets.only(top: 22.0),
       child: Column(
         children: [
           InkWell(
-            onTap: () => {changeLanguage()},
+            onTap: () async{
+              await changeLanguage(language);
+            },
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(language.title),
                     Padding(
@@ -92,13 +115,14 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                 ),
                 language.checked
                     ? Container(
-                        decoration: const BoxDecoration(
-                            color: greenCheckBox,
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: const Icon(
-                          Icons.check_box,
-                        ),
-                      )
+                  decoration: const BoxDecoration(
+                      color: greenCheckBox,
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                )
                     : Container()
               ],
             ),
@@ -114,10 +138,21 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
       ),
     );
   }
-
-  changeLanguage() {
-    List<LanguageModel> lang = _languages.value;
-    lang.forEach((e) => e.checked = !e.checked);
-    _languages.sink.add(lang);
+  List<LanguageModel> lang = [];
+  changeLanguage(LanguageModel language) async{
+    if(!language.checked) {
+      for (var e in lang) {
+        e.checked = !e.checked;
+      }
+      _languages.sink.add(language);
+      var nextLocale = getNextLocale(language);
+      await LocalStorageManager.saveCurrentLanguage(nextLocale.languageCode);
+      languageBloc.changeLanguage(nextLocale);
+    }
+  }
+  Locale getNextLocale (LanguageModel language){
+    return language.id == 1 ?
+    const Locale("ar") :
+    const Locale("en");
   }
 }

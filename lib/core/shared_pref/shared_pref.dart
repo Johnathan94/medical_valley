@@ -22,7 +22,12 @@ class LocalStorageManager {
       return currentUser;
     }
     return null;
-
+  }
+  static Future saveCurrentLanguage (String locale)async{
+    await sharedPreferences.setString("locale", locale);
+  }
+  static String getCurrentLanguage (){
+    return sharedPreferences.getString("locale") ?? "";
   }
   static saveNegotiationCount ()async{
     await sharedPreferences.setInt("nego_count", getNegotiationCount()+1);
