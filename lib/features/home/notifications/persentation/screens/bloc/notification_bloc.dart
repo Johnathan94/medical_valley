@@ -9,6 +9,7 @@ class NotificationBloc extends Cubit<NotificationState>{
     getNotifications ()async{
       try
       {
+        emit(NotificationStateLoading());
        var result =  await getNotificationUseCase.getNotification();
        result.fold((l) => emit(NotificationStateError(l.error ?? "")), (r) => emit(NotificationStateSuccess(r)));
       }

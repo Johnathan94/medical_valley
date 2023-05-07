@@ -61,53 +61,72 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: buildAppBar(),
-        body: BlocListener<BookRequestBloc, BookRequestState>(
-          bloc: bookRequestBloc,
-          listener: (context, state) {
-            if (state.state == BookedState.loading) {
-              Navigator.pop(context);
-              LoadingDialogs.showLoadingDialog(context);
-            } else if (state.state == BookedState.success) {
-              LoadingDialogs.hideLoadingDialog();
-              CoolAlert.show(
-                barrierDismissible: false,
-                context: context,
-                autoCloseDuration: const Duration(seconds: 1),
-                type: CoolAlertType.success,
-                text: AppLocalizations.of(context)!.booked_successed,
-              );
-              Future.delayed(const Duration(seconds: 2), () async {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (c) => OffersScreen(
-                          serviceId: state.serviceId ?? 1,
-                          categoryId: state.categoryId ?? 1,
-                        )));
-              });
-            } else {
-              LoadingDialogs.hideLoadingDialog();
-              CoolAlert.show(
-                barrierDismissible: false,
-                context: context,
-                autoCloseDuration: const Duration(seconds: 1),
-                type: CoolAlertType.error,
-                text: state.error,
-              );
+    return DefaultTabController(
 
-            }
-          },
-          child: buildBody(),
-        ));
+      length: 2,
+      child: Scaffold(
+          appBar: buildAppBar(),
+          body: TabBarView(
+            children: [
+              BlocListener<BookRequestBloc, BookRequestState>(
+                bloc: bookRequestBloc,
+                listener: (context, state) {
+                  if (state.state == BookedState.loading) {
+                    Navigator.pop(context);
+                    LoadingDialogs.showLoadingDialog(context);
+                  } else if (state.state == BookedState.success) {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      autoCloseDuration: const Duration(seconds: 1),
+                      type: CoolAlertType.success,
+                      text: AppLocalizations.of(context)!.booked_successed,
+                    );
+                    Future.delayed(const Duration(seconds: 2), () async {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => OffersScreen(
+                                serviceId: state.serviceId ?? 1,
+                                categoryId: state.categoryId ?? 1,
+                              )));
+                    });
+                  } else {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      autoCloseDuration: const Duration(seconds: 1),
+                      type: CoolAlertType.error,
+                      text: state.error,
+                    );
+
+                  }
+                },
+                child: buildBody(),
+              ),
+              Container(
+
+                  alignment:Alignment.center,
+                  child: Text("Description")),
+            ],
+          )),
+    );
   }
 
   buildAppBar() {
     return AppBar(
       title: Text(categoryTitle),
       centerTitle: true,
+      bottom:  TabBar(
+        indicatorColor: Colors.white, //<-- SEE HERE
+        tabs:  [
+          Tab(text: AppLocalizations.of(context)!.services,),
+          Tab(text: AppLocalizations.of(context)!.description,),
+        ],
+      ),
       leading: InkWell(
         onTap: () => Navigator.pop(context),
         child: const Icon(

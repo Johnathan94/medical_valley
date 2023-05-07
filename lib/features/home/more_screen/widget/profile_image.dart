@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 class ProfileImage extends StatelessWidget {
   const ProfileImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var userDate = UserDate.fromJson(LocalStorageManager.getUser()!);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -21,7 +24,7 @@ class ProfileImage extends StatelessWidget {
             )
           ),
         ),
-        Text("Hossam Saed" , style: AppStyles.baloo2FontWith700WeightAnd25Size.copyWith(color: whiteColor)  ,)
+        Text(userDate.fullName ?? "" , style: AppStyles.baloo2FontWith700WeightAnd25Size.copyWith(color: whiteColor)  ,)
       ],
     );
   }

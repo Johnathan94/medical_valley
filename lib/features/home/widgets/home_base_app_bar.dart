@@ -16,6 +16,7 @@ class CustomHomeAppBar extends AppBar {
   final String username;
   final String? searchHint;
   final Widget leadingIcon;
+  final PreferredSizeWidget? bottom;
   final BuildContext context;
   final TextEditingController controller ;
   final Function (String? text)? onSubmit ;
@@ -31,6 +32,7 @@ class CustomHomeAppBar extends AppBar {
       required this.username,
       required this.context,
       required this.onBackPressed,
+         this.bottom,
        this.onSubmit,
       required this.isTwoLineTitle,
       Key? key})
@@ -38,6 +40,7 @@ class CustomHomeAppBar extends AppBar {
             key: key,
             elevation: 0,
             leading: Container(),
+            bottom: bottom ,
             centerTitle: false,
             titleSpacing: appBarTitleNegativeMargin,
             title: Column(

@@ -9,6 +9,8 @@
   "yes": "نعم",
   "no": "لا",
   "invalid_otp": "كود غير صحيح",
+    "description": "الوصف",
+          "services": "الخدمات",
   "most_recent" : "الاحدث",
       "oldest" : "الاقدم",
       "input_your_problem": "أدخل مشكلتك",

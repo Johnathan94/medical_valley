@@ -66,7 +66,6 @@ class HomeState extends State<HomeSearchScreen> {
       child: getHomeScreenWidget(),
     );
   }
-  BehaviorSubject<bool> gridSubject = BehaviorSubject.seeded(true);
   getHomeScreenWidget() {
     return Container(
       margin: const EdgeInsetsDirectional.only(
@@ -74,48 +73,6 @@ class HomeState extends State<HomeSearchScreen> {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children:  [
-              GestureDetector(
-                  onTap: ()=> gridSubject.sink.add(true),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.all(8),
-                      decoration:  BoxDecoration(
-
-                        color: Colors.white,
-                        borderRadius:  BorderRadius.circular(8),
-                        boxShadow:  const [
-                          BoxShadow(
-                            color:shadowGrey,
-                            offset: Offset(2, 2),
-                            spreadRadius: 1,
-                            blurRadius: 5
-                          )
-                        ]
-                      ),
-                      child: const Icon(Icons.grid_4x4 , color: primaryColor,size: 25,))) ,
-              GestureDetector(
-                  onTap: ()=> gridSubject.sink.add(false),
-                  child: Container(
-                      padding: const EdgeInsets.all(8),
-                      margin: const EdgeInsets.all(8),
-                      decoration:  BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:  BorderRadius.circular(8),
-                          boxShadow:  const [
-                            BoxShadow(
-                                color:shadowGrey,
-                                offset: Offset(2, 2),
-                                spreadRadius: 1,
-                                blurRadius: 5
-                            )
-                          ]
-                      ),
-                      child: const Icon(Icons.list,color: primaryColor))),
-            ],
-          ),
           buildHomeTitle(),
           Expanded(child: buildHomeTitleGridView()),
           const SizedBox(
@@ -146,36 +103,14 @@ class HomeState extends State<HomeSearchScreen> {
          }
       }
       },
-      child: StreamBuilder<bool>(
-        stream: gridSubject.stream,
-        builder: (context, snapshot) {
-          return gridSubject.value ?
-           PagedGridView<int , Service>(
-              builderDelegate: PagedChildBuilderDelegate<Service>(
-                itemBuilder: (c , item , index){
-                  return Center(
-                    child: buildHomeModelItem(item),
-                  );
-                }
-              ),
-              pagingController: pagingController,
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 1,
-              mainAxisSpacing: 1,
-              childAspectRatio: MediaQuery.of(context).size.aspectRatio * 3
-            ),
-              ) :
-          PagedListView<int , Service>(
+      child: PagedListView<int , Service>(
             builderDelegate: PagedChildBuilderDelegate<Service>(
                 itemBuilder: (c , item , index){
                   return buildSearchModelsItem(context , item ,index );
                 }
             ),
             pagingController: pagingController,
-          );
-        }
-      ),
+          )
     );
   }
 
