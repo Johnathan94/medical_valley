@@ -64,6 +64,8 @@ dependencies:
   flutter_spinkit:
   firebase_core: ^2.8.0
   equatable: ^2.0.5
+  network_logger: ^1.0.2
+
 
 
 dev_dependencies:

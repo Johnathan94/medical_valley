@@ -8,6 +8,7 @@ import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
+import 'package:network_logger/network_logger.dart';
 
 import '../../../../core/app_colors.dart';
 
@@ -21,6 +22,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    NetworkLoggerOverlay.attachTo(context,);
     Future.delayed(const Duration(seconds: 1), () async{
       await AppInitializer.initializeAppWithContext(context);
       if(LocalStorageManager.getUser() == null){

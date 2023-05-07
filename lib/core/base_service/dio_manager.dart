@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:medical_valley/core/base_service/flavors.dart';
+import 'package:network_logger/network_logger.dart';
 
 class DioManager {
   static  Dio? _dio ;
@@ -9,6 +10,7 @@ class DioManager {
     if(_dio == null ){
       _dio = Dio(BaseOptions(baseUrl: FlavorManager.currentFlavor.baseUrl));
       _dio!.interceptors.add(APIsInterceptors());
+      _dio!.interceptors.add(DioNetworkLogger());
     }
     return _dio!;
  }

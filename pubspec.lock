@@ -661,6 +661,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  network_logger:
+    dependency: "direct main"
+    description:
+      name: network_logger
+      sha256: ba650fb3c13046ce17d898c857eb94d7b9abe102e90d70e45f4a7aa921cd319c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   package_config:
     dependency: transitive
     description:

@@ -8,6 +8,7 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/calender_screen.dart';
@@ -160,12 +161,11 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  Map<String, dynamic> result = LocalStorageManager.getUser()!;
-                  bookRequestBloc.requestBook(BookRequestModel(
+                  UserDate  result = UserDate.fromJson(LocalStorageManager.getUser()!)  ;                bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
                       categoryId: widget.categoryId,
                       bookingTypeId: id,
-                      userId: result["data"]["data"]["id"]));
+                      userId: result.id));
                 }
               },
               onScheduledPressed: () {

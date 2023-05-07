@@ -30,9 +30,12 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
