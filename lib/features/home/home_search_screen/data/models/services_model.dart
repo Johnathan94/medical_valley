@@ -106,6 +106,7 @@ class Service {
   String? categoryStr;
   int? userId;
   String? providerStr;
+  bool? isProviderService;
   List<String>? providerServices;
 
   Service(
@@ -127,6 +128,7 @@ class Service {
         this.serviceEstTimeInMin,
         this.categoryId,
         this.categoryStr,
+        this.isProviderService,
         this.userId,
         this.providerStr,
         this.providerServices});
@@ -137,6 +139,7 @@ class Service {
     arabicName = json['arabicName'];
     price = json['price'];
     dateFrom = json['dateFrom'];
+    isProviderService = json['isProviderService'];
     dateTo = json['dateTo'];
     discount1 = json['discount1'];
     discount2 = json['discount2'];
@@ -180,6 +183,7 @@ class Service {
     data['statusId'] = statusId;
     data['autoReply'] = autoReply;
     data['statusStr'] = statusStr;
+    data['isProviderService'] = isProviderService;
     data['isActive'] = isActive;
     if (serviceDays != null) {
       data['serviceDays'] = serviceDays!.map((v) => v).toList();
