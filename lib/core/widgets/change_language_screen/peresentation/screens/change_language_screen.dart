@@ -116,7 +116,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                 language.checked
                     ? Container(
                   decoration: const BoxDecoration(
-                      color: greenCheckBox,
+                      color: primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                   child: const Icon(
                     Icons.check,
