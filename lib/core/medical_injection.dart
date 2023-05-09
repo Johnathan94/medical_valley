@@ -41,6 +41,10 @@ import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_
 import 'package:medical_valley/features/offers/presentation/data/repo/offers_repo.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
+import 'package:medical_valley/features/profile/data/user_api.dart';
+import 'package:medical_valley/features/profile/domain/get_user_use_case.dart';
+import 'package:medical_valley/features/profile/domain/update_user_use_case.dart';
+import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
 final getIt = GetIt.instance;
 
 configureDependencies (){
@@ -58,5 +62,7 @@ configureDependencies (){
       SetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getDio()))));
+ getIt.registerFactory(() =>
+      UserProfileBloc(GetUserUseCaseImpl(UserClient(DioManager.getDio())),UpdateUserUseCaseImpl((UserClient(DioManager.getDio())))));
 
 }

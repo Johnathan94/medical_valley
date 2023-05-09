@@ -210,7 +210,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               underline: const SizedBox(),
                               buttonDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: whiteRed100,
+                                  color: textFieldBg,
                                   border: Border.all(color: primaryColor)
                               ),
                               buttonElevation: 2,
@@ -278,7 +278,8 @@ class _InfoScreenState extends State<InfoScreen> {
               nationalId :nationalIdController.text,
               insuranceNumber:model.insuranceNumber,
               birthDate:birthDateController.text,
-              genderId: genderDisplayed.value == AppLocalizations.of(context)!.male ?1 :2
+              genderId:
+              genderDisplayed.value == AppLocalizations.of(context)!.male ?1 :2
           ));
         },
       ),
