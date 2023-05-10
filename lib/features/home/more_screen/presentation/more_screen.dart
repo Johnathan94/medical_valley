@@ -234,6 +234,7 @@ class MoreScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -252,6 +253,7 @@ class MoreScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
