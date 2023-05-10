@@ -118,6 +118,7 @@ flutter:
     - assets/images/transparent_app_icon.png
     - assets/images/no_internet_icon.png
     - assets/images/setting_icon.png
+    - assets/images/medical_file.png
     - assets/data.json
 
   #    - assets/images/1.0x/

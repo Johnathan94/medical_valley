@@ -33,6 +33,7 @@ const personImage = "${imagesPath}person.png";
 const insuranceIcon = "${imagesPath}insurance.png";
 const saudiIcon = "${imagesPath}saudi.png";
 const emailGreyIcon = "${imagesPath}email.png";
+const medicalFileIcon = "${imagesPath}medical_file.png";
 
 const searchIcon = "${svgImagesPath}search.svg";
 const arrowRightIcon = "${svgImagesPath}arrow_right.svg";

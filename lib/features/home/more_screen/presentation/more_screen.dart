@@ -16,9 +16,10 @@ import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/home/contact_us/contact_us.dart';
 import 'package:medical_valley/features/home/more_screen/widget/profile_image.dart';
-import 'package:medical_valley/features/profile/presentation/profile_screen.dart';
+import 'package:medical_valley/features/info/presentation/info_screen.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
+import '../../../profile/presentation/profile_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class MoreScreen extends StatelessWidget {
                 height: 270.h,
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: GestureDetector(
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (c)=>const ProfileScreen())),
+                    onTap: () => openMoreDialog(context),
                     child: const ProfileImage()),
               ),
             ],
@@ -144,7 +145,10 @@ class MoreScreen extends StatelessWidget {
                     endIndent: 8,
                   ),
                   ListTile(
-                    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (c)=>const TermsAndConditionsScreen())),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const TermsAndConditionsScreen())),
                     leading: const IconBG(
                       color: Color(0xffFE01C3),
                       image: Icons.list_alt_rounded,
@@ -178,7 +182,10 @@ class MoreScreen extends StatelessWidget {
                       Icons.arrow_forward_ios,
                       color: greyWith80Percentage,
                     ),
-                    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> const ContactUsScreen())),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ContactUsScreen())),
                   ),
                 ],
               ),
@@ -188,21 +195,22 @@ class MoreScreen extends StatelessWidget {
             padding: mediumPaddingHV,
             child: PrimaryButton(
               buttonCornerRadius: 22,
-              onPressed: () async{
+              onPressed: () async {
                 LoadingDialogs.showLoadingDialog(context);
-               await LocalStorageManager.remove();
-               LoadingDialogs.hideLoadingDialog();
-               CoolAlert.show(
-                 barrierDismissible: false,
-                 context: context,
-                 autoCloseDuration: const Duration(seconds: 1),
-                 type: CoolAlertType.success,
-                 text: AppLocalizations.of(context)!.success_logout,
-               );
-               Future.delayed(const Duration(seconds: 2), ()async{
-                 await LocalStorageManager.deleteUser();
-                 Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
-               });
+                await LocalStorageManager.remove();
+                LoadingDialogs.hideLoadingDialog();
+                CoolAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  type: CoolAlertType.success,
+                  text: AppLocalizations.of(context)!.success_logout,
+                );
+                Future.delayed(const Duration(seconds: 2), () async {
+                  await LocalStorageManager.deleteUser();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => LoginScreen()));
+                });
               },
               text: AppLocalizations.of(context)!.sign_out,
             ),
@@ -210,6 +218,63 @@ class MoreScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> openMoreDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return /**/ SimpleDialog(
+            children: <Widget>[
+              SimpleDialogOption(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (c) => const ProfileScreen()));
+                      },
+                      child: Container(
+                        width: 90.w,
+                        height: 90.w,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="),
+                                fit: BoxFit.cover)),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (c) => const InfoScreen()));
+                      },
+                      child: Container(
+                        width: 79.w,
+                        height: 79.w,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                  medicalFileIcon,
+                                ),
+                                fit: BoxFit.cover)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
 
