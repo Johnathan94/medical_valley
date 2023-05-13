@@ -6,6 +6,7 @@ class BookRequestModel {
   String? appointmentDate;
   String? appointmentTime;
   String? notes;
+  bool? isProviderService;
 
   BookRequestModel(
       {
@@ -15,6 +16,7 @@ class BookRequestModel {
         this.bookingTypeId,
         this.appointmentDate,
         this.appointmentTime,
+        this.isProviderService,
         this.notes});
 
   BookRequestModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class BookRequestModel {
     bookingTypeId = json['bookingTypeId'];
     appointmentDate = json['appointmentDate'];
     appointmentTime = json['appointmentTime'];
+    isProviderService = json['isProviderService'];
     notes = json['notes'];
   }
 
@@ -35,6 +38,7 @@ class BookRequestModel {
     data['bookingTypeId'] = bookingTypeId;
     data['appointmentDate'] = appointmentDate;
     data['appointmentTime'] = appointmentTime;
+    data['isProviderService'] = isProviderService;
     data['notes'] = notes;
     return data;
   }

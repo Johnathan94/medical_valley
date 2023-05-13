@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
@@ -23,9 +21,12 @@ import '../../../home_search_screen/data/models/services_model.dart';
 
 class CalenderScreen extends StatefulWidget {
   final Service services ;
+  final bool  isProviderService ;
+
   const CalenderScreen(
       {
         required this.services,
+        required this.isProviderService,
         Key? key}) : super(key: key);
 
   @override
@@ -57,7 +58,6 @@ class _CalenderScreenState extends State<CalenderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
         title:Text( AppLocalizations.of(context)!.schedule_an_appointment),
     leading: GestureDetector(
@@ -209,9 +209,10 @@ Widget _buildDefaultSingleDatePickerWithValue() {
             UserDate result = UserDate.fromJson(LocalStorageManager.getUser()!);
             bookRequestBloc.requestBook(BookRequestModel(
                 serviceId: widget.services.id!,
-               // categoryId: widget.services.categoryName!,
+                categoryId: widget.services.categoryId!,
                 bookingTypeId: 3,
                 userId: result.id!,
+              isProviderService: widget.isProviderService,
               appointmentDate: _getValueText(
                 config.calendarType,
                 _singleDatePickerValueWithDefaultValue,

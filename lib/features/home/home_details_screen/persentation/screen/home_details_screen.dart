@@ -180,8 +180,10 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             builder: (context) => AppointmentsBottomSheet(
               onBookRequest: (int id) async {
                 if (id == 1 || id == 2) {
-                  UserDate  result = UserDate.fromJson(LocalStorageManager.getUser()!)  ;                bookRequestBloc.requestBook(BookRequestModel(
+                  UserDate  result = UserDate.fromJson(LocalStorageManager.getUser()!)  ;
+                  bookRequestBloc.requestBook(BookRequestModel(
                       serviceId: service.id!,
+                      isProviderService: service.isProviderService ?? false,
                       categoryId: widget.categoryId,
                       bookingTypeId: id,
                       userId: result.id));
@@ -193,6 +195,8 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                     MaterialPageRoute(
                         builder: (c) => CalenderScreen(
                           services: service,
+                          isProviderService: service.isProviderService ?? false,
+
                         )));
               },
             ));

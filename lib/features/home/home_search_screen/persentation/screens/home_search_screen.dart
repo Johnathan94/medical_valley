@@ -19,7 +19,6 @@ import 'package:medical_valley/features/home/home_search_screen/data/models/serv
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 import 'package:medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
@@ -171,6 +170,7 @@ class HomeState extends State<HomeSearchScreen> {
                       serviceId: service.id!,
                       categoryId: service.categoryId,
                       bookingTypeId: id,
+                      isProviderService: service.isProviderService,
                       userId: result.id));
                 }
               },
@@ -180,6 +180,7 @@ class HomeState extends State<HomeSearchScreen> {
                     MaterialPageRoute(
                         builder: (c) => CalenderScreen(
                           services: service,
+                          isProviderService: service.isProviderService ?? false,
                         )));
               },
             ));
