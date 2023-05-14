@@ -16,9 +16,11 @@ import 'package:medical_valley/features/auth/register/presentation/register_bloc
 import 'package:medical_valley/features/home/contact_us/data/api/contact_us_client.dart';
 import 'package:medical_valley/features/home/contact_us/domain/contact_us_repo.dart';
 import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
-import 'package:medical_valley/features/home/history/data/get_negotiations_api.dart';
-import 'package:medical_valley/features/home/history/domain/get_clinic_usecase.dart';
-import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
+import 'package:medical_valley/features/home/history/data/requests/get_requets_api.dart';
+import 'package:medical_valley/features/home/history/data/reservations/get_reservations_api.dart';
+import 'package:medical_valley/features/home/history/domain/get_requests_usecase.dart';
+import 'package:medical_valley/features/home/history/domain/get_reservations_usecase.dart';
+import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_client.dart';
 import 'package:medical_valley/features/home/home_screen/data/repo/book_request_repo.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
@@ -48,7 +50,7 @@ import 'package:medical_valley/features/profile/presentation/bloc/user_profile_b
 final getIt = GetIt.instance;
 
 configureDependencies (){
-  getIt.registerFactory(() => HistoryBloc(GetHistoryUseCaseImpl(HistoryClient(DioManager.getDio()))));
+  getIt.registerFactory(() => HistoryBloc(GetRequestsUseCaseImpl(UserRequestsClient(DioManager.getDio())),GetReservationsUseCaseImpl(ReservationsClient(DioManager.getDio()))));
   getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
   getIt.registerFactory(() => BookRequestBloc(BookRequestRepo(BookRequestClient())));
   getIt.registerFactory(() => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));

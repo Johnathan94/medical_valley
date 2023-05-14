@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,10 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
-import 'package:medical_valley/features/home/history/data/clinic_model.dart';
-import 'package:medical_valley/features/home/history/presentation/bloc/clinics_bloc.dart';
-import 'package:medical_valley/features/home/history/presentation/bloc/clinics_state.dart';
+import 'package:medical_valley/features/home/history/data/requests/requests_model.dart';
+import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
+import 'package:medical_valley/features/home/history/presentation/bloc/history_state.dart';
+import 'package:medical_valley/features/home/history/presentation/view/reservation_screen.dart';
 import 'package:medical_valley/features/home/history/widgets/filter_view.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -29,25 +29,26 @@ class HistoryScreen extends StatefulWidget {
   State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _HistoryScreenState extends State<HistoryScreen> with SingleTickerProviderStateMixin{
   HistoryBloc historyBloc = getIt.get<HistoryBloc>();
   BehaviorSubject<bool> optionDisplayed = BehaviorSubject();
   BehaviorSubject<int> sortOption = BehaviorSubject();
   late UserDate currentUser  ;
   final PagingController<int, HistoryItem> pagingController =
   PagingController(firstPageKey: 1);
+  late final TabController tabController ;
   int nextPage = 1 ;
   int nextPageKey = 1 ;
   @override
   void initState() {
+    tabController = TabController(length: 3, vsync: this);
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
-    historyBloc.getAllHistoryNegotiations(1, 10);
+    historyBloc.getUserRequests(1, 10);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
-      historyBloc.getAllHistoryNegotiations(nextPage, 10);
-
+      historyBloc.getUserRequests(nextPage, 10);
     });
     currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
     super.initState();
@@ -67,131 +68,149 @@ class _HistoryScreenState extends State<HistoryScreen> {
             width: appBarIconWidth.w,
             height: appBarIconHeight.h,
           ),
+          bottom: TabBar(
+            controller: tabController,
+            indicatorColor: Colors.white, //<-- SEE HERE
+            tabs: [
+              Tab(text: AppLocalizations.of(context)!.requests,),
+              Tab(text: AppLocalizations.of(context)!.negotiations,),
+              Tab(text: AppLocalizations.of(context)!.history,),
+            ],
+          ),
           isTwoLineTitle: true,
           isSearchableAppBar: false, username: currentUser.fullName ?? "", context: context,
           onBackPressed: (){},
         ),
-        body: BlocBuilder<HistoryBloc, HistoryState>(
-            bloc: historyBloc,
-            builder: (context, state) {
-              if (state.states == ActionStates.loading ||
-                  state.states == ActionStates.idle) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
-                );
-              } else if (state.states == ActionStates.success) {
-                  if(state.history?.data?.results!.length == 10){
-                    pagingController.appendPage(state.history!.data!.results!, nextPageKey);
-                  }else {
-                    if(pagingController.value.itemList != state.history?.data?.results!) {
-                      pagingController.appendLastPage(
-                          state.history!.data!.results!);
+        body: TabBarView(
+          controller: tabController,
+          children:[
+            BlocBuilder<HistoryBloc, HistoryState>(
+                bloc: historyBloc,
+                builder: (context, state) {
+                  if (state.states == ActionStates.loading ||
+                      state.states == ActionStates.idle) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    );
+                  } else if (state.states == ActionStates.success) {
+                    if(state.requests?.data?.results!.length == 10){
+                      pagingController.appendPage(state.requests!.data!.results!, nextPageKey);
+                    }else {
+                      if(pagingController.value.itemList != state.requests?.data?.results!) {
+                        pagingController.appendLastPage(
+                            state.requests!.data!.results!);
+                      }
                     }
-                  }
 
-                return Stack(
-                  children: [
-                    Column(
+                    return Stack(
                       children: [
-                        FilterView(onSortTapped: () {
-                          optionDisplayed.sink.add(!optionDisplayed.value);
-                        }),
-                        Expanded(
-                          child: PagedListView<int, HistoryItem>(
-                            pagingController: pagingController,
-                            builderDelegate: PagedChildBuilderDelegate(
-                              itemBuilder: (context, HistoryItem item, index) {
-                                return HistoryCard(item);
-                              },
+                        Column(
+                          children: [
+                            FilterView(onSortTapped: () {
+                              optionDisplayed.sink.add(!optionDisplayed.value);
+                            }),
+                            Expanded(
+                                child: PagedListView<int, HistoryItem>(
+                                  pagingController: pagingController,
+                                  builderDelegate: PagedChildBuilderDelegate(
+                                    itemBuilder: (context, HistoryItem item, index) {
+                                      return HistoryCard(item);
+                                    },
+                                  ),
+                                )
                             ),
-                          )
+                          ],
+                        ),
+                        Positioned(
+                          top: 30.h,
+                          right: 0,
+                          child: StreamBuilder<bool>(
+                              stream: optionDisplayed.stream,
+                              builder: (context, snapshot) {
+                                return optionDisplayed.value
+                                    ? Visibility(
+                                  visible: optionDisplayed.value,
+                                  child: Container(
+                                    padding: smallPaddingAll,
+                                    margin: smallPaddingH,
+                                    height: 180.h,
+                                    width: 250.w,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(width: .2),
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.circular(8)),
+                                    child: StreamBuilder<int>(
+                                        stream: sortOption.stream,
+                                        builder: (context, snapshot) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children:
+                                            AppInitializer.sortChoicesHistory
+                                                .map((e) => Padding(
+                                              padding:
+                                              smallPaddingAll,
+                                              child:
+                                              GestureDetector(
+                                                onTap: () {
+                                                  sortOption.sink.add(
+                                                      AppInitializer
+                                                          .sortChoicesHistory
+                                                          .indexOf(
+                                                          e));
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    Text(AppInitializer
+                                                        .sortChoicesHistory[AppInitializer
+                                                        .sortChoicesHistory
+                                                        .indexOf(e)]
+                                                        .sortOption),
+                                                    sortOption.value ==
+                                                        AppInitializer.sortChoicesHistory.indexOf(
+                                                            e)
+                                                        ? const Icon(Icons
+                                                        .radio_button_checked)
+                                                        : const Icon(
+                                                        Icons.circle_outlined)
+                                                  ],
+                                                ),
+                                              ),
+                                            ))
+                                                .toList(),
+                                          );
+                                        }),
+                                  ),
+                                )
+                                    : SizedBox(
+                                  height: 140.h,
+                                );
+                              }),
                         ),
                       ],
-                    ),
-                    Positioned(
-                      top: 30.h,
-                      right: 0,
-                      child: StreamBuilder<bool>(
-                          stream: optionDisplayed.stream,
-                          builder: (context, snapshot) {
-                            return optionDisplayed.value
-                                ? Visibility(
-                                    visible: optionDisplayed.value,
-                                    child: Container(
-                                      padding: smallPaddingAll,
-                                      margin: smallPaddingH,
-                                      height: 180.h,
-                                      width: 250.w,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(width: .2),
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      child: StreamBuilder<int>(
-                                          stream: sortOption.stream,
-                                          builder: (context, snapshot) {
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children:
-                                                  AppInitializer.sortChoicesHistory
-                                                      .map((e) => Padding(
-                                                            padding:
-                                                                smallPaddingAll,
-                                                            child:
-                                                                GestureDetector(
-                                                              onTap: () {
-                                                                sortOption.sink.add(
-                                                                    AppInitializer
-                                                                        .sortChoicesHistory
-                                                                        .indexOf(
-                                                                            e));
-                                                              },
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(AppInitializer
-                                                                      .sortChoicesHistory[AppInitializer
-                                                                          .sortChoicesHistory
-                                                                          .indexOf(e)]
-                                                                      .sortOption),
-                                                                  sortOption.value ==
-                                                                          AppInitializer.sortChoicesHistory.indexOf(
-                                                                              e)
-                                                                      ? const Icon(Icons
-                                                                          .radio_button_checked)
-                                                                      : const Icon(
-                                                                          Icons.circle_outlined)
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                            );
-                                          }),
-                                    ),
-                                  )
-                                : SizedBox(
-                                    height: 140.h,
-                                  );
-                          }),
-                    ),
-                  ],
-                );
-              }
-              else {
-                return Center(
-                  child: Text(AppLocalizations.of(context)!.something_went_wrong),
-                ) ;
-              }
-            }),
-      ),
+                    );
+                  }
+                  else {
+                    return Center(
+                      child: Text(AppLocalizations.of(context)!.something_went_wrong),
+                    ) ;
+                  }
+                }),
+            const Center(child:  Text("Not Implemented yet")),
+            const ReservationsScreen(),
+
+          ]
+        ),
+
+          ),
     );
   }
 }
@@ -274,7 +293,7 @@ class HistoryCard extends StatelessWidget {
                             height: 16,
                           ),
                           Text(
-                            item?.serviceStr ?? "",
+                            item?.providerServiceName ?? "",
                             style: AppStyles.baloo2FontWith400WeightAnd14Size
                                 .copyWith(color: primaryColor),
                           ),
@@ -284,7 +303,7 @@ class HistoryCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  item?.mobileStr ?? "",
+                  item?.bookingStatusStr ?? "",
                   style: AppStyles
                       .baloo2FontWith400WeightAnd18SizeAndBlack,
                 ),
@@ -304,7 +323,7 @@ class HistoryCard extends StatelessWidget {
                   color: primaryColor,
                 ),
                 Text(
-                  item?.userStr ?? "",
+                  item?.bookingTypeStr ?? "",
                   style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
                 ),
               ],

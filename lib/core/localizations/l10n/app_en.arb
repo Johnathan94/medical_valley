@@ -16,6 +16,8 @@
     "oldest" : "Oldest",
     "pending_nego" : "Pending negotiations",
     "accepted_neo" : "Accepted negotiations",
+    "negotiations" : "Negotiations",
+    "requests" : "Requests",
     "yes" : "Yes",
     "no" : "No",
               "server_error": "there is a server error",

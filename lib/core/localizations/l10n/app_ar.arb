@@ -15,6 +15,8 @@
   "otp_error" : "يجب ان تكتب ٦ ارقام",
       "oldest" : "الاقدم",
       "edit_user" : "تعديل البيانات",
+      "negotiations" : "مفاوضات",
+          "requests" : "طلبات",
       "input_your_problem": "أدخل مشكلتك",
         "input": "إدخال",
       "facebook_page": "صفحه الفيسبوك",

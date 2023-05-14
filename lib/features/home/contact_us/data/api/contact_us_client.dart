@@ -7,7 +7,7 @@ class ContactUsClient{
   ContactUsClient(this.dio);
 
   contactUs(ContactUsModel contactUsModel)async{
-    Response response =  await dio.post("${dio.options.baseUrl}/Request/ContactUs",data: contactUsModel.toJson());
+    Response response =  await dio.post("${dio.options.baseUrl}/Misc/ContactUs",data: contactUsModel.toJson());
     return response.data;
   }
 
