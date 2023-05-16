@@ -16,8 +16,10 @@ import 'package:medical_valley/features/auth/register/presentation/register_bloc
 import 'package:medical_valley/features/home/contact_us/data/api/contact_us_client.dart';
 import 'package:medical_valley/features/home/contact_us/domain/contact_us_repo.dart';
 import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
+import 'package:medical_valley/features/home/history/data/negotiations/get_negotiations_api.dart';
 import 'package:medical_valley/features/home/history/data/requests/get_requets_api.dart';
 import 'package:medical_valley/features/home/history/data/reservations/get_reservations_api.dart';
+import 'package:medical_valley/features/home/history/domain/get_negotiations_usecase.dart';
 import 'package:medical_valley/features/home/history/domain/get_requests_usecase.dart';
 import 'package:medical_valley/features/home/history/domain/get_reservations_usecase.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
@@ -47,24 +49,40 @@ import 'package:medical_valley/features/profile/data/user_api.dart';
 import 'package:medical_valley/features/profile/domain/get_user_use_case.dart';
 import 'package:medical_valley/features/profile/domain/update_user_use_case.dart';
 import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
+
 final getIt = GetIt.instance;
 
-configureDependencies (){
-  getIt.registerFactory(() => HistoryBloc(GetRequestsUseCaseImpl(UserRequestsClient(DioManager.getDio())),GetReservationsUseCaseImpl(ReservationsClient(DioManager.getDio()))));
-  getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
-  getIt.registerFactory(() => BookRequestBloc(BookRequestRepo(BookRequestClient())));
-  getIt.registerFactory(() => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
-  getIt.registerFactory(() => HomeBloc(GetCategoriesUseCase(CategoriesClient(DioManager.getDio()), ServicesClient(DioManager.getDio())),SearchWithKeyboard(SearchClient(DioManager.getDio()))));
-  getIt.registerFactory(() => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
-  getIt.registerFactory(() => NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
-  getIt.registerFactory(() => TermsAndConditionsBloc(TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
-  getIt.registerFactory(() => ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
-  getIt.registerFactory(() => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
-  getIt.registerFactory(() => MedicalFileBloc(GetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio())),
-      SetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio()))));
+configureDependencies() {
+  getIt.registerFactory(() => HistoryBloc(
+      GetRequestsUseCaseImpl(UserRequestsClient(DioManager.getDio())),
+      GetReservationsUseCaseImpl(ReservationsClient(DioManager.getDio())),
+      GetNegotiationsUseCaseImpl(NegotiationsClient(DioManager.getDio()))));
+  getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(
+      RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
+  getIt.registerFactory(
+      () => BookRequestBloc(BookRequestRepo(BookRequestClient())));
+  getIt.registerFactory(
+      () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
+  getIt.registerFactory(() => HomeBloc(
+      GetCategoriesUseCase(CategoriesClient(DioManager.getDio()),
+          ServicesClient(DioManager.getDio())),
+      SearchWithKeyboard(SearchClient(DioManager.getDio()))));
+  getIt.registerFactory(
+      () => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
-      NotificationBloc(GetNotificationUseCaseImpl(NotificationClient(DioManager.getDio()))));
- getIt.registerFactory(() =>
-      UserProfileBloc(GetUserUseCaseImpl(UserClient(DioManager.getDio())),UpdateUserUseCaseImpl((UserClient(DioManager.getDio())))));
-
+      NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
+  getIt.registerFactory(() => TermsAndConditionsBloc(
+      TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
+  getIt.registerFactory(() =>
+      ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
+  getIt.registerFactory(
+      () => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
+  getIt.registerFactory(() => MedicalFileBloc(
+      GetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio())),
+      SetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio()))));
+  getIt.registerFactory(() => NotificationBloc(
+      GetNotificationUseCaseImpl(NotificationClient(DioManager.getDio()))));
+  getIt.registerFactory(() => UserProfileBloc(
+      GetUserUseCaseImpl(UserClient(DioManager.getDio())),
+      UpdateUserUseCaseImpl((UserClient(DioManager.getDio())))));
 }

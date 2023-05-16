@@ -3,31 +3,26 @@ import 'package:medical_valley/features/offers/presentation/data/model/verifyMod
 import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_repo.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
 
-class NegotiateBloc extends Cubit<NegotiateState >{
-  NegotiateBloc(this.negotiateRepo): super(NegotiateStateLoading());
-  NegotiateRepo negotiateRepo ;
-  void negotiate (List<int?> offerIds )async{
+class NegotiateBloc extends Cubit<NegotiateState> {
+  NegotiateBloc(this.negotiateRepo) : super(NegotiateStateLoading());
+  NegotiateRepo negotiateRepo;
+  void negotiate(List<int>? offerIds) async {
     emit(NegotiateStateLoading());
     var offers = await negotiateRepo.negotiate(offerIds);
-    offers.fold(
-            (l) {
-          emit(NegotiateStateError());
-        }, (right) {
+    offers.fold((l) {
+      emit(NegotiateStateError());
+    }, (right) {
       emit(NegotiateStateSuccess());
-    }
-    );
+    });
   }
-  void verifyRequest (VerifyRequest request )async{
+
+  void verifyRequest(VerifyRequest request) async {
     emit(VerifyRequestStateLoading());
     var response = await negotiateRepo.verifyBook(request);
-    response.fold(
-            (l) {
-          emit(VerifyRequestStateError());
-        }, (right) {
+    response.fold((l) {
+      emit(VerifyRequestStateError());
+    }, (right) {
       emit(VerifyRequestStateSuccess());
-    }
-    );
+    });
   }
-
-
 }

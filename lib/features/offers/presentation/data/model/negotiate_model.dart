@@ -1,38 +1,18 @@
 class NegotiateModel {
-  List<NegotiateData>? data;
+  int? userId;
+  List<int>? offers;
 
-  NegotiateModel({this.data});
+  NegotiateModel({this.userId, this.offers});
 
   NegotiateModel.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = <NegotiateData>[];
-      json['data'].forEach((v) {
-        data!.add( NegotiateData.fromJson(v));
-      });
-    }
+    userId = json['userId'];
+    offers = json['offers'].cast<int>();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class NegotiateData {
-  int? offerId;
-
-  NegotiateData({this.offerId});
-
-  NegotiateData.fromJson(Map<String, dynamic> json) {
-    offerId = json['offerId'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['offerId'] = offerId;
+    data['userId'] = userId;
+    data['offers'] = offers;
     return data;
   }
 }

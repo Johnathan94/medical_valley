@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.medical_valley">
+    package="com.mufawid.medicalValley">
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Always include this permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
