@@ -60,6 +60,7 @@ class _OffersScreenState extends State<OffersScreen> {
   }
 
   BehaviorSubject<int> rxNegotiateCount = BehaviorSubject();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -137,69 +138,80 @@ class _OffersScreenState extends State<OffersScreen> {
             StreamBuilder<List<int>?>(
                 stream: negotiatedOffersSubject.stream,
                 builder: (context, snapshot) {
-                  return Align(
-                      alignment: Alignment.bottomCenter,
-                      child: BlocListener<NegotiateBloc, NegotiateState>(
-                          bloc: negotiateBloc,
-                          listenWhen: (prev, current) =>
-                              current is NegotiateStateLoading ||
-                              current is NegotiateStateSuccess ||
-                              current is NegotiateStateError,
-                          listener: (context, state) {
-                            if (state is NegotiateStateLoading) {
-                              LoadingDialogs.showLoadingDialog(context);
-                            } else if (state is NegotiateStateSuccess) {
-                              LoadingDialogs.hideLoadingDialog();
-                              LocalStorageManager.saveNegotiationCount();
-                              rxNegotiateCount.sink.add(
-                                  LocalStorageManager.getNegotiationCount());
-                              CoolAlert.show(
-                                barrierDismissible: false,
-                                context: context,
-                                autoCloseDuration: const Duration(seconds: 1),
-                                type: CoolAlertType.success,
-                                text: AppLocalizations.of(context)!
-                                    .negotiate_successed,
-                              );
-                              Future.delayed(const Duration(seconds: 2),
-                                  () async {
-                                Navigator.pop(context);
-                                pagingController.refresh();
-                                nextPage = 1;
-                                nextPageKey = 1;
-                                offersBloc.getOffers(OffersEvent(nextPage, 10));
-                              });
-                            } else if (state is NegotiateStateError) {
-                              LoadingDialogs.hideLoadingDialog();
-                              CoolAlert.show(
-                                barrierDismissible: false,
-                                context: context,
-                                autoCloseDuration: const Duration(seconds: 4),
-                                type: CoolAlertType.error,
-                                text: state.error,
-                              );
-                              Future.delayed(const Duration(seconds: 2),
-                                  () async {
-                                Navigator.pop(context);
-                              });
-                            }
-                          },
-                          child: GestureDetector(
-                            onTap: () =>
-                                negotiateBloc.negotiate(offersNegotiatedIds),
-                            child: Container(
-                              height: 90.h,
-                              alignment: Alignment.center,
-                              decoration:
-                                  const BoxDecoration(color: secondaryColor),
-                              child: Text(
-                                "${AppLocalizations.of(context)!.negotiate} (${negotiatedOffersSubject.value?.length})",
-                                style: AppStyles
-                                    .baloo2FontWith500WeightAnd25Size
-                                    .copyWith(color: whiteColor),
-                              ),
-                            ),
-                          )));
+                  return negotiatedOffersSubject.hasValue &&
+                          negotiatedOffersSubject.value != null
+                      ? Align(
+                          alignment: Alignment.bottomCenter,
+                          child: BlocListener<NegotiateBloc, NegotiateState>(
+                              bloc: negotiateBloc,
+                              listenWhen: (prev, current) =>
+                                  current is NegotiateStateLoading ||
+                                  current is NegotiateStateSuccess ||
+                                  current is NegotiateStateError,
+                              listener: (context, state) {
+                                if (state is NegotiateStateLoading) {
+                                  LoadingDialogs.showLoadingDialog(context);
+                                } else if (state is NegotiateStateSuccess) {
+                                  LoadingDialogs.hideLoadingDialog();
+                                  LocalStorageManager.saveNegotiationCount();
+                                  rxNegotiateCount.sink.add(LocalStorageManager
+                                      .getNegotiationCount());
+                                  CoolAlert.show(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 1),
+                                    type: CoolAlertType.success,
+                                    text: AppLocalizations.of(context)!
+                                        .negotiate_successed,
+                                  );
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () async {
+                                    Navigator.pop(context);
+                                    pagingController.refresh();
+                                    nextPage = 1;
+                                    nextPageKey = 1;
+                                    offersBloc
+                                        .getOffers(OffersEvent(nextPage, 10));
+                                  });
+                                } else if (state is NegotiateStateError) {
+                                  LoadingDialogs.hideLoadingDialog();
+                                  CoolAlert.show(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 4),
+                                    type: CoolAlertType.error,
+                                    text: state.error,
+                                  );
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () async {
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (rxNegotiateCount.hasValue &&
+                                      rxNegotiateCount.value > 0) {
+                                    negotiateBloc
+                                        .negotiate(offersNegotiatedIds);
+                                  }
+                                },
+                                child: Container(
+                                  height: 90.h,
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                      color: secondaryColor),
+                                  child: Text(
+                                    "${AppLocalizations.of(context)!.negotiate} (${negotiatedOffersSubject.value?.length})",
+                                    style: AppStyles
+                                        .baloo2FontWith500WeightAnd25Size
+                                        .copyWith(color: whiteColor),
+                                  ),
+                                ),
+                              )))
+                      : const SizedBox();
                 }),
             BlocListener<NegotiateBloc, NegotiateState>(
                 bloc: negotiateBloc,
@@ -248,6 +260,7 @@ class _OffersScreenState extends State<OffersScreen> {
   }
 
   List<int>? offersNegotiatedIds = [];
+
   onNegotiatePressed(int id) {
     offersNegotiatedIds!.contains(id)
         ? offersNegotiatedIds!.remove(id)
@@ -261,6 +274,7 @@ class OfferCard extends StatelessWidget {
   final Function(int id) onNegotiatePressed, onBookPressed;
   final bool isEnabled;
   final int negoCount;
+
   const OfferCard(
       {required this.items,
       required this.negoCount,
@@ -387,36 +401,46 @@ class OfferCard extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                Visibility(
-                  visible: 3 - negoCount != 0,
-                  child: Expanded(
-                      flex: 3 - negoCount,
-                      child: GestureDetector(
-                          onTap: () => onNegotiatePressed(items.id ?? 0),
-                          child: OffersOptionsButton(
-                            buttonType: ButtonType.negotiate,
-                            title: AppLocalizations.of(context)!.negotiate,
-                            isEnabled: isEnabled,
-                          ))),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Expanded(
-                    flex: negoCount,
-                    child: GestureDetector(
-                        onTap: () => onBookPressed(items.requestId ?? 0),
-                        child: OffersOptionsButton(
-                            buttonType: ButtonType.book,
-                            title: AppLocalizations.of(context)!.book,
-                            isEnabled: isEnabled))),
-              ],
-            ),
-          )
+          items.insuranceStatus == 0
+              ? Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible:
+                            items.insuranceStatus == 0 && 3 - negoCount != 0,
+                        child: Expanded(
+                            flex: 3 - negoCount,
+                            child: GestureDetector(
+                                onTap: () => onNegotiatePressed(items.id ?? 0),
+                                child: OffersOptionsButton(
+                                  buttonType: ButtonType.negotiate,
+                                  title:
+                                      AppLocalizations.of(context)!.negotiate,
+                                  isEnabled: isEnabled,
+                                ))),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Expanded(
+                          flex: negoCount,
+                          child: GestureDetector(
+                              onTap: () => onBookPressed(items.requestId ?? 0),
+                              child: OffersOptionsButton(
+                                  buttonType: ButtonType.book,
+                                  title: AppLocalizations.of(context)!.book,
+                                  isEnabled: isEnabled))),
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: GestureDetector(
+                      onTap: () => onBookPressed(items.requestId ?? 0),
+                      child: OffersOptionsButton(
+                          buttonType: ButtonType.book,
+                          title: AppLocalizations.of(context)!.book,
+                          isEnabled: isEnabled))),
         ],
       ),
     );

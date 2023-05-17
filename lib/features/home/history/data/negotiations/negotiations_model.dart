@@ -106,8 +106,10 @@ class NegotiationModel {
   int? userId;
   String? userName;
   int? bookingStatusId;
+  int? insuranceStatus;
   String? bookingStatusStr;
   String? distanceInMeter;
+  String? insuranceStatusStr;
 
   NegotiationModel(
       {this.id,
@@ -130,6 +132,8 @@ class NegotiationModel {
       this.userId,
       this.userName,
       this.bookingStatusId,
+      this.insuranceStatus,
+      this.insuranceStatusStr,
       this.distanceInMeter,
       this.bookingStatusStr});
 
@@ -137,6 +141,8 @@ class NegotiationModel {
     id = json['id'];
     requestId = json['requestId'];
     providerId = json['providerId'];
+    insuranceStatusStr = json['insuranceStatusStr'];
+    insuranceStatus = json['insuranceStatus'];
     providerName = json['providerName'];
     providerMobileStr = json['providerMobileStr'];
     providerLocation = json['providerLocation'];
@@ -162,6 +168,8 @@ class NegotiationModel {
     data['id'] = id;
     data['requestId'] = requestId;
     data['providerId'] = providerId;
+    data['insuranceStatus'] = insuranceStatus;
+    data['insuranceStatusStr'] = insuranceStatusStr;
     data['providerName'] = providerName;
     data['providerMobileStr'] = providerMobileStr;
     data['providerLocation'] = providerLocation;

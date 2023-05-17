@@ -12,7 +12,7 @@ class NegotiationsClient {
     Response response;
     UserDate user = UserDate.fromJson(LocalStorageManager.getUser()!);
     response = await dio.get(
-      "${dio.options.baseUrl}/Request/Offers?IsUnderNegotiation=true&PageNumber=$page&PageSize=$pageSize&UserId=${user.id!}",
+      "${dio.options.baseUrl}/Request/Offers?IsUnderNegotiation=false&PageNumber=$page&PageSize=$pageSize&UserId=${user.id!}",
     );
     return response.data;
   }
