@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,9 +22,10 @@ import '../../../../../core/app_sizes.dart';
 import '../../../widgets/home_base_app_bar.dart';
 
 class HomeSearchScreen extends StatefulWidget {
-  final Function isBackPressed ;
+  final Function isBackPressed;
 
-  const HomeSearchScreen({required this.isBackPressed , Key? key}) : super(key: key);
+  const HomeSearchScreen({required this.isBackPressed, Key? key})
+      : super(key: key);
 
   @override
   State<HomeSearchScreen> createState() => HomeState();
@@ -37,21 +36,20 @@ class HomeState extends State<HomeSearchScreen> {
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
   final PagingController<int, Service> pagingController =
-  PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
   String keyword = "";
-  late UserDate currentUser  ;
-  bool isSearchStarted = false ;
+  late UserDate currentUser;
+  bool isSearchStarted = false;
   @override
   initState() {
     pagingController.addPageRequestListener((pageKey) {
-      if (isSearchStarted ) {
+      if (isSearchStarted) {
         nextPageKey = pageKey;
-        homeBloc.searchWithKeyword(keyword,nextPage, 10);
+        homeBloc.searchWithKeyword(keyword, nextPage, 10);
         nextPage += 1;
       }
-
     });
     currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
     super.initState();
@@ -65,6 +63,7 @@ class HomeState extends State<HomeSearchScreen> {
       child: getHomeScreenWidget(),
     );
   }
+
   getHomeScreenWidget() {
     return Container(
       margin: const EdgeInsetsDirectional.only(
@@ -90,35 +89,36 @@ class HomeState extends State<HomeSearchScreen> {
   }
 
   buildHomeTitleGridView() {
-    return BlocListener<HomeBloc , MyHomeState>(
-      bloc: homeBloc,
-      listener: (context, state) {
-        if(state is SearchResultState)
-       {
-         if(state.searchResult.data!.results!.length == 10){
-           pagingController.appendPage(state.searchResult.data!.results!, nextPageKey);
-         }else {
-           pagingController.appendLastPage(state.searchResult.data!.results!);
-         }
-      }
-      },
-      child: PagedListView<int , Service>(
-            builderDelegate: PagedChildBuilderDelegate<Service>(
-                itemBuilder: (c , item , index){
-                  return buildSearchModelsItem(context , item ,index );
-                }
-            ),
-            pagingController: pagingController,
-          )
-    );
+    return BlocListener<HomeBloc, MyHomeState>(
+        bloc: homeBloc,
+        listener: (context, state) {
+          if (state is SearchResultState) {
+            if (state.searchResult.data!.results!.length == 10) {
+              pagingController.appendPage(
+                  state.searchResult.data!.results!, nextPageKey);
+            } else {
+              pagingController
+                  .appendLastPage(state.searchResult.data!.results!);
+            }
+          }
+        },
+        child: PagedListView<int, Service>(
+          builderDelegate:
+              PagedChildBuilderDelegate<Service>(itemBuilder: (c, item, index) {
+            return buildSearchModelsItem(context, item, index);
+          }),
+          pagingController: pagingController,
+        ));
   }
 
   Widget buildHomeModelItem(Service service) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                HomeDetailsScreen(categoryName: service.englishName!, categoryId: 1,)));
+            builder: (context) => HomeDetailsScreen(
+                  categoryName: service.englishName!,
+                  categoryId: 1,
+                )));
       },
       child: Container(
         height: homeModelItemHeight.h,
@@ -145,7 +145,7 @@ class HomeState extends State<HomeSearchScreen> {
             Image.asset(homeModelOneIcon),
             Expanded(
               child: Text(
-                service.englishName?? "",
+                service.englishName ?? "",
                 style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
               ),
             ),
@@ -157,45 +157,46 @@ class HomeState extends State<HomeSearchScreen> {
       ),
     );
   }
-  buildSearchModelsItem(BuildContext context ,Service service, int index) {
+
+  buildSearchModelsItem(BuildContext context, Service service, int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         showBottomSheet(
             context: context,
             builder: (context) => AppointmentsBottomSheet(
-              onBookRequest: (int id) async {
-                if (id == 1 || id == 2) {
-                  UserDate result = UserDate.fromJson(LocalStorageManager.getUser()!);
-                  bookRequestBloc.requestBook(BookRequestModel(
-                      serviceId: service.id!,
-                      categoryId: service.categoryId,
-                      bookingTypeId: id,
-                      isProviderService: service.isProviderService,
-                      userId: result.id));
-                }
-              },
-              onScheduledPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (c) => CalenderScreen(
-                          services: service,
-                          isProviderService: service.isProviderService ?? false,
-                        )));
-              },
-            ));
+                  onBookRequest: (int id) async {
+                    if (id == 1 || id == 2) {
+                      UserDate result =
+                          UserDate.fromJson(LocalStorageManager.getUser()!);
+                      bookRequestBloc.sendRequest(BookRequestModel(
+                          serviceId: service.id!,
+                          categoryId: service.categoryId,
+                          bookingTypeId: id,
+                          isProviderService: service.isProviderService,
+                          userId: result.id));
+                    }
+                  },
+                  onScheduledPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => CalenderScreen(
+                                  services: service,
+                                  isProviderService:
+                                      service.isProviderService ?? false,
+                                )));
+                  },
+                ));
       },
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           height: homeSearchScreenHeight,
           margin: const EdgeInsetsDirectional.only(
-              end: 16,
-              start: 16,
-              top: homeSearchItemMarginTop),
+              end: 16, start: 16, top: homeSearchItemMarginTop),
           decoration: const BoxDecoration(
               color: whiteColor,
               borderRadius:
-              BorderRadius.all(Radius.circular(homeSearchScreenRadius)),
+                  BorderRadius.all(Radius.circular(homeSearchScreenRadius)),
               boxShadow: [
                 BoxShadow(spreadRadius: 1, blurRadius: 8, color: shadowColor)
               ]),
@@ -210,12 +211,9 @@ class HomeState extends State<HomeSearchScreen> {
                   style: AppStyles.baloo2FontWith400WeightAnd12Size,
                 ),
               ),
-              const Expanded(
-                  flex: 10,
-                  child:  Icon(Icons.circle_outlined))
+              const Expanded(flex: 10, child: Icon(Icons.circle_outlined))
             ],
-          )
-      ),
+          )),
     );
   }
 
@@ -226,16 +224,16 @@ class HomeState extends State<HomeSearchScreen> {
         username: currentUser.fullName ?? "",
         isSearchableAppBar: true,
         searchHint: AppLocalizations.of(context)!.search,
-        onSubmit :(String? text){
+        onSubmit: (String? text) {
           nextPage = 1;
           keyword = text!;
-          isSearchStarted = true ;
+          isSearchStarted = true;
           pagingController.refresh();
           pagingController.notifyPageRequestListeners(nextPage);
         },
-        onBackPressed : (){
+        onBackPressed: () {
           widget.isBackPressed();
-        } ,
+        },
         goodMorningText: AppLocalizations.of(context)!.good_morning,
         leadingIcon: Image.asset(
           appIcon,
@@ -243,7 +241,8 @@ class HomeState extends State<HomeSearchScreen> {
           height: appBarIconHeight,
         ),
         isTwoLineTitle: true,
-        controller: controller, context: context,
+        controller: controller,
+        context: context,
       ),
       body: getHomeScreen(),
     );

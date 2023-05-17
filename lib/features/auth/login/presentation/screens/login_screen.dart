@@ -91,41 +91,37 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocListener <LoginBloc , LoginState>(
-                  bloc: loginBloc,
-                  listener: (context, state) async{
-                    if(state is LoginStateLoading){
-                      await LoadingDialogs.showLoadingDialog(context);
-                    }
-                    else if (state is LoginStateSuccess)
-                    {
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        barrierDismissible: false,
-                        context: context,
-                        autoCloseDuration: const Duration(milliseconds: 300),
-                        type: CoolAlertType.success,
-                        text: AppLocalizations.of(context)!.success_login,
-                      );
-                      Future.delayed(const Duration(milliseconds: 350) , (){
-                        navigateToOtpScreen(state.mobile);
-                      });
-
-                    }
-                    else {
-                      var errorState = (state as LoginStateError);
-                      LoadingDialogs.hideLoadingDialog();
-                      CoolAlert.show(
-                        context: context,
-                        autoCloseDuration: const Duration(seconds: 1),
-                        type: CoolAlertType.error,
-                        text: errorState.message ?? AppLocalizations.of(context)!.invalid_phone_number,
-                      );
-
-                    }
-                  },
-                  child: Container()
-                ),
+                BlocListener<LoginBloc, LoginState>(
+                    bloc: loginBloc,
+                    listener: (context, state) async {
+                      if (state is LoginStateLoading) {
+                        await LoadingDialogs.showLoadingDialog(context);
+                      } else if (state is LoginStateSuccess) {
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          barrierDismissible: false,
+                          context: context,
+                          autoCloseDuration: const Duration(milliseconds: 300),
+                          type: CoolAlertType.success,
+                          text: AppLocalizations.of(context)!.success_login,
+                        );
+                        Future.delayed(const Duration(milliseconds: 350), () {
+                          navigateToOtpScreen(state.mobile);
+                        });
+                      } else {
+                        var errorState = (state as LoginStateError);
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          context: context,
+                          autoCloseDuration: const Duration(seconds: 1),
+                          type: CoolAlertType.error,
+                          text: errorState.message ??
+                              AppLocalizations.of(context)!
+                                  .invalid_phone_number,
+                        );
+                      }
+                    },
+                    child: Container()),
                 buildLoginScreenTitle(),
                 buildMobilePhoneField(),
                 SizedBox(
@@ -136,13 +132,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: mediumPaddingHV.r,
                   child: PrimaryButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate() && phoneController.text.length == 9 || phoneController.text.length == 10){
-                      loginBloc.loginUser(LoginEvent(phoneController.text));
-                    }
-                      else {
-                        context.showSnackBar(AppLocalizations.of(context)!.please_fill_all_data );
+                      if (_formKey.currentState!.validate() &&
+                              phoneController.text.length == 9 ||
+                          phoneController.text.length == 10) {
+                        loginBloc.loginUser(LoginEvent(phoneController.text));
+                      } else {
+                        context.showSnackBar(
+                            AppLocalizations.of(context)!.please_fill_all_data);
                       }
-                      },
+                    },
                     text: AppLocalizations.of(context)!.sign_in,
                   ),
                 ),
@@ -164,14 +162,14 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   buildMobilePhoneField() {
     return Container(
       margin: EdgeInsetsDirectional.only(
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child:  PhoneIntlWidgetField(phoneController,(Country country){
-      }),
+      child: PhoneIntlWidgetField(phoneController, (Country country) {}),
     );
   }
 
@@ -269,6 +267,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   navigateToOtpScreen(String mobile) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) =>  PhoneVerificationScreen(mobile: mobile,)));
+        builder: (context) => PhoneVerificationScreen(
+              mobile: mobile,
+              openFromRegistered: false,
+            )));
   }
 }

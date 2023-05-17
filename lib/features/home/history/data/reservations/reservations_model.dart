@@ -8,11 +8,11 @@ class ReservationsResponse {
 
   ReservationsResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   ReservationsResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -20,7 +20,7 @@ class ReservationsResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,12 +48,12 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.totalPages,
-        this.pageSize,
-        this.totalCount,
-        this.hasPrevious,
-        this.hasNext,
-        this.results});
+      this.totalPages,
+      this.pageSize,
+      this.totalCount,
+      this.hasPrevious,
+      this.hasNext,
+      this.results});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['currentPage'];
@@ -65,7 +65,7 @@ class Data {
     if (json['results'] != null) {
       results = <ReservationModel>[];
       json['results'].forEach((v) {
-        results!.add( ReservationModel.fromJson(v));
+        results!.add(ReservationModel.fromJson(v));
       });
     }
   }
@@ -98,6 +98,7 @@ class ReservationModel {
   double? price;
   bool? isUnderNegotiation;
   bool? isConfirmed;
+  bool? userHasInsurance;
   int? periodId;
   int? branchId;
   String? categoryStr;
@@ -107,29 +108,44 @@ class ReservationModel {
   String? userName;
   int? bookingStatusId;
   String? bookingStatusStr;
+  String? distanceInMeter;
+  String? periodStartTime;
+  String? periodEndTime;
+  String? bookingTypeStr;
+  int? bookingTypeId;
+  String? offerDate;
+  String? userMobile;
 
   ReservationModel(
       {this.id,
-        this.requestId,
-        this.providerId,
-        this.providerName,
-        this.providerMobileStr,
-        this.providerLocation,
-        this.providerLatitude,
-        this.providerLongitude,
-        this.providerBranchName,
-        this.price,
-        this.isUnderNegotiation,
-        this.isConfirmed,
-        this.periodId,
-        this.branchId,
-        this.categoryStr,
-        this.providerServiceId,
-        this.serviceStr,
-        this.userId,
-        this.userName,
-        this.bookingStatusId,
-        this.bookingStatusStr});
+      this.requestId,
+      this.providerId,
+      this.providerName,
+      this.providerMobileStr,
+      this.providerLocation,
+      this.providerLatitude,
+      this.userHasInsurance,
+      this.providerLongitude,
+      this.providerBranchName,
+      this.price,
+      this.isUnderNegotiation,
+      this.isConfirmed,
+      this.periodStartTime,
+      this.periodId,
+      this.branchId,
+      this.categoryStr,
+      this.providerServiceId,
+      this.serviceStr,
+      this.userId,
+      this.userName,
+      this.periodEndTime,
+      this.offerDate,
+      this.bookingStatusId,
+      this.bookingTypeStr,
+      this.distanceInMeter,
+      this.userMobile,
+      this.bookingTypeId,
+      this.bookingStatusStr});
 
   ReservationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -138,7 +154,11 @@ class ReservationModel {
     providerName = json['providerName'];
     providerMobileStr = json['providerMobileStr'];
     providerLocation = json['providerLocation'];
+    periodStartTime = json['periodStartTime'];
+    periodEndTime = json['periodEndTime'];
+    offerDate = json['offerDate'];
     providerLatitude = json['providerLatitude'];
+    userHasInsurance = json['userHasInsurance'];
     providerLongitude = json['providerLongitude'];
     providerBranchName = json['providerBranchName'];
     price = json['price'];
@@ -152,7 +172,10 @@ class ReservationModel {
     userId = json['userId'];
     userName = json['userName'];
     bookingStatusId = json['bookingStatusId'];
+    bookingTypeId = json['bookingTypeId'];
     bookingStatusStr = json['bookingStatusStr'];
+    bookingTypeStr = json['bookingTypeStr'];
+    userMobile = json['userMobile'];
   }
 
   Map<String, dynamic> toJson() {
@@ -162,7 +185,14 @@ class ReservationModel {
     data['providerId'] = providerId;
     data['providerName'] = providerName;
     data['providerMobileStr'] = providerMobileStr;
+    data['userHasInsurance'] = userHasInsurance;
+    data['userMobile'] = userMobile;
+    data['bookingTypeId'] = bookingTypeId;
     data['providerLocation'] = providerLocation;
+    data['periodStartTime'] = periodStartTime;
+    data['periodEndTime'] = periodEndTime;
+    data['bookingTypeStr'] = bookingTypeStr;
+    data['offerDate'] = offerDate;
     data['providerLatitude'] = providerLatitude;
     data['providerLongitude'] = providerLongitude;
     data['providerBranchName'] = providerBranchName;

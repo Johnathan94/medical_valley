@@ -5,11 +5,10 @@ import 'package:medical_valley/features/auth/phone_verification/data/model/otp_r
 import 'package:medical_valley/features/offers/presentation/data/api_service/negotiate_client.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/negotiate_model.dart';
 import 'package:medical_valley/features/offers/presentation/data/model/negotiate_reponse.dart';
-import 'package:medical_valley/features/offers/presentation/data/model/verifyModel/verify_model.dart';
 
 abstract class NegotiateRepo {
-  Future<Either<Failure, Unit>> negotiate(List<int>? offerIds);
-  Future<Either<Failure, Unit>> verifyBook(VerifyRequest verifyRequest);
+  Future<Either<ServerFailure, Unit>> negotiate(List<int>? offerIds);
+  Future<Either<Failure, Unit>> verifyBook(int id);
 }
 
 class NegotiateRepoImpl extends NegotiateRepo {
@@ -18,7 +17,7 @@ class NegotiateRepoImpl extends NegotiateRepo {
   NegotiateRepoImpl(this.client);
 
   @override
-  Future<Either<Failure, Unit>> negotiate(List<int>? offerIds) async {
+  Future<Either<ServerFailure, Unit>> negotiate(List<int>? offerIds) async {
     try {
       UserDate currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
 
@@ -29,16 +28,16 @@ class NegotiateRepoImpl extends NegotiateRepo {
       if (response.responseCode! >= 200 && response.responseCode! < 300) {
         return const Right(unit);
       }
-      return Left(ServerFailure());
+      return Left(ServerFailure(error: response.message));
     } catch (e) {
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, Unit>> verifyBook(VerifyRequest verifyRequest) async {
+  Future<Either<Failure, Unit>> verifyBook(int id) async {
     try {
-      var result = await client.verifyRequest(verifyRequest);
+      var result = await client.verifyRequest(id);
       NegotiateResponse response = NegotiateResponse.fromJson(result);
 
       if (response.responseCode! >= 200 && response.responseCode! < 300) {

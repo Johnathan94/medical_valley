@@ -80,7 +80,7 @@ class _HistoryScreenState extends State<HistoryScreen>
                 text: AppLocalizations.of(context)!.negotiations,
               ),
               Tab(
-                text: AppLocalizations.of(context)!.history,
+                text: AppLocalizations.of(context)!.reservations,
               ),
             ],
           ),
@@ -215,7 +215,9 @@ class _HistoryScreenState extends State<HistoryScreen>
                   );
                 }
               }),
-          const NegotiationsScreen(),
+          NegotiationsScreen(onBookedConfirmed: () {
+            tabController.animateTo(2);
+          }),
           const ReservationsScreen(),
         ]),
       ),

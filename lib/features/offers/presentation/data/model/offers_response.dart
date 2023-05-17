@@ -1,6 +1,4 @@
-import 'dart:ffi';
-
-import 'package:medical_valley/core/location/location_service.dart';
+import 'package:medical_valley/features/home/history/data/negotiations/negotiations_model.dart';
 
 class OffersResponse {
   bool? succeeded;
@@ -12,11 +10,11 @@ class OffersResponse {
 
   OffersResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   OffersResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -24,7 +22,7 @@ class OffersResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,16 +46,16 @@ class Data {
   int? totalCount;
   bool? hasPrevious;
   bool? hasNext;
-  List<OfferModel>? results;
+  List<NegotiationModel>? results;
 
   Data(
       {this.currentPage,
-        this.totalPages,
-        this.pageSize,
-        this.totalCount,
-        this.hasPrevious,
-        this.hasNext,
-        this.results});
+      this.totalPages,
+      this.pageSize,
+      this.totalCount,
+      this.hasPrevious,
+      this.hasNext,
+      this.results});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['currentPage'];
@@ -67,9 +65,9 @@ class Data {
     hasPrevious = json['hasPrevious'];
     hasNext = json['hasNext'];
     if (json['results'] != null) {
-      results = <OfferModel>[];
-      json['results'].forEach((v) async{
-        results!.add( OfferModel.fromJson(v));
+      results = <NegotiationModel>[];
+      json['results'].forEach((v) async {
+        results!.add(NegotiationModel.fromJson(v));
       });
     }
   }
@@ -85,44 +83,6 @@ class Data {
     if (results != null) {
       data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class OfferModel {
-  int? id;
-  String? providerStr;
-  double? price;
-  String? location;
-  double? latitude;
-  double? longitude;
-  String? distanceInMeter ;
-
-  OfferModel(
-      {this.id,
-        this.providerStr,
-        this.price,
-        this.location,
-        this.latitude,
-        this.longitude});
-
-  OfferModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    providerStr = json['providerStr'];
-    price = json['price'] is Int ? (json['price'] as int).toDouble() : json['price'];
-    location = json['location'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['id'] = id;
-    data['providerStr'] = providerStr;
-    data['price'] = price;
-    data['location'] = location;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
     return data;
   }
 }

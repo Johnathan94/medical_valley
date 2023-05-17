@@ -11,8 +11,7 @@ import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
-import 'package:medical_valley/features/offers/presentation/data/model/offers_response.dart';
-import 'package:medical_valley/features/offers/presentation/data/model/verifyModel/verify_model.dart';
+import 'package:medical_valley/features/home/history/data/negotiations/negotiations_model.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
@@ -22,10 +21,7 @@ import 'package:medical_valley/features/offers/widgets/offers_options_button.dar
 import 'package:rxdart/rxdart.dart';
 
 class OffersScreen extends StatefulWidget {
-  final int serviceId, categoryId;
-  const OffersScreen(
-      {required this.categoryId, required this.serviceId, Key? key})
-      : super(key: key);
+  const OffersScreen({Key? key}) : super(key: key);
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -37,7 +33,7 @@ class _OffersScreenState extends State<OffersScreen> {
   NegotiateBloc negotiateBloc = getIt.get<NegotiateBloc>();
   BehaviorSubject<int> sortOption = BehaviorSubject();
   BehaviorSubject<List<int>?> negotiatedOffersSubject = BehaviorSubject();
-  final PagingController<int, OfferModel> pagingController =
+  final PagingController<int, NegotiationModel> pagingController =
       PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
@@ -45,14 +41,18 @@ class _OffersScreenState extends State<OffersScreen> {
   @override
   void initState() {
     //offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
-    offersBloc.getOffers(
-        OffersEvent(nextPage, 10, widget.serviceId, widget.categoryId));
+    offersBloc.getOffers(OffersEvent(
+      nextPage,
+      10,
+    ));
     negotiatedOffersSubject.sink.add([]);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
-      offersBloc.getOffers(
-          OffersEvent(nextPage, 10, widget.serviceId, widget.categoryId));
+      offersBloc.getOffers(OffersEvent(
+        nextPage,
+        10,
+      ));
     });
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
@@ -102,10 +102,11 @@ class _OffersScreenState extends State<OffersScreen> {
                       child: StreamBuilder<List<int>?>(
                           stream: negotiatedOffersSubject.stream,
                           builder: (context, snapshot) {
-                            return PagedListView<int, OfferModel>(
+                            return PagedListView<int, NegotiationModel>(
                               pagingController: pagingController,
                               builderDelegate: PagedChildBuilderDelegate(
-                                itemBuilder: (context, OfferModel item, index) {
+                                itemBuilder:
+                                    (context, NegotiationModel item, index) {
                                   return StreamBuilder<int>(
                                       stream: rxNegotiateCount.stream,
                                       builder: (context, snapshot) {
@@ -117,8 +118,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                           onNegotiatePressed:
                                               onNegotiatePressed,
                                           onBookPressed: (int? id) {
-                                            negotiateBloc.verifyRequest(
-                                                VerifyRequest(requestId: id));
+                                            negotiateBloc
+                                                .verifyRequest(id ?? 0);
                                           },
                                           isEnabled: !offersNegotiatedIds!
                                               .contains(item.id),
@@ -129,8 +130,9 @@ class _OffersScreenState extends State<OffersScreen> {
                             );
                           }),
                     );
+                  } else {
+                    return Center(child: Text((state as OffersStateError).err));
                   }
-                  return const SizedBox();
                 }),
             StreamBuilder<List<int>?>(
                 stream: negotiatedOffersSubject.stream,
@@ -165,18 +167,16 @@ class _OffersScreenState extends State<OffersScreen> {
                                 pagingController.refresh();
                                 nextPage = 1;
                                 nextPageKey = 1;
-                                offersBloc.getOffers(OffersEvent(nextPage, 10,
-                                    widget.serviceId, widget.categoryId));
+                                offersBloc.getOffers(OffersEvent(nextPage, 10));
                               });
-                            } else {
+                            } else if (state is NegotiateStateError) {
                               LoadingDialogs.hideLoadingDialog();
                               CoolAlert.show(
                                 barrierDismissible: false,
                                 context: context,
-                                autoCloseDuration: const Duration(seconds: 1),
+                                autoCloseDuration: const Duration(seconds: 4),
                                 type: CoolAlertType.error,
-                                text: AppLocalizations.of(context)!
-                                    .something_went_wrong,
+                                text: state.error,
                               );
                               Future.delayed(const Duration(seconds: 2),
                                   () async {
@@ -257,7 +257,7 @@ class _OffersScreenState extends State<OffersScreen> {
 }
 
 class OfferCard extends StatelessWidget {
-  final OfferModel items;
+  final NegotiationModel items;
   final Function(int id) onNegotiatePressed, onBookPressed;
   final bool isEnabled;
   final int negoCount;
@@ -334,7 +334,7 @@ class OfferCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          items.providerStr ?? "",
+                          items.providerName ?? "",
                           style: AppStyles
                               .baloo2FontWith400WeightAnd18SizeAndBlack,
                         ),
@@ -409,7 +409,7 @@ class OfferCard extends StatelessWidget {
                 Expanded(
                     flex: negoCount,
                     child: GestureDetector(
-                        onTap: () => onBookPressed(items.id ?? 0),
+                        onTap: () => onBookPressed(items.requestId ?? 0),
                         child: OffersOptionsButton(
                             buttonType: ButtonType.book,
                             title: AppLocalizations.of(context)!.book,

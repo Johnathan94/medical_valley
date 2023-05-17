@@ -20,14 +20,12 @@ import '../../../../../core/widgets/primary_button.dart';
 import '../../../home_search_screen/data/models/services_model.dart';
 
 class CalenderScreen extends StatefulWidget {
-  final Service services ;
-  final bool  isProviderService ;
+  final Service services;
+  final bool isProviderService;
 
   const CalenderScreen(
-      {
-        required this.services,
-        required this.isProviderService,
-        Key? key}) : super(key: key);
+      {required this.services, required this.isProviderService, Key? key})
+      : super(key: key);
 
   @override
   State<CalenderScreen> createState() => _CalenderScreenState();
@@ -37,8 +35,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
   List<DateTime?> _singleDatePickerValueWithDefaultValue = [
     DateTime.now(),
   ];
-  BehaviorSubject<String> selectedSlot = BehaviorSubject<String>.seeded(
-      "09:00");
+  BehaviorSubject<String> selectedSlot =
+      BehaviorSubject<String>.seeded("09:00");
   List<String> slots = [
     "09:00",
     "09:30",
@@ -59,198 +57,196 @@ class _CalenderScreenState extends State<CalenderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title:Text( AppLocalizations.of(context)!.schedule_an_appointment),
-    leading: GestureDetector(
-    onTap: (){
-    Navigator.pop(context);
-    },
-    child: const Icon(Icons.close)),
-    ), body:
-    BlocListener <BookRequestBloc , BookRequestState>(
-          bloc: bookRequestBloc,
-      listener: (context, state) {
-        if(state .state == BookedState.loading ){
-          LoadingDialogs.showLoadingDialog(context);
-        }
-        else if(state .state == BookedState.success ){
-          LoadingDialogs.hideLoadingDialog();
-          CoolAlert.show(
-            barrierDismissible: false,
-            context: context,
-            autoCloseDuration: const Duration(seconds: 1),
-            type: CoolAlertType.success,
-            text: AppLocalizations.of(context)!.booked_successed,
-          );
-          Future.delayed(const Duration(seconds: 2),()async{
-            Navigator.pop(context);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> OffersScreen(serviceId: state.serviceId ?? 1,categoryId: state.categoryId ??1,)));
-          } );
-        }
-        else {
-          LoadingDialogs.hideLoadingDialog();
-          CoolAlert.show(
-            barrierDismissible: false,
-            context: context,
-            autoCloseDuration: const Duration(seconds: 1),
-
-            type: CoolAlertType.error,
-            text: AppLocalizations.of(context)!.something_went_wrong,
-          );
-          Future.delayed(const Duration(seconds: 2),()async{
-            Navigator.pop(context);
-          });
-        }
-      },
-    child:_buildDefaultSingleDatePickerWithValue(),
-
-  )
-
-  );
-}
-
-Widget _buildDefaultSingleDatePickerWithValue() {
-  final config = CalendarDatePicker2Config(
-    selectedDayHighlightColor: primaryColor,
-    weekdayLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    weekdayLabelTextStyle: const TextStyle(
-      color: Colors.black87,
-      fontWeight: FontWeight.bold,
-    ),
-    firstDayOfWeek: 1,
-    controlsHeight: 50,
-    controlsTextStyle: const TextStyle(
-      color: Colors.black,
-      fontSize: 15,
-      fontWeight: FontWeight.bold,
-    ),
-    dayTextStyle: const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-    ),
-    disabledDayTextStyle: const TextStyle(
-      color: Colors.red,
-    ),
-    selectableDayPredicate: (day) =>
-    !day
-        .difference(DateTime.now().subtract(const Duration(days: 3)))
-        .isNegative,
-
-  );
-  return Column(
-    mainAxisSize: MainAxisSize.max,
-    children: [
-      const SizedBox(height: 10),
-      CalendarDatePicker2(
-        config: config,
-        initialValue: _singleDatePickerValueWithDefaultValue,
-        onValueChanged: (values) =>
-            setState(() => _singleDatePickerValueWithDefaultValue = values),
-      ),
-      const SizedBox(height: 10),
-      Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(width: 10),
-          Text(
-            _getValueText(
-              config.calendarType,
-              _singleDatePickerValueWithDefaultValue,
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 25),
-      Wrap(
-        children: slots.map((String e) =>
-            StreamBuilder<String>(
-                stream: selectedSlot.stream,
-                builder: (context, snapshot) {
-                  return GestureDetector(
-                    onTap: () => selectedSlot.sink.add(e),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: selectedSlot.value == e
-                              ? primaryColor
-                              : textFieldBg,
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(16))
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 8),
-                        child: Text(e,
-                          style: AppStyles.baloo2FontWith700WeightAnd15Size
-                              .copyWith(color: selectedSlot.value == e
-                              ? textFieldBg
-                              : Colors.black),),
-                      ),
-                    ),
-                  );
-                }
-            )).toList(),
-      ),
-      const SizedBox(height: 25),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: TextFormField(
-          minLines: 3,
-          maxLines: 10,
-          // user keyboard will have a button to move cursor to next line
-          controller: notesController,
-          decoration: InputDecoration(
-              hintText: AppLocalizations.of(context)!.notes),
+          title: Text(AppLocalizations.of(context)!.schedule_an_appointment),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.close)),
         ),
+        body: BlocListener<BookRequestBloc, BookRequestState>(
+          bloc: bookRequestBloc,
+          listener: (context, state) {
+            if (state.state == BookedState.loading) {
+              LoadingDialogs.showLoadingDialog(context);
+            } else if (state.state == BookedState.success) {
+              LoadingDialogs.hideLoadingDialog();
+              CoolAlert.show(
+                barrierDismissible: false,
+                context: context,
+                autoCloseDuration: const Duration(seconds: 1),
+                type: CoolAlertType.success,
+                text: AppLocalizations.of(context)!.booked_successed,
+              );
+              Future.delayed(const Duration(seconds: 2), () async {
+                Navigator.pop(context);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (c) => const OffersScreen()));
+              });
+            } else {
+              LoadingDialogs.hideLoadingDialog();
+              CoolAlert.show(
+                barrierDismissible: false,
+                context: context,
+                autoCloseDuration: const Duration(seconds: 1),
+                type: CoolAlertType.error,
+                text: AppLocalizations.of(context)!.something_went_wrong,
+              );
+              Future.delayed(const Duration(seconds: 2), () async {
+                Navigator.pop(context);
+              });
+            }
+          },
+          child: _buildDefaultSingleDatePickerWithValue(),
+        ));
+  }
+
+  Widget _buildDefaultSingleDatePickerWithValue() {
+    final config = CalendarDatePicker2Config(
+      selectedDayHighlightColor: primaryColor,
+      weekdayLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      weekdayLabelTextStyle: const TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.bold,
       ),
-      Container(
-        margin: mediumPaddingHV.r,
-        child: PrimaryButton(
-          onPressed: () {
-            UserDate result = UserDate.fromJson(LocalStorageManager.getUser()!);
-            bookRequestBloc.requestBook(BookRequestModel(
-                serviceId: widget.services.id!,
-                categoryId: widget.services.categoryId!,
-                bookingTypeId: 3,
-                userId: result.id!,
-              isProviderService: widget.isProviderService,
-              appointmentDate: _getValueText(
+      firstDayOfWeek: 1,
+      controlsHeight: 50,
+      controlsTextStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ),
+      dayTextStyle: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+      disabledDayTextStyle: const TextStyle(
+        color: Colors.red,
+      ),
+      selectableDayPredicate: (day) => !day
+          .difference(DateTime.now().subtract(const Duration(days: 3)))
+          .isNegative,
+    );
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const SizedBox(height: 10),
+        CalendarDatePicker2(
+          config: config,
+          initialValue: _singleDatePickerValueWithDefaultValue,
+          onValueChanged: (values) =>
+              setState(() => _singleDatePickerValueWithDefaultValue = values),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(width: 10),
+            Text(
+              _getValueText(
                 config.calendarType,
                 _singleDatePickerValueWithDefaultValue,
               ),
-              appointmentTime: selectedSlot.value,
-              notes: notesController.text
-            ));
-          },
-          text: AppLocalizations.of(context)!.send_request,
+            ),
+          ],
         ),
-      ),
-    ],
-  );
-}
-
-String _getValueText(CalendarDatePicker2Type datePickerType,
-    List<DateTime?> values,) {
-  var valueText = (values.isNotEmpty ? values[0] : null)
-      .toString()
-      .replaceAll('00:00:00.000', '');
-
-  if (datePickerType == CalendarDatePicker2Type.multi) {
-    valueText = values.isNotEmpty
-        ? values
-        .map((v) => v.toString().replaceAll('00:00:00.000', ''))
-        .join(', ')
-        : 'null';
-  } else if (datePickerType == CalendarDatePicker2Type.range) {
-    if (values.isNotEmpty) {
-      final startDate = values[0].toString().replaceAll('00:00:00.000', '');
-      final endDate = values.length > 1
-          ? values[1].toString().replaceAll('00:00:00.000', '')
-          : 'null';
-      valueText = '$startDate to $endDate';
-    } else {
-      return 'null';
-    }
+        const SizedBox(height: 25),
+        Wrap(
+          children: slots
+              .map((String e) => StreamBuilder<String>(
+                  stream: selectedSlot.stream,
+                  builder: (context, snapshot) {
+                    return GestureDetector(
+                      onTap: () => selectedSlot.sink.add(e),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: selectedSlot.value == e
+                                ? primaryColor
+                                : textFieldBg,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18, vertical: 8),
+                          child: Text(
+                            e,
+                            style: AppStyles.baloo2FontWith700WeightAnd15Size
+                                .copyWith(
+                                    color: selectedSlot.value == e
+                                        ? textFieldBg
+                                        : Colors.black),
+                          ),
+                        ),
+                      ),
+                    );
+                  }))
+              .toList(),
+        ),
+        const SizedBox(height: 25),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: TextFormField(
+            minLines: 3,
+            maxLines: 10,
+            // user keyboard will have a button to move cursor to next line
+            controller: notesController,
+            decoration:
+                InputDecoration(hintText: AppLocalizations.of(context)!.notes),
+          ),
+        ),
+        Container(
+          margin: mediumPaddingHV.r,
+          child: PrimaryButton(
+            onPressed: () {
+              UserDate result =
+                  UserDate.fromJson(LocalStorageManager.getUser()!);
+              bookRequestBloc.sendRequest(BookRequestModel(
+                  serviceId: widget.services.id!,
+                  categoryId: widget.services.categoryId!,
+                  bookingTypeId: 3,
+                  userId: result.id!,
+                  isProviderService: widget.isProviderService,
+                  appointmentDate: _getValueText(
+                    config.calendarType,
+                    _singleDatePickerValueWithDefaultValue,
+                  ),
+                  appointmentTime: selectedSlot.value,
+                  notes: notesController.text));
+            },
+            text: AppLocalizations.of(context)!.send_request,
+          ),
+        ),
+      ],
+    );
   }
 
-  return valueText;
-}}
+  String _getValueText(
+    CalendarDatePicker2Type datePickerType,
+    List<DateTime?> values,
+  ) {
+    var valueText = (values.isNotEmpty ? values[0] : null)
+        .toString()
+        .replaceAll('00:00:00.000', '');
+
+    if (datePickerType == CalendarDatePicker2Type.multi) {
+      valueText = values.isNotEmpty
+          ? values
+              .map((v) => v.toString().replaceAll('00:00:00.000', ''))
+              .join(', ')
+          : 'null';
+    } else if (datePickerType == CalendarDatePicker2Type.range) {
+      if (values.isNotEmpty) {
+        final startDate = values[0].toString().replaceAll('00:00:00.000', '');
+        final endDate = values.length > 1
+            ? values[1].toString().replaceAll('00:00:00.000', '')
+            : 'null';
+        valueText = '$startDate to $endDate';
+      } else {
+        return 'null';
+      }
+    }
+
+    return valueText;
+  }
+}

@@ -11,14 +11,22 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
+import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/widgets/app_bar_with_null_background.dart';
 import '../../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
-  final String mobile ;
-  const PhoneVerificationScreen({required this.mobile ,Key? key}) : super(key: key);
+  final String mobile;
+  final bool openFromRegistered;
+  final bool? hasInsurance;
+  const PhoneVerificationScreen(
+      {required this.mobile,
+      required this.openFromRegistered,
+      this.hasInsurance,
+      Key? key})
+      : super(key: key);
 
   @override
   State<PhoneVerificationScreen> createState() =>
@@ -54,38 +62,48 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
               children: [
                 buildPhoneVerificationDesc(),
                 BlocListener(
-                  bloc: otpBloc,
+                    bloc: otpBloc,
                     child: const SizedBox(),
-                    listener: (c, state )async{
-                  if(state is LoadingOtpState){
-                  await LoadingDialogs.showLoadingDialog(context);
-                }
-                else if (state is SuccessOtpState)
-                {
-                  LoadingDialogs.hideLoadingDialog();
-                  CoolAlert.show(
-                    barrierDismissible: false,
-                    context: context,
-                    autoCloseDuration: const Duration(milliseconds: 300),
-                    type: CoolAlertType.success,
-                    text: AppLocalizations.of(context)!.success_login,
-                  );
-                  Future.delayed(const Duration(milliseconds: 350) , (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const WelcomePageScreen()));
-                  });
-
-                }
-                else {
-                  LoadingDialogs.hideLoadingDialog();
-                  CoolAlert.show(
-                    context: context,
-                    autoCloseDuration: const Duration(seconds: 1),
-                    type: CoolAlertType.error,
-                    text: AppLocalizations.of(context)!.invalid_otp,
-                  );
-
-                }
-                }),
+                    listener: (c, state) async {
+                      if (state is LoadingOtpState) {
+                        await LoadingDialogs.showLoadingDialog(context);
+                      } else if (state is SuccessOtpState) {
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          barrierDismissible: false,
+                          context: context,
+                          autoCloseDuration: const Duration(milliseconds: 300),
+                          type: CoolAlertType.success,
+                          text: AppLocalizations.of(context)!.success_login,
+                        );
+                        if (widget.openFromRegistered &&
+                            widget.hasInsurance != null &&
+                            widget.hasInsurance!) {
+                          Future.delayed(const Duration(milliseconds: 350), () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => const MedicalFileScreen(
+                                        openFirstTime: true)));
+                          });
+                        } else {
+                          Future.delayed(const Duration(milliseconds: 350), () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => const WelcomePageScreen()));
+                          });
+                        }
+                      } else {
+                        LoadingDialogs.hideLoadingDialog();
+                        CoolAlert.show(
+                          context: context,
+                          autoCloseDuration: const Duration(seconds: 1),
+                          type: CoolAlertType.error,
+                          text: AppLocalizations.of(context)!.invalid_otp,
+                        );
+                      }
+                    }),
                 buildOtpField(),
                 buildConfirmButton(context)
               ],
@@ -102,25 +120,27 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       style: AppStyles.baloo2FontWith400WeightAnd25Size,
     );
   }
+
   String code = "";
   buildOtpField() {
-    return
-      Directionality(
-        textDirection: LocalStorageManager.getCurrentLanguage() =="ar" ? TextDirection.rtl : TextDirection.ltr,
-        child : OtpTextField(
+    return Directionality(
+      textDirection: LocalStorageManager.getCurrentLanguage() == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: OtpTextField(
         fieldWidth: otpFieldWidth.w,
         numberOfFields: otpFieldNumber,
         borderWidth: otpFieldBorderWidth.w,
         enabledBorderColor: greyWith80Percentage,
         focusedBorderColor: primaryColor,
-        onSubmit: (String text){
+        onSubmit: (String text) {
           code = text;
         },
         borderRadius:
             const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
         showFieldAsBox: true,
-    ),
-      );
+      ),
+    );
   }
 
   buildConfirmButton(BuildContext context) {
@@ -137,9 +157,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            code.length ==  6 ?
-            otpBloc.verifyOtp(code, widget.mobile):
-            context.showSnackBar(AppLocalizations.of(context)!.otp_error);
+            code.length == 6
+                ? otpBloc.verifyOtp(code, widget.mobile)
+                : context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
           child: Center(
             child: Text(

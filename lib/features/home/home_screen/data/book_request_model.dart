@@ -9,15 +9,14 @@ class BookRequestModel {
   bool? isProviderService;
 
   BookRequestModel(
-      {
-        this.userId,
-        this.categoryId,
-        this.serviceId,
-        this.bookingTypeId,
-        this.appointmentDate,
-        this.appointmentTime,
-        this.isProviderService,
-        this.notes});
+      {this.userId,
+      this.categoryId,
+      this.serviceId,
+      this.bookingTypeId,
+      this.appointmentDate,
+      this.appointmentTime,
+      this.isProviderService,
+      this.notes});
 
   BookRequestModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
