@@ -9,11 +9,13 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/GenericITextField.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/info/data/medical_file_request.dart';
 import 'package:medical_valley/features/info/data/medical_file_response.dart';
 import 'package:medical_valley/features/info/presentation/bloc/medical_file_bloc.dart';
@@ -39,10 +41,13 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   final _formKey = GlobalKey<FormState>();
+  late UserDate user;
 
   @override
   void initState() {
     _bloc.getMedicalFile();
+    user = UserDate.fromJson(LocalStorageManager.getUser()!);
+
     super.initState();
   }
 
@@ -263,7 +268,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           GenericTextField(
                             fillColor: textFieldBg,
                             onValidator: (String? text) {
-                              if (text!.isNotEmpty && text.length > 14) {
+                              if (text!.isNotEmpty && text.length <= 14) {
                                 return null;
                               } else {
                                 return AppLocalizations.of(context)!
@@ -317,7 +322,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
           if (_formKey.currentState!.validate()) {
             _bloc.setMedicalFile(MedicalFileRequest(
                 id: model.id,
-                hasInsurance: model.hasInsurance,
+                hasInsurance: user.hasInsurance ?? model.hasInsurance,
                 nationalId: nationalIdController.text,
                 insuranceNumber: model.insuranceNumber,
                 birthDate: birthDateController.text,

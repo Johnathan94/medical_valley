@@ -110,6 +110,7 @@ class ReservationModel {
   String? bookingStatusStr;
   String? distanceInMeter;
   String? periodStartTime;
+  String? insuranceStatusStr;
   String? periodEndTime;
   String? bookingTypeStr;
   int? bookingTypeId;
@@ -126,6 +127,7 @@ class ReservationModel {
       this.providerLatitude,
       this.userHasInsurance,
       this.providerLongitude,
+      this.insuranceStatusStr,
       this.providerBranchName,
       this.price,
       this.isUnderNegotiation,
@@ -158,6 +160,7 @@ class ReservationModel {
     periodEndTime = json['periodEndTime'];
     offerDate = json['offerDate'];
     providerLatitude = json['providerLatitude'];
+    insuranceStatusStr = json['insuranceStatusStr'];
     userHasInsurance = json['userHasInsurance'];
     providerLongitude = json['providerLongitude'];
     providerBranchName = json['providerBranchName'];
@@ -209,5 +212,37 @@ class ReservationModel {
     data['bookingStatusId'] = bookingStatusId;
     data['bookingStatusStr'] = bookingStatusStr;
     return data;
+  }
+
+  String exportToQr() {
+    final Map<String, dynamic> data = {};
+    data['Reservation Id'] = id;
+    data['insurance Status'] = insuranceStatusStr;
+    data['user Mobile'] = userMobile;
+    data['Start Time'] = periodStartTime;
+    data['End Time'] = periodEndTime;
+    data['reservation Date'] = offerDate;
+    data['Branch Name'] = providerBranchName;
+    data['Price'] = price;
+    data['Service'] = serviceStr;
+    data['user Name'] = userName;
+    data['booking Type'] = bookingTypeStr;
+    return _formatToQrView(data);
+  }
+
+  String _formatToQrView(Map<String, dynamic> data) {
+    return '''
+    booking Type : ${data['booking Type']} \n
+    Reservation Id : ${data['Reservation Id']} \n
+    insurance Status : ${data['insurance Status']} \n
+    user Name : ${data['user Name']} \n
+    user Mobile : ${data['user Mobile']} \n
+    Service : ${data['Service']} \n
+    Price : ${data['Price']} \n
+    Start Time : ${data['Start Time']} \n
+    End Time : ${data['End Time']} \n
+    Branch Name : ${data['Branch Name']} \n
+    reservation Date : ${data['reservation Date']} \n
+        ''';
   }
 }

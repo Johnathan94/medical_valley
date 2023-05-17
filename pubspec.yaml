@@ -65,6 +65,8 @@ dependencies:
   firebase_core: ^2.8.0
   equatable: ^2.0.5
   network_logger: ^1.0.2
+  qr_flutter: 4.0.0
+
 
 
 

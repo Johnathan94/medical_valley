@@ -12,7 +12,7 @@ RegisterRequestModel _$RegisterRequestModelFromJson(
       fullName: json['fullName'] as String?,
       email: json['email'] as String?,
       mobile: json['mobile'] as String?,
-      haveInsurance: json['haveInsurance'] as bool?,
+      haveInsurance: json['hasInsurance'] as bool?,
       genderId: json['genderId'] as int?,
     );
 
@@ -22,6 +22,6 @@ Map<String, dynamic> _$RegisterRequestModelToJson(
       'fullName': instance.fullName,
       'email': instance.email,
       'mobile': instance.mobile,
-      'haveInsurance': instance.haveInsurance,
+      'hasInsurance': instance.haveInsurance,
       'genderId': instance.genderId,
     };
