@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBGeD6q2XXUw-Y3MkEBJ8uJR9Gr6C7hl-0',
-    appId: '1:583477987371:android:708f7671ea93a3295ec26e',
+    appId: '1:583477987371:android:826fba58a22dfe815ec26e',
     messagingSenderId: '583477987371',
     projectId: 'medicalvalley-4cc9e',
     storageBucket: 'medicalvalley-4cc9e.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDFP53KtGtaDeT0Go651SkD9heO0W6MmvQ',
-    appId: '1:583477987371:ios:38b4998783fe86ac5ec26e',
+    appId: '1:583477987371:ios:04713c719aa5bc3e5ec26e',
     messagingSenderId: '583477987371',
     projectId: 'medicalvalley-4cc9e',
     storageBucket: 'medicalvalley-4cc9e.appspot.com',
-    iosClientId: '583477987371-k64dlvjd6fqcavr8agtpv12c2uv0krog.apps.googleusercontent.com',
-    iosBundleId: 'com.example.medicalValley',
+    iosClientId: '583477987371-ijpfhrdgkmle9c47lf7qjaq9f0gckm8m.apps.googleusercontent.com',
+    iosBundleId: 'com.mufawid.medicalValley',
   );
 }
