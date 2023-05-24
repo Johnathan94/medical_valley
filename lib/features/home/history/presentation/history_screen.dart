@@ -117,9 +117,13 @@ class _HistoryScreenState extends State<HistoryScreen>
                     children: [
                       Column(
                         children: [
-                          FilterView(onSortTapped: () {
-                            optionDisplayed.sink.add(!optionDisplayed.value);
-                          }),
+                          FilterView(
+                              totalRequestsNumber:
+                                  state.requests?.data?.totalCount ?? 0,
+                              onSortTapped: () {
+                                optionDisplayed.sink
+                                    .add(!optionDisplayed.value);
+                              }),
                           Expanded(
                               child: PagedListView<int, HistoryItem>(
                             pagingController: pagingController,

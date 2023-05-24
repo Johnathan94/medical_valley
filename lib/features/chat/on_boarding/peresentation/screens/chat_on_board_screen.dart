@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
 
 import '../../../../../core/strings/images.dart';
 
@@ -64,7 +63,9 @@ class ChatOnBoardingScreen extends StatelessWidget {
                 color: primaryColor,
                 borderRadius: BorderRadius.all(Radius.circular(45))),
           ),
-          const SizedBox(width: 8,),
+          const SizedBox(
+            width: 8,
+          ),
           Container(
             width: 10.w,
             height: 10.h,
@@ -81,8 +82,9 @@ class ChatOnBoardingScreen extends StatelessWidget {
       padding: const EdgeInsets.all(37.0),
       child: PrimaryButton(
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PaymentScreen()));
+            /*Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const PaymentScreen())
+            );*/
           },
           text: AppLocalizations.of(context)!.next),
     );

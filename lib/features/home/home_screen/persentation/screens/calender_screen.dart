@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
-import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -150,38 +149,6 @@ class _CalenderScreenState extends State<CalenderScreen> {
               ),
             ),
           ],
-        ),
-        const SizedBox(height: 25),
-        Wrap(
-          children: slots
-              .map((String e) => StreamBuilder<String>(
-                  stream: selectedSlot.stream,
-                  builder: (context, snapshot) {
-                    return GestureDetector(
-                      onTap: () => selectedSlot.sink.add(e),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: selectedSlot.value == e
-                                ? primaryColor
-                                : textFieldBg,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 8),
-                          child: Text(
-                            e,
-                            style: AppStyles.baloo2FontWith700WeightAnd15Size
-                                .copyWith(
-                                    color: selectedSlot.value == e
-                                        ? textFieldBg
-                                        : Colors.black),
-                          ),
-                        ),
-                      ),
-                    );
-                  }))
-              .toList(),
         ),
         const SizedBox(height: 25),
         Padding(

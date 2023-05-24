@@ -74,7 +74,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                           context: context,
                           autoCloseDuration: const Duration(milliseconds: 300),
                           type: CoolAlertType.success,
-                          text: AppLocalizations.of(context)!.success_login,
+                          text: AppLocalizations.of(context)!.otp_success,
                         );
                         if (widget.openFromRegistered &&
                             widget.hasInsurance != null &&

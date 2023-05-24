@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -19,6 +21,7 @@ import 'package:medical_valley/features/home/home_search_screen/persentation/blo
 import 'package:medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
 
 import '../../../../../core/app_sizes.dart';
+import '../../../../offers/presentation/offers_screen.dart';
 import '../../../widgets/home_base_app_bar.dart';
 
 class HomeSearchScreen extends StatefulWidget {
@@ -75,7 +78,39 @@ class HomeState extends State<HomeSearchScreen> {
           Expanded(child: buildHomeTitleGridView()),
           const SizedBox(
             height: 10,
-          )
+          ),
+          BlocListener<BookRequestBloc, BookRequestState>(
+            bloc: bookRequestBloc,
+            listener: (context, state) {
+              if (state.state == BookedState.loading) {
+                Navigator.pop(context);
+                LoadingDialogs.showLoadingDialog(context);
+              } else if (state.state == BookedState.success) {
+                LoadingDialogs.hideLoadingDialog();
+                CoolAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  type: CoolAlertType.success,
+                  text: AppLocalizations.of(context)!.request_sent,
+                );
+                Future.delayed(const Duration(seconds: 2), () async {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => const OffersScreen()));
+                });
+              } else {
+                LoadingDialogs.hideLoadingDialog();
+                CoolAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  type: CoolAlertType.error,
+                  text: state.error,
+                );
+              }
+            },
+            child: Container(),
+          ),
         ],
       ),
     );
@@ -103,10 +138,13 @@ class HomeState extends State<HomeSearchScreen> {
           }
         },
         child: PagedListView<int, Service>(
-          builderDelegate:
-              PagedChildBuilderDelegate<Service>(itemBuilder: (c, item, index) {
-            return buildSearchModelsItem(context, item, index);
-          }),
+          builderDelegate: PagedChildBuilderDelegate<Service>(
+            firstPageProgressIndicatorBuilder: (c) =>
+                const Center(child: Text("No Search Result")),
+            itemBuilder: (c, item, index) {
+              return buildSearchModelsItem(context, item, index);
+            },
+          ),
           pagingController: pagingController,
         ));
   }

@@ -121,7 +121,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                         const Duration(seconds: 1),
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
-                                        .success_login,
+                                        .medical_file_save,
                                   );
                                   if (widget.openFirstTime) {
                                     Future.delayed(const Duration(seconds: 2),
@@ -317,7 +317,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10, end: 10),
       child: PrimaryButton(
-        text: AppLocalizations.of(context)!.payment,
+        text: AppLocalizations.of(context)!.save,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             _bloc.setMedicalFile(MedicalFileRequest(
