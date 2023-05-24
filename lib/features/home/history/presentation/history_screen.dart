@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -253,96 +255,106 @@ class HistoryCard extends StatelessWidget {
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+                const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: smallPaddingHV,
+                Expanded(
+                  flex: 9,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        children: const [
-                          Icon(
-                            Icons.circle,
-                            color: Colors.grey,
-                            size: 10,
-                          ),
-                          DottedLine(
-                            direction: Axis.vertical,
-                            lineLength: 30,
-                            lineThickness: 1.0,
-                            dashLength: 4.0,
-                            dashColor: primaryColor,
-                            dashRadius: 0.0,
-                            dashGapLength: 4.0,
-                            dashGapColor: Colors.transparent,
-                            dashGapRadius: 0.0,
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: primaryColor,
-                            size: 10,
-                          ),
-                        ],
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: const [
+                            Icon(
+                              Icons.circle,
+                              color: Colors.grey,
+                              size: 10,
+                            ),
+                            DottedLine(
+                              direction: Axis.vertical,
+                              lineLength: 30,
+                              lineThickness: 1.0,
+                              dashLength: 4.0,
+                              dashColor: primaryColor,
+                              dashRadius: 0.0,
+                              dashGapLength: 4.0,
+                              dashGapColor: Colors.transparent,
+                              dashGapRadius: 0.0,
+                            ),
+                            Icon(
+                              Icons.circle,
+                              color: primaryColor,
+                              size: 10,
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         width: 8,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item?.categoryStr ?? "",
-                            style: AppStyles.baloo2FontWith400WeightAnd18Size
-                                .copyWith(
-                              color: textGrey,
-                              decoration: TextDecoration.none,
+                      Expanded(
+                        flex: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item?.categoryStr ?? "",
+                              style: AppStyles.baloo2FontWith400WeightAnd18Size
+                                  .copyWith(
+                                color: textGrey,
+                                decoration: TextDecoration.none,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            item?.providerServiceName ?? "",
-                            style: AppStyles.baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: primaryColor),
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item?.providerServiceName ?? "",
+                                    style: AppStyles
+                                        .baloo2FontWith400WeightAnd14Size
+                                        .copyWith(color: primaryColor),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                Text(
-                  item?.bookingStatusStr ?? "",
-                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+                Expanded(
+                  flex: 3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        item!.appointmentDate != null
+                            ? DateFormat("dd/MM/yyyy")
+                                .format(DateTime.parse(item!.appointmentDate!))
+                            : "No Date",
+                        style:
+                            AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          const AppointmentTypeView(),
+          AppointmentTypeView(
+              id: item?.bookingTypeId ?? 0, text: item?.bookingTypeStr ?? ""),
           const SizedBox(
             height: 15,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            color: const Color(0xffF9F9F9),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(
-                  Icons.location_pin,
-                  color: primaryColor,
-                ),
-                Text(
-                  item?.bookingTypeStr ?? "",
-                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
-                ),
-              ],
-            ),
           ),
           const SizedBox(
             height: 8,
@@ -354,22 +366,14 @@ class HistoryCard extends StatelessWidget {
 }
 
 class AppointmentTypeView extends StatelessWidget {
-  const AppointmentTypeView({Key? key}) : super(key: key);
+  final String text;
+  final int id;
+  const AppointmentTypeView({required this.id, required this.text, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 22),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-          color: const Color(0xffCBE6EC),
-          borderRadius: BorderRadius.circular(7)),
-      child: Text(
-        "Immediate Date",
-        style: AppStyles.baloo2FontWith400WeightAnd14Size
-            .copyWith(color: primaryColor),
-      ),
-    );
+    return id.toStatusView(text);
   }
 }
 
