@@ -38,6 +38,7 @@
     "success_logout": "You are successfully Logged out",
   "profile_data_saved": "Your profile information saved",
   "otp_success": "Your otp is right",
+  "insurance_number": "Insurance number",
 
   "invalid_phone": "Invalid phone number",
     "remember_me_text": "Remember me",

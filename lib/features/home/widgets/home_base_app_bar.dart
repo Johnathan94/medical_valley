@@ -18,10 +18,9 @@ class CustomHomeAppBar extends AppBar {
   final Widget leadingIcon;
   final PreferredSizeWidget? bottom;
   final BuildContext context;
-  final TextEditingController controller ;
-  final Function (String? text)? onSubmit ;
-  final Function  onBackPressed ;
-
+  final TextEditingController controller;
+  final Function(String? text)? onSubmit;
+  final Function onBackPressed;
 
   CustomHomeAppBar(
       {this.searchHint,
@@ -32,27 +31,31 @@ class CustomHomeAppBar extends AppBar {
       required this.username,
       required this.context,
       required this.onBackPressed,
-         this.bottom,
-       this.onSubmit,
+      this.bottom,
+      this.onSubmit,
       required this.isTwoLineTitle,
       Key? key})
       : super(
             key: key,
             elevation: 0,
             leading: Container(),
-            bottom: bottom ,
+            bottom: bottom,
             centerTitle: false,
             titleSpacing: appBarTitleNegativeMargin,
             title: Column(
               children: [
                 Row(
                   children: [
-                    isSearchableAppBar ? GestureDetector(
-                        onTap: (){
-                          onBackPressed();
-                        } ,
-                        child:const  Icon(Icons.arrow_back_ios,size: 20,)) :
-                    const SizedBox(),
+                    isSearchableAppBar
+                        ? GestureDetector(
+                            onTap: () {
+                              onBackPressed();
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              size: 20,
+                            ))
+                        : const SizedBox(),
                     leadingIcon,
                     const SizedBox(
                       width: 10,
@@ -71,16 +74,17 @@ class CustomHomeAppBar extends AppBar {
                             ),
                             isTwoLineTitle
                                 ? Image.asset(
-                              handIcon,
-                            )
+                                    handIcon,
+                                  )
                                 : Container()
                           ],
                         ),
                         isTwoLineTitle
                             ? Text(
-                          username,
-                          style: AppStyles.baloo2FontWith400WeightAnd22Size,
-                        )
+                                username,
+                                style:
+                                    AppStyles.baloo2FontWith400WeightAnd22Size,
+                              )
                             : Container(),
                       ],
                     )
@@ -88,26 +92,26 @@ class CustomHomeAppBar extends AppBar {
                 ),
                 isSearchableAppBar
                     ? Container(
-                  margin: const EdgeInsetsDirectional.only(
-                      top: 35, end: 60, start: 10),
-                  child: SizedBox(
-                    height: appBarSearchHeight.h,
-                    child: CustomSearchField(
-                      textController: controller,
-                      hintText: searchHint,
-                      onFieldSubmit: (String? text){
-                        onSubmit!(text);
-                      },
-                      hintStyle: AppStyles
-                          .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
-                    ),
-                  ),
-                )
+                        margin: const EdgeInsetsDirectional.only(
+                            top: 35, end: 60, start: 10),
+                        child: SizedBox(
+                          height: appBarSearchHeight.h,
+                          child: CustomSearchField(
+                            textController: controller,
+                            hintText: searchHint,
+                            onFieldSubmit: (String? text) {
+                              onSubmit!(text);
+                            },
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd18SizeWithoutUnderline,
+                          ),
+                        ),
+                      )
                     : Container()
               ],
             ),
             backgroundColor: primaryColor,
-            actions: isSearchableAppBar
+            actions: !isSearchableAppBar
                 ? []
                 : [
                     InkWell(
@@ -124,5 +128,4 @@ class CustomHomeAppBar extends AppBar {
             toolbarHeight: isSearchableAppBar
                 ? homeScreenAppBarWithSearchHeight.h
                 : homeScreenAppBarHeight.h);
-
 }

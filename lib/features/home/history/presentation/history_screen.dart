@@ -245,10 +245,10 @@ class HistoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: const [
             BoxShadow(
-                color: Color(0xffF2F2F2),
-                offset: Offset(2, 2),
-                blurRadius: 3,
-                spreadRadius: 2)
+                color: Color(0xffE7E7E7),
+                offset: Offset(4, 4),
+                blurRadius: 5,
+                spreadRadius: 5)
           ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

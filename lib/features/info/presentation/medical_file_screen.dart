@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
@@ -37,6 +38,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
+  TextEditingController insuranceNumberController = TextEditingController();
   final MedicalFileBloc _bloc = GetIt.instance<MedicalFileBloc>();
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
@@ -87,6 +89,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
               } else if (state is MedicalInfoStateSuccess) {
                 fullNameController.text = state.model.fullName ?? "";
                 nationalIdController.text = state.model.nationalId ?? "";
+                insuranceNumberController.text =
+                    state.model.insuranceNumber ?? "";
                 genderDisplayed.sink.add(state.model.genderStr ??
                     AppLocalizations.of(context)!.male);
                 birthDateController.text = state.model.birthDate ?? "";
@@ -161,17 +165,22 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           SizedBox(
                             height: 17.h,
                           ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: birthDateController,
-                            hintText:
-                                AppLocalizations.of(context)!.date_of_birth,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                            suffixIcon: const Icon(
-                              Icons.calendar_month_outlined,
-                              color: darkGrey,
+                          GestureDetector(
+                            onTap: () => _showCalender(),
+                            child: GenericTextField(
+                              fillColor: textFieldBg,
+                              textController: birthDateController,
+                              isEnabled: false,
+                              onFieldTapped: () {},
+                              hintText:
+                                  AppLocalizations.of(context)!.date_of_birth,
+                              hintStyle: AppStyles
+                                  .baloo2FontWith400WeightAnd14Size
+                                  .copyWith(color: darkGrey),
+                              suffixIcon: const Icon(
+                                Icons.calendar_month_outlined,
+                                color: darkGrey,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -285,6 +294,18 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                             height: 17.h,
                           ),
                           GenericTextField(
+                            fillColor: textFieldBg,
+                            textController: insuranceNumberController,
+                            hintText:
+                                AppLocalizations.of(context)!.insurance_number,
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd14Size
+                                .copyWith(color: darkGrey),
+                          ),
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          GenericTextField(
                             fillColor: whiteColor,
                             maxLines: 4,
                             enabledBorder: OutlineInputBorder(
@@ -313,6 +334,17 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
             }));
   }
 
+  void _showCalender() async {
+    DateTime? selected = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime(2050));
+    if (selected != null) {
+      birthDateController.text = DateFormat("dd-MM-yyyy").format(selected);
+    }
+  }
+
   paymentButton(MedicalFileModel model) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10, end: 10),
@@ -324,7 +356,9 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                 id: model.id,
                 hasInsurance: user.hasInsurance ?? model.hasInsurance,
                 nationalId: nationalIdController.text,
-                insuranceNumber: model.insuranceNumber,
+                insuranceNumber: insuranceNumberController.text.isNotEmpty
+                    ? insuranceNumberController.text
+                    : model.insuranceNumber,
                 birthDate: birthDateController.text,
                 genderId:
                     genderDisplayed.value == AppLocalizations.of(context)!.male

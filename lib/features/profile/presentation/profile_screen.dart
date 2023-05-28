@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
@@ -95,6 +96,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ? AppLocalizations.of(context)!.yes
                         : AppLocalizations.of(context)!.no);
                 notesController.text = state.model.notes ?? "";
+                emailController.text = state.model.email ?? "";
+                phoneController.text = state.model.mobile ?? "";
                 return Padding(
                   padding: bigPaddingHV,
                   child: SingleChildScrollView(
@@ -186,17 +189,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             height: 17.h,
                           ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: birthDateController,
-                            hintText:
-                                AppLocalizations.of(context)!.date_of_birth,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                            suffixIcon: const Icon(
-                              Icons.calendar_month_outlined,
-                              color: darkGrey,
+                          GestureDetector(
+                            onTap: () => _showCalender(),
+                            child: GenericTextField(
+                              fillColor: textFieldBg,
+                              textController: birthDateController,
+                              isEnabled: false,
+                              hintText:
+                                  AppLocalizations.of(context)!.date_of_birth,
+                              hintStyle: AppStyles
+                                  .baloo2FontWith400WeightAnd14Size
+                                  .copyWith(color: darkGrey),
+                              suffixIcon: const Icon(
+                                Icons.calendar_month_outlined,
+                                color: darkGrey,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -409,5 +416,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       ),
     );
+  }
+
+  void _showCalender() async {
+    DateTime? selected = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime(2050));
+    if (selected != null) {
+      birthDateController.text = DateFormat("dd-MM-yyyy").format(selected);
+    }
   }
 }

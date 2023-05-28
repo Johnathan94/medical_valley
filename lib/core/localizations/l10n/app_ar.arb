@@ -43,6 +43,7 @@
   "branch" : "الفرع",
   "save" : "حفظ",
   "medical_file_save": "لقد تم حفظ معلوماتك الطبيه ",
+  "insurance_number": "رقم التامين ",
   "otp_success": "الرقم المؤقت صحيح",
   "profile_data_saved": "لقد تم حفظ معلوماتك الشخصيه ",
   "request_sent" : "لقد تم ارسال الطلب بنجاح",
