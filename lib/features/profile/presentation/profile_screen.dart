@@ -297,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   String toGenderLocal(String gender) {
-    switch (gender) {
+    switch (gender.toLowerCase().trim()) {
       case "male":
         return AppLocalizations.of(context)!.male;
       default:
