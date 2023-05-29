@@ -11,7 +11,6 @@ import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
-import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/GenericITextField.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
@@ -36,11 +35,11 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController notesController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
+  TextEditingController insuranceController = TextEditingController();
   TextEditingController nationalIdController = TextEditingController();
   TextEditingController insuranceNumberController = TextEditingController();
   final MedicalFileBloc _bloc = GetIt.instance<MedicalFileBloc>();
-  BehaviorSubject<String> genderDisplayed = BehaviorSubject();
+  BehaviorSubject<String> insuranceDisplayed = BehaviorSubject();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   final _formKey = GlobalKey<FormState>();
   late UserDate user;
@@ -55,8 +54,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
 
   @override
   void didChangeDependencies() {
-    genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
-    optionDisplayed.sink.add(AppLocalizations.of(context)!.male);
+    insuranceDisplayed.sink.add(AppLocalizations.of(context)!.yes);
+    optionDisplayed.sink.add(AppLocalizations.of(context)!.yes);
     super.didChangeDependencies();
   }
 
@@ -91,8 +90,10 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                 nationalIdController.text = state.model.nationalId ?? "";
                 insuranceNumberController.text =
                     state.model.insuranceNumber ?? "";
-                genderDisplayed.sink.add(state.model.genderStr ??
-                    AppLocalizations.of(context)!.male);
+                insuranceDisplayed.sink.add(state.model.hasInsurance != null &&
+                        state.model.hasInsurance!
+                    ? AppLocalizations.of(context)!.yes
+                    : AppLocalizations.of(context)!.no);
                 birthDateController.text = state.model.birthDate ?? "";
                 notesController.text = state.model.notes ?? "";
                 return Padding(
@@ -150,7 +151,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                   );
                                 }
                               }),
-                          Image.asset(personImage),
+                          //Image.asset(personImage),
                           SizedBox(
                             height: 30.h,
                           ),
@@ -183,94 +184,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
-                          StreamBuilder<String>(
-                              stream: genderDisplayed.stream,
-                              builder: (context, snapshot) {
-                                return SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: DropdownButton2<String>(
-                                    isExpanded: true,
-                                    hint: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!.gender,
-                                          style: AppStyles.headlineStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                          genderDisplayed.value,
-                                          style: AppStyles.headlineStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                    items: [
-                                      AppLocalizations.of(context)!.male,
-                                      AppLocalizations.of(context)!.female,
-                                    ]
-                                        .map((item) => DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    item,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  optionDisplayed.value == item
-                                                      ? const Icon(
-                                                          Icons.check_circle,
-                                                          color: primaryColor,
-                                                          size: 15,
-                                                        )
-                                                      : const SizedBox()
-                                                ],
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (String? value) {
-                                      genderDisplayed.sink.add(value!);
-                                      optionDisplayed.sink.add(value);
-                                    },
-                                    icon: const Padding(
-                                      padding:
-                                          EdgeInsetsDirectional.only(end: 8.0),
-                                      child:
-                                          Icon(Icons.arrow_drop_down_outlined),
-                                    ),
-                                    buttonHeight: 60,
-                                    underline: const SizedBox(),
-                                    buttonDecoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: textFieldBg,
-                                        border:
-                                            Border.all(color: primaryColor)),
-                                    buttonElevation: 2,
-                                    itemHeight: 45,
-                                    dropdownDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      color: whiteColor,
-                                    ),
-                                    dropdownElevation: 8,
-                                    scrollbarThickness: 6,
-                                    scrollbarAlwaysShow: true,
-                                  ),
-                                );
-                              }),
+
                           SizedBox(
                             height: 17.h,
                           ),
@@ -305,6 +219,95 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           SizedBox(
                             height: 17.h,
                           ),
+                          StreamBuilder<String>(
+                              stream: insuranceDisplayed.stream,
+                              builder: (context, snapshot) {
+                                return SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: DropdownButton2<String>(
+                                    isExpanded: true,
+                                    hint: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .insurance_question,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          insuranceDisplayed.value,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                    items: [
+                                      AppLocalizations.of(context)!.yes,
+                                      AppLocalizations.of(context)!.no,
+                                    ]
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  optionDisplayed.value == item
+                                                      ? const Icon(
+                                                          Icons.check_circle,
+                                                          color: primaryColor,
+                                                          size: 15,
+                                                        )
+                                                      : const SizedBox()
+                                                ],
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (String? value) {
+                                      insuranceDisplayed.sink.add(value!);
+                                      optionDisplayed.sink.add(value);
+                                    },
+                                    icon: const Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.only(end: 8.0),
+                                      child:
+                                          Icon(Icons.arrow_drop_down_outlined),
+                                    ),
+                                    buttonHeight: 60,
+                                    underline: const SizedBox(),
+                                    buttonDecoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: textFieldBg,
+                                        border:
+                                            Border.all(color: primaryColor)),
+                                    buttonElevation: 2,
+                                    itemHeight: 45,
+                                    dropdownDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: whiteColor,
+                                    ),
+                                    dropdownElevation: 8,
+                                    scrollbarThickness: 6,
+                                    scrollbarAlwaysShow: true,
+                                  ),
+                                );
+                              }),
+                          SizedBox(
+                            height: 17.h,
+                          ),
                           GenericTextField(
                             fillColor: whiteColor,
                             maxLines: 4,
@@ -317,6 +320,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                 .baloo2FontWith400WeightAnd14Size
                                 .copyWith(color: darkGrey),
                           ),
+
                           SizedBox(
                             height: 30.h,
                           ),
@@ -353,17 +357,17 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             _bloc.setMedicalFile(MedicalFileRequest(
-                id: model.id,
-                hasInsurance: user.hasInsurance ?? model.hasInsurance,
-                nationalId: nationalIdController.text,
-                insuranceNumber: insuranceNumberController.text.isNotEmpty
-                    ? insuranceNumberController.text
-                    : model.insuranceNumber,
-                birthDate: birthDateController.text,
-                genderId:
-                    genderDisplayed.value == AppLocalizations.of(context)!.male
-                        ? 1
-                        : 2));
+              id: model.id,
+              hasInsurance:
+                  insuranceDisplayed.value == AppLocalizations.of(context)!.yes
+                      ? true
+                      : false,
+              nationalId: nationalIdController.text,
+              insuranceNumber: insuranceNumberController.text.isNotEmpty
+                  ? insuranceNumberController.text
+                  : model.insuranceNumber,
+              birthDate: birthDateController.text,
+            ));
           } else {
             context.showSnackBar(
                 AppLocalizations.of(context)!.please_fill_all_data);

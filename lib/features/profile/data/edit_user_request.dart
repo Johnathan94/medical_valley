@@ -11,16 +11,15 @@ class UpdateUserRequest {
   int? longitude;
 
   UpdateUserRequest(
-      {
-      required  this.id,
+      {required this.id,
       required this.fullName,
       required this.email,
-      required  this.haveInsurance,
-      required  this.nationalId,
-      required  this.birthDate,
-      required  this.genderId,
-      required   this.location,
-      required  this.latitude,
+      this.haveInsurance,
+      required this.nationalId,
+      required this.birthDate,
+      required this.genderId,
+      required this.location,
+      required this.latitude,
       required this.longitude});
 
   UpdateUserRequest.fromJson(Map<String, dynamic> json) {
@@ -37,7 +36,7 @@ class UpdateUserRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullName'] = fullName;
     data['email'] = email;

@@ -37,9 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController nationalIdController = TextEditingController();
   final UserProfileBloc _bloc = GetIt.instance<UserProfileBloc>();
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
-  BehaviorSubject<String> hasInsuranceDisplayed = BehaviorSubject();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
-  BehaviorSubject<String> insuranceOptionDisplayed = BehaviorSubject();
   final formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -50,9 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void didChangeDependencies() {
     genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
-    hasInsuranceDisplayed.sink.add(AppLocalizations.of(context)!.yes);
     optionDisplayed.sink.add(AppLocalizations.of(context)!.male);
-    insuranceOptionDisplayed.sink.add(AppLocalizations.of(context)!.yes);
     super.didChangeDependencies();
   }
 
@@ -84,17 +80,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               } else if (state is GetUserInfoStateSuccess) {
                 fullNameController.text = state.model.fullName ?? "";
-                genderDisplayed.sink.add(state.model.genderStr ??
-                    AppLocalizations.of(context)!.male);
+                genderDisplayed.sink.add(state.model.genderStr != null
+                    ? toGenderLocal(state.model.genderStr!)
+                    : AppLocalizations.of(context)!.male);
                 optionDisplayed.sink.add(state.model.genderStr ??
                     AppLocalizations.of(context)!.male);
-                hasInsuranceDisplayed.sink.add(state.model.hasInsurance == true
-                    ? AppLocalizations.of(context)!.yes
-                    : AppLocalizations.of(context)!.no);
-                insuranceOptionDisplayed.sink.add(
-                    state.model.hasInsurance == true
-                        ? AppLocalizations.of(context)!.yes
-                        : AppLocalizations.of(context)!.no);
                 notesController.text = state.model.notes ?? "";
                 emailController.text = state.model.email ?? "";
                 phoneController.text = state.model.mobile ?? "";
@@ -290,92 +280,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               }),
                           SizedBox(
-                            height: 17.h,
-                          ),
-                          StreamBuilder<String>(
-                              stream: hasInsuranceDisplayed.stream,
-                              builder: (context, snapshot) {
-                                return SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: DropdownButton2<String>(
-                                    isExpanded: true,
-                                    hint: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .insurance_question,
-                                          style: AppStyles.headlineStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                          hasInsuranceDisplayed.value,
-                                          style: AppStyles.headlineStyle,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                    items: [
-                                      AppLocalizations.of(context)!.yes,
-                                      AppLocalizations.of(context)!.no,
-                                    ]
-                                        .map((item) => DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    item,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  insuranceOptionDisplayed
-                                                              .value ==
-                                                          item
-                                                      ? const Icon(
-                                                          Icons.check_circle,
-                                                          color: primaryColor,
-                                                          size: 15,
-                                                        )
-                                                      : const SizedBox()
-                                                ],
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (String? value) {
-                                      hasInsuranceDisplayed.sink.add(value!);
-                                      insuranceOptionDisplayed.sink.add(value);
-                                    },
-                                    icon: const Padding(
-                                      padding:
-                                          EdgeInsetsDirectional.only(end: 8.0),
-                                      child:
-                                          Icon(Icons.arrow_drop_down_outlined),
-                                    ),
-                                    buttonHeight: 60,
-                                    underline: const SizedBox(),
-                                    buttonElevation: 2,
-                                    itemHeight: 45,
-                                    dropdownDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      color: whiteColor,
-                                    ),
-                                    dropdownElevation: 8,
-                                    scrollbarThickness: 6,
-                                    scrollbarAlwaysShow: true,
-                                  ),
-                                );
-                              }),
-                          SizedBox(
                             height: 30.h,
                           ),
                           updateButton(state.model)
@@ -392,6 +296,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }));
   }
 
+  String toGenderLocal(String gender) {
+    switch (gender) {
+      case "male":
+        return AppLocalizations.of(context)!.male;
+      default:
+        return AppLocalizations.of(context)!.female;
+    }
+  }
+
   updateButton(UserModel model) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10, end: 10),
@@ -402,8 +315,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               id: model.id,
               fullName: fullNameController.text,
               email: emailController.text,
-              haveInsurance: hasInsuranceDisplayed.value ==
-                  AppLocalizations.of(context)!.yes,
               nationalId: nationalIdController.text,
               birthDate: birthDateController.text,
               genderId:
