@@ -8,6 +8,7 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
@@ -17,6 +18,7 @@ import 'package:medical_valley/features/home/home_search_screen/persentation/blo
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 import 'package:medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
 
@@ -73,20 +75,12 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                     LoadingDialogs.showLoadingDialog(context);
                   } else if (state.state == BookedState.success) {
                     LoadingDialogs.hideLoadingDialog();
-                    CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
-                      type: CoolAlertType.success,
-                      text: AppLocalizations.of(context)!.booked_successed,
-                    );
-                    Future.delayed(const Duration(seconds: 2), () async {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (c) => const OffersScreen()));
-                    });
+                    context.showSnackBar(
+                        AppLocalizations.of(context)!.request_sent);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const OffersScreen()));
                   } else {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
@@ -167,64 +161,82 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
     );
   }
 
+  BehaviorSubject<int> selectedService = BehaviorSubject.seeded(-1);
   buildSearchModelsItem(BuildContext context, Service service, int index) {
-    return GestureDetector(
-      onTap: () {
-        showBottomSheet(
-            context: context,
-            builder: (context) => AppointmentsBottomSheet(
-                  onBookRequest: (int id) async {
-                    if (id == 1 || id == 2) {
-                      UserDate result =
-                          UserDate.fromJson(LocalStorageManager.getUser()!);
-                      bookRequestBloc.sendRequest(BookRequestModel(
-                          serviceId: service.id!,
-                          isProviderService: service.isProviderService ?? false,
-                          categoryId: widget.categoryId,
-                          bookingTypeId: id,
-                          userId: result.id));
-                    }
-                  },
-                  onScheduledPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (c) => CalenderScreen(
-                                  services: service,
-                                  isProviderService:
-                                      service.isProviderService ?? false,
-                                )));
-                  },
-                ));
-      },
-      child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          height: homeSearchScreenHeight,
-          margin: const EdgeInsetsDirectional.only(
-              end: homeSearchScreenMarginHorizontal,
-              start: homeSearchScreenMarginHorizontal,
-              top: homeSearchItemMarginTop),
-          decoration: const BoxDecoration(
-              color: whiteColor,
-              borderRadius:
-                  BorderRadius.all(Radius.circular(homeSearchScreenRadius)),
-              boxShadow: [
-                BoxShadow(spreadRadius: 1, blurRadius: 8, color: shadowColor)
-              ]),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 90,
-                child: Text(
-                  service.englishName ?? "",
-                  maxLines: 2,
-                  style: AppStyles.baloo2FontWith400WeightAnd12Size,
-                ),
-              ),
-              const Expanded(flex: 10, child: Icon(Icons.circle_outlined))
-            ],
-          )),
-    );
+    return StreamBuilder<int>(
+        stream: selectedService.stream,
+        builder: (context, snapshot) {
+          return GestureDetector(
+            onTap: () {
+              selectedService.sink.add(service.id!);
+              showBottomSheet(
+                  context: context,
+                  builder: (context) => AppointmentsBottomSheet(
+                        onBookRequest: (int id) async {
+                          if (id == 1 || id == 2) {
+                            UserDate result = UserDate.fromJson(
+                                LocalStorageManager.getUser()!);
+                            bookRequestBloc.sendRequest(BookRequestModel(
+                                serviceId: service.id!,
+                                isProviderService:
+                                    service.isProviderService ?? false,
+                                categoryId: widget.categoryId,
+                                bookingTypeId: id,
+                                userId: result.id));
+                          }
+                        },
+                        onScheduledPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => CalenderScreen(
+                                        services: service,
+                                        isProviderService:
+                                            service.isProviderService ?? false,
+                                      )));
+                        },
+                      ));
+            },
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                height: homeSearchScreenHeight,
+                margin: const EdgeInsetsDirectional.only(
+                    end: homeSearchScreenMarginHorizontal,
+                    start: homeSearchScreenMarginHorizontal,
+                    top: homeSearchItemMarginTop),
+                decoration: const BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(homeSearchScreenRadius)),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 1, blurRadius: 8, color: shadowColor)
+                    ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 90,
+                      child: Text(
+                        LocalStorageManager.getCurrentLanguage() == "ar"
+                            ? service.arabicName ?? ""
+                            : service.englishName ?? "",
+                        maxLines: 2,
+                        style: AppStyles.baloo2FontWith400WeightAnd12Size,
+                      ),
+                    ),
+                    selectedService.value == service.id
+                        ? const Expanded(
+                            flex: 10,
+                            child: Icon(
+                              Icons.circle,
+                              color: primaryColor,
+                            ))
+                        : const Expanded(
+                            flex: 10, child: Icon(Icons.circle_outlined))
+                  ],
+                )),
+          );
+        });
   }
 }

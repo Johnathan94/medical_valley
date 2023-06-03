@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/features/profile/presentation/profile_screen.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_sizes.dart';
@@ -12,6 +13,7 @@ import 'home_base_stateful_widget.dart';
 class CustomHomeAppBar extends AppBar {
   final bool isSearchableAppBar;
   final bool isTwoLineTitle;
+  final bool hasSearchIcon;
   final String goodMorningText;
   final String username;
   final String? searchHint;
@@ -31,6 +33,7 @@ class CustomHomeAppBar extends AppBar {
       required this.username,
       required this.context,
       required this.onBackPressed,
+      required this.hasSearchIcon,
       this.bottom,
       this.onSubmit,
       required this.isTwoLineTitle,
@@ -60,33 +63,40 @@ class CustomHomeAppBar extends AppBar {
                     const SizedBox(
                       width: 10,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              goodMorningText,
-                              style: AppStyles.baloo2FontWith700WeightAnd17Size,
-                            ),
-                            isTwoLineTitle
-                                ? Image.asset(
-                                    handIcon,
-                                  )
-                                : Container()
-                          ],
-                        ),
-                        isTwoLineTitle
-                            ? Text(
-                                username,
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => const ProfileScreen())),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                goodMorningText,
                                 style:
-                                    AppStyles.baloo2FontWith400WeightAnd22Size,
-                              )
-                            : Container(),
-                      ],
+                                    AppStyles.baloo2FontWith700WeightAnd17Size,
+                              ),
+                              isTwoLineTitle
+                                  ? Image.asset(
+                                      handIcon,
+                                    )
+                                  : Container()
+                            ],
+                          ),
+                          isTwoLineTitle
+                              ? Text(
+                                  username,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd22Size,
+                                )
+                              : Container(),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -111,7 +121,7 @@ class CustomHomeAppBar extends AppBar {
               ],
             ),
             backgroundColor: primaryColor,
-            actions: !isSearchableAppBar
+            actions: !hasSearchIcon
                 ? []
                 : [
                     InkWell(

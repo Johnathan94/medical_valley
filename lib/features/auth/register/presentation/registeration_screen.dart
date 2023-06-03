@@ -71,9 +71,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         resizeToAvoidBottomInset: false,
         appBar: CustomAppBar(
           header: AppLocalizations.of(context)!.sign_up,
-          leadingIcon: const Icon(
-            Icons.arrow_back_ios,
-            color: whiteColor,
+          leadingIcon: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: whiteColor,
+            ),
           ),
         ),
         body: Stack(

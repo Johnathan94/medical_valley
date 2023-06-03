@@ -202,7 +202,7 @@ class MoreScreen extends StatelessWidget {
                 CoolAlert.show(
                   barrierDismissible: false,
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 1),
+                  autoCloseDuration: const Duration(milliseconds: 1),
                   type: CoolAlertType.success,
                   text: AppLocalizations.of(context)!.success_logout,
                 );

@@ -410,7 +410,7 @@ class OfferCard extends StatelessWidget {
                         visible:
                             items.insuranceStatus == 0 && 3 - negoCount != 0,
                         child: Expanded(
-                            flex: 3 - negoCount,
+                            flex: 2 - negoCount,
                             child: GestureDetector(
                                 onTap: () => onNegotiatePressed(items.id ?? 0),
                                 child: OffersOptionsButton(
@@ -424,7 +424,7 @@ class OfferCard extends StatelessWidget {
                         height: 4,
                       ),
                       Expanded(
-                          flex: negoCount,
+                          flex: negoCount + 1,
                           child: GestureDetector(
                               onTap: () => onBookPressed(items.requestId ?? 0),
                               child: OffersOptionsButton(

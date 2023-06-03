@@ -281,6 +281,7 @@ class HomeState extends State<HomeSearchScreen> {
         isTwoLineTitle: true,
         controller: controller,
         context: context,
+        hasSearchIcon: false,
       ),
       body: getHomeScreen(),
     );

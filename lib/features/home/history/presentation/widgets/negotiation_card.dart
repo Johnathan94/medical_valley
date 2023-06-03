@@ -139,7 +139,7 @@ class NegotiationsCard extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: GestureDetector(
                         onTap: () => onNegotiatePressed(items.id ?? 0),
                         child: OffersOptionsButton(
@@ -151,7 +151,7 @@ class NegotiationsCard extends StatelessWidget {
                   height: 4,
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: GestureDetector(
                       onTap: () => onBookPressed(items.id ?? 0),
                       child: OffersOptionsButton(

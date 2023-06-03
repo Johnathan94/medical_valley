@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BehaviorSubject<bool> isGridView = BehaviorSubject.seeded(false);
   int nextPage = 1;
   int nextPageKey = 1;
-  late UserDate currentUser  ;
+  late UserDate currentUser;
   @override
   initState() {
     homeBloc.getCategories();
@@ -50,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
             return getBody(state.category.data!);
           }
           if (state is LoadingHomeState) {
-            return const Center(child:  CircularProgressIndicator());
-          } else  {
+            return const Center(child: CircularProgressIndicator());
+          } else {
             return const Text("There is no Categories");
           }
         },
@@ -61,8 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   buildAppBar() {
     return CustomHomeAppBar(
-      username : currentUser.fullName!,
+      username: currentUser.fullName!,
       isSearchableAppBar: false,
+      hasSearchIcon: true,
       controller: TextEditingController(),
       goodMorningText: AppLocalizations.of(context)!.good_morning,
       bottom: AppBar(
@@ -70,44 +71,43 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children:  [
+          children: [
             GestureDetector(
-                onTap: ()=> isGridView.sink.add(true),
+                onTap: () => isGridView.sink.add(true),
                 child: Container(
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.all(8),
-                    decoration:  BoxDecoration(
-
+                    decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius:  BorderRadius.circular(8),
-                        boxShadow:  const [
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: const [
                           BoxShadow(
-                              color:shadowGrey,
+                              color: shadowGrey,
                               offset: Offset(2, 2),
                               spreadRadius: 1,
-                              blurRadius: 5
-                          )
-                        ]
-                    ),
-                    child: const Icon(Icons.grid_4x4 , color: primaryColor,size: 25,))) ,
+                              blurRadius: 5)
+                        ]),
+                    child: const Icon(
+                      Icons.grid_4x4,
+                      color: primaryColor,
+                      size: 25,
+                    ))),
             GestureDetector(
-                onTap: ()=> isGridView.sink.add(false),
+                onTap: () => isGridView.sink.add(false),
                 child: Container(
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.all(8),
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius:  BorderRadius.circular(8),
-                        boxShadow:  const [
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: const [
                           BoxShadow(
-                              color:shadowGrey,
+                              color: shadowGrey,
                               offset: Offset(2, 2),
                               spreadRadius: 1,
-                              blurRadius: 5
-                          )
-                        ]
-                    ),
-                    child: const Icon(Icons.list,color: primaryColor))),
+                              blurRadius: 5)
+                        ]),
+                    child: const Icon(Icons.list, color: primaryColor))),
           ],
         ),
       ),
@@ -116,103 +116,137 @@ class _HomeScreenState extends State<HomeScreen> {
         width: appBarIconWidth,
         height: appBarIconHeight,
       ),
-      isTwoLineTitle: true, context: context,
-      onBackPressed: (){},
+      isTwoLineTitle: true,
+      context: context,
+      onBackPressed: () {},
     );
   }
 
-
   Widget getBody(List<CategoryModel> models) {
-    return
-      StreamBuilder<bool>(
+    return StreamBuilder<bool>(
         stream: isGridView.stream,
         builder: (context, snapshot) {
-          return isGridView.value ?
-          GridView.builder(
-            itemCount: models.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 1,
-              mainAxisSpacing: 1,
-              childAspectRatio: MediaQuery.of(context).size.aspectRatio * 3
-          ), itemBuilder: (BuildContext context, int index) {
-                return Center(
-                  child:  _buildCategoryItemForGrid(models[index]),
-                );
-          },):
-          Container(
-              color: whiteColor,
-              child: ListView.builder(
-                shrinkWrap: true,
+          return isGridView.value
+              ? GridView.builder(
                   itemCount: models.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (c , index)=> _buildCategoryItem(models[index]))
-    );
-        }
-      );
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.aspectRatio * 3),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Center(
+                      child: _buildCategoryItemForGrid(models[index]),
+                    );
+                  },
+                )
+              : Container(
+                  color: whiteColor,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: models.length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (c, index) =>
+                          _buildCategoryItem(models[index])));
+        });
   }
 
   _buildCategoryItem(CategoryModel model) {
-    return  GestureDetector(
-      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (c)=> HomeDetailsScreen(categoryName: model.name!, categoryId: model.id!,))),
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (c) => HomeDetailsScreen(
+                    categoryName: model.name!,
+                    categoryId: model.id!,
+                  ))),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 12),
-        margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0xffE2E2E2),
-              blurRadius: 5,
-              spreadRadius: 2,
-              offset: Offset(2, 2)
-            )
-          ],
-          borderRadius: BorderRadius.circular(16)
-        ),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0xffE2E2E2),
+                  blurRadius: 5,
+                  spreadRadius: 2,
+                  offset: Offset(2, 2))
+            ],
+            borderRadius: BorderRadius.circular(16)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                const Icon(Icons.medical_services_outlined , color: Colors.black,),
-                const SizedBox(width: 4,),
-                Text(model.name!,style:  AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: Colors.black, decoration: TextDecoration.none), ),
+                const Icon(
+                  Icons.medical_services_outlined,
+                  color: Colors.black,
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  model.name!,
+                  style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
+                      color: Colors.black, decoration: TextDecoration.none),
+                ),
               ],
             ),
-            const Icon(Icons.arrow_forward_ios , color: Colors.black,)
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+            )
           ],
         ),
       ),
     );
   }
+
   _buildCategoryItemForGrid(CategoryModel model) {
-    return  GestureDetector(
-      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (c)=> HomeDetailsScreen(categoryName: model.name!, categoryId: model.id!,))),
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (c) => HomeDetailsScreen(
+                    categoryName: model.name!,
+                    categoryId: model.id!,
+                  ))),
       child: Container(
         width: MediaQuery.of(context).size.width * .333,
         height: MediaQuery.of(context).size.width * .333,
-        padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 12),
-        margin: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0xffE2E2E2),
-              blurRadius: 5,
-              spreadRadius: 2,
-              offset: Offset(2, 2)
-            )
-          ],
-          borderRadius: BorderRadius.circular(16)
-        ),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0xffE2E2E2),
+                  blurRadius: 5,
+                  spreadRadius: 2,
+                  offset: Offset(2, 2))
+            ],
+            borderRadius: BorderRadius.circular(16)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(Icons.medical_services_outlined , color: Colors.black,),
-            const SizedBox(height: 8,),
-            Text(model.name!,style:  AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(color: Colors.black, decoration: TextDecoration.none,height: 1.1),textAlign: TextAlign.center,maxLines: 3, ),
+            const Icon(
+              Icons.medical_services_outlined,
+              color: Colors.black,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              model.name!,
+              style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
+                  color: Colors.black,
+                  decoration: TextDecoration.none,
+                  height: 1.1),
+              textAlign: TextAlign.center,
+              maxLines: 3,
+            ),
           ],
         ),
       ),

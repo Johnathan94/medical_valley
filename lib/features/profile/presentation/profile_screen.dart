@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: MyCustomAppBar(
-          header: AppLocalizations.of(context)!.medical_file,
+          header: AppLocalizations.of(context)!.profile,
           leadingIcon: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
@@ -166,6 +166,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             hintStyle: AppStyles
                                 .baloo2FontWith400WeightAnd14Size
                                 .copyWith(color: darkGrey),
+                            onValidator: (text) {
+                              if (text!.isNotEmpty && text.length > 10)
+                                return null;
+                              else {
+                                return AppLocalizations.of(context)!
+                                    .national_id_is_required;
+                              }
+                            },
                           ),
                           SizedBox(
                             height: 17.h,
@@ -333,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     DateTime? selected = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
+        firstDate: DateTime(1900),
         lastDate: DateTime(2050));
     if (selected != null) {
       birthDateController.text = DateFormat("dd-MM-yyyy").format(selected);
