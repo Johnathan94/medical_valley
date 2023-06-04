@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
@@ -92,5 +93,16 @@ extension BookingStatusView on int {
           ),
         );
     }
+  }
+}
+
+String getGreeting(context) {
+  final DateTime now = DateTime.now();
+  final int currentHour = now.hour;
+
+  if (currentHour >= 0 && currentHour < 12) {
+    return AppLocalizations.of(context)!.good_morning;
+  } else {
+    return AppLocalizations.of(context)!.good_evening;
   }
 }

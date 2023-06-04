@@ -133,7 +133,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   );
                                 }
                               }),
-                          Image.asset(personImage),
+                          Stack(
+                            children: [
+                              Image.asset(personImage),
+                              PositionedDirectional(
+                                end: 10,
+                                bottom: 10,
+                                child: const Icon(
+                                  Icons.edit_calendar_outlined,
+                                  color: primaryColor,
+                                ),
+                              )
+                            ],
+                          ),
                           SizedBox(
                             height: 30.h,
                           ),

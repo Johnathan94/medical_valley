@@ -8,6 +8,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -224,6 +225,9 @@ class HomeState extends State<HomeSearchScreen> {
                                       service.isProviderService ?? false,
                                 )));
                   },
+                  serviceName: LocalStorageManager.getCurrentLanguage() == "ar"
+                      ? service.arabicName ?? ""
+                      : service.englishName ?? "",
                 ));
       },
       child: Container(
@@ -272,7 +276,7 @@ class HomeState extends State<HomeSearchScreen> {
         onBackPressed: () {
           widget.isBackPressed();
         },
-        goodMorningText: AppLocalizations.of(context)!.good_morning,
+        goodMorningText: getGreeting(context),
         leadingIcon: Image.asset(
           appIcon,
           width: appBarIconWidth,

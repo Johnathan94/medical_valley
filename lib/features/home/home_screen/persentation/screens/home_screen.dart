@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/home_details_screen.dart';
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       isSearchableAppBar: false,
       hasSearchIcon: true,
       controller: TextEditingController(),
-      goodMorningText: AppLocalizations.of(context)!.good_morning,
+      goodMorningText: getGreeting(context),
       bottom: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

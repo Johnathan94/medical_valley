@@ -75,7 +75,7 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
       child: PrimaryButton(
         text: "",
         onPressed: () {
-          navigateToHomeScreen();
+          navigateToHomeScreen(context);
         },
         isWidgetButton: true,
         body: Row(
@@ -106,8 +106,8 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
     );
   }
 
-  void navigateToHomeScreen() {
-    Navigator.of(context).push(MaterialPageRoute(
+  void navigateToHomeScreen(context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const HomeBaseStatefulWidget()));
   }
 }

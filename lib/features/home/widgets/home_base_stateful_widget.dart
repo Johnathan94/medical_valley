@@ -23,12 +23,12 @@ class HomeBaseStatefulWidget extends StatefulWidget {
 
 class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   final BehaviorSubject<int> _index = BehaviorSubject();
-  static BehaviorSubject<bool> _isSearchClicked = BehaviorSubject();
+  static final BehaviorSubject<bool> isSearchClicked =
+      BehaviorSubject.seeded(false);
 
   @override
   initState() {
     _index.sink.add(0);
-    _isSearchClicked.sink.add(false);
     super.initState();
   }
 
@@ -36,8 +36,8 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   dispose() {
     _index.stream.drain();
     _index.close();
-    _isSearchClicked.stream.drain();
-    _isSearchClicked.close();
+    isSearchClicked.stream.drain();
+    isSearchClicked.close();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: getBody(),
       bottomNavigationBar: buildBottomNavigationBar(),
-      floatingActionButton: getFloatingButton(),
+      //floatingActionButton: getFloatingButton(),
     );
   }
 
@@ -111,13 +111,14 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
 
   getHomeScreen() {
     return StreamBuilder<bool>(
-        stream: _isSearchClicked,
+        stream: isSearchClicked,
         builder: (context, snapshot) {
           if (snapshot.hasData && (snapshot.data ?? false)) {
-            return  HomeSearchScreen(
-              isBackPressed: (){
-              _isSearchClicked.sink.add(false);
-            },);
+            return HomeSearchScreen(
+              isBackPressed: () {
+                isSearchClicked.sink.add(false);
+              },
+            );
           } else {
             return const HomeScreen();
           }
@@ -125,7 +126,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   }
 
   static searchIconClicked() {
-    _isSearchClicked.sink.add(!_isSearchClicked.value);
+    isSearchClicked.sink.add(!isSearchClicked.value);
   }
 
   getFloatingButton() {

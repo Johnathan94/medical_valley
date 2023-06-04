@@ -174,8 +174,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   fillColor: textFieldBg,
-                  isDense: true,
                   filled: true,
+                  enabledBorder: InputBorder.none,
+                  isDense: true,
                   focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: primaryColor)),
                   hintText: AppLocalizations.of(context)!.email,

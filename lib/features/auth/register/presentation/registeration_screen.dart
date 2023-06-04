@@ -412,7 +412,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   appIcon: googleIcon,
                 ),
                 AuthenticationAppWidget(
-                  appIcon: facebookIcon,
+                  appIcon: instagramIcon,
                 ),
                 AuthenticationAppWidget(
                   appIcon: twitterIcon,

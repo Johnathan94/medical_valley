@@ -66,7 +66,7 @@ class _HistoryScreenState extends State<HistoryScreen>
           hasSearchIcon: false,
           controller: TextEditingController(),
           searchHint: AppLocalizations.of(context)!.search,
-          goodMorningText: AppLocalizations.of(context)!.good_morning,
+          goodMorningText: getGreeting(context),
           leadingIcon: Image.asset(
             appIcon,
             width: appBarIconWidth.w,

@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -196,19 +195,11 @@ class MoreScreen extends StatelessWidget {
             child: PrimaryButton(
               buttonCornerRadius: 22,
               onPressed: () async {
-                LoadingDialogs.showLoadingDialog(context);
+                await LoadingDialogs.showLoadingDialog(context);
                 await LocalStorageManager.remove();
-                LoadingDialogs.hideLoadingDialog();
-                CoolAlert.show(
-                  barrierDismissible: false,
-                  context: context,
-                  autoCloseDuration: const Duration(milliseconds: 1),
-                  type: CoolAlertType.success,
-                  text: AppLocalizations.of(context)!.success_logout,
-                );
-                Future.delayed(const Duration(seconds: 2), () async {
-                  await LocalStorageManager.deleteUser();
-                  Navigator.push(context,
+                LocalStorageManager.deleteUser().then((value) {
+                  LoadingDialogs.hideLoadingDialog();
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (c) => LoginScreen()));
                 });
               },

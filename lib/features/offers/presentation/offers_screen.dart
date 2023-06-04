@@ -177,23 +177,20 @@ class _OffersScreenState extends State<OffersScreen> {
                                 } else if (state is NegotiateStateError) {
                                   LoadingDialogs.hideLoadingDialog();
                                   CoolAlert.show(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    autoCloseDuration:
-                                        const Duration(seconds: 4),
-                                    type: CoolAlertType.error,
-                                    text: state.error,
-                                  );
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () async {
-                                    Navigator.pop(context);
-                                  });
+                                      barrierDismissible: false,
+                                      context: context,
+                                      type: CoolAlertType.error,
+                                      text: state.error,
+                                      onConfirmBtnTap: () {
+                                        Navigator.pop(context);
+                                      });
                                 }
                               },
                               child: GestureDetector(
                                 onTap: () {
-                                  if (rxNegotiateCount.hasValue &&
-                                      rxNegotiateCount.value > 0) {
+                                  if (negotiatedOffersSubject.hasValue &&
+                                      negotiatedOffersSubject
+                                          .value!.isNotEmpty) {
                                     negotiateBloc
                                         .negotiate(offersNegotiatedIds);
                                   }

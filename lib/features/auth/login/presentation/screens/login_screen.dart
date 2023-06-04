@@ -227,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   appIcon: googleIcon,
                 ),
                 AuthenticationAppWidget(
-                  appIcon: facebookIcon,
+                  appIcon: instagramIcon,
                 ),
                 AuthenticationAppWidget(
                   appIcon: twitterIcon,

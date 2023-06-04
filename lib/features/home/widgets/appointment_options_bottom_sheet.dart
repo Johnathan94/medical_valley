@@ -10,8 +10,12 @@ import 'package:rxdart/rxdart.dart';
 class AppointmentsBottomSheet extends StatelessWidget {
   final Function(int bookTimeId) onBookRequest;
   final Function() onScheduledPressed;
+  String serviceName;
   AppointmentsBottomSheet(
-      {required this.onBookRequest, required this.onScheduledPressed, Key? key})
+      {required this.onBookRequest,
+      required this.serviceName,
+      required this.onScheduledPressed,
+      Key? key})
       : super(key: key);
   late AppointmentType type;
   BehaviorSubject<AppointmentType> appointmentTypeSubject =
@@ -49,8 +53,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
                           color: blackColor,
                         )),
                     Text(
-                      AppLocalizations.of(context)!
-                          .are_you_sure_about_the_service,
+                      serviceName,
                       style: AppStyles.baloo2FontWith400WeightAnd20Size
                           .copyWith(color: blackColor),
                     ),

@@ -10,6 +10,7 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
+import 'package:medical_valley/features/home/home_details_screen/persentation/screen/packages_screen.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/calender_screen.dart';
@@ -94,8 +95,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                 },
                 child: buildBody(),
               ),
-              Container(
-                  alignment: Alignment.center, child: Text("Description")),
+              PackagesScreen(widget.categoryName, widget.categoryId),
             ],
           )),
     );
@@ -112,7 +112,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             text: AppLocalizations.of(context)!.services,
           ),
           Tab(
-            text: AppLocalizations.of(context)!.description,
+            text: AppLocalizations.of(context)!.packages,
           ),
         ],
       ),
@@ -172,6 +172,10 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
               showBottomSheet(
                   context: context,
                   builder: (context) => AppointmentsBottomSheet(
+                        serviceName:
+                            LocalStorageManager.getCurrentLanguage() == "ar"
+                                ? service.arabicName ?? ""
+                                : service.englishName ?? "",
                         onBookRequest: (int id) async {
                           if (id == 1 || id == 2) {
                             UserDate result = UserDate.fromJson(
