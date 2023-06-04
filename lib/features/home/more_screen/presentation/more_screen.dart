@@ -96,7 +96,7 @@ class MoreScreen extends StatelessWidget {
                     indent: 8,
                     endIndent: 8,
                   ),
-                  ListTile(
+                  /* ListTile(
                     leading: const IconBG(
                       color: Color(0xff4780A8),
                       image: Icons.email_outlined,
@@ -115,7 +115,7 @@ class MoreScreen extends StatelessWidget {
                     color: dividerGrey,
                     indent: 8,
                     endIndent: 8,
-                  ),
+                  ),*/
                   ListTile(
                     leading: const IconBG(
                       color: Color(0xffF08A5D),

@@ -136,10 +136,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Stack(
                             children: [
                               Image.asset(personImage),
-                              PositionedDirectional(
+                              const PositionedDirectional(
                                 end: 10,
                                 bottom: 10,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.edit_calendar_outlined,
                                   color: primaryColor,
                                 ),
