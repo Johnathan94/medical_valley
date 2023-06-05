@@ -57,7 +57,7 @@
        "male": "ذكر",
           "female": "آنثى",
           "server_error": "هناك خطآ من الخادم",
-              "success_login": "لقد قمت بتجسيل الدخوب بنجاح ",
+              "success_login": "لقد قمت بتسجيل الدخول بنجاح ",
         "success_logout": "لقد قمت بتسجيل الخروج",
         "booked_successed": "لقد قمت بارسال طلب بحجز موعد",
         "something_went_wrong": "لقد حدث خطآ .. حاول في وقت لاحق",
