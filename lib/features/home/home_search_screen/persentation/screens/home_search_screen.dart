@@ -96,10 +96,8 @@ class HomeState extends State<HomeSearchScreen> {
                   text: AppLocalizations.of(context)!.request_sent,
                 );
                 Future.delayed(const Duration(seconds: 2), () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (c) => OffersScreen(state.requestId!)));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => const OffersScreen()));
                 });
               } else {
                 LoadingDialogs.hideLoadingDialog();

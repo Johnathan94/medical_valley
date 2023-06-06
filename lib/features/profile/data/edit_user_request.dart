@@ -1,23 +1,25 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+
 class UpdateUserRequest {
   int? id;
   String? fullName;
   String? email;
+  File? userAvatar;
   bool? haveInsurance;
   int? genderId;
   String? location;
   int? latitude;
   int? longitude;
-  File? image;
 
   UpdateUserRequest(
       {required this.id,
       required this.fullName,
       required this.email,
       this.haveInsurance,
-      this.image,
       required this.genderId,
+      this.userAvatar,
       required this.location,
       required this.latitude,
       required this.longitude});
@@ -29,21 +31,24 @@ class UpdateUserRequest {
     haveInsurance = json['haveInsurance'];
     genderId = json['genderId'];
     location = json['location'];
+    userAvatar = json['userAvatar'];
     latitude = json['latitude'];
     longitude = json['longitude'];
   }
 
-  Map<String, dynamic> toJson() {
+  Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullName'] = fullName;
     data['email'] = email;
-    data['email'] = image;
     data['haveInsurance'] = haveInsurance;
     data['genderId'] = genderId;
     data['location'] = location;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
+    if (userAvatar != null) {
+      data['UserAvatar'] = await MultipartFile.fromFile(userAvatar!.path);
+    }
     return data;
   }
 }

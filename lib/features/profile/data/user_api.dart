@@ -17,8 +17,9 @@ class UserClient {
   }
 
   updateUserData(UpdateUserRequest request) async {
+    FormData formData = FormData.fromMap(await request.toJson());
     Response response = await dio.put("${dio.options.baseUrl}/User/EditProfile",
-        data: request.toString());
+        data: formData);
     return response.data;
   }
 }

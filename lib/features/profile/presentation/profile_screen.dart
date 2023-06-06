@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -6,16 +8,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/GenericITextField.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/home/home_screen/persentation/screens/home_screen.dart';
 import 'package:medical_valley/features/profile/data/edit_user_request.dart';
 import 'package:medical_valley/features/profile/data/get_user_response.dart';
 import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
@@ -44,6 +49,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     _bloc.getUserData();
     super.initState();
+  }
+
+  late File _imageFile;
+  BehaviorSubject<File> imageFileSubject = BehaviorSubject();
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: source);
+
+    if (pickedImage != null) {
+      _imageFile = File(pickedImage.path);
+      imageFileSubject.sink.add(_imageFile);
+    }
   }
 
   @override
@@ -142,21 +159,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }),
                           Stack(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl: state.model.userAvatar!,
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                width: 200,
-                                height: 200,
-                              ),
-                              const PositionedDirectional(
+                              StreamBuilder<File>(
+                                  stream: imageFileSubject.stream,
+                                  builder: (context, snapshot) {
+                                    return imageFileSubject.hasValue
+                                        ? Container(
+                                            width: 120,
+                                            height: 120,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red,
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: FileImage(
+                                                        imageFileSubject
+                                                            .value))),
+                                          )
+                                        : CachedNetworkImage(
+                                            imageUrl: iconLinkPrefix +
+                                                state.model.userAvatar!,
+                                            placeholder: (context, url) =>
+                                                const CircularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: AssetImage(personImage),
+                                              )),
+                                            ),
+                                            width: 120,
+                                            height: 120,
+                                          );
+                                  }),
+                              PositionedDirectional(
                                 end: 10,
                                 bottom: 10,
-                                child: Icon(
-                                  Icons.edit_calendar_outlined,
-                                  color: primaryColor,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _pickImage(ImageSource.gallery);
+                                  },
+                                  child: const Icon(
+                                    Icons.edit_calendar_outlined,
+                                    color: primaryColor,
+                                  ),
                                 ),
                               )
                             ],
@@ -396,21 +443,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: PrimaryButton(
         text: AppLocalizations.of(context)!.edit_user,
         onPressed: () {
-          _bloc.updateUserData(UpdateUserRequest(
-              id: model.id,
-              fullName: fullNameController.text,
-              email: emailController.text,
-              genderId:
-                  genderDisplayed.value == AppLocalizations.of(context)!.male
+          imageFileSubject.hasValue
+              ? _bloc.updateUserData(UpdateUserRequest(
+                  id: model.id,
+                  fullName: fullNameController.text,
+                  email: emailController.text,
+                  genderId: genderDisplayed.value ==
+                          AppLocalizations.of(context)!.male
                       ? 1
                       : 2,
-              haveInsurance:
-                  insuranceDisplayed.value == AppLocalizations.of(context)!.yes
+                  haveInsurance: insuranceDisplayed.value ==
+                          AppLocalizations.of(context)!.yes
                       ? true
                       : false,
-              location: '',
-              latitude: 0,
-              longitude: 0));
+                  location: '',
+                  latitude: 0,
+                  longitude: 0,
+                  userAvatar: imageFileSubject.value))
+              : _bloc.updateUserData(UpdateUserRequest(
+                  id: model.id,
+                  fullName: fullNameController.text,
+                  email: emailController.text,
+                  genderId: genderDisplayed.value ==
+                          AppLocalizations.of(context)!.male
+                      ? 1
+                      : 2,
+                  haveInsurance: insuranceDisplayed.value ==
+                          AppLocalizations.of(context)!.yes
+                      ? true
+                      : false,
+                  location: '',
+                  latitude: 0,
+                  longitude: 0,
+                ));
         },
       ),
     );

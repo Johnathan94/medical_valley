@@ -21,8 +21,7 @@ import 'package:medical_valley/features/offers/widgets/offers_options_button.dar
 import 'package:rxdart/rxdart.dart';
 
 class OffersScreen extends StatefulWidget {
-  final int requestId;
-  const OffersScreen(this.requestId, {Key? key}) : super(key: key);
+  const OffersScreen({Key? key}) : super(key: key);
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -42,12 +41,12 @@ class _OffersScreenState extends State<OffersScreen> {
   @override
   void initState() {
     //offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
-    offersBloc.getOffers(OffersEvent(nextPage, 10, widget.requestId));
+    offersBloc.getOffers(OffersEvent(nextPage, 10));
     negotiatedOffersSubject.sink.add([]);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
-      offersBloc.getOffers(OffersEvent(nextPage, 10, widget.requestId));
+      offersBloc.getOffers(OffersEvent(nextPage, 10));
     });
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
@@ -166,8 +165,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                     pagingController.refresh();
                                     nextPage = 1;
                                     nextPageKey = 1;
-                                    offersBloc.getOffers(OffersEvent(
-                                        nextPage, 10, widget.requestId));
+                                    offersBloc
+                                        .getOffers(OffersEvent(nextPage, 10));
                                   });
                                 } else if (state is NegotiateStateError) {
                                   LoadingDialogs.hideLoadingDialog();

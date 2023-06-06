@@ -141,6 +141,6 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
 
   onNegotiatePressed(int id) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => OffersScreen(id)));
+        .push(MaterialPageRoute(builder: (c) => const OffersScreen()));
   }
 }

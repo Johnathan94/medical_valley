@@ -18,6 +18,8 @@ import '../../../../../core/app_sizes.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../widgets/home_base_app_bar.dart';
 
+String iconLinkPrefix = "https://services.medvally.com/";
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -26,7 +28,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String iconLinkPrefix = "https://services.medvally.com/";
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
   BehaviorSubject<bool> isGridView = BehaviorSubject.seeded(false);
