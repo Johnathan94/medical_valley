@@ -147,21 +147,27 @@ class ReservationsDetails extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.date,
-                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
-                      .copyWith(color: blackColor, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  item.offerDate ?? "",
-                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
-                      .copyWith(color: blackColor, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+            item.offerDate != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.date,
+                        style: AppStyles
+                            .baloo2FontWith400WeightAnd18SizeAndBlack
+                            .copyWith(
+                                color: blackColor, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        item.offerDate ?? "",
+                        style: AppStyles
+                            .baloo2FontWith400WeightAnd18SizeAndBlack
+                            .copyWith(
+                                color: blackColor, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,6 +179,22 @@ class ReservationsDetails extends StatelessWidget {
                 ),
                 Text(
                   item.providerBranchName ?? "",
+                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
+                      .copyWith(color: blackColor, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.booking_type,
+                  style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
+                      .copyWith(color: blackColor, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  item.bookingTypeStr ?? "",
                   style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
                       .copyWith(color: blackColor, fontWeight: FontWeight.bold),
                 ),

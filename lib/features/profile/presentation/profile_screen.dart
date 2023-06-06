@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
-import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/GenericITextField.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
@@ -135,7 +135,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }),
                           Stack(
                             children: [
-                              Image.asset(personImage),
+                              CachedNetworkImage(
+                                imageUrl: state.model.userAvatar!,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                width: 20,
+                                height: 20,
+                              ),
                               const PositionedDirectional(
                                 end: 10,
                                 bottom: 10,

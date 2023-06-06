@@ -8,11 +8,11 @@ class GetUserResponse {
 
   GetUserResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   GetUserResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -20,7 +20,7 @@ class GetUserResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  UserModel.fromJson(json['data']) : null;
+    data = json['data'] != null ? UserModel.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,24 +48,26 @@ class UserModel {
   String? notes;
   int? statusId;
   String? statusStr;
+  String? userAvatar;
   String? location;
   double? latitude;
   double? longitude;
 
   UserModel(
       {this.id,
-        this.fullName,
-        this.email,
-        this.mobile,
-        this.hasInsurance,
-        this.genderId,
-        this.genderStr,
-        this.notes,
-        this.statusId,
-        this.statusStr,
-        this.location,
-        this.latitude,
-        this.longitude});
+      this.fullName,
+      this.email,
+      this.mobile,
+      this.hasInsurance,
+      this.genderId,
+      this.genderStr,
+      this.userAvatar,
+      this.notes,
+      this.statusId,
+      this.statusStr,
+      this.location,
+      this.latitude,
+      this.longitude});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +76,7 @@ class UserModel {
     mobile = json['mobile'];
     hasInsurance = json['hasInsurance'];
     genderId = json['genderId'];
+    userAvatar = json['userAvatar'];
     genderStr = json['genderStr'];
     notes = json['notes'];
     statusId = json['statusId'];
@@ -84,7 +87,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullName'] = fullName;
     data['email'] = email;
@@ -92,6 +95,7 @@ class UserModel {
     data['hasInsurance'] = hasInsurance;
     data['genderId'] = genderId;
     data['genderStr'] = genderStr;
+    data['userAvatar'] = userAvatar;
     data['notes'] = notes;
     data['statusId'] = statusId;
     data['statusStr'] = statusStr;

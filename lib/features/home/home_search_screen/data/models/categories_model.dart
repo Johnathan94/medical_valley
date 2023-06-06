@@ -8,11 +8,11 @@ class CategoryResponse {
 
   CategoryResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   CategoryResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -23,13 +23,13 @@ class CategoryResponse {
     if (json['data'] != null) {
       data = <CategoryModel>[];
       json['data'].forEach((v) {
-        data!.add( CategoryModel.fromJson(v));
+        data!.add(CategoryModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     data['succeeded'] = succeeded;
     data['message'] = message;
     data['messageCode'] = messageCode;
@@ -45,18 +45,21 @@ class CategoryResponse {
 class CategoryModel {
   int? id;
   String? name;
+  String? icon;
 
-  CategoryModel({this.id, this.name});
+  CategoryModel({this.id, this.name, this.icon});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    icon = json['icon'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = id;
     data['name'] = name;
+    data['icon'] = icon;
     return data;
   }
 }

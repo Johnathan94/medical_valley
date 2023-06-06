@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
+import 'package:medical_valley/features/welcome_page/presentation/screens/map_screen.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/app_sizes.dart';
@@ -33,7 +34,7 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
               buildWelcomePageIcon(),
               buildChooseYourLocationText(),
               buildUseMyCurrentLocationButton(context),
-              buildSetItManually()
+              buildSetItManually(context)
             ],
           ),
         ),
@@ -96,12 +97,16 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
     );
   }
 
-  buildSetItManually() {
-    return Container(
-      margin: const EdgeInsets.only(top: setItManuallyMarginTop),
-      child: Text(
-        AppLocalizations.of(context)!.select_it_manually,
-        style: AppStyles.baloo2FontWith400WeightAnd18Size,
+  buildSetItManually(context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MapScreen())),
+      child: Container(
+        margin: const EdgeInsets.only(top: setItManuallyMarginTop),
+        child: Text(
+          AppLocalizations.of(context)!.select_it_manually,
+          style: AppStyles.baloo2FontWith400WeightAnd18Size,
+        ),
       ),
     );
   }

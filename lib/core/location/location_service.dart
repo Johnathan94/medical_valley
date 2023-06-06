@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
 class LocationServiceProvider {
-  static late Position _currentPosition ;
+  static late Position _currentPosition;
   static Future determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -25,11 +25,11 @@ class LocationServiceProvider {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    _currentPosition =  await Geolocator.getCurrentPosition();
+    _currentPosition = await Geolocator.getCurrentPosition();
   }
 
   static double getDistanceBetweenCurrentAndLocation(
-  {required double longitude ,required double latitude})  {
+      {required double longitude, required double latitude}) {
     double distanceInMeters = Geolocator.distanceBetween(
         _currentPosition.latitude,
         _currentPosition.longitude,
@@ -37,4 +37,6 @@ class LocationServiceProvider {
         longitude);
     return distanceInMeters;
   }
+
+  static Position get currentPosition => _currentPosition;
 }

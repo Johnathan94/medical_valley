@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class UpdateUserRequest {
   int? id;
   String? fullName;
@@ -9,12 +11,14 @@ class UpdateUserRequest {
   String? location;
   int? latitude;
   int? longitude;
+  File? image;
 
   UpdateUserRequest(
       {required this.id,
       required this.fullName,
       required this.email,
       this.haveInsurance,
+      this.image,
       required this.nationalId,
       required this.birthDate,
       required this.genderId,
@@ -40,6 +44,7 @@ class UpdateUserRequest {
     data['id'] = id;
     data['fullName'] = fullName;
     data['email'] = email;
+    data['email'] = image;
     data['haveInsurance'] = haveInsurance;
     data['nationalId'] = nationalId;
     data['birthDate'] = birthDate;

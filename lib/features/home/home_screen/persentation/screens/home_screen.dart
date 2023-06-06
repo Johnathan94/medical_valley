@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String iconLinkPrefix = "https://services.medvally.com/";
   HomeBloc homeBloc = GetIt.I<HomeBloc>();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
   BehaviorSubject<bool> isGridView = BehaviorSubject.seeded(false);
@@ -179,10 +181,18 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.medical_services_outlined,
-                  color: Colors.black,
-                ),
+                model.icon != null && model.icon!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: iconLinkPrefix + model.icon!,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        width: 20,
+                        height: 20,
+                      )
+                    : const Icon(Icons.medical_services_outlined,
+                        color: Colors.black, size: 20),
                 const SizedBox(
                   width: 4,
                 ),
@@ -231,10 +241,18 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.medical_services_outlined,
-              color: Colors.black,
-            ),
+            model.icon != null && model.icon!.isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: iconLinkPrefix + model.icon!,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    width: 20,
+                    height: 20,
+                  )
+                : const Icon(Icons.medical_services_outlined,
+                    color: Colors.black, size: 20),
             const SizedBox(
               height: 8,
             ),

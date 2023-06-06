@@ -1,18 +1,20 @@
+import 'package:medical_valley/features/offers/presentation/data/model/negotiate_model.dart';
+
 class NegotiateResponse {
   bool? succeeded;
   String? message;
   String? messageCode;
   int? responseCode;
   String? validationIssue;
-  String? data;
+  NegotiateModel? data;
 
   NegotiateResponse(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   NegotiateResponse.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];

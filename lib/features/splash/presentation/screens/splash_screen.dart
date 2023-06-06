@@ -22,12 +22,14 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    NetworkLoggerOverlay.attachTo(context,);
-    Future.delayed(const Duration(seconds: 1), () async{
+    NetworkLoggerOverlay.attachTo(
+      context,
+    );
+    Future.delayed(const Duration(seconds: 1), () async {
       await AppInitializer.initializeAppWithContext(context);
-      if(LocalStorageManager.getUser() == null){
+      if (LocalStorageManager.getUser() == null) {
         goToLoginScreen(context);
-      }else {
+      } else {
         goToHomeScreen(context);
       }
     });
@@ -37,9 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
-  }goToHomeScreen(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeBaseStatefulWidget()));
+  }
+
+  goToHomeScreen(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeBaseStatefulWidget()));
   }
 
   @override
