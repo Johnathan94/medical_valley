@@ -68,6 +68,8 @@ dependencies:
   qr_flutter: 4.0.0
   google_maps_flutter: 2.2.6
   location:
+  image_picker:
+  cached_network_image:
 
 
 
@@ -88,7 +90,6 @@ dev_dependencies:
   retrofit_generator: "4.0.0"
   change_app_package_name: ^1.1.0
   flutter_launcher_icons: 0.11.0
-  cached_network_image:
 
 
 flutter_icons:
