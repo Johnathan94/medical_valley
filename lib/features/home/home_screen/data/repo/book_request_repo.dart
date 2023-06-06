@@ -8,11 +8,10 @@ class BookRequestRepo {
 
   BookRequestRepo(this.bookRequestClient);
 
-  Future<Either<ServerFailure, Unit>> sendRequest(
-      BookRequestModel model) async {
+  Future<Either<ServerFailure, int>> sendRequest(BookRequestModel model) async {
     var response = await bookRequestClient.sendRequest(model);
     if (response["responseCode"] == 200 || response["responseCode"] == 201) {
-      return const Right(unit);
+      return Right(response["requestId"]);
     } else {
       return Left(ServerFailure(error: response["message"]));
     }

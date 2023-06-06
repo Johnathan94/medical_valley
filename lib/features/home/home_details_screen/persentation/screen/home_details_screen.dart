@@ -81,7 +81,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (c) => const OffersScreen()));
+                            builder: (c) => OffersScreen(state.requestId!)));
                   } else {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(

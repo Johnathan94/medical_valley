@@ -21,7 +21,8 @@ import 'package:medical_valley/features/offers/widgets/offers_options_button.dar
 import 'package:rxdart/rxdart.dart';
 
 class OffersScreen extends StatefulWidget {
-  const OffersScreen({Key? key}) : super(key: key);
+  final int requestId;
+  const OffersScreen(this.requestId, {Key? key}) : super(key: key);
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -41,18 +42,12 @@ class _OffersScreenState extends State<OffersScreen> {
   @override
   void initState() {
     //offersBloc.getOffers(OffersEvent(nextPage, 10 , 24509  , 11));
-    offersBloc.getOffers(OffersEvent(
-      nextPage,
-      10,
-    ));
+    offersBloc.getOffers(OffersEvent(nextPage, 10, widget.requestId));
     negotiatedOffersSubject.sink.add([]);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
       nextPage += 1;
-      offersBloc.getOffers(OffersEvent(
-        nextPage,
-        10,
-      ));
+      offersBloc.getOffers(OffersEvent(nextPage, 10, widget.requestId));
     });
     optionDisplayed.sink.add(false);
     sortOption.sink.add(0);
@@ -171,8 +166,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                     pagingController.refresh();
                                     nextPage = 1;
                                     nextPageKey = 1;
-                                    offersBloc
-                                        .getOffers(OffersEvent(nextPage, 10));
+                                    offersBloc.getOffers(OffersEvent(
+                                        nextPage, 10, widget.requestId));
                                   });
                                 } else if (state is NegotiateStateError) {
                                   LoadingDialogs.hideLoadingDialog();
@@ -284,7 +279,7 @@ class OfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160.h,
+      height: 180.h,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
           color: whiteColor,
@@ -307,11 +302,6 @@ class OfferCard extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        "3 min",
-                        style:
-                            AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
-                      ),
                       Container(
                         width: 60,
                         height: 60,
@@ -330,7 +320,7 @@ class OfferCard extends StatelessWidget {
                             size: 16,
                           ),
                           Text(
-                            "4.2",
+                            "0.0",
                             style: AppStyles
                                 .baloo2FontWith400WeightAnd18SizeAndBlack
                                 .copyWith(color: const Color(0xffD8D7D9)),

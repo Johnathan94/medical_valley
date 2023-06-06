@@ -14,7 +14,7 @@ class BookRequestBloc extends Cubit<BookRequestState> {
       var either = await requestRepo.sendRequest(model);
       either.fold(
           (l) => emit(BookRequestState(BookedState.fail, error: l.error)),
-          (r) => emit(BookRequestState(BookedState.success)));
+          (r) => emit(BookRequestState(BookedState.success, requestId: r)));
     } catch (e) {
       emit(BookRequestState(BookedState.fail));
     }
@@ -24,9 +24,10 @@ class BookRequestBloc extends Cubit<BookRequestState> {
 class BookRequestState {
   BookedState state;
   String? error;
-  int? serviceId, categoryId;
+  int? serviceId, categoryId, requestId;
 
-  BookRequestState(this.state, {this.categoryId, this.serviceId, this.error});
+  BookRequestState(this.state,
+      {this.categoryId, this.serviceId, this.requestId, this.error});
 }
 
 enum BookedState { ideal, loading, success, fail }

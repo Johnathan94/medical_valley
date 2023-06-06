@@ -9,7 +9,7 @@ import 'package:medical_valley/features/offers/presentation/data/model/offers_re
 
 abstract class OffersRepo {
   Future<Either<ServerFailure, OffersResponse>> getOffers(
-      int page, int pageSize);
+      int page, int pageSize, int requestId);
 }
 
 class OffersRepoImpl extends OffersRepo {
@@ -19,10 +19,11 @@ class OffersRepoImpl extends OffersRepo {
 
   @override
   Future<Either<ServerFailure, OffersResponse>> getOffers(
-      int page, int pageSize) async {
+      int page, int pageSize, int requestId) async {
     try {
       UserDate currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
-      var result = await client.getOffers(page, pageSize, currentUser.id!);
+      var result =
+          await client.getOffers(page, pageSize, currentUser.id!, requestId);
       OffersResponse response = OffersResponse.fromJson(result);
       if (response.responseCode == 200) {
         return getDistances(response);

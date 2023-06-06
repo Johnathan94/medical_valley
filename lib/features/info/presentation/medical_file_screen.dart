@@ -155,70 +155,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           SizedBox(
                             height: 30.h,
                           ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: fullNameController,
-                            hintText: AppLocalizations.of(context)!.fullname,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
-                          GestureDetector(
-                            onTap: () => _showCalender(),
-                            child: GenericTextField(
-                              fillColor: textFieldBg,
-                              textController: birthDateController,
-                              isEnabled: false,
-                              onFieldTapped: () {},
-                              hintText:
-                                  AppLocalizations.of(context)!.date_of_birth,
-                              hintStyle: AppStyles
-                                  .baloo2FontWith400WeightAnd14Size
-                                  .copyWith(color: darkGrey),
-                              suffixIcon: const Icon(
-                                Icons.calendar_month_outlined,
-                                color: darkGrey,
-                              ),
-                            ),
-                          ),
 
-                          SizedBox(
-                            height: 17.h,
-                          ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            onValidator: (String? text) {
-                              if (text!.isNotEmpty && text.length <= 14) {
-                                return null;
-                              } else {
-                                return AppLocalizations.of(context)!
-                                    .national_id_is_required;
-                              }
-                            },
-                            textController: nationalIdController,
-                            hintText: AppLocalizations.of(context)!.national_id,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: insuranceNumberController,
-                            hintText:
-                                AppLocalizations.of(context)!.insurance_number,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
                           StreamBuilder<String>(
                               stream: insuranceDisplayed.stream,
                               builder: (context, snapshot) {
@@ -305,6 +242,71 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                   ),
                                 );
                               }),
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          GenericTextField(
+                            fillColor: textFieldBg,
+                            textController: fullNameController,
+                            hintText: AppLocalizations.of(context)!.fullname,
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd14Size
+                                .copyWith(color: darkGrey),
+                          ),
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          GestureDetector(
+                            onTap: () => _showCalender(),
+                            child: GenericTextField(
+                              fillColor: textFieldBg,
+                              textController: birthDateController,
+                              isEnabled: false,
+                              onFieldTapped: () {},
+                              hintText:
+                                  AppLocalizations.of(context)!.date_of_birth,
+                              hintStyle: AppStyles
+                                  .baloo2FontWith400WeightAnd14Size
+                                  .copyWith(color: darkGrey),
+                              suffixIcon: const Icon(
+                                Icons.calendar_month_outlined,
+                                color: darkGrey,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          GenericTextField(
+                            fillColor: textFieldBg,
+                            onValidator: (String? text) {
+                              if (text!.isNotEmpty && text.length <= 14) {
+                                return null;
+                              } else {
+                                return AppLocalizations.of(context)!
+                                    .national_id_is_required;
+                              }
+                            },
+                            textController: nationalIdController,
+                            hintText: AppLocalizations.of(context)!.national_id,
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd14Size
+                                .copyWith(color: darkGrey),
+                          ),
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          GenericTextField(
+                            fillColor: textFieldBg,
+                            textController: insuranceNumberController,
+                            hintText:
+                                AppLocalizations.of(context)!.insurance_number,
+                            hintStyle: AppStyles
+                                .baloo2FontWith400WeightAnd14Size
+                                .copyWith(color: darkGrey),
+                          ),
+
                           SizedBox(
                             height: 17.h,
                           ),

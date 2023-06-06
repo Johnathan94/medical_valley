@@ -43,11 +43,6 @@ class NegotiationsCard extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        "3 min",
-                        style:
-                            AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
-                      ),
                       Container(
                         width: 60,
                         height: 60,
@@ -66,7 +61,7 @@ class NegotiationsCard extends StatelessWidget {
                             size: 16,
                           ),
                           Text(
-                            "4.2",
+                            "0.0",
                             style: AppStyles
                                 .baloo2FontWith400WeightAnd18SizeAndBlack
                                 .copyWith(color: const Color(0xffD8D7D9)),

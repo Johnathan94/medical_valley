@@ -34,11 +34,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController nationalIdController = TextEditingController();
   final UserProfileBloc _bloc = GetIt.instance<UserProfileBloc>();
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   final formKey = GlobalKey<FormState>();
+  BehaviorSubject<String> insuranceDisplayed = BehaviorSubject();
+
   @override
   void initState() {
     _bloc.getUserData();
@@ -47,6 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void didChangeDependencies() {
+    insuranceDisplayed.sink.add(AppLocalizations.of(context)!.yes);
     genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
     optionDisplayed.sink.add(AppLocalizations.of(context)!.male);
     super.didChangeDependencies();
@@ -88,6 +90,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 notesController.text = state.model.notes ?? "";
                 emailController.text = state.model.email ?? "";
                 phoneController.text = state.model.mobile ?? "";
+                insuranceDisplayed.sink.add(state.model.hasInsurance != null &&
+                        state.model.hasInsurance!
+                    ? AppLocalizations.of(context)!.yes
+                    : AppLocalizations.of(context)!.no);
+
                 return Padding(
                   padding: bigPaddingHV,
                   child: SingleChildScrollView(
@@ -179,50 +186,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             height: 17.h,
                           ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: nationalIdController,
-                            hintText: AppLocalizations.of(context)!.national_id,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                            onValidator: (text) {
-                              if (text!.isNotEmpty && text.length > 10)
-                                return null;
-                              else {
-                                return AppLocalizations.of(context)!
-                                    .national_id_is_required;
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
                           PhoneIntlWidgetField(
                             phoneController,
                             (Country country) {},
                             fillColor: textFieldBg,
                             borderColor: Colors.transparent,
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
-                          GestureDetector(
-                            onTap: () => _showCalender(),
-                            child: GenericTextField(
-                              fillColor: textFieldBg,
-                              textController: birthDateController,
-                              isEnabled: false,
-                              hintText:
-                                  AppLocalizations.of(context)!.date_of_birth,
-                              hintStyle: AppStyles
-                                  .baloo2FontWith400WeightAnd14Size
-                                  .copyWith(color: darkGrey),
-                              suffixIcon: const Icon(
-                                Icons.calendar_month_outlined,
-                                color: darkGrey,
-                              ),
-                            ),
                           ),
                           SizedBox(
                             height: 17.h,
@@ -308,6 +276,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               }),
                           SizedBox(
+                            height: 17.h,
+                          ),
+                          StreamBuilder<String>(
+                              stream: insuranceDisplayed.stream,
+                              builder: (context, snapshot) {
+                                return SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: DropdownButton2<String>(
+                                    isExpanded: true,
+                                    hint: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .insurance_question,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          insuranceDisplayed.value,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                    items: [
+                                      AppLocalizations.of(context)!.yes,
+                                      AppLocalizations.of(context)!.no,
+                                    ]
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  optionDisplayed.value == item
+                                                      ? const Icon(
+                                                          Icons.check_circle,
+                                                          color: primaryColor,
+                                                          size: 15,
+                                                        )
+                                                      : const SizedBox()
+                                                ],
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (String? value) {
+                                      insuranceDisplayed.sink.add(value!);
+                                      optionDisplayed.sink.add(value);
+                                    },
+                                    icon: const Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.only(end: 8.0),
+                                      child:
+                                          Icon(Icons.arrow_drop_down_outlined),
+                                    ),
+                                    buttonHeight: 60,
+                                    underline: const SizedBox(),
+                                    buttonDecoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: textFieldBg,
+                                        border:
+                                            Border.all(color: primaryColor)),
+                                    buttonElevation: 2,
+                                    itemHeight: 45,
+                                    dropdownDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: whiteColor,
+                                    ),
+                                    dropdownElevation: 8,
+                                    scrollbarThickness: 6,
+                                    scrollbarAlwaysShow: true,
+                                  ),
+                                );
+                              }),
+                          SizedBox(
                             height: 30.h,
                           ),
                           updateButton(state.model)
@@ -343,12 +400,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               id: model.id,
               fullName: fullNameController.text,
               email: emailController.text,
-              nationalId: nationalIdController.text,
-              birthDate: birthDateController.text,
               genderId:
                   genderDisplayed.value == AppLocalizations.of(context)!.male
                       ? 1
                       : 2,
+              haveInsurance:
+                  insuranceDisplayed.value == AppLocalizations.of(context)!.yes
+                      ? true
+                      : false,
               location: '',
               latitude: 0,
               longitude: 0));

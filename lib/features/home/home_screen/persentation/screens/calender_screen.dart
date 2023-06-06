@@ -79,8 +79,10 @@ class _CalenderScreenState extends State<CalenderScreen> {
               );
               Future.delayed(const Duration(seconds: 2), () async {
                 Navigator.pop(context);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (c) => const OffersScreen()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => OffersScreen(state.requestId!)));
               });
             } else {
               LoadingDialogs.hideLoadingDialog();
