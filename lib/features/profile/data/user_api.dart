@@ -17,13 +17,8 @@ class UserClient {
   }
 
   updateUserData(UpdateUserRequest request) async {
-    var formData = FormData.fromMap({
-      'name': 'wendux',
-      'age': 25,
-      'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt')
-    });
     Response response = await dio.put("${dio.options.baseUrl}/User/EditProfile",
-        data: formData);
+        data: request.toString());
     return response.data;
   }
 }
