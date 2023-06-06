@@ -141,8 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     const CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
-                                width: 20,
-                                height: 20,
+                                width: 200,
+                                height: 200,
                               ),
                               const PositionedDirectional(
                                 end: 10,
