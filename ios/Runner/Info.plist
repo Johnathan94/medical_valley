@@ -6,6 +6,8 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Medical valley app want to access an image to update your profile picture </string>
 	<key>CFBundleDisplayName</key>
 	<string>Medical Valley</string>
 	<key>CFBundleExecutable</key>
