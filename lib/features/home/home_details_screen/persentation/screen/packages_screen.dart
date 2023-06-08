@@ -7,7 +7,7 @@ import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/package_details.dart';
-import 'package:medical_valley/features/home/home_search_screen/data/models/services_model.dart';
+import 'package:medical_valley/features/home/home_search_screen/data/models/package_response.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,17 +25,16 @@ class PackagesScreen extends StatefulWidget {
 
 class _PackagesScreenState extends State<PackagesScreen> {
   var homeBloc = GetIt.instance<HomeBloc>();
-  final PagingController<int, Service> pagingController =
+  final PagingController<int, Package> pagingController =
       PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
   @override
   initState() {
-    homeBloc.getServices(widget.categoryId, nextPage, 10);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
+      homeBloc.getPackages(widget.categoryId, nextPage, 10);
       nextPage += 1;
-      homeBloc.getServices(widget.categoryId, nextPage, 10);
     });
 
     super.initState();
@@ -50,7 +49,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
       child: BlocListener<HomeBloc, MyHomeState>(
         bloc: homeBloc,
         listener: (context, MyHomeState state) {
-          if (state is SuccessServicesState) {
+          if (state is SuccessPackageState) {
             if (state.response.data!.results!.length == 10) {
               pagingController.appendPage(
                   state.response.data!.results!, nextPageKey);
@@ -62,10 +61,10 @@ class _PackagesScreenState extends State<PackagesScreen> {
             }
           }
         },
-        child: PagedListView<int, Service>(
+        child: PagedListView<int, Package>(
           pagingController: pagingController,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, Service item, index) {
+            itemBuilder: (context, Package item, index) {
               return buildSearchModelsItem(context, item, index);
             },
           ),
@@ -76,7 +75,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
 
   BehaviorSubject<int> selectedService = BehaviorSubject.seeded(-1);
 
-  buildSearchModelsItem(BuildContext context, Service service, int index) {
+  buildSearchModelsItem(BuildContext context, Package service, int index) {
     return StreamBuilder<int>(
         stream: selectedService.stream,
         builder: (context, snapshot) {

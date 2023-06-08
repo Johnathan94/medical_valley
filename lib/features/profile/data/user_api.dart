@@ -16,8 +16,12 @@ class UserClient {
     return response.data;
   }
 
-  updateUserData(UpdateUserRequest request) async {
-    FormData formData = FormData.fromMap(await request.toJson());
+  updateUserData(UpdateUserRequest request, [MultipartFile? image]) async {
+    Map<String, dynamic> data = request.toJson();
+    if (image != null) {
+      data["userAvatar"] = image;
+    }
+    FormData formData = FormData.fromMap(data);
     Response response = await dio.put("${dio.options.baseUrl}/User/EditProfile",
         data: formData);
     return response.data;

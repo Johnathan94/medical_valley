@@ -50,11 +50,10 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
   @override
   initState() {
     categoryTitle = widget.categoryName;
-    homeBloc.getServices(widget.categoryId, nextPage, 10);
     pagingController.addPageRequestListener((pageKey) {
       nextPageKey = pageKey;
-      nextPage += 1;
       homeBloc.getServices(widget.categoryId, nextPage, 10);
+      nextPage += 1;
     });
 
     super.initState();

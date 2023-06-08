@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-
 class UpdateUserRequest {
   int? id;
   String? fullName;
@@ -36,7 +34,7 @@ class UpdateUserRequest {
     longitude = json['longitude'];
   }
 
-  Future<Map<String, dynamic>> toJson() async {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = id;
     data['fullName'] = fullName;
@@ -46,9 +44,6 @@ class UpdateUserRequest {
     data['location'] = location;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
-    if (userAvatar != null) {
-      data['UserAvatar'] = await MultipartFile.fromFile(userAvatar!.path);
-    }
     return data;
   }
 }

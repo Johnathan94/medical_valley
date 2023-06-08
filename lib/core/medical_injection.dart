@@ -27,6 +27,7 @@ import 'package:medical_valley/features/home/home_screen/data/book_request_clien
 import 'package:medical_valley/features/home/home_screen/data/repo/book_request_repo.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/categories_client.dart';
+import 'package:medical_valley/features/home/home_search_screen/data/api/packages_client.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/search_client.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/services_client.dart';
 import 'package:medical_valley/features/home/home_search_screen/domain/get_categories_use_case.dart';
@@ -64,8 +65,10 @@ configureDependencies() {
   getIt.registerFactory(
       () => LoginBloc(LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => HomeBloc(
-      GetCategoriesUseCase(CategoriesClient(DioManager.getDio()),
-          ServicesClient(DioManager.getDio())),
+      GetCategoriesUseCase(
+          CategoriesClient(DioManager.getDio()),
+          ServicesClient(DioManager.getDio()),
+          PackagesClient(DioManager.getDio())),
       SearchWithKeyboard(SearchClient(DioManager.getDio()))));
   getIt.registerFactory(
       () => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));

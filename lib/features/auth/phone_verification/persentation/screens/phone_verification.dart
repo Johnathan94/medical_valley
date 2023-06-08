@@ -8,7 +8,6 @@ import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
-import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
@@ -124,9 +123,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   String code = "";
   buildOtpField() {
     return Directionality(
-      textDirection: LocalStorageManager.getCurrentLanguage() == "ar"
-          ? TextDirection.rtl
-          : TextDirection.ltr,
+      textDirection: TextDirection.ltr,
       child: OtpTextField(
         fieldWidth: otpFieldWidth.w,
         numberOfFields: otpFieldNumber,

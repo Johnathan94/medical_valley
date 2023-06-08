@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field/countries.dart';
@@ -53,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   late File _imageFile;
   BehaviorSubject<File> imageFileSubject = BehaviorSubject();
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(source: source);
@@ -178,6 +181,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         : CachedNetworkImage(
                                             imageUrl: iconLinkPrefix +
                                                 state.model.userAvatar!,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              width: 80.0,
+                                              height: 80.0,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
                                             placeholder: (context, url) =>
                                                 const CircularProgressIndicator(),
                                             errorWidget:
@@ -442,9 +457,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10, end: 10),
       child: PrimaryButton(
         text: AppLocalizations.of(context)!.edit_user,
-        onPressed: () {
-          imageFileSubject.hasValue
-              ? _bloc.updateUserData(UpdateUserRequest(
+        onPressed: () async {
+          if (imageFileSubject.hasValue) {
+            MultipartFile? image = await MultipartFile.fromFile(
+                imageFileSubject.value.path,
+                filename: "${model.id}_picture",
+                contentType: MediaType("image", "jpeg"));
+            _bloc.updateUserData(
+                UpdateUserRequest(
                   id: model.id,
                   fullName: fullNameController.text,
                   email: emailController.text,
@@ -459,23 +479,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   location: '',
                   latitude: 0,
                   longitude: 0,
-                  userAvatar: imageFileSubject.value))
-              : _bloc.updateUserData(UpdateUserRequest(
-                  id: model.id,
-                  fullName: fullNameController.text,
-                  email: emailController.text,
-                  genderId: genderDisplayed.value ==
-                          AppLocalizations.of(context)!.male
+                ),
+                image);
+          } else {
+            _bloc.updateUserData(UpdateUserRequest(
+              id: model.id,
+              fullName: fullNameController.text,
+              email: emailController.text,
+              genderId:
+                  genderDisplayed.value == AppLocalizations.of(context)!.male
                       ? 1
                       : 2,
-                  haveInsurance: insuranceDisplayed.value ==
-                          AppLocalizations.of(context)!.yes
+              haveInsurance:
+                  insuranceDisplayed.value == AppLocalizations.of(context)!.yes
                       ? true
                       : false,
-                  location: '',
-                  latitude: 0,
-                  longitude: 0,
-                ));
+              location: '',
+              latitude: 0,
+              longitude: 0,
+            ));
+          }
         },
       ),
     );
