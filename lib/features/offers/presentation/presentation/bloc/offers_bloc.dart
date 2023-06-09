@@ -7,7 +7,8 @@ class OffersBloc extends Cubit<OffersState> {
   OffersRepo offersRepo;
   void getOffers(OffersEvent event) async {
     emit(OffersStateLoading());
-    var offers = await offersRepo.getOffers(event.page, event.pageSize);
+    var offers =
+        await offersRepo.getOffers(event.page, event.pageSize, event.requestId);
     offers.fold((l) {
       emit(OffersStateError(l.error ?? ""));
     }, (right) {
@@ -17,6 +18,6 @@ class OffersBloc extends Cubit<OffersState> {
 }
 
 class OffersEvent {
-  final int page, pageSize;
-  OffersEvent(this.page, this.pageSize);
+  final int page, pageSize, requestId;
+  OffersEvent(this.page, this.pageSize, this.requestId);
 }

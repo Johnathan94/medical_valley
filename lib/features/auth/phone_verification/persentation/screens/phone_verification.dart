@@ -37,6 +37,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBarWithoutBackground(
           header: AppLocalizations.of(context)!.phone_verification,
           leadingIcon: InkWell(
@@ -48,18 +49,17 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
               color: blackColor,
             ),
           )),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: whiteColor,
-        child: Center(
-          child: SizedBox(
-            height: phoneVerificationBodyHeight.h,
+      body: Center(
+        child: SizedBox(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 buildPhoneVerificationDesc(),
+                SizedBox(
+                  height: 150.h,
+                ),
                 BlocListener(
                     bloc: otpBloc,
                     child: const SizedBox(),
@@ -104,6 +104,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                       }
                     }),
                 buildOtpField(),
+                SizedBox(
+                  height: 100.h,
+                ),
                 buildConfirmButton(context)
               ],
             ),

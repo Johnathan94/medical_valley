@@ -17,4 +17,12 @@ class BookRequestClient {
         data: requestModel.toJson());
     return response.data;
   }
+
+  getRequests() async {
+    UserDate currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
+
+    Response response = await dio.get(
+        "${dio.options.baseUrl}/Request/UserRequests?UserId=${currentUser.id}");
+    return response.data;
+  }
 }

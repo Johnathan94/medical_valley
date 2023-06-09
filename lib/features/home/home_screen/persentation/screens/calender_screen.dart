@@ -36,19 +36,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
   ];
   BehaviorSubject<String> selectedSlot =
       BehaviorSubject<String>.seeded("09:00");
-  List<String> slots = [
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "01:00",
-    "01:30",
-    "02:00",
-  ];
+
   TextEditingController notesController = TextEditingController();
   BookRequestBloc bookRequestBloc = GetIt.I<BookRequestBloc>();
 
@@ -79,8 +67,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
               );
               Future.delayed(const Duration(seconds: 2), () async {
                 Navigator.pop(context);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (c) => const OffersScreen()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => OffersScreen(
+                              requestId: state.requestId!,
+                            )));
               });
             } else {
               LoadingDialogs.hideLoadingDialog();

@@ -136,7 +136,7 @@ class NegotiationsCard extends StatelessWidget {
                 Expanded(
                     flex: 1,
                     child: GestureDetector(
-                        onTap: () => onNegotiatePressed(items.id ?? 0),
+                        onTap: () => onNegotiatePressed(items.requestId ?? 0),
                         child: OffersOptionsButton(
                           buttonType: ButtonType.negotiate,
                           title: AppLocalizations.of(context)!.negotiate,
