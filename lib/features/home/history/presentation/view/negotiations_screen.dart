@@ -77,7 +77,7 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                 CoolAlert.show(
                   barrierDismissible: false,
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 1),
+                  closeOnConfirmBtnTap: true,
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.something_went_wrong,
                 );
@@ -141,6 +141,6 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
 
   onNegotiatePressed(int id) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) =>  OffersScreen(requestId: id)));
+        .push(MaterialPageRoute(builder: (c) => OffersScreen(requestId: id)));
   }
 }

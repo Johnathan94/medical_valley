@@ -108,7 +108,7 @@ class HomeState extends State<HomeSearchScreen> {
                 CoolAlert.show(
                   barrierDismissible: false,
                   context: context,
-                  autoCloseDuration: const Duration(seconds: 2),
+                  closeOnConfirmBtnTap: true,
                   type: CoolAlertType.error,
                   text: state.error,
                 );

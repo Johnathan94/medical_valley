@@ -154,7 +154,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
+                      closeOnConfirmBtnTap: true,
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.invalid_phone_number,
                     );

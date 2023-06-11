@@ -153,10 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   LoadingDialogs.hideLoadingDialog();
                                   CoolAlert.show(
                                     context: context,
-                                    autoCloseDuration:
-                                        const Duration(seconds: 1),
                                     type: CoolAlertType.error,
                                     text: myState.error,
+                                    closeOnConfirmBtnTap: true,
                                   );
                                 }
                               }),

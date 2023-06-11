@@ -45,14 +45,16 @@ class CategoryResponse {
 class CategoryModel {
   int? id;
   String? name;
+  String? arabicName;
   String? icon;
 
-  CategoryModel({this.id, this.name, this.icon});
+  CategoryModel({this.id, this.name, this.icon, this.arabicName});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     icon = json['icon'];
+    arabicName = json['arabicName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +62,7 @@ class CategoryModel {
     data['id'] = id;
     data['name'] = name;
     data['icon'] = icon;
+    data['arabicName'] = arabicName;
     return data;
   }
 }

@@ -124,7 +124,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
+                      closeOnConfirmBtnTap: true,
                       type: CoolAlertType.error,
                       text: state.error,
                     );

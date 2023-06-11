@@ -6,6 +6,7 @@
     "sign_up_with_apps" : "Sign up with : ",
     "already_have_account" : "Already have an account ? ",
     "email" : "Email",
+    "confirm_addresss" : "Confirm address",
     "profile" : "Profile",
   "good_evening":  "Good evening",
   "invalid_otp": "Invalid Otp",

@@ -235,13 +235,10 @@ class _OffersScreenState extends State<OffersScreen> {
                     CoolAlert.show(
                       barrierDismissible: false,
                       context: context,
-                      autoCloseDuration: const Duration(seconds: 1),
+                      closeOnConfirmBtnTap: true,
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.something_went_wrong,
                     );
-                    Future.delayed(const Duration(seconds: 2), () async {
-                      Navigator.pop(context);
-                    });
                   }
                 },
                 child: const SizedBox())

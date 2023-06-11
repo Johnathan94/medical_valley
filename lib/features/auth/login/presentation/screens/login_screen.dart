@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           context: context,
                           autoCloseDuration: const Duration(milliseconds: 300),
                           type: CoolAlertType.success,
+                          closeOnConfirmBtnTap: false,
                           text: AppLocalizations.of(context)!.success_login,
                         );
                         Future.delayed(const Duration(milliseconds: 350), () {
@@ -113,11 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           context: context,
-                          autoCloseDuration: const Duration(seconds: 1),
                           type: CoolAlertType.error,
                           text: errorState.message ??
                               AppLocalizations.of(context)!
                                   .invalid_phone_number,
+                          closeOnConfirmBtnTap: true,
                         );
                       }
                     },
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: AppLocalizations.of(context)!.sign_in,
                   ),
                 ),
-                buildSignInApps(),
+                //buildSignInApps(),
                 buildSignUp()
               ],
             ),
@@ -266,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   navigateToOtpScreen(String mobile) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PhoneVerificationScreen(
               mobile: mobile,
               openFromRegistered: false,

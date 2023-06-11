@@ -97,7 +97,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                         LoadingDialogs.hideLoadingDialog();
                         CoolAlert.show(
                           context: context,
-                          autoCloseDuration: const Duration(seconds: 1),
+                          closeOnConfirmBtnTap: true,
                           type: CoolAlertType.error,
                           text: AppLocalizations.of(context)!.invalid_otp,
                         );

@@ -79,7 +79,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
               CoolAlert.show(
                 barrierDismissible: false,
                 context: context,
-                autoCloseDuration: const Duration(seconds: 1),
+                closeOnConfirmBtnTap: true,
                 type: CoolAlertType.error,
                 text: AppLocalizations.of(context)!.something_went_wrong,
               );

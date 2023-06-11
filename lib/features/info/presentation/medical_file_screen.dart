@@ -144,8 +144,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                   LoadingDialogs.hideLoadingDialog();
                                   CoolAlert.show(
                                     context: context,
-                                    autoCloseDuration:
-                                        const Duration(seconds: 1),
+                                    closeOnConfirmBtnTap: true,
                                     type: CoolAlertType.error,
                                     text: myState.error,
                                   );

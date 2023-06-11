@@ -198,7 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 4,
                 ),
                 Text(
-                  model.name!,
+                  LocalStorageManager.getCurrentLanguage() == "ar"
+                      ? model.arabicName!
+                      : model.name!,
                   style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                       color: Colors.black, decoration: TextDecoration.none),
                 ),
