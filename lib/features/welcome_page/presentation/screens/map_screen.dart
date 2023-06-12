@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -78,12 +80,19 @@ class MapSampleState extends State<MapScreen> {
                       right: 50,
                       left: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HomeBaseStatefulWidget()));
+                        onPressed: () async {
+                          bool isIn = await isInRidyhZone(
+                              _markersSubject.value.first.position);
+                          if (isIn) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HomeBaseStatefulWidget()));
+                          } else {
+                            context.showSnackBar(AppLocalizations.of(context)!
+                                .this_app_available_in_Ridyh);
+                          }
                         },
                         child: Text(
                             AppLocalizations.of(context)!.confirm_addresss),
@@ -93,5 +102,26 @@ class MapSampleState extends State<MapScreen> {
         ],
       ),
     );
+  }
+
+  Future<bool> isInRidyhZone(LatLng position) async {
+    double ridyhZoneLat = 12.3456;
+    double ridyhZoneLng = 78.9012;
+
+    // Get the user's current position
+    //Position position = await Geolocator.getCurrentPosition();
+
+    // Compare the user's position with the "ridyh zone" boundaries
+    double distanceInMeters = Geolocator.distanceBetween(
+      position.latitude,
+      position.longitude,
+      ridyhZoneLat,
+      ridyhZoneLng,
+    );
+
+    // Set a threshold distance within which the user is considered to be in the zone
+    double zoneRadius = 500; // in meters
+
+    return distanceInMeters <= zoneRadius;
   }
 }
