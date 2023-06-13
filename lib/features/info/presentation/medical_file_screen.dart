@@ -43,6 +43,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   final _formKey = GlobalKey<FormState>();
   late UserDate user;
+  BehaviorSubject<String> genderDisplayed = BehaviorSubject();
+  BehaviorSubject<String> genderOptionDisplayed = BehaviorSubject();
 
   @override
   void initState() {
@@ -56,6 +58,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   void didChangeDependencies() {
     insuranceDisplayed.sink.add(AppLocalizations.of(context)!.yes);
     optionDisplayed.sink.add(AppLocalizations.of(context)!.yes);
+    genderOptionDisplayed.sink.add(AppLocalizations.of(context)!.male);
+    genderDisplayed.sink.add(AppLocalizations.of(context)!.male);
     super.didChangeDependencies();
   }
 
@@ -88,6 +92,11 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
               } else if (state is MedicalInfoStateSuccess) {
                 fullNameController.text = state.model.fullName ?? "";
                 nationalIdController.text = state.model.nationalId ?? "";
+                genderDisplayed.sink.add(state.model.genderStr != null
+                    ? toGenderLocal(state.model.genderStr!)
+                    : AppLocalizations.of(context)!.male);
+                genderOptionDisplayed.sink.add(state.model.genderStr ??
+                    AppLocalizations.of(context)!.male);
                 insuranceNumberController.text =
                     state.model.insuranceNumber ?? "";
                 insuranceDisplayed.sink.add(state.model.hasInsurance != null &&
@@ -323,6 +332,90 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           ),
 
                           SizedBox(
+                            height: 17.h,
+                          ),
+                          StreamBuilder<String>(
+                              stream: genderDisplayed.stream,
+                              builder: (context, snapshot) {
+                                return SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: DropdownButton2<String>(
+                                    isExpanded: true,
+                                    hint: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(context)!.gender,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          genderDisplayed.value,
+                                          style: AppStyles.headlineStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                    items: [
+                                      AppLocalizations.of(context)!.male,
+                                      AppLocalizations.of(context)!.female,
+                                    ]
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  genderOptionDisplayed.value ==
+                                                          item
+                                                      ? const Icon(
+                                                          Icons.check_circle,
+                                                          color: primaryColor,
+                                                          size: 15,
+                                                        )
+                                                      : const SizedBox()
+                                                ],
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (String? value) {
+                                      genderDisplayed.sink.add(value!);
+                                      genderOptionDisplayed.sink.add(value);
+                                    },
+                                    icon: const Padding(
+                                      padding:
+                                          EdgeInsetsDirectional.only(end: 8.0),
+                                      child:
+                                          Icon(Icons.arrow_drop_down_outlined),
+                                    ),
+                                    buttonHeight: 60,
+                                    underline: const SizedBox(),
+                                    buttonElevation: 2,
+                                    itemHeight: 45,
+                                    dropdownDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: whiteColor,
+                                    ),
+                                    dropdownElevation: 8,
+                                    scrollbarThickness: 6,
+                                    scrollbarAlwaysShow: true,
+                                  ),
+                                );
+                              }),
+                          SizedBox(
                             height: 30.h,
                           ),
                           paymentButton(state.model)
@@ -368,6 +461,10 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                   ? insuranceNumberController.text
                   : model.insuranceNumber,
               birthDate: birthDateController.text,
+              genderId:
+                  genderDisplayed.value == AppLocalizations.of(context)!.male
+                      ? 1
+                      : 2,
             ));
           } else {
             context.showSnackBar(
@@ -376,5 +473,14 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
         },
       ),
     );
+  }
+
+  String toGenderLocal(String gender) {
+    switch (gender.toLowerCase().trim()) {
+      case "male":
+        return AppLocalizations.of(context)!.male;
+      default:
+        return AppLocalizations.of(context)!.female;
+    }
   }
 }

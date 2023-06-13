@@ -14,11 +14,11 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/core/terms_and_conditions/persentation/screens/terms_and_condition_screen.dart';
 import 'package:medical_valley/core/widgets/app_bar.dart';
 import 'package:medical_valley/core/widgets/custom_text_field.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/screens/phone_verification.dart';
 import 'package:medical_valley/features/auth/register/data/model/register_request_model.dart';
 import 'package:medical_valley/features/auth/register/presentation/register_bloc/register_bloc.dart';
@@ -82,14 +82,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         body: Stack(
           children: [
             const PrimaryBg(),
-            buildRegisterView(),
+            buildRegisterView(context),
           ],
         ),
       ),
     );
   }
 
-  Widget buildRegisterView() {
+  final BehaviorSubject<bool> _checkBoxBehaviourSubject =
+      BehaviorSubject<bool>.seeded(false);
+  Widget buildRegisterView(context) {
+    final theme = Theme.of(context);
+    final oldCheckboxTheme = theme.checkboxTheme;
+
+    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+    );
     return Positioned(
       bottom: 0,
       child: Container(
@@ -151,6 +159,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onValidator: (String? x) {
                         if (!x!.isEmailValid()) {
                           return AppLocalizations.of(context)!.email_invalid;
+                        } else {
+                          return null;
                         }
                       },
                     ),
@@ -165,6 +175,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onValidator: (String? x) {
                         if (x!.isEmpty) {
                           return AppLocalizations.of(context)!.empty_field;
+                        } else {
+                          return null;
                         }
                       },
                     ),
@@ -186,11 +198,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .insurance_question,
-                                    style: AppStyles.headlineStyle,
-                                    overflow: TextOverflow.ellipsis,
+                                  Expanded(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .insurance_question,
+                                      style: AppStyles.headlineStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   Text(
                                     optionDisplayed.value,
@@ -332,6 +346,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           );
                         }),
+
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    StreamBuilder<bool>(
+                        stream: _checkBoxBehaviourSubject.stream,
+                        builder: (context, snapshot) {
+                          return Row(
+                            children: [
+                              Theme(
+                                data: theme.copyWith(
+                                    checkboxTheme: newCheckBoxTheme),
+                                child: Checkbox(
+                                  value: _checkBoxBehaviourSubject.value,
+                                  activeColor: primaryColor,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onChanged: (newValue) {
+                                    _checkBoxBehaviourSubject
+                                        .add(newValue ?? false);
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                  child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (c) =>
+                                              const TermsAndConditionsScreen()));
+                                },
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .terms_and_condition_agreed,
+                                  style: AppStyles
+                                      .baloo2FontWith400WeightAnd18Size,
+                                ),
+                              ))
+                            ],
+                          );
+                        }),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -357,7 +413,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       text: AppLocalizations.of(context)!.sign_up,
                     ),
-                    buildSignInApps(),
+                    //buildSignInApps(),
                     buildSignUp()
                   ],
                 ),
@@ -404,10 +460,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Container(
             width: loginAllAnotherAppsWidth.w,
             alignment: AlignmentDirectional.center,
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
-              children: const [
+              children: [
                 AuthenticationAppWidget(
                   appIcon: googleIcon,
                 ),
