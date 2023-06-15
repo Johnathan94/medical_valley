@@ -150,7 +150,7 @@ class _HistoryScreenState extends State<HistoryScreen>
                                       child: Container(
                                         padding: smallPaddingAll,
                                         margin: smallPaddingH,
-                                        height: 180.h,
+                                        height: 195.h,
                                         width: 250.w,
                                         decoration: BoxDecoration(
                                             border: Border.all(width: .2),

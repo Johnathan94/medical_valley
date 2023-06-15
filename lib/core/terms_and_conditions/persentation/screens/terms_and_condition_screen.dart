@@ -22,10 +22,10 @@ class TermsAndConditionsScreen extends StatefulWidget {
 
 class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
   final BehaviorSubject<bool> _checkBoxBehaviourSubject =
-  BehaviorSubject<bool>();
+      BehaviorSubject<bool>();
 
-  final TermsAndConditionsBloc _termsAndConditionsBloc = GetIt.instance<
-      TermsAndConditionsBloc>();
+  final TermsAndConditionsBloc _termsAndConditionsBloc =
+      GetIt.instance<TermsAndConditionsBloc>();
 
   @override
   initState() {
@@ -73,20 +73,20 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             fit: StackFit.expand,
             children: [
               getTermsAndConditionsDescription(context,
-              state.termsAndConditionsModel.termsConditions ?? ""),
+                  state.termsAndConditionsModel.data?.termsConditions ?? ""),
               buildContinueWidget(context)
             ],
           );
-        }else {
+        } else {
           return Center(
-              child: Text(
-                  AppLocalizations.of(context)!.there_is_no_data));
+              child: Text(AppLocalizations.of(context)!.there_is_no_data));
         }
       },
     );
   }
 
-  Container getTermsAndConditionsDescription(BuildContext context, String termsConditions) {
+  Container getTermsAndConditionsDescription(
+      BuildContext context, String termsConditions) {
     return Container(
         margin: const EdgeInsetsDirectional.only(top: 30, start: 30, end: 30),
         child: Column(
@@ -133,7 +133,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                           value: _checkBoxBehaviourSubject.value,
                           activeColor: primaryColor,
                           materialTapTargetSize:
-                          MaterialTapTargetSize.shrinkWrap,
+                              MaterialTapTargetSize.shrinkWrap,
                           onChanged: (newValue) {
                             _checkBoxBehaviourSubject.sink
                                 .add(newValue ?? false);
@@ -142,10 +142,10 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                       ),
                       Expanded(
                           child: Text(
-                            AppLocalizations.of(context)!
-                                .terms_and_condition_agreed,
-                            style: AppStyles.baloo2FontWith400WeightAnd18Size,
-                          ))
+                        AppLocalizations.of(context)!
+                            .terms_and_condition_agreed,
+                        style: AppStyles.baloo2FontWith400WeightAnd18Size,
+                      ))
                     ],
                   ),
                   Padding(
@@ -153,13 +153,14 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         top: 44, start: 5.0, end: 40),
                     child: PrimaryButton(
                       text: AppLocalizations.of(context)!.continue_text,
-                      backgroundColor: snapshot.hasData && snapshot.data == true ?
-                      primaryColor : grey,
-                      onPressed: snapshot.hasData &&
-                      snapshot.data == true ?
-                          (){
-                        Navigator.pop(context);
-                      } : null,
+                      backgroundColor: snapshot.hasData && snapshot.data == true
+                          ? primaryColor
+                          : grey,
+                      onPressed: snapshot.hasData && snapshot.data == true
+                          ? () {
+                              Navigator.pop(context);
+                            }
+                          : null,
                     ),
                   )
                 ],

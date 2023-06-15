@@ -36,79 +36,86 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   OtpBloc otpBloc = GetIt.instance<OtpBloc>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBarWithoutBackground(
-          header: AppLocalizations.of(context)!.phone_verification,
-          leadingIcon: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: blackColor,
-            ),
-          )),
-      body: Center(
-        child: SizedBox(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildPhoneVerificationDesc(),
-                SizedBox(
-                  height: 150.h,
-                ),
-                BlocListener(
-                    bloc: otpBloc,
-                    child: const SizedBox(),
-                    listener: (c, state) async {
-                      if (state is LoadingOtpState) {
-                        await LoadingDialogs.showLoadingDialog(context);
-                      } else if (state is SuccessOtpState) {
-                        LoadingDialogs.hideLoadingDialog();
-                        CoolAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          autoCloseDuration: const Duration(milliseconds: 300),
-                          type: CoolAlertType.success,
-                          text: AppLocalizations.of(context)!.otp_success,
-                        );
-                        if (widget.openFromRegistered &&
-                            widget.hasInsurance != null &&
-                            widget.hasInsurance!) {
-                          Future.delayed(const Duration(milliseconds: 350), () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => const MedicalFileScreen(
-                                        openFirstTime: true)));
-                          });
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBarWithoutBackground(
+            header: AppLocalizations.of(context)!.phone_verification,
+            leadingIcon: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: blackColor,
+              ),
+            )),
+        body: Center(
+          child: SizedBox(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildPhoneVerificationDesc(),
+                  SizedBox(
+                    height: 150.h,
+                  ),
+                  BlocListener(
+                      bloc: otpBloc,
+                      child: const SizedBox(),
+                      listener: (c, state) async {
+                        if (state is LoadingOtpState) {
+                          await LoadingDialogs.showLoadingDialog(context);
+                        } else if (state is SuccessOtpState) {
+                          LoadingDialogs.hideLoadingDialog();
+                          CoolAlert.show(
+                            barrierDismissible: false,
+                            context: context,
+                            autoCloseDuration:
+                                const Duration(milliseconds: 300),
+                            type: CoolAlertType.success,
+                            text: AppLocalizations.of(context)!.otp_success,
+                          );
+                          if (widget.openFromRegistered &&
+                              widget.hasInsurance != null &&
+                              widget.hasInsurance!) {
+                            Future.delayed(const Duration(milliseconds: 350),
+                                () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (c) => const MedicalFileScreen(
+                                          openFirstTime: true)));
+                            });
+                          } else {
+                            Future.delayed(const Duration(milliseconds: 350),
+                                () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (c) =>
+                                          const WelcomePageScreen()));
+                            });
+                          }
                         } else {
-                          Future.delayed(const Duration(milliseconds: 350), () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => const WelcomePageScreen()));
-                          });
+                          LoadingDialogs.hideLoadingDialog();
+                          CoolAlert.show(
+                            context: context,
+                            closeOnConfirmBtnTap: true,
+                            type: CoolAlertType.error,
+                            text: AppLocalizations.of(context)!.invalid_otp,
+                          );
                         }
-                      } else {
-                        LoadingDialogs.hideLoadingDialog();
-                        CoolAlert.show(
-                          context: context,
-                          closeOnConfirmBtnTap: true,
-                          type: CoolAlertType.error,
-                          text: AppLocalizations.of(context)!.invalid_otp,
-                        );
-                      }
-                    }),
-                buildOtpField(),
-                SizedBox(
-                  height: 100.h,
-                ),
-                buildConfirmButton(context)
-              ],
+                      }),
+                  buildOtpField(),
+                  SizedBox(
+                    height: 100.h,
+                  ),
+                  buildConfirmButton(context)
+                ],
+              ),
             ),
           ),
         ),

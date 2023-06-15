@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -81,18 +80,18 @@ class MapSampleState extends State<MapScreen> {
                       left: 50,
                       child: ElevatedButton(
                         onPressed: () async {
-                          bool isIn = await isInRidyhZone(
-                              _markersSubject.value.first.position);
+                          /*  bool isIn = await isInRidyhZone(_markersSubject.value.first.position);
                           if (isIn) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HomeBaseStatefulWidget()));
-                          } else {
+                        */
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const HomeBaseStatefulWidget()));
+                          /* } else {
                             context.showSnackBar(AppLocalizations.of(context)!
                                 .this_app_available_in_Ridyh);
-                          }
+                          }*/
                         },
                         child: Text(
                             AppLocalizations.of(context)!.confirm_addresss),
