@@ -122,6 +122,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     CoolAlert.show(
                       context: context,
                       autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.success_registered,
                     );
@@ -134,6 +135,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       context: context,
                       closeOnConfirmBtnTap: true,
                       type: CoolAlertType.error,
+                      autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       text: state.error,
                     );
                   }

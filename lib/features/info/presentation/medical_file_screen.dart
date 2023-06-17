@@ -133,6 +133,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                     context: context,
                                     autoCloseDuration:
                                         const Duration(seconds: 1),
+                                    showOkBtn: false,
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
                                         .medical_file_save,
@@ -155,6 +156,9 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                     context: context,
                                     closeOnConfirmBtnTap: true,
                                     type: CoolAlertType.error,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 1),
+                                    showOkBtn: false,
                                     text: myState.error,
                                   );
                                 }

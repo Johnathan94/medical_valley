@@ -75,6 +75,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                             context: context,
                             autoCloseDuration:
                                 const Duration(milliseconds: 300),
+                            showOkBtn: false,
                             type: CoolAlertType.success,
                             text: AppLocalizations.of(context)!.otp_success,
                           );
@@ -105,11 +106,13 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                             context: context,
                             closeOnConfirmBtnTap: true,
                             type: CoolAlertType.error,
+                            autoCloseDuration: const Duration(seconds: 1),
+                            showOkBtn: false,
                             text: AppLocalizations.of(context)!.invalid_otp,
                           );
                         }
                       }),
-                  buildOtpField(),
+                  buildOtpField(context),
                   SizedBox(
                     height: 100.h,
                   ),
@@ -131,7 +134,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   }
 
   String code = "";
-  buildOtpField() {
+  buildOtpField(context) {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: OtpTextField(

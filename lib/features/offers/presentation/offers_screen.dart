@@ -156,6 +156,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                     context: context,
                                     autoCloseDuration:
                                         const Duration(seconds: 1),
+                                    showOkBtn: false,
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
                                         .negotiate_successed,
@@ -176,6 +177,9 @@ class _OffersScreenState extends State<OffersScreen> {
                                       context: context,
                                       type: CoolAlertType.error,
                                       text: state.error,
+                                      autoCloseDuration:
+                                          const Duration(seconds: 1),
+                                      showOkBtn: false,
                                       onConfirmBtnTap: () {
                                         Navigator.pop(context);
                                       });
@@ -220,6 +224,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       barrierDismissible: false,
                       context: context,
                       autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.success,
                       text: AppLocalizations.of(context)!.booked_done,
                     );
@@ -236,6 +241,8 @@ class _OffersScreenState extends State<OffersScreen> {
                       barrierDismissible: false,
                       context: context,
                       closeOnConfirmBtnTap: true,
+                      autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.error,
                       text: AppLocalizations.of(context)!.something_went_wrong,
                     );

@@ -92,6 +92,7 @@ class HomeState extends State<HomeSearchScreen> {
                   barrierDismissible: false,
                   context: context,
                   autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   type: CoolAlertType.success,
                   text: AppLocalizations.of(context)!.request_sent,
                 );
@@ -110,6 +111,8 @@ class HomeState extends State<HomeSearchScreen> {
                   context: context,
                   closeOnConfirmBtnTap: true,
                   type: CoolAlertType.error,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   text: state.error,
                 );
               }

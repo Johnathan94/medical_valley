@@ -228,10 +228,11 @@ packages:
   cool_alert:
     dependency: "direct main"
     description:
-      name: cool_alert
-      sha256: "080a6c3503a4cded8f626cdead23f17ea40ff066ff50847d71a7a264032ab092"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: d49401d2c9b2528afc35e065a602529fc8007d6c
+      url: "https://github.com/Mohamedimbaby/flutter_cool_alert.git"
+    source: git
     version: "2.0.1"
   cross_file:
     dependency: transitive

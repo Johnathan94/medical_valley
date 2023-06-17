@@ -143,6 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     context: context,
                                     autoCloseDuration:
                                         const Duration(seconds: 1),
+                                    showOkBtn: false,
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
                                         .profile_data_saved,
@@ -155,6 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     context: context,
                                     type: CoolAlertType.error,
                                     text: myState.error,
+                                    autoCloseDuration:
+                                        const Duration(seconds: 1),
+                                    showOkBtn: false,
                                     closeOnConfirmBtnTap: true,
                                   );
                                 }

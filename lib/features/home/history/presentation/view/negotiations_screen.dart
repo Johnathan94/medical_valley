@@ -66,6 +66,7 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                   barrierDismissible: false,
                   context: context,
                   autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   type: CoolAlertType.success,
                   text: AppLocalizations.of(context)!.booked_done,
                 );
@@ -77,6 +78,8 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                 CoolAlert.show(
                   barrierDismissible: false,
                   context: context,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
                   closeOnConfirmBtnTap: true,
                   type: CoolAlertType.error,
                   text: AppLocalizations.of(context)!.something_went_wrong,

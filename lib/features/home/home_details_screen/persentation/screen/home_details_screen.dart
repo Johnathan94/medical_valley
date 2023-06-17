@@ -89,6 +89,8 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                       barrierDismissible: false,
                       context: context,
                       closeOnConfirmBtnTap: true,
+                      autoCloseDuration: const Duration(seconds: 1),
+                      showOkBtn: false,
                       type: CoolAlertType.error,
                       text: state.error,
                     );
