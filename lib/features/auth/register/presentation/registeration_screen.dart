@@ -397,18 +397,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     PrimaryButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          registerBloc
-                              .registerUser(RegisterEvent(RegisterRequestModel(
-                            email: controller.text,
-                            mobile: phoneController.text,
-                            fullName: fullNameController.text,
-                            haveInsurance: optionDisplayed.value ==
-                                AppLocalizations.of(context)!.yes,
-                            genderId: genderDisplayed.value ==
-                                    AppLocalizations.of(context)!.male
-                                ? 1
-                                : 2,
-                          )));
+                          if (_checkBoxBehaviourSubject.value) {
+                            registerBloc.registerUser(
+                                RegisterEvent(RegisterRequestModel(
+                              email: controller.text,
+                              mobile: phoneController.text,
+                              fullName: fullNameController.text,
+                              haveInsurance: optionDisplayed.value ==
+                                  AppLocalizations.of(context)!.yes,
+                              genderId: genderDisplayed.value ==
+                                      AppLocalizations.of(context)!.male
+                                  ? 1
+                                  : 2,
+                            )));
+                          } else {
+                            context.showSnackBar(AppLocalizations.of(context)!
+                                .you_must_accept_the_terms_and_conditions);
+                          }
                         } else {
                           context.showSnackBar(AppLocalizations.of(context)!
                               .please_fill_all_data);

@@ -103,6 +103,10 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                         state.model.hasInsurance!
                     ? AppLocalizations.of(context)!.yes
                     : AppLocalizations.of(context)!.no);
+                optionDisplayed.sink.add(state.model.hasInsurance != null &&
+                        state.model.hasInsurance!
+                    ? AppLocalizations.of(context)!.yes
+                    : AppLocalizations.of(context)!.no);
                 birthDateController.text = state.model.birthDate ?? "";
                 notesController.text = state.model.notes ?? "";
                 return Padding(
@@ -292,6 +296,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           ),
                           GenericTextField(
                             fillColor: textFieldBg,
+                            keyboardType: TextInputType.number,
                             onValidator: (String? text) {
                               if (text!.isNotEmpty && text.length <= 14) {
                                 return null;
@@ -314,6 +319,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                             textController: insuranceNumberController,
                             hintText:
                                 AppLocalizations.of(context)!.insurance_number,
+                            keyboardType: TextInputType.number,
                             hintStyle: AppStyles
                                 .baloo2FontWith400WeightAnd14Size
                                 .copyWith(color: darkGrey),

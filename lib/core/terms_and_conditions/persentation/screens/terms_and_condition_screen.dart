@@ -51,7 +51,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
 
   getAppBar(BuildContext context) {
     return MyCustomAppBar(
-      header: AppLocalizations.of(context)!.terms_and_condition,
+      header: AppLocalizations.of(context)!.terms_and_privacy,
       leadingIcon: InkWell(
         onTap: () => Navigator.of(context).pop(),
         child: const Icon(
@@ -74,7 +74,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               getTermsAndConditionsDescription(context,
                   state.termsAndConditionsModel.data?.termsConditions ?? ""),
-              buildContinueWidget(context)
             ],
           );
         } else {
@@ -100,9 +99,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 186.h,
-            )
           ],
         ));
   }
@@ -125,29 +121,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
               padding: const EdgeInsetsDirectional.only(top: 17, start: 26),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Theme(
-                        data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
-                        child: Checkbox(
-                          value: _checkBoxBehaviourSubject.value,
-                          activeColor: primaryColor,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onChanged: (newValue) {
-                            _checkBoxBehaviourSubject.sink
-                                .add(newValue ?? false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                          child: Text(
-                        AppLocalizations.of(context)!
-                            .terms_and_condition_agreed,
-                        style: AppStyles.baloo2FontWith400WeightAnd18Size,
-                      ))
-                    ],
-                  ),
                   Padding(
                     padding: const EdgeInsetsDirectional.only(
                         top: 44, start: 5.0, end: 40),

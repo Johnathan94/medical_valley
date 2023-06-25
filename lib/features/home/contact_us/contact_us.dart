@@ -119,7 +119,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.email),
+                        Text(AppLocalizations.of(context)!.instagram),
                         const SizedBox(
                           height: 8,
                         ),

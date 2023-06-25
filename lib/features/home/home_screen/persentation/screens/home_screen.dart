@@ -161,7 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           MaterialPageRoute(
               builder: (c) => HomeDetailsScreen(
-                    categoryName: model.name!,
+                    categoryName:
+                        LocalStorageManager.getCurrentLanguage() == "ar"
+                            ? model.arabicName ?? ""
+                            : model.name ?? "",
                     categoryId: model.id!,
                   ))),
       child: Container(
