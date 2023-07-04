@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:rxdart/rxdart.dart';
@@ -72,8 +73,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              getTermsAndConditionsDescription(context,
-                  state.termsAndConditionsModel.data?.termsConditions ?? ""),
+              getTermsAndConditionsDescription(
+                  context, getLocalizedTerms(state)),
             ],
           );
         } else {
@@ -141,5 +142,17 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             ),
           );
         });
+  }
+
+  String getLocalizedTerms(SuccessTermsAndConditionsState state) {
+    if (state.termsAndConditionsModel.data?.termsConditions != null) {
+      if (LocalStorageManager.getCurrentLanguage() == "ar") {
+        return state.termsAndConditionsModel.data!.termsConditions!;
+      } else {
+        return state.termsAndConditionsModel.data!.termsConditionsEn!;
+      }
+    } else {
+      return "";
+    }
   }
 }

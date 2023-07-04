@@ -43,6 +43,7 @@ class Data {
   String? email;
   String? aboutUs;
   String? termsConditions;
+  String? termsConditionsEn;
 
   Data(
       {this.logoImgeId,
@@ -57,6 +58,7 @@ class Data {
     email = json['email'];
     aboutUs = json['aboutUs'];
     termsConditions = json['termsConditions'];
+    termsConditionsEn = json['termsConditionsEn'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +68,7 @@ class Data {
     data['email'] = email;
     data['aboutUs'] = aboutUs;
     data['termsConditions'] = termsConditions;
+    data['termsConditionsEn'] = termsConditionsEn;
     return data;
   }
 }

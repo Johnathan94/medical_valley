@@ -166,6 +166,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           return null;
                         }
                       },
+                      onChanged: (String? x) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
                     SizedBox(
                       height: 16.h,
@@ -182,11 +185,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           return null;
                         }
                       },
+                      onChanged: (String? x) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    PhoneIntlWidgetField(phoneController, (Country country) {}),
+                    PhoneIntlWidgetField(
+                      phoneController,
+                      (Country country) {},
+                    ),
                     SizedBox(
                       height: 16.h,
                     ),
@@ -411,8 +420,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   : 2,
                             )));
                           } else {
-                            context.showSnackBar(AppLocalizations.of(context)!
-                                .you_must_accept_the_terms_and_conditions);
+                            CoolAlert.show(
+                                context: context,
+                                closeOnConfirmBtnTap: true,
+                                type: CoolAlertType.error,
+                                autoCloseDuration: const Duration(seconds: 1),
+                                showOkBtn: false,
+                                text: AppLocalizations.of(context)!
+                                    .you_must_accept_the_terms_and_conditions);
                           }
                         } else {
                           context.showSnackBar(AppLocalizations.of(context)!
