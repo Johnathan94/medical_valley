@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: screenHeight,
           color: primaryColor,
           child: Stack(
-            children: [getLoginBackground(), getLoginBody()],
+            children: [getLoginBackground(), getLoginBody(context)],
           ),
         ),
       ),
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  getLoginBody() {
+  getLoginBody(BuildContext context) {
     return Positioned(
         top: loginBodyMarginTop.r,
         child: Container(

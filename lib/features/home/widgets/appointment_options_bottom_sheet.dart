@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/features/home/widgets/earlist_options.dart';
 import 'package:medical_valley/features/home/widgets/option_button.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -26,7 +27,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
         stream: appointmentTypeSubject.stream,
         builder: (context, snapshot) {
           return Container(
-            height: 290.h,
+            height: 320.h,
             padding: bigPaddingHV,
             decoration: BoxDecoration(
               color: whiteColor,
@@ -94,6 +95,12 @@ class AppointmentsBottomSheet extends StatelessWidget {
                     ))
                   ],
                 ),
+                SizedBox(
+                  height: 14.h,
+                ),
+                appointmentTypeSubject.value == AppointmentType.earliest
+                    ? EarlistOptions()
+                    : const SizedBox(),
                 SizedBox(
                   height: 14.h,
                 ),
