@@ -20,25 +20,26 @@ class EarlistOptions extends StatelessWidget {
         stream: activeButtonIndex.stream,
         builder: (context, snapshot) {
           return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: options
                 .map((e) => GestureDetector(
                       onTap: () => _selectButton(e.id),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: activeButtonIndex.value == e.id
-                              ? activeColor
-                              : notActiveColor,
-                        ),
-                        child: Text(
-                          e.title,
-                          style: TextStyle(
-                              color: activeButtonIndex.value == e.id
-                                  ? Colors.white
-                                  : Colors.black),
+                      child: Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: activeButtonIndex.value == e.id
+                                ? activeColor
+                                : notActiveColor,
+                          ),
+                          child: Text(
+                            e.title,
+                            style: TextStyle(
+                                color: activeButtonIndex.value == e.id
+                                    ? Colors.white
+                                    : Colors.black),
+                          ),
                         ),
                       ),
                     ))
