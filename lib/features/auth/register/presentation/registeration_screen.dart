@@ -45,6 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
   final _formKey = GlobalKey<FormState>();
+  String countryDial = "966";
   List<InsuranceModel> insuranceChoices = [
     InsuranceModel(true),
     InsuranceModel(false),
@@ -194,7 +195,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     PhoneIntlWidgetField(
                       phoneController,
-                      (Country country) {},
+                      (Country country) {
+                        countryDial = country.dialCode;
+                      },
                     ),
                     SizedBox(
                       height: 16.h,
@@ -410,7 +413,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             registerBloc.registerUser(
                                 RegisterEvent(RegisterRequestModel(
                               email: controller.text,
-                              mobile: phoneController.text,
+                              mobile: countryDial + phoneController.text,
                               fullName: fullNameController.text,
                               haveInsurance: optionDisplayed.value ==
                                   AppLocalizations.of(context)!.yes,
