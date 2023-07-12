@@ -19,31 +19,36 @@ class EarlistOptions extends StatelessWidget {
     return StreamBuilder<int>(
         stream: activeButtonIndex.stream,
         builder: (context, snapshot) {
-          return Row(
-            children: options
-                .map((e) => GestureDetector(
-                      onTap: () => _selectButton(e.id),
-                      child: Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: activeButtonIndex.value == e.id
-                                ? activeColor
-                                : notActiveColor,
-                          ),
-                          child: Text(
-                            e.title,
-                            style: TextStyle(
-                                color: activeButtonIndex.value == e.id
-                                    ? Colors.white
-                                    : Colors.black),
+          return SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: options
+                  .map((e) => Expanded(
+                        child: GestureDetector(
+                          onTap: () => _selectButton(e.id),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: activeButtonIndex.value == e.id
+                                  ? activeColor
+                                  : notActiveColor,
+                            ),
+                            child: Text(
+                              e.title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: activeButtonIndex.value == e.id
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
                           ),
                         ),
-                      ),
-                    ))
-                .toList(),
+                      ))
+                  .toList(),
+            ),
           );
         });
   }

@@ -27,7 +27,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
         stream: appointmentTypeSubject.stream,
         builder: (context, snapshot) {
           return Container(
-            height: 320.h,
+            height: 350.h,
             padding: bigPaddingHV,
             decoration: BoxDecoration(
               color: whiteColor,
@@ -53,10 +53,14 @@ class AppointmentsBottomSheet extends StatelessWidget {
                           Icons.close,
                           color: blackColor,
                         )),
-                    Text(
-                      serviceName,
-                      style: AppStyles.baloo2FontWith400WeightAnd20Size
-                          .copyWith(color: blackColor),
+                    Expanded(
+                      child: Text(
+                        serviceName,
+                        style: AppStyles.baloo2FontWith400WeightAnd20Size
+                            .copyWith(color: blackColor),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const SizedBox()
                   ],

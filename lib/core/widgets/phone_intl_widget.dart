@@ -54,6 +54,8 @@ class PhoneIntlWidgetField extends StatelessWidget {
         onChanged: (phone) {
           phone.completeNumber;
         },
-        onCountryChanged: onCountryChanged);
+        onCountryChanged: (c) {
+          onCountryChanged(c);
+        });
   }
 }

@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final BehaviorSubject<bool> _checkBoxBehaviourSubject =
       BehaviorSubject<bool>();
   LoginBloc loginBloc = GetIt.instance<LoginBloc>();
+  String countryCode = "966";
   TextEditingController phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -142,7 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate() &&
                               phoneController.text.length == 9 ||
                           phoneController.text.length == 10) {
-                        loginBloc.loginUser(LoginEvent(phoneController.text));
+                        loginBloc.loginUser(
+                            LoginEvent(countryCode + phoneController.text));
                       } else {
                         context.showSnackBar(
                             AppLocalizations.of(context)!.please_fill_all_data);
@@ -176,7 +178,9 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child: PhoneIntlWidgetField(phoneController, (Country country) {}),
+      child: PhoneIntlWidgetField(phoneController, (Country country) {
+        countryCode = country.dialCode;
+      }),
     );
   }
 
