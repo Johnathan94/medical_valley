@@ -143,6 +143,23 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
         borderWidth: otpFieldBorderWidth.w,
         enabledBorderColor: greyWith80Percentage,
         focusedBorderColor: primaryColor,
+        handleControllers: (List<TextEditingController?> controller) {
+          controller[1]?.addListener(() {
+            FocusScope.of(context).unfocus();
+          });
+          controller[2]?.addListener(() {
+            FocusScope.of(context).unfocus();
+          });
+          controller[3]?.addListener(() {
+            FocusScope.of(context).unfocus();
+          });
+          controller[4]?.addListener(() {
+            FocusScope.of(context).unfocus();
+          });
+          controller[5]?.addListener(() {
+            FocusScope.of(context).unfocus();
+          });
+        },
         onSubmit: (String text) {
           code = text;
         },
