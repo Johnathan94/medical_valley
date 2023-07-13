@@ -114,6 +114,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         state.model.hasInsurance!
                     ? AppLocalizations.of(context)!.yes
                     : AppLocalizations.of(context)!.no);
+                optionDisplayed.sink.add(state.model.hasInsurance != null &&
+                        state.model.hasInsurance!
+                    ? AppLocalizations.of(context)!.yes
+                    : AppLocalizations.of(context)!.no);
 
                 return Padding(
                   padding: bigPaddingHV,

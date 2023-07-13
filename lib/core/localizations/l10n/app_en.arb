@@ -17,7 +17,9 @@
       "services": "Services",
       "otp_error": "you must write 6 digits ",
       "edit_user": "Edit Profile",
+      "instagram": "Instagram",
       "national_id_is_required": "National id is required",
+  "you_must_accept_the_terms_and_conditions": "you have to accept the Terms & Privacy Policy ً",
 
     "oldest" : "Oldest",
     "pending_nego" : "Pending negotiations",

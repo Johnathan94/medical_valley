@@ -45,6 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   RegisterBloc registerBloc = GetIt.instance<RegisterBloc>();
   final _formKey = GlobalKey<FormState>();
+  String countryDial = "966";
   List<InsuranceModel> insuranceChoices = [
     InsuranceModel(true),
     InsuranceModel(false),
@@ -166,6 +167,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           return null;
                         }
                       },
+                      onChanged: (String? x) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
                     SizedBox(
                       height: 16.h,
@@ -182,11 +186,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           return null;
                         }
                       },
+                      onChanged: (String? x) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
                     SizedBox(
                       height: 16.h,
                     ),
-                    PhoneIntlWidgetField(phoneController, (Country country) {}),
+                    PhoneIntlWidgetField(
+                      phoneController,
+                      (Country country) {
+                        countryDial = country.dialCode;
+                      },
+                    ),
                     SizedBox(
                       height: 16.h,
                     ),
@@ -397,18 +409,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     PrimaryButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          registerBloc
-                              .registerUser(RegisterEvent(RegisterRequestModel(
-                            email: controller.text,
-                            mobile: phoneController.text,
-                            fullName: fullNameController.text,
-                            haveInsurance: optionDisplayed.value ==
-                                AppLocalizations.of(context)!.yes,
-                            genderId: genderDisplayed.value ==
-                                    AppLocalizations.of(context)!.male
-                                ? 1
-                                : 2,
-                          )));
+                          if (_checkBoxBehaviourSubject.value) {
+                            registerBloc.registerUser(
+                                RegisterEvent(RegisterRequestModel(
+                              email: controller.text,
+                              mobile: countryDial + phoneController.text,
+                              fullName: fullNameController.text,
+                              haveInsurance: optionDisplayed.value ==
+                                  AppLocalizations.of(context)!.yes,
+                              genderId: genderDisplayed.value ==
+                                      AppLocalizations.of(context)!.male
+                                  ? 1
+                                  : 2,
+                            )));
+                          } else {
+                            CoolAlert.show(
+                                context: context,
+                                closeOnConfirmBtnTap: true,
+                                type: CoolAlertType.error,
+                                autoCloseDuration: const Duration(seconds: 1),
+                                showOkBtn: false,
+                                text: AppLocalizations.of(context)!
+                                    .you_must_accept_the_terms_and_conditions);
+                          }
                         } else {
                           context.showSnackBar(AppLocalizations.of(context)!
                               .please_fill_all_data);

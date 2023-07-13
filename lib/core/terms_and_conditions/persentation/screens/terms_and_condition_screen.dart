@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:rxdart/rxdart.dart';
@@ -51,7 +52,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
 
   getAppBar(BuildContext context) {
     return MyCustomAppBar(
-      header: AppLocalizations.of(context)!.terms_and_condition,
+      header: AppLocalizations.of(context)!.terms_and_privacy,
       leadingIcon: InkWell(
         onTap: () => Navigator.of(context).pop(),
         child: const Icon(
@@ -72,9 +73,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              getTermsAndConditionsDescription(context,
-                  state.termsAndConditionsModel.data?.termsConditions ?? ""),
-              buildContinueWidget(context)
+              getTermsAndConditionsDescription(
+                  context, getLocalizedTerms(state)),
             ],
           );
         } else {
@@ -100,9 +100,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 186.h,
-            )
           ],
         ));
   }
@@ -125,29 +122,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
               padding: const EdgeInsetsDirectional.only(top: 17, start: 26),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Theme(
-                        data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
-                        child: Checkbox(
-                          value: _checkBoxBehaviourSubject.value,
-                          activeColor: primaryColor,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onChanged: (newValue) {
-                            _checkBoxBehaviourSubject.sink
-                                .add(newValue ?? false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                          child: Text(
-                        AppLocalizations.of(context)!
-                            .terms_and_condition_agreed,
-                        style: AppStyles.baloo2FontWith400WeightAnd18Size,
-                      ))
-                    ],
-                  ),
                   Padding(
                     padding: const EdgeInsetsDirectional.only(
                         top: 44, start: 5.0, end: 40),
@@ -168,5 +142,17 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             ),
           );
         });
+  }
+
+  String getLocalizedTerms(SuccessTermsAndConditionsState state) {
+    if (state.termsAndConditionsModel.data?.termsConditions != null) {
+      if (LocalStorageManager.getCurrentLanguage() == "ar") {
+        return state.termsAndConditionsModel.data!.termsConditions!;
+      } else {
+        return state.termsAndConditionsModel.data!.termsConditionsEn!;
+      }
+    } else {
+      return "";
+    }
   }
 }
