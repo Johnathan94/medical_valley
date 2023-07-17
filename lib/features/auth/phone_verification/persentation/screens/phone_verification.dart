@@ -11,6 +11,7 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/widgets/app_bar_with_null_background.dart';
@@ -131,42 +132,47 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       AppLocalizations.of(context)!.enter_you_otp,
       style: AppStyles.baloo2FontWith400WeightAnd25Size,
     );
+
   }
 
   String code = "";
-  buildOtpField(context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: OtpTextField(
-        fieldWidth: otpFieldWidth.w,
-        numberOfFields: otpFieldNumber,
-        borderWidth: otpFieldBorderWidth.w,
-        enabledBorderColor: greyWith80Percentage,
-        focusedBorderColor: primaryColor,
-        handleControllers: (List<TextEditingController?> controller) {
-          controller[1]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[2]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[3]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-          controller[4]?.addListener(() {
-            FocusScope.of(context).unfocus();
-          });
-
-        },
-        onSubmit: (String text) {
-          code = text;
-        },
-        borderRadius:
-            const BorderRadius.all(Radius.circular(otpFieldBorderRadius)),
-        showFieldAsBox: true,
+  buildOtpField(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 40.w),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: PinCodeTextField(
+          appContext: context,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          length: 5,
+          animationType: AnimationType.fade,
+          animationDuration: const Duration(milliseconds: 300),
+          autoDismissKeyboard: true,
+          backgroundColor: Colors.transparent,
+          keyboardType: TextInputType.number,
+          enableActiveFill: true,
+          useHapticFeedback: true,
+          pinTheme: PinTheme(
+            activeColor: primaryColor,
+            borderRadius: BorderRadius.circular(10.sp),
+            inactiveFillColor: Colors.white,
+            selectedColor: primaryColor,
+            inactiveColor: Colors.grey.withOpacity(0.3),
+            activeFillColor: Colors.white,
+            selectedFillColor: Colors.white,
+            shape: PinCodeFieldShape.box,
+          ),
+          onSubmitted: (v){
+          },
+          onCompleted: (value) => FocusScope.of(context).unfocus(),
+          onChanged: (value) {
+            code = value;
+          },
+        ),
       ),
     );
   }
+
 
   buildConfirmButton(BuildContext context) {
     return Container(
@@ -182,7 +188,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 borderRadius: BorderRadius.circular(loginButtonRadius),
               ))),
           onPressed: () {
-            code.length == 6
+            code.length == 5
                 ? otpBloc.verifyOtp(code, widget.mobile)
                 : context.showSnackBar(AppLocalizations.of(context)!.otp_error);
           },
