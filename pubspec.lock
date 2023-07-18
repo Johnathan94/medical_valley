@@ -444,6 +444,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  flutter_paytabs_bridge:
+    dependency: "direct main"
+    description:
+      name: flutter_paytabs_bridge
+      sha256: "6310e90cacd964a7345dc8cebaa1257d89abfad39b48a5dd43b53dfd4405740e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

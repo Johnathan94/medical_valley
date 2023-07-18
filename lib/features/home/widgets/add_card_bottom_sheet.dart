@@ -7,11 +7,17 @@ import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/formatter/card_number_formatter.dart';
 import 'package:medical_valley/core/formatter/expiry_date_formatter.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/payment/data/user_card_model.dart';
 
 class AddCardBottomSheet extends StatelessWidget {
-  const AddCardBottomSheet({Key? key}) : super(key: key);
-
+  AddCardBottomSheet({Key? key}) : super(key: key);
+  final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController expiryDateController = TextEditingController();
+  final TextEditingController cardHolderNameController =
+      TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,6 +58,7 @@ class AddCardBottomSheet extends StatelessWidget {
             height: 23.h,
           ),
           TextFormField(
+            controller: cardNumberController,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               CardNumberFormatter(),
@@ -68,33 +75,37 @@ class AddCardBottomSheet extends StatelessWidget {
                   width: 30,
                 ),
               ),
-              border:  const UnderlineInputBorder(),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+              border: const UnderlineInputBorder(),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor)),
               hintText: 'XXXX XXXX XXXX XXXX',
               labelText: AppLocalizations.of(context)!.card_number,
             ),
             maxLength: 19,
-
             onChanged: (value) {},
           ),
           SizedBox(
             height: 14.h,
           ),
           TextFormField(
+            controller: expiryDateController,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               CardExpirationFormatter()
             ],
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
-            decoration:  InputDecoration(
+            decoration: InputDecoration(
               counter: const Offstage(),
-              prefixIcon:const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child: Icon(Icons.date_range , color: primaryColor,)
-              ),
-              border:const  UnderlineInputBorder(),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+              prefixIcon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.date_range,
+                    color: primaryColor,
+                  )),
+              border: const UnderlineInputBorder(),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor)),
               hintText: 'XX / XX',
               labelText: AppLocalizations.of(context)!.expiry_date,
             ),
@@ -105,38 +116,46 @@ class AddCardBottomSheet extends StatelessWidget {
             height: 14.h,
           ),
           TextFormField(
+            controller: cardHolderNameController,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.text,
-            decoration:  InputDecoration(
+            decoration: InputDecoration(
               counter: const Offstage(),
-              prefixIcon:const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child: Icon(Icons.person , color: primaryColor,)
-              ),
+              prefixIcon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.person,
+                    color: primaryColor,
+                  )),
               border: const UnderlineInputBorder(),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor)),
               hintText: AppLocalizations.of(context)!.name,
-              labelText:AppLocalizations.of(context)!.card_name,
+              labelText: AppLocalizations.of(context)!.card_name,
             ),
             onChanged: (value) {},
           ),
           SizedBox(
             height: 14.h,
           ),
-      TextFormField(
+          TextFormField(
+            controller: cvvController,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
-            decoration:  InputDecoration(
-              counter:  const Offstage(),
-              prefixIcon:const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child: Icon(Icons.food_bank_outlined , color: primaryColor,)
-              ),
+            decoration: InputDecoration(
+              counter: const Offstage(),
+              prefixIcon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.food_bank_outlined,
+                    color: primaryColor,
+                  )),
               border: const UnderlineInputBorder(),
-              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+              focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: primaryColor)),
               hintText: 'XXX',
               labelText: AppLocalizations.of(context)!.cvv,
             ),
@@ -146,12 +165,20 @@ class AddCardBottomSheet extends StatelessWidget {
           SizedBox(
             height: 14.h,
           ),
-      Padding(
-        padding: const EdgeInsetsDirectional.only(top: 10.0, start: 20, end: 20),
-        child: PrimaryButton(text: AppLocalizations.of(context)!.add_card, onPressed: (){
-
-        },),
-      )
+          Padding(
+            padding:
+                const EdgeInsetsDirectional.only(top: 10.0, start: 20, end: 20),
+            child: PrimaryButton(
+              text: AppLocalizations.of(context)!.add_card,
+              onPressed: () {
+                LocalStorageManager.saveUserCard(UserCard(
+                    cardNumberController.text,
+                    expiryDateController.text,
+                    cardHolderNameController.text,
+                    cvvController.text));
+              },
+            ),
+          )
         ],
       ),
     );

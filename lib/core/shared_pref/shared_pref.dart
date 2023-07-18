@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/payment/data/user_card_model.dart';
+
 class LocalStorageManager {
   static late SharedPreferences sharedPreferences;
   static initialize() async {
@@ -14,6 +16,21 @@ class LocalStorageManager {
 
   static saveToken(String token) async {
     await sharedPreferences.setString("token", token);
+  }
+
+  static saveUserCard(UserCard model) async {
+    await sharedPreferences.setString("userCard", jsonEncode(model.toJson()));
+  }
+
+  static UserCard? getUserCard() {
+    String userCardData = sharedPreferences.getString("userCard") ?? "";
+
+    Map<String, dynamic> userCard = {};
+    if (userCardData != "") {
+      userCard = jsonDecode(userCardData);
+      return UserCard.fromJson(userCard);
+    }
+    return null;
   }
 
   static Map<String, dynamic>? getUser() {
