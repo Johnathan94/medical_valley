@@ -55,7 +55,7 @@ class _MoreScreeenState extends State<MoreScreen> {
         },
         builder: (context, state) {
           if (state is GetUserInfoStateSuccess) {
-            avatar = state.model.userAvatar!;
+            avatar = state.model.userAvatar ?? "";
           }
           return SingleChildScrollView(
             child: Column(
