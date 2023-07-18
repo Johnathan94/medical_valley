@@ -59,14 +59,17 @@ class EarlistOptions extends StatelessWidget {
     final int currentHour = now.hour;
     options.clear();
     if (currentHour >= 0 && currentHour < 12) {
+      activeButtonIndex.sink.add(1);
       options.add(OptionModel("AM", 1));
       options.add(OptionModel("Afternoon", 2));
       options.add(OptionModel("PM", 3));
     } else if (currentHour >= 12 && currentHour < 5) {
+      activeButtonIndex.sink.add(2);
       options.add(OptionModel("Afternoon", 2));
       options.add(OptionModel("PM", 3));
       options.add(OptionModel("AM", 1));
     } else {
+      activeButtonIndex.sink.add(3);
       options.add(OptionModel("PM", 3));
       options.add(OptionModel("AM", 1));
       options.add(OptionModel("Afternoon", 2));

@@ -20,7 +20,7 @@ class AppointmentsBottomSheet extends StatelessWidget {
       : super(key: key);
   late AppointmentType type;
   BehaviorSubject<AppointmentType> appointmentTypeSubject =
-      BehaviorSubject.seeded(AppointmentType.immediate);
+      BehaviorSubject.seeded(AppointmentType.earliest);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AppointmentType>(
@@ -70,21 +70,6 @@ class AppointmentsBottomSheet extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => appointmentTypeSubject.sink
-                          .add(AppointmentType.immediate),
-                      child: OptionButton(
-                        title: AppLocalizations.of(context)!.immediate,
-                        activatedColor: darkGreen,
-                        unActivatedColor: buttonGrey,
-                        isActivated: appointmentTypeSubject.value ==
-                            AppointmentType.immediate,
-                      ),
-                    )),
-                    const SizedBox(
-                      width: 8,
-                    ),
                     Expanded(
                         child: GestureDetector(
                       onTap: () => appointmentTypeSubject.sink
