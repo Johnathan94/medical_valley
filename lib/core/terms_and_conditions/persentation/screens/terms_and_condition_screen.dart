@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/terms_and_conditions/persentation/bloc/terms_and_conditions_bloc.dart';
-import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/widgets/custom_app_bar.dart';
@@ -102,46 +100,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             ),
           ],
         ));
-  }
-
-  buildContinueWidget(BuildContext context) {
-    final theme = Theme.of(context);
-    final oldCheckboxTheme = theme.checkboxTheme;
-
-    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-    );
-    return StreamBuilder<bool>(
-        stream: _checkBoxBehaviourSubject,
-        builder: (context, snapshot) {
-          return Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              color: whiteColor,
-              height: 186.h,
-              padding: const EdgeInsetsDirectional.only(top: 17, start: 26),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        top: 44, start: 5.0, end: 40),
-                    child: PrimaryButton(
-                      text: AppLocalizations.of(context)!.continue_text,
-                      backgroundColor: snapshot.hasData && snapshot.data == true
-                          ? primaryColor
-                          : grey,
-                      onPressed: snapshot.hasData && snapshot.data == true
-                          ? () {
-                              Navigator.pop(context);
-                            }
-                          : null,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   String getLocalizedTerms(SuccessTermsAndConditionsState state) {

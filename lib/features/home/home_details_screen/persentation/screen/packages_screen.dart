@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
@@ -66,6 +67,11 @@ class _PackagesScreenState extends State<PackagesScreen> {
           builderDelegate: PagedChildBuilderDelegate(
             itemBuilder: (context, Package item, index) {
               return buildSearchModelsItem(context, item, index);
+            },
+            noItemsFoundIndicatorBuilder: (BuildContext context) {
+              return Center(
+                child: Text(AppLocalizations.of(context)!.there_is_no_packages),
+              );
             },
           ),
         ),

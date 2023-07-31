@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
+import '../../main.dart';
+
 class LocationServiceProvider {
   static late Position _currentPosition;
   static Future determinePosition() async {
@@ -26,6 +28,7 @@ class LocationServiceProvider {
     }
 
     _currentPosition = await Geolocator.getCurrentPosition();
+    currentLocationSubject.sink.add(_currentPosition);
   }
 
   static double getDistanceBetweenCurrentAndLocation(

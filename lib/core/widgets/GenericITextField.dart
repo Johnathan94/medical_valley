@@ -11,6 +11,7 @@ class GenericTextField extends TextFormField {
   bool? isFilled;
   bool? isEnabled;
   int? maxLines;
+  int? maxCharacters;
   InputBorder? enabledBorder;
   TextEditingController textController;
   Function(String)? onFieldSubmit;
@@ -25,6 +26,7 @@ class GenericTextField extends TextFormField {
       this.isFilled,
       this.isEnabled,
       this.maxLines,
+      this.maxCharacters,
       this.enabledBorder,
       this.fillColor,
       this.keyboardType,
@@ -39,6 +41,7 @@ class GenericTextField extends TextFormField {
             onFieldSubmitted: onFieldSubmit,
             validator: onValidator,
             maxLines: maxLines ?? 1,
+            maxLength: maxCharacters,
             onTap: onFieldTapped,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(

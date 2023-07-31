@@ -40,102 +40,107 @@ class AppointmentsBottomSheet extends StatelessWidget {
               ],
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: blackColor,
+                          )),
+                      Expanded(
+                        child: Text(
+                          serviceName,
+                          style: AppStyles.baloo2FontWith400WeightAnd20Size
+                              .copyWith(color: blackColor),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox()
+                    ],
+                  ),
+                  SizedBox(
+                    height: 23.h,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () => appointmentTypeSubject.sink
+                            .add(AppointmentType.earliest),
+                        child: OptionButton(
+                          title: AppLocalizations.of(context)!.earliest,
+                          activatedColor: primaryColor,
+                          unActivatedColor: buttonGrey,
+                          isActivated: appointmentTypeSubject.value ==
+                              AppointmentType.earliest,
+                        ),
+                      ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  appointmentTypeSubject.value == AppointmentType.earliest
+                      ? EarlistOptions()
+                      : const SizedBox(),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: GestureDetector(
                         onTap: () {
+                          appointmentTypeSubject.sink
+                              .add(AppointmentType.scheduleOnAppointment);
                           Navigator.pop(context);
+                          onScheduledPressed();
                         },
-                        child: const Icon(
-                          Icons.close,
-                          color: blackColor,
-                        )),
-                    Expanded(
-                      child: Text(
-                        serviceName,
-                        style: AppStyles.baloo2FontWith400WeightAnd20Size
-                            .copyWith(color: blackColor),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox()
-                  ],
-                ),
-                SizedBox(
-                  height: 23.h,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () => appointmentTypeSubject.sink
-                          .add(AppointmentType.earliest),
-                      child: OptionButton(
-                        title: AppLocalizations.of(context)!.earliest,
-                        activatedColor: primaryColor,
-                        unActivatedColor: buttonGrey,
-                        isActivated: appointmentTypeSubject.value ==
-                            AppointmentType.earliest,
-                      ),
-                    ))
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                appointmentTypeSubject.value == AppointmentType.earliest
-                    ? EarlistOptions()
-                    : const SizedBox(),
-                SizedBox(
-                  height: 14.h,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                      onTap: () {
-                        appointmentTypeSubject.sink
-                            .add(AppointmentType.scheduleOnAppointment);
-                        Navigator.pop(context);
-                        onScheduledPressed();
-                      },
-                      child: OptionButton(
-                        title: AppLocalizations.of(context)!.schedule_on,
-                        activatedColor: secondaryColor,
-                        unActivatedColor: buttonGrey,
-                        isActivated: appointmentTypeSubject.value ==
-                            AppointmentType.scheduleOnAppointment,
-                      ),
-                    )),
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: GestureDetector(
-                            onTap: () {
-                              onBookRequest(
-                                  appointmentTypeSubject.value.index + 1);
-                            },
-                            child: OptionButton(
-                              textStyle: AppStyles
-                                  .baloo2FontWith700WeightAnd22Size
-                                  .copyWith(color: whiteColor),
-                              title: AppLocalizations.of(context)!.confirm,
-                              activatedColor: primaryColor,
-                              unActivatedColor: buttonGrey,
-                              isActivated: true,
-                            ))),
-                  ],
-                )
-              ],
+                        child: OptionButton(
+                          title: AppLocalizations.of(context)!.schedule_on,
+                          activatedColor: secondaryColor,
+                          unActivatedColor: buttonGrey,
+                          isActivated: appointmentTypeSubject.value ==
+                              AppointmentType.scheduleOnAppointment,
+                        ),
+                      )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: GestureDetector(
+                              onTap: () {
+                                onBookRequest(
+                                    appointmentTypeSubject.value.index + 1);
+                              },
+                              child: OptionButton(
+                                textStyle: AppStyles
+                                    .baloo2FontWith700WeightAnd22Size
+                                    .copyWith(color: whiteColor),
+                                title: AppLocalizations.of(context)!.confirm,
+                                activatedColor: primaryColor,
+                                unActivatedColor: buttonGrey,
+                                isActivated: true,
+                              ))),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                  ),
+                ],
+              ),
             ),
           );
         });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
@@ -26,7 +27,7 @@ class FilterView extends StatelessWidget {
                 width: 8,
               ),
               Text(
-                "$totalRequestsNumber Requests",
+                "$totalRequestsNumber ${AppLocalizations.of(context)!.requests}",
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                     color: headerGrey, decoration: TextDecoration.none),
               )
@@ -35,7 +36,7 @@ class FilterView extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Sort",
+                AppLocalizations.of(context)!.sort,
                 style: AppStyles.baloo2FontWith400WeightAnd12Size.copyWith(),
               ),
               InkWell(

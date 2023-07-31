@@ -2,12 +2,14 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_details_screen/persentation/screen/packages_screen.dart';
@@ -17,6 +19,7 @@ import 'package:medical_valley/features/home/home_screen/persentation/screens/ca
 import 'package:medical_valley/features/home/home_search_screen/data/models/services_model.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/persentation/bloc/home_state.dart';
+import 'package:medical_valley/features/home/home_search_screen/persentation/screens/home_search_screen.dart';
 import 'package:medical_valley/features/home/widgets/appointment_options_bottom_sheet.dart';
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:rxdart/rxdart.dart';
@@ -92,7 +95,10 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
                       type: CoolAlertType.error,
-                      text: state.error,
+                      text: state.error!.contains("No provider")
+                          ? AppLocalizations.of(context)!
+                              .there_is_no_provider_for_this_service
+                          : state.error,
                     );
                   }
                 },
@@ -127,6 +133,20 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
         ),
       ),
       backgroundColor: primaryColor,
+      actions: [
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (c) => HomeSearchScreen(isBackPressed: () {
+                      Navigator.pop(context);
+                    })));
+          },
+          child: Container(
+            margin: const EdgeInsetsDirectional.only(end: searchIconMarginEnd),
+            child: SvgPicture.asset(searchIcon),
+          ),
+        )
+      ],
     );
   }
 

@@ -67,6 +67,12 @@ class _ReservationScreenState extends State<ReservationsScreen> {
                   itemBuilder: (context, ReservationModel item, index) {
                     return ReservationsCard(item);
                   },
+                  noItemsFoundIndicatorBuilder: (BuildContext context) {
+                    return Center(
+                      child: Text(AppLocalizations.of(context)!
+                          .there_is_no_reservations),
+                    );
+                  },
                 ),
               ),
             );

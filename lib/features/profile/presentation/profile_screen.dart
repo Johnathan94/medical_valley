@@ -17,11 +17,13 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/GenericITextField.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
+import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/home_screen.dart';
 import 'package:medical_valley/features/profile/data/edit_user_request.dart';
 import 'package:medical_valley/features/profile/data/get_user_response.dart';
@@ -46,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   BehaviorSubject<String> optionDisplayed = BehaviorSubject();
   final formKey = GlobalKey<FormState>();
   BehaviorSubject<String> insuranceDisplayed = BehaviorSubject();
-
+  late String phoneNumber;
   @override
   void initState() {
     _bloc.getUserData();
@@ -109,7 +111,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     AppLocalizations.of(context)!.male);
                 notesController.text = state.model.notes ?? "";
                 emailController.text = state.model.email ?? "";
-                phoneController.text = state.model.mobile ?? "";
+                phoneNumber = state.model.mobile ?? "";
+                phoneController.text =
+                    seperatePhoneAndDialCode("+$phoneNumber")[1];
                 insuranceDisplayed.sink.add(state.model.hasInsurance != null &&
                         state.model.hasInsurance!
                     ? AppLocalizations.of(context)!.yes
@@ -152,6 +156,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     text: AppLocalizations.of(context)!
                                         .profile_data_saved,
                                   );
+                                  var userDate = UserDate.fromJson(
+                                      LocalStorageManager.getUser()!);
+                                  userDate.fullName = fullNameController.text;
+                                  userDate.email = emailController.text;
+                                  LocalStorageManager.saveUser(
+                                      userDate.toJson());
                                 } else {
                                   UpdateUserInfoStateError myState =
                                       (state as UpdateUserInfoStateError);
@@ -185,35 +195,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         imageFileSubject
                                                             .value))),
                                           )
-                                        : CachedNetworkImage(
-                                            imageUrl: iconLinkPrefix +
-                                                state.model.userAvatar!,
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              width: 80.0,
-                                              height: 80.0,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) =>
-                                                const CircularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Container(
-                                              decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: AssetImage(personImage),
-                                              )),
-                                            ),
-                                            width: 120,
-                                            height: 120,
-                                          );
+                                        : state.model.userAvatar != null
+                                            ? CachedNetworkImage(
+                                                imageUrl: iconLinkPrefix +
+                                                    state.model.userAvatar!,
+                                                imageBuilder:
+                                                    (context, imageProvider) =>
+                                                        Container(
+                                                  width: 80.0,
+                                                  height: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                                placeholder: (context, url) =>
+                                                    const CircularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image:
+                                                        AssetImage(personImage),
+                                                  )),
+                                                ),
+                                                width: 120,
+                                                height: 120,
+                                              )
+                                            : Image.asset(personImage);
                                   }),
                               PositionedDirectional(
                                 end: 10,
@@ -257,6 +272,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           PhoneIntlWidgetField(
                             phoneController,
+                            false,
+                            countryCode:
+                                seperatePhoneAndDialCode("+$phoneNumber")[0],
                             (Country country) {},
                             fillColor: textFieldBg,
                             borderColor: Colors.transparent,
@@ -358,11 +376,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .insurance_question,
-                                          style: AppStyles.headlineStyle,
-                                          overflow: TextOverflow.ellipsis,
+                                        Flexible(
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .insurance_question,
+                                            style: AppStyles.headlineStyle,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                         Text(
                                           insuranceDisplayed.value,

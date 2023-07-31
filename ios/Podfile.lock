@@ -11,9 +11,14 @@ PODS:
   - FirebaseCoreInternal (10.10.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - Flutter (1.0.0)
+  - flutter_paytabs_bridge (2.4.0):
+    - Flutter
+    - PayTabsSDK (= 6.4.11)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - geocoding_ios (1.0.5):
+    - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
   - google_maps_flutter_ios (0.0.1):
@@ -36,6 +41,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - PayTabsSDK (6.4.11)
   - PromisesObjC (2.2.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -47,6 +53,8 @@ PODS:
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_paytabs_bridge (from `.symlinks/plugins/flutter_paytabs_bridge/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -63,6 +71,7 @@ SPEC REPOS:
     - FMDB
     - GoogleMaps
     - GoogleUtilities
+    - PayTabsSDK
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -70,6 +79,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_paytabs_bridge:
+    :path: ".symlinks/plugins/flutter_paytabs_bridge/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter_ios:
@@ -91,7 +104,9 @@ SPEC CHECKSUMS:
   FirebaseCore: fa80ad16a62d52f67274b5b88304c3a318bbf9a4
   FirebaseCoreInternal: 971029061d326000d65bfdc21f5502c75c8b0893
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_paytabs_bridge: 466f082856dd1101872f07dfee2e3b1aad90cf32
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter_ios: 53f75334bad87ccd0473f4b0142756169846b42b
   GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
@@ -99,6 +114,7 @@ SPEC CHECKSUMS:
   image_picker_ios: 58b9c4269cb176f89acea5e5d043c9358f2d25f8
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  PayTabsSDK: 14050f69274cdfbce0ea86c51b76642024f9f2c7
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904

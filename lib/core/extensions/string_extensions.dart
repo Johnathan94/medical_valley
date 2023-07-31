@@ -51,7 +51,7 @@ extension BookingStatusView on int {
     }
   }
 
-  Widget toStatusView(String text) {
+  Widget toStatusView(BuildContext context) {
     switch (this) {
       case 1:
         return Container(
@@ -61,7 +61,7 @@ extension BookingStatusView on int {
               color: const Color(0xffCBE6EC),
               borderRadius: BorderRadius.circular(7)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.immediate,
             style: AppStyles.baloo2FontWith400WeightAnd14Size
                 .copyWith(color: primaryColor),
           ),
@@ -74,7 +74,7 @@ extension BookingStatusView on int {
               color: const Color(0xffD9E0DF),
               borderRadius: BorderRadius.circular(8)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.earliest,
             style: AppStyles.baloo2FontWith400WeightAnd12Size
                 .copyWith(color: const Color(0xff194F44)),
           ),
@@ -87,7 +87,7 @@ extension BookingStatusView on int {
               color: const Color(0xffFFE8EA),
               borderRadius: BorderRadius.circular(8)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.schedule_on,
             style: AppStyles.baloo2FontWith400WeightAnd12Size
                 .copyWith(color: const Color(0xffFF686A)),
           ),

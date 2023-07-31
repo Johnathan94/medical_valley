@@ -147,8 +147,9 @@ class HomeState extends State<HomeSearchScreen> {
         },
         child: PagedListView<int, Service>(
           builderDelegate: PagedChildBuilderDelegate<Service>(
-            firstPageProgressIndicatorBuilder: (c) =>
-                const Center(child: Text("No Search Result")),
+            firstPageProgressIndicatorBuilder: (c) => Center(
+                child: Text(
+                    AppLocalizations.of(context)!.there_is_no_search_result)),
             itemBuilder: (c, item, index) {
               return buildSearchModelsItem(context, item, index);
             },
@@ -255,7 +256,9 @@ class HomeState extends State<HomeSearchScreen> {
               Expanded(
                 flex: 90,
                 child: Text(
-                  service.englishName ?? "",
+                  LocalStorageManager.getCurrentLanguage() == "ar"
+                      ? service.arabicName ?? ""
+                      : service.englishName ?? "",
                   maxLines: 2,
                   style: AppStyles.baloo2FontWith400WeightAnd12Size,
                 ),

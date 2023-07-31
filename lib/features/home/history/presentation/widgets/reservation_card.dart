@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/extensions/string_extensions.dart';
@@ -163,7 +164,8 @@ class ReservationsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      item.offerDate ?? "No Date",
+                      item.offerDate ??
+                          AppLocalizations.of(context)!.there_is_no_date,
                       style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
                     ),
                     const SizedBox(height: 8),

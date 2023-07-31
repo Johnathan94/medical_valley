@@ -19,13 +19,22 @@ class MyCustomAppBar extends AppBar {
           key: key,
           title: Text(
             header,
-            style: AppStyles.baloo2FontWith600WeightAnd25Size,
+            style: AppStyles.baloo2FontWith500WeightAnd22Size
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w800),
           ),
           leading: leadingIcon,
           elevation: 0,
           backgroundColor: primaryColor,
           centerTitle: false,
-          actions: isActionButtonShown ? [Image.asset(transparentAppIcon)] : [],
+          actions: isActionButtonShown
+              ? [
+                  Image.asset(
+                    transparentAppIcon,
+                    width: 80,
+                    height: 80,
+                  )
+                ]
+              : [],
           titleSpacing: -10,
           toolbarHeight: customAppBarHeight.h,
         );

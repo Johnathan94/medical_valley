@@ -195,6 +195,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     PhoneIntlWidgetField(
                       phoneController,
+                      true,
                       (Country country) {
                         countryDial = country.dialCode;
                       },

@@ -18,7 +18,7 @@ import '../../../../../core/app_sizes.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../widgets/home_base_app_bar.dart';
 
-String iconLinkPrefix = "https://services.medvally.com/";
+String iconLinkPrefix = "https://api.medvalley-sa.com/";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -263,7 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 8,
             ),
             Text(
-              model.name!,
+              LocalStorageManager.getCurrentLanguage() == "ar"
+                  ? model.arabicName!
+                  : model.name!,
               style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                   color: Colors.black,
                   decoration: TextDecoration.none,

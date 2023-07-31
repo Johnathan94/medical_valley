@@ -13,8 +13,6 @@ class AppInitializer {
 
   static initializeAppWithContext(context) async {
     sortChoicesHistory.addAll([
-      SortModel(true, AppLocalizations.of(context)!.accepted_neo),
-      SortModel(true, AppLocalizations.of(context)!.pending_nego),
       SortModel(true, AppLocalizations.of(context)!.most_recent),
       SortModel(true, AppLocalizations.of(context)!.oldest),
     ]);

@@ -26,7 +26,7 @@ class UpdateUserRequest {
     id = json['id'];
     fullName = json['fullName'];
     email = json['email'];
-    haveInsurance = json['haveInsurance'];
+    haveInsurance = json['HasInsurance'];
     genderId = json['genderId'];
     location = json['location'];
     userAvatar = json['userAvatar'];
@@ -39,7 +39,7 @@ class UpdateUserRequest {
     data['id'] = id;
     data['fullName'] = fullName;
     data['email'] = email;
-    data['haveInsurance'] = haveInsurance;
+    data['HasInsurance'] = haveInsurance;
     data['genderId'] = genderId;
     data['location'] = location;
     data['latitude'] = latitude;

@@ -23,9 +23,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>8</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Read data from credit or debit card</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Medical valley wants to access your location </string>
 	<key>NSLocationAlwaysUsageDescription</key>

@@ -5,14 +5,18 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_sizes.dart';
+import 'package:medical_valley/core/widgets/countries.dart';
 
 class PhoneIntlWidgetField extends StatelessWidget {
   final TextEditingController phoneController;
   final Function(Country country) onCountryChanged;
   final Color? fillColor;
   final Color? borderColor;
-  const PhoneIntlWidgetField(this.phoneController, this.onCountryChanged,
-      {this.fillColor, this.borderColor, Key? key})
+  final bool? enabled;
+  final String? countryCode;
+  const PhoneIntlWidgetField(
+      this.phoneController, this.enabled, this.onCountryChanged,
+      {this.fillColor, this.countryCode, this.borderColor, Key? key})
       : super(key: key);
 
   @override
@@ -22,6 +26,7 @@ class PhoneIntlWidgetField extends StatelessWidget {
         disableLengthCheck: true,
         controller: phoneController,
         cursorColor: primaryColor,
+        enabled: enabled ?? true,
         dropdownIconPosition: IconPosition.trailing,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (PhoneNumber? phoneNumber) {
@@ -50,12 +55,31 @@ class PhoneIntlWidgetField extends StatelessWidget {
               borderRadius: BorderRadius.all(
                   Radius.circular(loginMobileNumberFieldRadius))),
         ),
-        initialCountryCode: 'SA',
+        initialCountryCode: countryCode ?? "SA",
         onChanged: (phone) {
           phone.completeNumber;
         },
         onCountryChanged: (c) {
           onCountryChanged(c);
         });
+  }
+}
+
+List<String> seperatePhoneAndDialCode(String phoneWithDialCode) {
+  Map<String, String> foundedCountry = {};
+  for (var country in Countries.allCountries) {
+    String dialCode = country["dial_code"].toString();
+    if (phoneWithDialCode.contains(dialCode)) {
+      foundedCountry = country;
+    }
+  }
+
+  if (foundedCountry.isNotEmpty) {
+    var newPhoneNumber = phoneWithDialCode.substring(
+      foundedCountry["dial_code"]!.length,
+    );
+    return [foundedCountry["code"]!, newPhoneNumber];
+  } else {
+    return [];
   }
 }

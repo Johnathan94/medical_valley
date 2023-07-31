@@ -45,7 +45,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   late UserDate user;
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   BehaviorSubject<String> genderOptionDisplayed = BehaviorSubject();
-
+  bool isSaudian = true;
   @override
   void initState() {
     _bloc.getMedicalFile();
@@ -109,6 +109,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                     : AppLocalizations.of(context)!.no);
                 birthDateController.text = state.model.birthDate ?? "";
                 notesController.text = state.model.notes ?? "";
+                isSaudian = isSaudi(state.model.mobile ?? "");
                 return Padding(
                   padding: bigPaddingHV,
                   child: SingleChildScrollView(
@@ -163,7 +164,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                     autoCloseDuration:
                                         const Duration(seconds: 1),
                                     showOkBtn: false,
-                                    text: myState.error,
+                                    text: AppLocalizations.of(context)!
+                                        .server_error,
                                   );
                                 }
                               }),
@@ -261,17 +263,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           SizedBox(
                             height: 17.h,
                           ),
-                          GenericTextField(
-                            fillColor: textFieldBg,
-                            textController: fullNameController,
-                            hintText: AppLocalizations.of(context)!.fullname,
-                            hintStyle: AppStyles
-                                .baloo2FontWith400WeightAnd14Size
-                                .copyWith(color: darkGrey),
-                          ),
-                          SizedBox(
-                            height: 17.h,
-                          ),
+
                           GestureDetector(
                             onTap: () => _showCalender(),
                             child: GenericTextField(
@@ -297,6 +289,7 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                           GenericTextField(
                             fillColor: textFieldBg,
                             keyboardType: TextInputType.number,
+                            maxCharacters: 10,
                             onValidator: (String? text) {
                               if (text!.isNotEmpty && text.length <= 14) {
                                 return null;
@@ -460,22 +453,51 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
         text: AppLocalizations.of(context)!.save,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _bloc.setMedicalFile(MedicalFileRequest(
-              id: model.id,
-              hasInsurance:
-                  insuranceDisplayed.value == AppLocalizations.of(context)!.yes
+            if (isSaudian) {
+              if (nationalIdController.text.startsWith("1")) {
+                _bloc.setMedicalFile(MedicalFileRequest(
+                  id: model.id,
+                  hasInsurance: insuranceDisplayed.value ==
+                          AppLocalizations.of(context)!.yes
                       ? true
                       : false,
-              nationalId: nationalIdController.text,
-              insuranceNumber: insuranceNumberController.text.isNotEmpty
-                  ? insuranceNumberController.text
-                  : model.insuranceNumber,
-              birthDate: birthDateController.text,
-              genderId:
-                  genderDisplayed.value == AppLocalizations.of(context)!.male
+                  nationalId: nationalIdController.text,
+                  insuranceNumber: insuranceNumberController.text.isNotEmpty
+                      ? insuranceNumberController.text
+                      : model.insuranceNumber,
+                  birthDate: birthDateController.text,
+                  genderId: genderDisplayed.value ==
+                          AppLocalizations.of(context)!.male
                       ? 1
                       : 2,
-            ));
+                ));
+              } else {
+                context.showSnackBar(
+                    AppLocalizations.of(context)!.national_id_is_not_correct);
+              }
+            } else {
+              if (nationalIdController.text.startsWith("2")) {
+                _bloc.setMedicalFile(MedicalFileRequest(
+                  id: model.id,
+                  hasInsurance: insuranceDisplayed.value ==
+                          AppLocalizations.of(context)!.yes
+                      ? true
+                      : false,
+                  nationalId: nationalIdController.text,
+                  insuranceNumber: insuranceNumberController.text.isNotEmpty
+                      ? insuranceNumberController.text
+                      : model.insuranceNumber,
+                  birthDate: birthDateController.text,
+                  genderId: genderDisplayed.value ==
+                          AppLocalizations.of(context)!.male
+                      ? 1
+                      : 2,
+                ));
+              } else {
+                context.showSnackBar(
+                    AppLocalizations.of(context)!.national_id_is_not_correct);
+              }
+            }
           } else {
             context.showSnackBar(
                 AppLocalizations.of(context)!.please_fill_all_data);
@@ -492,5 +514,9 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
       default:
         return AppLocalizations.of(context)!.female;
     }
+  }
+
+  bool isSaudi(String s) {
+    return s.startsWith("966");
   }
 }

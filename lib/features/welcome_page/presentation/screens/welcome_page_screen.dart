@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:medical_valley/features/welcome_page/presentation/screens/map_screen.dart';
 
 import '../../../../core/app_colors.dart';
@@ -18,6 +19,8 @@ class WelcomePageScreen extends StatefulWidget {
 }
 
 class _WelcomePageScreenState extends State<WelcomePageScreen> {
+  Position currentLocation = LocationServiceProvider.currentPosition;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +56,11 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
   }
 
   buildWelcomePageIcon() {
-    return Image.asset(welcomeIcon);
+    return SizedBox(
+      height: 500.h,
+      width: 500.w,
+      child: const MapScreen(),
+    );
   }
 
   buildChooseYourLocationText() {
@@ -100,7 +107,11 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
   buildSetItManually(context) {
     return GestureDetector(
       onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MapScreen())),
+          context,
+          MaterialPageRoute(
+              builder: (context) => const MapScreen(
+                    hasAppBar: true,
+                  ))),
       child: Container(
         margin: const EdgeInsets.only(top: setItManuallyMarginTop),
         child: Text(
@@ -112,7 +123,9 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
   }
 
   void navigateToHomeScreen(context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeBaseStatefulWidget()));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const MapScreen(
+              hasAppBar: true,
+            )));
   }
 }

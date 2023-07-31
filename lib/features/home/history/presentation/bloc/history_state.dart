@@ -15,4 +15,4 @@ class HistoryState {
   });
 }
 
-enum ActionStates { idle, loading, success, error }
+enum ActionStates { idle, loading, success, filter, error }

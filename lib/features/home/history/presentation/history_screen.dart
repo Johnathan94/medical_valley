@@ -104,7 +104,11 @@ class _HistoryScreenState extends State<HistoryScreen>
                       color: primaryColor,
                     ),
                   );
-                } else if (state.states == ActionStates.success) {
+                } else if (state.states == ActionStates.success ||
+                    state.states == ActionStates.filter) {
+                  if (state.states == ActionStates.filter) {
+                    pagingController.refresh();
+                  }
                   if (state.requests?.data?.results!.length == 10) {
                     pagingController.appendPage(
                         state.requests!.data!.results!, nextPageKey);
@@ -120,19 +124,28 @@ class _HistoryScreenState extends State<HistoryScreen>
                     children: [
                       Column(
                         children: [
-                          FilterView(
-                              totalRequestsNumber:
-                                  state.requests?.data?.totalCount ?? 0,
-                              onSortTapped: () {
-                                optionDisplayed.sink
-                                    .add(!optionDisplayed.value);
-                              }),
+                          state.requests!.data!.results!.isNotEmpty
+                              ? FilterView(
+                                  totalRequestsNumber:
+                                      state.requests?.data?.totalCount ?? 0,
+                                  onSortTapped: () {
+                                    optionDisplayed.sink
+                                        .add(!optionDisplayed.value);
+                                  })
+                              : const SizedBox(),
                           Expanded(
                               child: PagedListView<int, HistoryItem>(
                             pagingController: pagingController,
                             builderDelegate: PagedChildBuilderDelegate(
                               itemBuilder: (context, HistoryItem item, index) {
                                 return HistoryCard(item);
+                              },
+                              noItemsFoundIndicatorBuilder:
+                                  (BuildContext context) {
+                                return Center(
+                                  child: Text(AppLocalizations.of(context)!
+                                      .there_is_no_requests),
+                                );
                               },
                             ),
                           )),
@@ -150,8 +163,8 @@ class _HistoryScreenState extends State<HistoryScreen>
                                       child: Container(
                                         padding: smallPaddingAll,
                                         margin: smallPaddingH,
-                                        height: 195.h,
-                                        width: 250.w,
+                                        height: 210.h,
+                                        width: 270.w,
                                         decoration: BoxDecoration(
                                             border: Border.all(width: .2),
                                             color: Colors.white,
@@ -181,6 +194,13 @@ class _HistoryScreenState extends State<HistoryScreen>
                                                                           .sortChoicesHistory
                                                                           .indexOf(
                                                                               e));
+                                                                  historyBloc.filter(
+                                                                      sortOption
+                                                                          .value);
+                                                                  optionDisplayed
+                                                                      .sink
+                                                                      .add(
+                                                                          false);
                                                                 },
                                                                 child: Row(
                                                                   mainAxisAlignment:
@@ -342,7 +362,7 @@ class HistoryCard extends StatelessWidget {
                         item!.appointmentDate != null
                             ? DateFormat("dd/MM/yyyy")
                                 .format(DateTime.parse(item!.appointmentDate!))
-                            : "No Date",
+                            : AppLocalizations.of(context)!.there_is_no_date,
                         style:
                             AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
                       ),
@@ -374,7 +394,7 @@ class AppointmentTypeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return id.toStatusView(text);
+    return id.toStatusView(context);
   }
 }
 

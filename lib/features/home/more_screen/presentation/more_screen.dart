@@ -21,6 +21,7 @@ import 'package:medical_valley/features/home/home_screen/persentation/screens/ho
 import 'package:medical_valley/features/home/more_screen/widget/profile_image.dart';
 import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
 import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/widgets/change_language_screen/peresentation/screens/change_language_screen.dart';
 import '../../../profile/presentation/profile_screen.dart';
@@ -35,7 +36,7 @@ class MoreScreen extends StatefulWidget {
 class _MoreScreeenState extends State<MoreScreen> {
   _MoreScreeenState();
   final UserProfileBloc _bloc = GetIt.instance<UserProfileBloc>();
-
+  BehaviorSubject<bool> notificationSwitch = BehaviorSubject<bool>();
   @override
   void initState() {
     _bloc.getUserData();
@@ -161,10 +162,16 @@ class _MoreScreeenState extends State<MoreScreen> {
                               ),
                             ],
                           ),
-                          trailing: Switch.adaptive(
-                            value: true,
-                            onChanged: (bool value) {},
-                          ),
+                          trailing: StreamBuilder<bool>(
+                              stream: notificationSwitch.stream,
+                              builder: (context, snapshot) {
+                                return Switch.adaptive(
+                                  value:
+                                      snapshot.hasData ? snapshot.data! : false,
+                                  onChanged: (bool value) =>
+                                      notificationSwitch.sink.add(value),
+                                );
+                              }),
                         ),
                         const Divider(
                           color: dividerGrey,

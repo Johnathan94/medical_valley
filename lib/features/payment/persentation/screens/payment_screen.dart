@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
+import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkLocale.dart';
+import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/home/widgets/add_card_bottom_sheet.dart';
+import 'package:medical_valley/features/payment/data/user_card_model.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
@@ -23,8 +27,10 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  UserCard? userCard;
   @override
   initState() {
+    userCard = LocalStorageManager.getUserCard();
     super.initState();
   }
 
@@ -104,11 +110,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       margin: const EdgeInsets.only(top: 19),
       alignment: AlignmentDirectional.center,
       child: CreditCard(
-          cardNumber: "5450 7879 4864 7854",
-          cardExpiry: "10/25",
-          cardHolderName: "Card Holder",
-          cvv: "456",
-          bankName: "Axis Bank",
+          cardNumber: userCard?.cardNumber ?? " ",
+          cardExpiry: userCard?.expiryDate ?? " ",
+          cardHolderName: userCard?.cardHolderName ?? " ",
+          cvv: userCard?.cvv ?? " ",
+          bankName: "",
           cardType:
               CardType.other, // Optional if you want to override Card Type
           showBackSide: false,
@@ -159,47 +165,45 @@ class _PaymentScreenState extends State<PaymentScreen> {
         text: AppLocalizations.of(context)!.confirm,
         onPressed: () {
           var billingDetails = BillingDetails(
-              "billing name",
-              "billing email",
-              "billing phone",
+              "John smith",
+              "mohamedimbaby999@gmail.com",
+              "01097833162",
               "address line",
-              "country",
-              "city",
+              "eg",
+              "cairo",
               "state",
               "zip code");
+          List<PaymentSdkAPms> apms = [];
+          apms.add(PaymentSdkAPms.AMAN);
 
-          var shippingDetails = ShippingDetails(
-              "shipping name",
-              "shipping email",
-              "shipping phone",
-              "address line",
-              "country",
-              "city",
-              "state",
-              "zip code");
           var configuration = PaymentSdkConfigurationDetails(
-              profileId: "profile id",
-              serverKey: "your server key",
-              clientKey: "your client key",
-              cartId: "cart id",
-              cartDescription: "cart desc",
-              merchantName: "merchant name",
-              screentTitle: "Pay with Card",
-              billingDetails: billingDetails,
-              shippingDetails: shippingDetails,
-              locale: PaymentSdkLocale
-                  .EN, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
-              amount: 12.3,
-              currencyCode: "Currency code",
-              merchantCountryCode: "2 chars iso country code");
+            profileId: "96752",
+            clientKey: "C9KMB6-6N2M6T-V27Q9G-GMD9VK",
+            serverKey: "STJNDZT9D9-JGWBTNZ6GK-L2DTDKNTKT",
+            cartDescription: "cart desc",
+            merchantName: "Medical Valley",
+            screentTitle: "Pay with Card",
+            billingDetails: billingDetails,
+            locale: PaymentSdkLocale
+                .EN, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
+            amount: 12.3,
+            currencyCode: "EGP",
+            merchantCountryCode: "EG",
+            linkBillingNameWithCardHolderName: true,
+            alternativePaymentMethods: apms,
+          );
+
+          configuration.tokeniseType =
+              PaymentSdkTokeniseType.MERCHANT_MANDATORY;
           configuration.showBillingInfo = true;
-          configuration.showShippingInfo = true;
           var theme = IOSThemeConfigurations();
           theme.logoImage = "assets/logo.png";
           configuration.iOSThemeConfigurations = theme;
 
-          FlutterPaytabsBridge.startCardPayment(configuration, (event) {
-            setState(() {
+          try {
+            FlutterPaytabsBridge.startCardPayment(configuration, (event) {
+              print(event);
+
               if (event["status"] == "success") {
                 // Handle transaction details here.
                 var transactionDetails = event["data"];
@@ -213,10 +217,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
               } else if (event["status"] == "error") {
                 // Handle error here.
               } else if (event["status"] == "event") {
-                // Handle cancel events here.
+                print(event["message"]);
               }
             });
-          });
+          } catch (e) {
+            print(e);
+          }
         },
       ),
     );

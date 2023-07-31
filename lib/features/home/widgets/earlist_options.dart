@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:rxdart/rxdart.dart';
 
-class EarlistOptions extends StatelessWidget {
+class EarlistOptions extends StatefulWidget {
   final BehaviorSubject<int> activeButtonIndex = BehaviorSubject.seeded(1);
   final Color activeColor = primaryColor;
   final Color notActiveColor = buttonGrey;
+  @override
+  State<EarlistOptions> createState() => EarlistOptionsState();
+}
 
-  EarlistOptions({super.key}) {
-    rearrange();
-  }
+class EarlistOptionsState extends State<EarlistOptions> {
   void _selectButton(int buttonNumber) {
-    activeButtonIndex.sink.add(buttonNumber);
+    widget.activeButtonIndex.sink.add(buttonNumber);
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    rearrange();
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: activeButtonIndex.stream,
+        stream: widget.activeButtonIndex.stream,
         builder: (context, snapshot) {
           return SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -32,15 +45,15 @@ class EarlistOptions extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: activeButtonIndex.value == e.id
-                                  ? activeColor
-                                  : notActiveColor,
+                              color: widget.activeButtonIndex.value == e.id
+                                  ? widget.activeColor
+                                  : widget.notActiveColor,
                             ),
                             child: Text(
                               e.title,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: activeButtonIndex.value == e.id
+                                  color: widget.activeButtonIndex.value == e.id
                                       ? Colors.white
                                       : Colors.black),
                             ),
@@ -59,20 +72,20 @@ class EarlistOptions extends StatelessWidget {
     final int currentHour = now.hour;
     options.clear();
     if (currentHour >= 0 && currentHour < 12) {
-      activeButtonIndex.sink.add(1);
-      options.add(OptionModel("AM", 1));
-      options.add(OptionModel("Afternoon", 2));
-      options.add(OptionModel("PM", 3));
+      widget.activeButtonIndex.sink.add(1);
+      options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
+      options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
+      options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
     } else if (currentHour >= 12 && currentHour < 5) {
-      activeButtonIndex.sink.add(2);
-      options.add(OptionModel("Afternoon", 2));
-      options.add(OptionModel("PM", 3));
-      options.add(OptionModel("AM", 1));
+      widget.activeButtonIndex.sink.add(2);
+      options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
+      options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
+      options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
     } else {
-      activeButtonIndex.sink.add(3);
-      options.add(OptionModel("PM", 3));
-      options.add(OptionModel("AM", 1));
-      options.add(OptionModel("Afternoon", 2));
+      widget.activeButtonIndex.sink.add(3);
+      options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
+      options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
+      options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
     }
   }
 }
