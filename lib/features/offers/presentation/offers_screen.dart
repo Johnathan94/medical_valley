@@ -160,6 +160,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
                                         .negotiate_successed,
+                                    title:
+                                        AppLocalizations.of(context)!.success,
                                   );
                                   Future.delayed(const Duration(seconds: 2),
                                       () async {
@@ -226,6 +228,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
                       type: CoolAlertType.success,
+                      title: AppLocalizations.of(context)!.success,
                       text: AppLocalizations.of(context)!.booked_done,
                     );
                     Future.delayed(const Duration(seconds: 2), () async {

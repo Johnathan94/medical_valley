@@ -2,7 +2,6 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
@@ -78,6 +77,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                                 const Duration(milliseconds: 300),
                             showOkBtn: false,
                             type: CoolAlertType.success,
+                            title: AppLocalizations.of(context)!.success,
                             text: AppLocalizations.of(context)!.otp_success,
                           );
                           if (widget.openFromRegistered &&
@@ -132,7 +132,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       AppLocalizations.of(context)!.enter_you_otp,
       style: AppStyles.baloo2FontWith400WeightAnd25Size,
     );
-
   }
 
   String code = "";
@@ -162,8 +161,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
             selectedFillColor: Colors.white,
             shape: PinCodeFieldShape.box,
           ),
-          onSubmitted: (v){
-          },
+          onSubmitted: (v) {},
           onCompleted: (value) => FocusScope.of(context).unfocus(),
           onChanged: (value) {
             code = value;
@@ -172,7 +170,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       ),
     );
   }
-
 
   buildConfirmButton(BuildContext context) {
     return Container(

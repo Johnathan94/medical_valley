@@ -94,6 +94,7 @@ class HomeState extends State<HomeSearchScreen> {
                   autoCloseDuration: const Duration(seconds: 1),
                   showOkBtn: false,
                   type: CoolAlertType.success,
+                  title: AppLocalizations.of(context)!.success,
                   text: AppLocalizations.of(context)!.request_sent,
                 );
                 Future.delayed(const Duration(seconds: 2), () async {
@@ -152,6 +153,12 @@ class HomeState extends State<HomeSearchScreen> {
                     AppLocalizations.of(context)!.there_is_no_search_result)),
             itemBuilder: (c, item, index) {
               return buildSearchModelsItem(context, item, index);
+            },
+            noItemsFoundIndicatorBuilder: (BuildContext context) {
+              return Center(
+                child: Text(
+                    AppLocalizations.of(context)!.there_is_no_search_result),
+              );
             },
           ),
           pagingController: pagingController,

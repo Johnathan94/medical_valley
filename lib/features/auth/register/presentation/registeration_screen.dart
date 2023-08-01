@@ -125,6 +125,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
                       type: CoolAlertType.success,
+                      title: AppLocalizations.of(context)!.success,
                       text: AppLocalizations.of(context)!.success_registered,
                     );
                     Future.delayed(const Duration(seconds: 2), () {
@@ -176,7 +177,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     CustomTextField(
                       textController: fullNameController,
-                      prefixIcon: emailIcon,
+                      prefixIcon: personImage,
                       hintText: AppLocalizations.of(context)!.fullname,
                       hintStyle: AppStyles.headlineStyle,
                       onValidator: (String? x) {

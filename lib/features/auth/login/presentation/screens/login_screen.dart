@@ -108,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           autoCloseDuration: const Duration(milliseconds: 300),
                           showOkBtn: false,
                           type: CoolAlertType.success,
+                          title: AppLocalizations.of(context)!.success,
                           closeOnConfirmBtnTap: false,
                           text: AppLocalizations.of(context)!.success_login,
                         );

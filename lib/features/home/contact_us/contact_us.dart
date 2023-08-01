@@ -151,6 +151,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         autoCloseDuration: const Duration(seconds: 1),
                         showOkBtn: false,
                         type: CoolAlertType.success,
+                        title: AppLocalizations.of(context)!.success,
                         text: AppLocalizations.of(context)!.request_sent,
                       );
                       Future.delayed(const Duration(seconds: 1),
@@ -164,7 +165,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         showOkBtn: false,
                         type: CoolAlertType.error,
                         text:
-                            AppLocalizations.of(context)!.invalid_phone_number,
+                            AppLocalizations.of(context)!.something_went_wrong,
                       );
                     }
                   },
@@ -180,6 +181,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   },
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.center,
+                  enabled: false,
                   decoration: InputDecoration(
                     fillColor: textFieldBg,
                     filled: true,
@@ -198,9 +200,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   validator: (String? x) {
                     if (x!.isEmpty) {
                       return AppLocalizations.of(context)!.empty_field;
+                    } else {
+                      return null;
                     }
                   },
                   controller: fullNameController,
+                  enabled: false,
                   decoration: InputDecoration(
                     fillColor: textFieldBg,
                     filled: true,
@@ -254,6 +259,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           TextFormField(
             keyboardType: TextInputType.multiline,
             controller: problemController,
+            validator: (String? s) {
+              return s!.isEmpty
+                  ? AppLocalizations.of(context)!.you_have_to_write_your_problem
+                  : null;
+            },
             decoration: const InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: greenCheckBox)),

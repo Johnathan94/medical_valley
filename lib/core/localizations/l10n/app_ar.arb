@@ -45,12 +45,26 @@
   "there_is_no_requests" : "لا يوجد طلبات",
   "there_is_no_reservations" : "لا يوجد حجوزات ",
   "sort" : "ترتيب ",
+  "you_have_to_write_your_problem" : "لابد ان تقوم بادخال المشكله ",
+  "success": "تم بنجاح",
   "afternoon": " بعد الظهر",
   "pm": "مساءً",
   "am": "صباحًا",
   "there_is_no_provider_for_this_service" : "لا يوجد مزود خدمات لهذه الخدمه  ",
   "national_id_is_required" : "رقم الهويه الوطنيه / الاقامه اجباري",
   "national_id_is_not_correct" : "رقم الهويه الوطنيه / الاقامه غير صحيح",
+
+  "friday": "الجمعة",
+
+  "thursday": "الخميس",
+  "saturday": "السبت",
+
+  "sun": "الأحد",
+  "mon": "الاثنين",
+
+  "tues": "الثلاثاء",
+
+  "wednesday": "الأربعاء",
   "date" : "التاريخ",
   "total_price" : "السعر الاجمالي",
   "branch" : "الفرع",

@@ -142,6 +142,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                     type: CoolAlertType.success,
                                     text: AppLocalizations.of(context)!
                                         .medical_file_save,
+                                    title:
+                                        AppLocalizations.of(context)!.success,
                                   );
                                   if (widget.openFirstTime) {
                                     Future.delayed(const Duration(seconds: 2),

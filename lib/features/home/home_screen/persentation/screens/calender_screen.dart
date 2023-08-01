@@ -64,6 +64,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 autoCloseDuration: const Duration(seconds: 1),
                 showOkBtn: false,
                 type: CoolAlertType.success,
+                title: AppLocalizations.of(context)!.success,
                 text: AppLocalizations.of(context)!.booked_successed,
               );
               Future.delayed(const Duration(seconds: 2), () async {
@@ -98,7 +99,15 @@ class _CalenderScreenState extends State<CalenderScreen> {
   Widget _buildDefaultSingleDatePickerWithValue() {
     final config = CalendarDatePicker2Config(
       selectedDayHighlightColor: primaryColor,
-      weekdayLabels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      weekdayLabels: [
+        AppLocalizations.of(context)!.sun,
+        AppLocalizations.of(context)!.mon,
+        AppLocalizations.of(context)!.tues,
+        AppLocalizations.of(context)!.wednesday,
+        AppLocalizations.of(context)!.thursday,
+        AppLocalizations.of(context)!.friday,
+        AppLocalizations.of(context)!.saturday,
+      ],
       weekdayLabelTextStyle: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.bold,

@@ -153,6 +153,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         const Duration(seconds: 1),
                                     showOkBtn: false,
                                     type: CoolAlertType.success,
+                                    title:
+                                        AppLocalizations.of(context)!.success,
                                     text: AppLocalizations.of(context)!
                                         .profile_data_saved,
                                   );
