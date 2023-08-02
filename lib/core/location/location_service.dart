@@ -1,34 +1,30 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../../main.dart';
-
 class LocationServiceProvider {
   static late Position _currentPosition;
-  static Future determinePosition() async {
+  static Future<Position?> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+      return null;
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        return null;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return null;
     }
 
     _currentPosition = await Geolocator.getCurrentPosition();
-    currentLocationSubject.sink.add(_currentPosition);
+    return _currentPosition;
   }
 
   static double getDistanceBetweenCurrentAndLocation(

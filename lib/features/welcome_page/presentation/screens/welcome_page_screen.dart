@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
@@ -59,7 +60,10 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
     return SizedBox(
       height: 500.h,
       width: 500.w,
-      child: const MapScreen(),
+      child: MapScreen(LatLng(
+        LocationServiceProvider.currentPosition.latitude,
+        LocationServiceProvider.currentPosition.longitude,
+      )),
     );
   }
 
@@ -109,7 +113,11 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const MapScreen(
+              builder: (context) => MapScreen(
+                    LatLng(
+                      LocationServiceProvider.currentPosition.latitude,
+                      LocationServiceProvider.currentPosition.longitude,
+                    ),
                     hasAppBar: true,
                   ))),
       child: Container(
@@ -124,7 +132,11 @@ class _WelcomePageScreenState extends State<WelcomePageScreen> {
 
   void navigateToHomeScreen(context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const MapScreen(
+        builder: (context) => MapScreen(
+              LatLng(
+                LocationServiceProvider.currentPosition.latitude,
+                LocationServiceProvider.currentPosition.longitude,
+              ),
               hasAppBar: true,
             )));
   }

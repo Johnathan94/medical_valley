@@ -1,13 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_sizes.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
-import 'package:medical_valley/features/welcome_page/presentation/screens/welcome_page_screen.dart';
+import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
+import 'package:medical_valley/features/splash/presentation/screens/no_location_service_screen.dart';
+import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
 import 'package:network_logger/network_logger.dart';
 
 import '../../../../core/app_colors.dart';
@@ -20,20 +25,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SplashBloc splashBloc = GetIt.instance<SplashBloc>();
   @override
   void initState() {
     NetworkLoggerOverlay.attachTo(
       context,
     );
-    Future.delayed(const Duration(seconds: 5), () async {
-      await AppInitializer.initializeAppWithContext(context);
-      if (LocalStorageManager.getUser() == null) {
-        goToLoginScreen(context);
-      } else {
-        goToHomeScreen(context);
-      }
-    });
+    Future.delayed(const Duration(seconds: 5), () async {});
     super.initState();
+  }
+
+  @override
+  didChangeDependencies() async {
+    await AppInitializer.initializeAppWithContext(context);
+    splashBloc.getLocation();
+    super.didChangeDependencies();
   }
 
   goToLoginScreen(BuildContext context) {
@@ -42,22 +48,43 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToHomeScreen(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const WelcomePageScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeBaseStatefulWidget()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width,
-      color: primaryColor,
-      child: Center(
-          child: Image.asset(
-        appIcon,
-        width: splashIconWidth.w,
-        height: splashIconHeight.h,
-      )),
+    return BlocListener<SplashBloc, SplashState>(
+      bloc: splashBloc,
+      listener: (context, state) {
+        if (state is ErrorSplashState) {
+          LoadingDialogs.hideLoadingDialog();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (c) => const NoLocationServiceScreen()));
+        } else if (state is SuccessSplashState) {
+          LoadingDialogs.hideLoadingDialog();
+          Future.delayed(const Duration(seconds: 2), () {
+            if (LocalStorageManager.getUser() == null) {
+              goToLoginScreen(context);
+            } else {
+              goToHomeScreen(context);
+            }
+          });
+        } else {
+          LoadingDialogs.showLoadingDialog(context);
+        }
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.width,
+        color: primaryColor,
+        child: Center(
+            child: Image.asset(
+          appIcon,
+          width: splashIconWidth.w,
+          height: splashIconHeight.h,
+        )),
+      ),
     );
   }
 }

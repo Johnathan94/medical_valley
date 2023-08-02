@@ -50,6 +50,7 @@ import 'package:medical_valley/features/profile/data/user_api.dart';
 import 'package:medical_valley/features/profile/domain/get_user_use_case.dart';
 import 'package:medical_valley/features/profile/domain/update_user_use_case.dart';
 import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
+import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -72,6 +73,7 @@ configureDependencies() {
       SearchWithKeyboard(SearchClient(DioManager.getDio()))));
   getIt.registerFactory(
       () => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
+  getIt.registerFactory(() => SplashBloc());
   getIt.registerFactory(() =>
       NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
   getIt.registerFactory(() => TermsAndConditionsBloc(

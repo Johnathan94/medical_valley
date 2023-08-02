@@ -6,23 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_theme.dart';
 import 'package:medical_valley/core/base_service/flavors.dart';
-import 'package:medical_valley/core/location/location_service.dart';
 import 'package:medical_valley/core/medical_injection.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/urls.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/chnage_language_block.dart';
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/language_state.dart';
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'firebase_options.dart';
 
 LanguageBloc languageBloc = LanguageBloc();
-final BehaviorSubject<Position> currentLocationSubject = BehaviorSubject();
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -47,7 +43,6 @@ void main() async {
   await LocalStorageManager.initialize();
   String currentLanguage = LocalStorageManager.getCurrentLanguage();
   runApp(MyApp(currentLanguage: currentLanguage));
-  await LocationServiceProvider.determinePosition();
 }
 
 class MyApp extends StatelessWidget {

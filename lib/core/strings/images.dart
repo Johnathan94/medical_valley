@@ -41,3 +41,5 @@ const floatingIcon = "${svgImagesPath}floating.svg";
 const chatOnBoardingIcon = "${svgImagesPath}chat_on_board_icon.svg";
 const paymentCardIcon = "${svgImagesPath}card_icon.svg";
 const error404Icon = "${svgImagesPath}error_404_icon.svg";
+const noLocationService = "${imagesPath}location_service.svg";
+const onNo = "${imagesPath}oh_no.svg";

@@ -102,16 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         await LoadingDialogs.showLoadingDialog(context);
                       } else if (state is LoginStateSuccess) {
                         LoadingDialogs.hideLoadingDialog();
-                        CoolAlert.show(
-                          barrierDismissible: false,
-                          context: context,
-                          autoCloseDuration: const Duration(milliseconds: 300),
-                          showOkBtn: false,
-                          type: CoolAlertType.success,
-                          title: AppLocalizations.of(context)!.success,
-                          closeOnConfirmBtnTap: false,
-                          text: AppLocalizations.of(context)!.success_login,
-                        );
                         Future.delayed(const Duration(milliseconds: 350), () {
                           navigateToOtpScreen(state.mobile);
                         });
