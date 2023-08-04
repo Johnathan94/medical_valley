@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -110,8 +111,17 @@ class MapSampleState extends State<MapScreen> {
               })
         ],
       ),
+      /*   floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _searchPlaces();
+        },
+      ),*/
     );
   }
+
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: "AIzaSyAtT-rES3IYix7NJM0SpxbM3CPThEjwbc4");
+  GoogleMapController? _mapController;
 
   Future<bool> isInRidyhZone(LatLng position) async {
     double ridyhZoneLat = 12.3456;
@@ -132,5 +142,39 @@ class MapSampleState extends State<MapScreen> {
     double zoneRadius = 500; // in meters
 
     return distanceInMeters <= zoneRadius;
+  }
+
+  void _searchPlaces() async {
+    final location = Location(
+      lat: _markers.first.position.latitude,
+      lng: _markers.first.position.longitude,
+    );
+    final response = await _places.searchNearbyWithRadius(location, 5000,
+        type: 'restaurant');
+
+    if (response.isOkay) {
+      // Process the search results and display on the map
+      for (PlacesSearchResult result in response.results) {
+        final placeId = result.placeId;
+        final location = result.geometry?.location;
+
+        if (location != null) {
+          final marker = Marker(
+            markerId: MarkerId(placeId!),
+            position: LatLng(location.lat, location.lng),
+            infoWindow: InfoWindow(
+              title: result.name,
+              snippet: result.vicinity,
+            ),
+          );
+
+          _markers.add(marker);
+          _markersSubject.sink.add(_markers);
+        }
+      }
+    } else {
+      // Handle error when search fails
+      print('Error searching places: ${response.errorMessage}');
+    }
   }
 }

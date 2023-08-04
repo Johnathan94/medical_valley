@@ -75,6 +75,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   flutter_paytabs_bridge: ^2.4.4
   geocoding: ^2.1.0
+  google_maps_webservice:
 
 
 

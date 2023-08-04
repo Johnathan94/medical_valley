@@ -14,7 +14,7 @@
           "services": "الخدمات",
   "most_recent" : "الاحدث",
   "getting_invoice_state" : "جاري التخقق من الفاتوره ",
-  "otp_error" : "يجب ان تكتب ٦ ارقام",
+  "otp_error" : "يرجى إضافة رمز التحقق المرسل على هاتفك",
       "oldest" : "الاقدم",
       "edit_user" : "تعديل البيانات",
       "negotiations" : "عروض التفاوض",

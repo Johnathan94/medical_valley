@@ -60,7 +60,8 @@ configureDependencies() {
       GetReservationsUseCaseImpl(ReservationsClient(DioManager.getDio())),
       GetNegotiationsUseCaseImpl(NegotiationsClient(DioManager.getDio()))));
   getIt.registerFactory(() => RegisterBloc(RegisterUseCaseImpl(
-      RegisterUserRepoImpl(RegisterClient(DioManager.getDio())))));
+      RegisterUserRepoImpl(RegisterClient(DioManager.getDio()),
+          LoginClient(DioManager.getDio())))));
   getIt.registerFactory(
       () => BookRequestBloc(BookRequestRepo(BookRequestClient())));
   getIt.registerFactory(

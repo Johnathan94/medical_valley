@@ -5,8 +5,12 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 
+import '../../../../core/widgets/primary_button.dart';
+
 class NoLocationServiceScreen extends StatelessWidget {
-  const NoLocationServiceScreen({Key? key}) : super(key: key);
+  final VoidCallback onRetry;
+  const NoLocationServiceScreen({required this.onRetry, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,16 @@ class NoLocationServiceScreen extends StatelessWidget {
             style: AppStyles.baloo2FontWith400WeightAnd20Size
                 .copyWith(color: Colors.black),
             textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
+            child: PrimaryButton(
+              onPressed: () {
+                Navigator.pop(context);
+                onRetry();
+              },
+              text: AppLocalizations.of(context)!.retry,
+            ),
           )
         ],
       ),

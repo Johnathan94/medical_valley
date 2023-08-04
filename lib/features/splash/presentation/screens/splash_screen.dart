@@ -9,13 +9,13 @@ import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
-import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:medical_valley/features/splash/presentation/screens/no_location_service_screen.dart';
 import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
 import 'package:network_logger/network_logger.dart';
 
 import '../../../../core/app_colors.dart';
+import '../../../welcome_page/presentation/screens/welcome_page_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+        MaterialPageRoute(builder: (context) => const WelcomePageScreen()));
   }
 
   goToHomeScreen(BuildContext context) {
@@ -59,8 +59,12 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (context, state) {
         if (state is ErrorSplashState) {
           LoadingDialogs.hideLoadingDialog();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (c) => const NoLocationServiceScreen()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (c) => NoLocationServiceScreen(
+                    onRetry: () {
+                      splashBloc.getLocation();
+                    },
+                  )));
         } else if (state is SuccessSplashState) {
           LoadingDialogs.hideLoadingDialog();
           Future.delayed(const Duration(seconds: 2), () {

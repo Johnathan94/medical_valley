@@ -399,7 +399,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   AppLocalizations.of(context)!
                                       .terms_and_condition_agreed,
                                   style: AppStyles
-                                      .baloo2FontWith400WeightAnd18Size,
+                                      .baloo2FontWith400WeightAnd18Size
+                                      .copyWith(
+                                          decoration: TextDecoration.none),
                                 ),
                               ))
                             ],
