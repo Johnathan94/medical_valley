@@ -134,10 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: models.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
                       childAspectRatio:
-                          MediaQuery.of(context).size.aspectRatio * 3),
+                          MediaQuery.of(context).size.aspectRatio * 3.2),
                   itemBuilder: (BuildContext context, int index) {
                     return Center(
                       child: _buildCategoryItemForGrid(models[index]),
@@ -229,10 +229,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     categoryId: model.id!,
                   ))),
       child: Container(
-        width: MediaQuery.of(context).size.width * .333,
-        height: MediaQuery.of(context).size.width * .333,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        width: MediaQuery.of(context).size.width * .444,
+        height: MediaQuery.of(context).size.width * .555,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: const [
@@ -254,20 +254,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         const CircularProgressIndicator(),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
-                    width: 20,
-                    height: 20,
+                    width: 16,
+                    height: 16,
                   )
                 : const Icon(Icons.medical_services_outlined,
-                    color: Colors.black, size: 20),
+                    color: Colors.black, size: 32),
             const SizedBox(
-              height: 8,
+              height: 22,
             ),
             Text(
               LocalStorageManager.getCurrentLanguage() == "ar"
                   ? model.arabicName!
                   : model.name!,
               style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                  color: Colors.black,
+                  color: primaryColor,
                   decoration: TextDecoration.none,
                   height: 1.1),
               textAlign: TextAlign.center,

@@ -11,7 +11,6 @@ import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/phone_intl_widget.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/contact_us/data/model/contact_us_response_model.dart';
 import 'package:medical_valley/features/home/contact_us/presentation/contact_us_bloc.dart';
@@ -152,7 +151,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         showOkBtn: false,
                         type: CoolAlertType.success,
                         title: AppLocalizations.of(context)!.success,
-                        text: AppLocalizations.of(context)!.request_sent,
+                        text: AppLocalizations.of(context)!.message_contact_us,
                       );
                       Future.delayed(const Duration(seconds: 1),
                           () => Navigator.pop(context));
@@ -220,13 +219,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 SizedBox(
                   height: 16.h,
                 ),
-                PhoneIntlWidgetField(
-                  phoneController,
-                  false,
-                  countryCode: seperatePhoneAndDialCode("+$phoneNumber")[0],
-                  (Country country) {},
-                  fillColor: textFieldBg,
-                  borderColor: Colors.transparent,
+                Directionality(
+                  textDirection:
+                      LocalStorageManager.getCurrentLanguage() == "ar"
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                  child: PhoneIntlWidgetField(
+                    phoneController,
+                    false,
+                    countryCode: seperatePhoneAndDialCode("+$phoneNumber")[0],
+                    (Country country) {},
+                    fillColor: textFieldBg,
+                    borderColor: Colors.transparent,
+                  ),
                 ),
                 buildLargeContactUsField(),
                 buildInputButton(),
@@ -264,6 +269,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ? AppLocalizations.of(context)!.you_have_to_write_your_problem
                   : null;
             },
+            onChanged: (String x) {
+              _formKey.currentState!.validate();
+            },
             decoration: const InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: greenCheckBox)),
@@ -287,12 +295,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             if (_formKey.currentState!.validate()) {
               contactUsBloc.contactUs(ContactUsEvent(ContactUsModel(
                   email: emailController.text,
-                  phone: phoneController.text,
+                  phone: phoneNumber,
                   fullName: fullNameController.text,
                   problem: problemController.text)));
-            } else
-              context.showSnackBar(
-                  AppLocalizations.of(context)!.something_went_wrong);
+            }
           }),
     );
   }
