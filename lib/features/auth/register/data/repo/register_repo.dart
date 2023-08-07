@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:medical_valley/core/failures/failures.dart';
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 import 'package:medical_valley/features/auth/login/data/model/login_respoonse_model.dart';
@@ -26,8 +27,8 @@ class RegisterUserRepoImpl extends RegisterUserRepo {
       } else {
         return Left(ServerFailure(error: registerResponse.message));
       }
-    } catch (e) {
-      return Left(ServerFailure(error: "something went wrong"));
+    } on DioError catch (e) {
+      return Left(ServerFailure(error: e.response!.data["message"]));
     }
   }
 }

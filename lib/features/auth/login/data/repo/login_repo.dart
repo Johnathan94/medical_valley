@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:medical_valley/core/failures/failures.dart';
 import 'package:medical_valley/features/auth/login/data/api_service/login_client.dart';
 import 'package:medical_valley/features/auth/login/data/model/login_respoonse_model.dart';
@@ -21,8 +22,8 @@ class LoginRepoImpl extends LoginRepo {
         return Right(loginResponse.data ?? "");
       }
       return Left(ServerFailure(error: loginResponse.message));
-    } catch (e) {
-      return Left(ServerFailure());
+    } on DioError catch (e) {
+      return Left(ServerFailure(error: e.response!.data["message"]));
     }
   }
 }

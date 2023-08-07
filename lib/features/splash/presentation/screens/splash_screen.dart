@@ -10,12 +10,12 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
-import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:medical_valley/features/splash/presentation/screens/no_location_service_screen.dart';
 import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
 import 'package:network_logger/network_logger.dart';
 
 import '../../../../core/app_colors.dart';
+import '../../../home/widgets/home_base_stateful_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

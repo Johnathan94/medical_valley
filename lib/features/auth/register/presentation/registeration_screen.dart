@@ -139,7 +139,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       type: CoolAlertType.error,
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
-                      text: state.error,
+                      text: state.error!.contains("Used before")
+                          ? AppLocalizations.of(context)!.email_used_before
+                          : state.error,
                     );
                   }
                 },

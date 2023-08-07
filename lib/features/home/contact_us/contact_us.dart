@@ -223,7 +223,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   textDirection:
                       LocalStorageManager.getCurrentLanguage() == "ar"
                           ? TextDirection.ltr
-                          : TextDirection.rtl,
+                          : TextDirection.ltr,
                   child: PhoneIntlWidgetField(
                     phoneController,
                     false,
