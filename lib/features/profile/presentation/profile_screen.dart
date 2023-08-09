@@ -171,6 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   CoolAlert.show(
                                     context: context,
                                     type: CoolAlertType.error,
+                                    title: AppLocalizations.of(context)!.error,
                                     text: myState.error,
                                     autoCloseDuration:
                                         const Duration(seconds: 1),

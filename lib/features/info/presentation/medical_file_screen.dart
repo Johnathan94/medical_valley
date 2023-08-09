@@ -164,15 +164,16 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                                         (state as SetMedicalInfoStateError);
                                     LoadingDialogs.hideLoadingDialog();
                                     CoolAlert.show(
-                                      context: context,
-                                      closeOnConfirmBtnTap: true,
-                                      type: CoolAlertType.error,
-                                      autoCloseDuration:
-                                          const Duration(seconds: 1),
-                                      showOkBtn: false,
-                                      text: AppLocalizations.of(context)!
-                                          .server_error,
-                                    );
+                                        context: context,
+                                        closeOnConfirmBtnTap: true,
+                                        type: CoolAlertType.error,
+                                        autoCloseDuration:
+                                            const Duration(seconds: 1),
+                                        showOkBtn: false,
+                                        text: AppLocalizations.of(context)!
+                                            .server_error,
+                                        title: AppLocalizations.of(context)!
+                                            .error);
                                   }
                                 }),
                             //Image.asset(personImage),

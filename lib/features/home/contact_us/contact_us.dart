@@ -163,6 +163,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         autoCloseDuration: const Duration(seconds: 1),
                         showOkBtn: false,
                         type: CoolAlertType.error,
+                        title: AppLocalizations.of(context)!.error,
                         text:
                             AppLocalizations.of(context)!.something_went_wrong,
                       );

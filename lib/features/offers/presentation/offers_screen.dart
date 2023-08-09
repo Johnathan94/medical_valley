@@ -179,6 +179,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                       context: context,
                                       type: CoolAlertType.error,
                                       text: state.error,
+                                      title:
+                                          AppLocalizations.of(context)!.error,
                                       autoCloseDuration:
                                           const Duration(seconds: 1),
                                       showOkBtn: false,
@@ -247,6 +249,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       autoCloseDuration: const Duration(seconds: 1),
                       showOkBtn: false,
                       type: CoolAlertType.error,
+                      title: AppLocalizations.of(context)!.error,
                       text: AppLocalizations.of(context)!.something_went_wrong,
                     );
                   }

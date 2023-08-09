@@ -105,6 +105,8 @@
   "notes": "Notes",
   "send": "Send",
   "your_insurance": "Your insurance",
+  "error": "Error",
+  "user_already_exists": "User already existsْ",
   "date_of_birth": "Date of birth",
   "email_used_before": "The email address already exist",
   "national_id": "National ID",

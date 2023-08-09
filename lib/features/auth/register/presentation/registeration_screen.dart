@@ -134,15 +134,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   } else if (state is RegisterStateError) {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
-                      context: context,
-                      closeOnConfirmBtnTap: true,
-                      type: CoolAlertType.error,
-                      autoCloseDuration: const Duration(seconds: 1),
-                      showOkBtn: false,
-                      text: state.error!.contains("Used before")
-                          ? AppLocalizations.of(context)!.email_used_before
-                          : state.error,
-                    );
+                        context: context,
+                        closeOnConfirmBtnTap: true,
+                        type: CoolAlertType.error,
+                        autoCloseDuration: const Duration(seconds: 1),
+                        showOkBtn: false,
+                        text: state.error!.contains("Used before")
+                            ? AppLocalizations.of(context)!.email_used_before
+                            : state.error!.contains("already exists")
+                                ? AppLocalizations.of(context)!
+                                    .user_already_exists
+                                : state.error,
+                        title: AppLocalizations.of(context)!.error);
                   }
                 },
                 child: Column(
@@ -179,7 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     CustomTextField(
                       textController: fullNameController,
-                      prefixIcon: personImage,
+                      prefixIcon: userImage,
                       hintText: AppLocalizations.of(context)!.fullname,
                       hintStyle: AppStyles.headlineStyle,
                       onValidator: (String? x) {
@@ -435,6 +438,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 type: CoolAlertType.error,
                                 autoCloseDuration: const Duration(seconds: 1),
                                 showOkBtn: false,
+                                title: AppLocalizations.of(context)!.error,
                                 text: AppLocalizations.of(context)!
                                     .you_must_accept_the_terms_and_conditions);
                           }

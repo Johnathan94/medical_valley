@@ -39,6 +39,8 @@ class CustomTextField extends TextFormField {
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset(
                   prefixIcon!,
+                  width: 20,
+                  height: 20,
                   color: primaryColor,
                 ),
               ),

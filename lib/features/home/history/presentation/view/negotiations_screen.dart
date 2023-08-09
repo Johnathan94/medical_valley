@@ -77,14 +77,14 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
               } else {
                 LoadingDialogs.hideLoadingDialog();
                 CoolAlert.show(
-                  barrierDismissible: false,
-                  context: context,
-                  autoCloseDuration: const Duration(seconds: 1),
-                  showOkBtn: false,
-                  closeOnConfirmBtnTap: true,
-                  type: CoolAlertType.error,
-                  text: AppLocalizations.of(context)!.something_went_wrong,
-                );
+                    barrierDismissible: false,
+                    context: context,
+                    autoCloseDuration: const Duration(seconds: 1),
+                    showOkBtn: false,
+                    closeOnConfirmBtnTap: true,
+                    type: CoolAlertType.error,
+                    text: AppLocalizations.of(context)!.something_went_wrong,
+                    title: AppLocalizations.of(context)!.error);
               }
             },
             child: const SizedBox()),

@@ -89,17 +89,17 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                   } else {
                     LoadingDialogs.hideLoadingDialog();
                     CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      closeOnConfirmBtnTap: true,
-                      autoCloseDuration: const Duration(seconds: 1),
-                      showOkBtn: false,
-                      type: CoolAlertType.error,
-                      text: state.error!.contains("No provider")
-                          ? AppLocalizations.of(context)!
-                              .there_is_no_provider_for_this_service
-                          : state.error,
-                    );
+                        barrierDismissible: false,
+                        context: context,
+                        closeOnConfirmBtnTap: true,
+                        autoCloseDuration: const Duration(seconds: 1),
+                        showOkBtn: false,
+                        type: CoolAlertType.error,
+                        text: state.error!.contains("No provider")
+                            ? AppLocalizations.of(context)!
+                                .there_is_no_provider_for_this_service
+                            : state.error,
+                        title: AppLocalizations.of(context)!.error);
                   }
                 },
                 child: buildBody(),

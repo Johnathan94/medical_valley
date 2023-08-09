@@ -104,13 +104,13 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                         } else {
                           LoadingDialogs.hideLoadingDialog();
                           CoolAlert.show(
-                            context: context,
-                            closeOnConfirmBtnTap: true,
-                            type: CoolAlertType.error,
-                            autoCloseDuration: const Duration(seconds: 1),
-                            showOkBtn: false,
-                            text: AppLocalizations.of(context)!.invalid_otp,
-                          );
+                              context: context,
+                              closeOnConfirmBtnTap: true,
+                              type: CoolAlertType.error,
+                              autoCloseDuration: const Duration(seconds: 1),
+                              showOkBtn: false,
+                              text: AppLocalizations.of(context)!.invalid_otp,
+                              title: AppLocalizations.of(context)!.error);
                         }
                       }),
                   buildOtpField(context),

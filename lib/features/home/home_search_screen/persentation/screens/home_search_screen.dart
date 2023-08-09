@@ -108,14 +108,14 @@ class HomeState extends State<HomeSearchScreen> {
               } else {
                 LoadingDialogs.hideLoadingDialog();
                 CoolAlert.show(
-                  barrierDismissible: false,
-                  context: context,
-                  closeOnConfirmBtnTap: true,
-                  type: CoolAlertType.error,
-                  autoCloseDuration: const Duration(seconds: 1),
-                  showOkBtn: false,
-                  text: state.error,
-                );
+                    barrierDismissible: false,
+                    context: context,
+                    closeOnConfirmBtnTap: true,
+                    type: CoolAlertType.error,
+                    autoCloseDuration: const Duration(seconds: 1),
+                    showOkBtn: false,
+                    text: state.error,
+                    title: AppLocalizations.of(context)!.error);
               }
             },
             child: Container(),

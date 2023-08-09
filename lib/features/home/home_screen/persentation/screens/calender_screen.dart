@@ -79,14 +79,14 @@ class _CalenderScreenState extends State<CalenderScreen> {
             } else {
               LoadingDialogs.hideLoadingDialog();
               CoolAlert.show(
-                barrierDismissible: false,
-                context: context,
-                closeOnConfirmBtnTap: true,
-                autoCloseDuration: const Duration(seconds: 1),
-                showOkBtn: false,
-                type: CoolAlertType.error,
-                text: AppLocalizations.of(context)!.something_went_wrong,
-              );
+                  barrierDismissible: false,
+                  context: context,
+                  closeOnConfirmBtnTap: true,
+                  autoCloseDuration: const Duration(seconds: 1),
+                  showOkBtn: false,
+                  type: CoolAlertType.error,
+                  text: AppLocalizations.of(context)!.something_went_wrong,
+                  title: AppLocalizations.of(context)!.error);
               Future.delayed(const Duration(seconds: 2), () async {
                 Navigator.pop(context);
               });
