@@ -199,12 +199,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(
                       height: 16.h,
                     ),
-                    PhoneIntlWidgetField(
-                      phoneController,
-                      true,
-                      (Country country) {
-                        countryDial = country.dialCode;
-                      },
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: PhoneIntlWidgetField(
+                        phoneController,
+                        true,
+                        (Country country) {
+                          countryDial = country.dialCode;
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 16.h,

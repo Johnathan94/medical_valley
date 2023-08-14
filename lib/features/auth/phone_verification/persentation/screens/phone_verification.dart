@@ -94,11 +94,12 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                           } else {
                             Future.delayed(const Duration(milliseconds: 350),
                                 () {
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (c) =>
-                                          const WelcomePageScreen()));
+                                      builder: (BuildContext context) =>
+                                          const WelcomePageScreen()),
+                                  (Route<dynamic> route) => false);
                             });
                           }
                         } else {

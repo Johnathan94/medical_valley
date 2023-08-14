@@ -283,8 +283,12 @@ class _MoreScreeenState extends State<MoreScreen> {
                       await LocalStorageManager.remove();
                       LocalStorageManager.deleteUser().then((value) {
                         LoadingDialogs.hideLoadingDialog();
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (c) => LoginScreen()));
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const LoginScreen()),
+                            (Route<dynamic> route) => false);
                       });
                     },
                     text: AppLocalizations.of(context)!.sign_out,

@@ -300,6 +300,8 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
                               fillColor: textFieldBg,
                               keyboardType: TextInputType.number,
                               maxCharacters: 10,
+                              onChanged: (String? text) =>
+                                  _formKey.currentState!.validate(),
                               onValidator: (String? text) {
                                 if (text!.isNotEmpty && text.length <= 14) {
                                   return null;

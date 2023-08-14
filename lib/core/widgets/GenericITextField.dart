@@ -16,12 +16,14 @@ class GenericTextField extends TextFormField {
   TextEditingController textController;
   Function(String)? onFieldSubmit;
   Function()? onFieldTapped;
+  Function(String?)? onChanged;
   String? Function(String?)? onValidator;
   GenericTextField(
       {required this.textController,
       this.hintStyle,
       this.onValidator,
       this.onFieldSubmit,
+      this.onChanged,
       this.hintText,
       this.isFilled,
       this.isEnabled,
@@ -39,6 +41,7 @@ class GenericTextField extends TextFormField {
             keyboardType: keyboardType,
             controller: textController,
             onFieldSubmitted: onFieldSubmit,
+            onChanged: onChanged,
             validator: onValidator,
             maxLines: maxLines ?? 1,
             maxLength: maxCharacters,

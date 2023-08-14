@@ -169,9 +169,12 @@ class _LoginScreenState extends State<LoginScreen> {
           top: loginMobileNumberFieldMarginTop.r,
           start: loginMobileNumberFieldMarginHorizontal.r,
           end: loginMobileNumberFieldMarginHorizontal.r),
-      child: PhoneIntlWidgetField(phoneController, true, (Country country) {
-        countryCode = country.dialCode;
-      }),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: PhoneIntlWidgetField(phoneController, true, (Country country) {
+          countryCode = country.dialCode;
+        }),
+      ),
     );
   }
 
