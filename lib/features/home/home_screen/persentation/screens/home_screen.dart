@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
@@ -55,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is LoadingHomeState) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return const Text("There is no Categories");
+            return Center(
+                child: Text(AppLocalizations.of(context)!.there_is_no_data));
           }
         },
       ),

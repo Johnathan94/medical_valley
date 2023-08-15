@@ -13,6 +13,7 @@ import 'package:medical_valley/features/home/history/presentation/widgets/negoti
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NegotiationsScreen extends StatefulWidget {
@@ -45,6 +46,22 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
     });
 
     super.initState();
+  }
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefreshNegotiations() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    pagingController.value.itemList?.clear();
+    nextPage = 1;
+    nextPageKey = 1;
+    historyBloc.getNegotiations(1, 10);
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
   }
 
   @override
@@ -88,57 +105,65 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
               }
             },
             child: const SizedBox()),
-        BlocBuilder<HistoryBloc, HistoryState>(
-            bloc: historyBloc,
-            builder: (context, state) {
-              if (state.states == ActionStates.loading ||
-                  state.states == ActionStates.idle) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
-                );
-              } else if (state.states == ActionStates.success) {
-                if (state.negotiations?.data?.results!.length == 10) {
-                  pagingController.appendPage(
-                      state.negotiations!.data!.results!, nextPageKey);
-                } else {
-                  if (pagingController.value.itemList !=
-                      state.negotiations?.data?.results!) {
-                    pagingController
-                        .appendLastPage(state.negotiations!.data!.results!);
+        SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          header: const WaterDropHeader(),
+          controller: _refreshController,
+          onRefresh: _onRefreshNegotiations,
+          onLoading: _onLoading,
+          child: BlocBuilder<HistoryBloc, HistoryState>(
+              bloc: historyBloc,
+              builder: (context, state) {
+                if (state.states == ActionStates.loading ||
+                    state.states == ActionStates.idle) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
+                  );
+                } else if (state.states == ActionStates.success) {
+                  if (state.negotiations?.data?.results!.length == 10) {
+                    pagingController.appendPage(
+                        state.negotiations!.data!.results!, nextPageKey);
+                  } else {
+                    if (pagingController.value.itemList !=
+                        state.negotiations?.data?.results!) {
+                      pagingController
+                          .appendLastPage(state.negotiations!.data!.results!);
+                    }
                   }
-                }
 
-                return PagedListView<int, NegotiationModel>(
-                  pagingController: pagingController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  builderDelegate: PagedChildBuilderDelegate(
-                    noItemsFoundIndicatorBuilder: (BuildContext context) {
-                      return Center(
-                        child: Text(
-                            AppLocalizations.of(context)!.there_is_no_offers),
-                      );
-                    },
-                    itemBuilder: (context, NegotiationModel item, index) {
-                      return NegotiationsCard(
-                        items: item,
-                        onNegotiatePressed: onNegotiatePressed,
-                        onBookPressed: (int? id) {
-                          negotiateBloc.verifyRequest(id ?? 0);
-                        },
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return Center(
-                  child:
-                      Text(AppLocalizations.of(context)!.something_went_wrong),
-                );
-              }
-            }),
+                  return PagedListView<int, NegotiationModel>(
+                    pagingController: pagingController,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    builderDelegate: PagedChildBuilderDelegate(
+                      noItemsFoundIndicatorBuilder: (BuildContext context) {
+                        return Center(
+                          child: Text(
+                              AppLocalizations.of(context)!.there_is_no_offers),
+                        );
+                      },
+                      itemBuilder: (context, NegotiationModel item, index) {
+                        return NegotiationsCard(
+                          items: item,
+                          onNegotiatePressed: onNegotiatePressed,
+                          onBookPressed: (int? id) {
+                            negotiateBloc.verifyRequest(id ?? 0);
+                          },
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                        AppLocalizations.of(context)!.something_went_wrong),
+                  );
+                }
+              }),
+        ),
       ],
     );
   }

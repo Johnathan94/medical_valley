@@ -8,6 +8,7 @@ import 'package:medical_valley/features/home/history/data/reservations/reservati
 import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/history_state.dart';
 import 'package:medical_valley/features/home/history/presentation/widgets/reservation_card.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReservationsScreen extends StatefulWidget {
   const ReservationsScreen({Key? key}) : super(key: key);
@@ -35,52 +36,76 @@ class _ReservationScreenState extends State<ReservationsScreen> {
     super.initState();
   }
 
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefreshReservations() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    pagingController.value.itemList?.clear();
+    nextPage = 1;
+    nextPageKey = 1;
+    historyBloc.getReservations(1, 10);
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
-        bloc: historyBloc,
-        builder: (context, state) {
-          if (state.states == ActionStates.loading ||
-              state.states == ActionStates.idle) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            );
-          } else if (state.states == ActionStates.success) {
-            if (state.reservations?.data?.results!.length == 10) {
-              pagingController.appendPage(
-                  state.reservations!.data!.results!, nextPageKey);
-            } else {
-              if (pagingController.value.itemList !=
-                  state.reservations?.data?.results!) {
-                pagingController
-                    .appendLastPage(state.reservations!.data!.results!);
-              }
-            }
-
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: PagedListView<int, ReservationModel>(
-                pagingController: pagingController,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, ReservationModel item, index) {
-                    return ReservationsCard(item);
-                  },
-                  noItemsFoundIndicatorBuilder: (BuildContext context) {
-                    return Center(
-                      child: Text(AppLocalizations.of(context)!
-                          .there_is_no_reservations),
-                    );
-                  },
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: const WaterDropHeader(),
+      controller: _refreshController,
+      onRefresh: _onRefreshReservations,
+      onLoading: _onLoading,
+      child: BlocBuilder<HistoryBloc, HistoryState>(
+          bloc: historyBloc,
+          builder: (context, state) {
+            if (state.states == ActionStates.loading ||
+                state.states == ActionStates.idle) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
                 ),
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(AppLocalizations.of(context)!.something_went_wrong),
-            );
-          }
-        });
+              );
+            } else if (state.states == ActionStates.success) {
+              if (state.reservations?.data?.results!.length == 10) {
+                pagingController.appendPage(
+                    state.reservations!.data!.results!, nextPageKey);
+              } else {
+                if (pagingController.value.itemList !=
+                    state.reservations?.data?.results!) {
+                  pagingController
+                      .appendLastPage(state.reservations!.data!.results!);
+                }
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: PagedListView<int, ReservationModel>(
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, ReservationModel item, index) {
+                      return ReservationsCard(item);
+                    },
+                    noItemsFoundIndicatorBuilder: (BuildContext context) {
+                      return Center(
+                        child: Text(AppLocalizations.of(context)!
+                            .there_is_no_reservations),
+                      );
+                    },
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(AppLocalizations.of(context)!.something_went_wrong),
+              );
+            }
+          }),
+    );
   }
 }
