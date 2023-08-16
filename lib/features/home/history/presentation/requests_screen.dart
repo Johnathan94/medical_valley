@@ -11,6 +11,7 @@ import 'package:medical_valley/features/home/history/data/requests/requests_mode
 import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/history_state.dart';
 import 'package:medical_valley/features/home/history/presentation/history_screen.dart';
+import 'package:medical_valley/features/home/history/widgets/filter_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -99,6 +100,15 @@ class _RequestsScreenState extends State<RequestsScreen> {
                 children: [
                   Column(
                     children: [
+                      state.requests!.data!.results!.isNotEmpty
+                          ? FilterView(
+                              totalRequestsNumber:
+                                  state.requests?.data?.totalCount ?? 0,
+                              onSortTapped: () {
+                                widget.optionDisplayed.sink
+                                    .add(!widget.optionDisplayed.value);
+                              })
+                          : const SizedBox(),
                       Expanded(
                           child: PagedListView<int, HistoryItem>(
                         pagingController: pagingController,

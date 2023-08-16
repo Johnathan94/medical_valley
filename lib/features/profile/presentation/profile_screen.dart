@@ -491,7 +491,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (imageFileSubject.hasValue) {
             MultipartFile? image = await MultipartFile.fromFile(
                 imageFileSubject.value.path,
-                filename: "${model.id}_picture",
+                filename: "${model.id}_picture.jpeg",
                 contentType: MediaType("image", "jpeg"));
             _bloc.updateUserData(
                 UpdateUserRequest(

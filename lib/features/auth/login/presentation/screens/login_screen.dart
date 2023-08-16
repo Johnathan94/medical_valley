@@ -134,8 +134,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate() &&
                               phoneController.text.length == 9 ||
                           phoneController.text.length == 10) {
-                        loginBloc.loginUser(
-                            LoginEvent(countryCode + phoneController.text));
+                        String phoneNumber = phoneController.text;
+                        if (phoneNumber.startsWith("0") &&
+                                countryCode == "966" ||
+                            countryCode == "971") {
+                          phoneNumber = phoneNumber.substring(1);
+                        }
+                        loginBloc
+                            .loginUser(LoginEvent(countryCode + phoneNumber));
                       } else {
                         context.showSnackBar(
                             AppLocalizations.of(context)!.please_fill_all_data);
