@@ -280,7 +280,7 @@ class _MoreScreeenState extends State<MoreScreen> {
                     buttonCornerRadius: 22,
                     onPressed: () async {
                       await LoadingDialogs.showLoadingDialog(context);
-                      await LocalStorageManager.remove();
+                      await LocalStorageManager.deleteUser();
                       LocalStorageManager.deleteUser().then((value) {
                         LoadingDialogs.hideLoadingDialog();
                         Navigator.pushAndRemoveUntil(
