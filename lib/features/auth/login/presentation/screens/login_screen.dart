@@ -136,8 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           phoneController.text.length == 10) {
                         String phoneNumber = phoneController.text;
                         if (phoneNumber.startsWith("0") &&
-                                countryCode == "966" ||
-                            countryCode == "971") {
+                            (countryCode == "966" || countryCode == "971")) {
                           phoneNumber = phoneNumber.substring(1);
                         }
                         loginBloc

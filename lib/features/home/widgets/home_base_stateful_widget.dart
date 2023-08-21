@@ -21,10 +21,10 @@ class HomeBaseStatefulWidget extends StatefulWidget {
   State<StatefulWidget> createState() => HomeBaseStatefulWidgetState();
 }
 
+final BehaviorSubject<bool> isSearchClicked = BehaviorSubject.seeded(false);
+
 class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   final BehaviorSubject<int> _index = BehaviorSubject();
-  static final BehaviorSubject<bool> isSearchClicked =
-      BehaviorSubject.seeded(false);
 
   @override
   initState() {
@@ -36,8 +36,7 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
   dispose() {
     _index.stream.drain();
     _index.close();
-    isSearchClicked.stream.drain();
-    isSearchClicked.close();
+
     super.dispose();
   }
 

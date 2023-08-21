@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
+import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/main.dart';
-
 import 'package:rxdart/rxdart.dart';
 
 import '../../data/models/language_model.dart';
@@ -22,25 +22,25 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   @override
   initState() {
     var currentLanguage = LocalStorageManager.getCurrentLanguage();
-    switch(currentLanguage){
+    switch (currentLanguage) {
       case "":
         lang = [
-          LanguageModel(0 ,"English ", "English Language", true),
-          LanguageModel(1 ,"Arabic ", "اللغه العربيه", false ),
+          LanguageModel(0, "English ", "English Language", true),
+          LanguageModel(1, "Arabic ", "اللغه العربيه", false),
         ];
-        break ;
+        break;
       case "en":
         lang = [
-          LanguageModel(0 ,"English ", "English Language", true ),
-          LanguageModel(1 ,"Arabic ", "اللغه العربيه", false ),
+          LanguageModel(0, "English ", "English Language", true),
+          LanguageModel(1, "Arabic ", "اللغه العربيه", false),
         ];
-        break ;
+        break;
       case "ar":
         lang = [
-          LanguageModel(0 ,"English ", "English Language", false ),
-          LanguageModel(1 ,"Arabic ", "اللغه العربيه", true ),
+          LanguageModel(0, "English ", "English Language", false),
+          LanguageModel(1, "Arabic ", "اللغه العربيه", true),
         ];
-        break ;
+        break;
     }
     _languages.sink.add(lang.first);
     super.initState();
@@ -81,7 +81,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               shrinkWrap: true,
               itemCount: lang.length,
               padding:
-              const EdgeInsetsDirectional.only(start: 25, end: 25, top: 18),
+                  const EdgeInsetsDirectional.only(start: 25, end: 25, top: 18),
               itemBuilder: (context, index) {
                 return buildLangItem(lang[index]);
               });
@@ -94,7 +94,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
       child: Column(
         children: [
           InkWell(
-            onTap: () async{
+            onTap: () async {
               await changeLanguage(language);
             },
             child: Row(
@@ -115,14 +115,14 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                 ),
                 language.checked
                     ? Container(
-                  decoration: const BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  ),
-                )
+                        decoration: const BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: const Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                      )
                     : Container()
               ],
             ),
@@ -138,9 +138,10 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
       ),
     );
   }
+
   List<LanguageModel> lang = [];
-  changeLanguage(LanguageModel language) async{
-    if(!language.checked) {
+  changeLanguage(LanguageModel language) async {
+    if (!language.checked) {
       for (var e in lang) {
         e.checked = !e.checked;
       }
@@ -148,11 +149,13 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
       var nextLocale = getNextLocale(language);
       await LocalStorageManager.saveCurrentLanguage(nextLocale.languageCode);
       languageBloc.changeLanguage(nextLocale);
+      Future.delayed(const Duration(seconds: 5), () {
+        AppInitializer.initializeAppWithContext(context);
+      });
     }
   }
-  Locale getNextLocale (LanguageModel language){
-    return language.id == 1 ?
-    const Locale("ar") :
-    const Locale("en");
+
+  Locale getNextLocale(LanguageModel language) {
+    return language.id == 1 ? const Locale("ar") : const Locale("en");
   }
 }

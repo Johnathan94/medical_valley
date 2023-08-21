@@ -420,12 +420,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     PrimaryButton(
                       onPressed: () {
+                        String phoneNumber = phoneController.text;
+                        if (phoneNumber.startsWith("0") &&
+                            (countryDial == "966" || countryDial == "971")) {
+                          phoneNumber = phoneNumber.substring(1);
+                        }
                         if (_formKey.currentState!.validate()) {
                           if (_checkBoxBehaviourSubject.value) {
                             registerBloc.registerUser(
                                 RegisterEvent(RegisterRequestModel(
                               email: controller.text,
-                              mobile: countryDial + phoneController.text,
+                              mobile: countryDial + phoneNumber,
                               fullName: fullNameController.text,
                               haveInsurance: optionDisplayed.value ==
                                   AppLocalizations.of(context)!.yes,
