@@ -141,7 +141,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                         onBookPressed: (int? id) {
                                           negotiateBloc.verifyRequest(id ?? 0);
                                         },
-                                        isEnabled: offersNegotiatedIds!
+                                        isEnabled: !offersNegotiatedIds!
                                             .contains(item.id),
                                       );
                                     },
@@ -449,7 +449,7 @@ class OfferCard extends StatelessWidget {
                               child: OffersOptionsButton(
                                   buttonType: ButtonType.book,
                                   title: AppLocalizations.of(context)!.book,
-                                  isEnabled: isEnabled))),
+                                  isEnabled: true))),
                     ],
                   ),
                 )
@@ -459,7 +459,7 @@ class OfferCard extends StatelessWidget {
                       child: OffersOptionsButton(
                           buttonType: ButtonType.book,
                           title: AppLocalizations.of(context)!.book,
-                          isEnabled: isEnabled))),
+                          isEnabled: true))),
         ],
       ),
     );
