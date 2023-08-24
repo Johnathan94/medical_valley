@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:medical_valley/app_version.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
 import 'package:medical_valley/core/app_sizes.dart';
@@ -113,6 +114,12 @@ class _MoreScreeenState extends State<MoreScreen> {
                                       userDate.fullName ?? "",
                                       style: AppStyles
                                           .baloo2FontWith700WeightAnd25Size
+                                          .copyWith(color: whiteColor),
+                                    ),
+                                    Text(
+                                      AppSettings.appVersion,
+                                      style: AppStyles
+                                          .baloo2FontWith400WeightAnd14Size
                                           .copyWith(color: whiteColor),
                                     )
                                   ],

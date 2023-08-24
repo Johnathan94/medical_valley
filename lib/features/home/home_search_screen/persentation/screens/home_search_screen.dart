@@ -59,16 +59,16 @@ class HomeState extends State<HomeSearchScreen> {
     super.initState();
   }
 
-  getHomeScreen() {
+  getHomeScreen(context) {
     return Container(
       height: screenHeight,
       width: screenWidth,
       color: whiteColor,
-      child: getHomeScreenWidget(),
+      child: getHomeScreenWidget(context),
     );
   }
 
-  getHomeScreenWidget() {
+  getHomeScreenWidget(context) {
     return Container(
       margin: const EdgeInsetsDirectional.only(
         top: 10,
@@ -76,7 +76,7 @@ class HomeState extends State<HomeSearchScreen> {
       child: Column(
         children: [
           buildHomeTitle(),
-          Expanded(child: buildHomeTitleGridView()),
+          Expanded(child: buildHomeTitleGridView(context)),
           const SizedBox(
             height: 10,
           ),
@@ -132,7 +132,7 @@ class HomeState extends State<HomeSearchScreen> {
     );
   }
 
-  buildHomeTitleGridView() {
+  buildHomeTitleGridView(context) {
     return BlocListener<HomeBloc, MyHomeState>(
         bloc: homeBloc,
         listener: (context, state) {
@@ -212,12 +212,12 @@ class HomeState extends State<HomeSearchScreen> {
     );
   }
 
-  buildSearchModelsItem(BuildContext context, Service service, int index) {
+  buildSearchModelsItem(BuildContext ctx, Service service, int index) {
     return GestureDetector(
       onTap: () {
-        showBottomSheet(
+        showModalBottomSheet(
             context: context,
-            builder: (context) => AppointmentsBottomSheet(
+            builder: (_) => AppointmentsBottomSheet(
                   onBookRequest: (int id) async {
                     if (id == 1 || id == 2) {
                       UserDate result =
@@ -304,7 +304,7 @@ class HomeState extends State<HomeSearchScreen> {
         context: context,
         hasSearchIcon: false,
       ),
-      body: getHomeScreen(),
+      body: getHomeScreen(context),
     );
   }
 }
