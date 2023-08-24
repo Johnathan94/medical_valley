@@ -80,7 +80,7 @@
   "lowest_price": "Lowest price",
   "highest_price": "Highest price",
   "time": "Time",
-  "empty_field": "Empty field",
+  "empty_field": "Field can't be empty",
   "card_number": "Card number",
   "expiry_date": "ِExpiry date",
   "name": "Name",

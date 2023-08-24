@@ -167,7 +167,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       hintText: AppLocalizations.of(context)!.email,
                       hintStyle: AppStyles.headlineStyle,
                       onValidator: (String? x) {
-                        if (!x!.isEmailValid()) {
+                        if (x!.isEmpty) {
+                          return AppLocalizations.of(context)!.empty_field;
+                        } else if (!x.isEmailValid()) {
                           return AppLocalizations.of(context)!.email_invalid;
                         } else {
                           return null;
