@@ -1,5 +1,5 @@
 class AppSettings {
-  static String appVersion = "1.0.0";
-  static String description = "solve error in negotiation repeating"
-      "124 ,122  ";
+  static String appVersion = "2.0.0";
+  static String description = "added resend otp "
+      "139";
 }

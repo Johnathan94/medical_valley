@@ -164,5 +164,8 @@
   "language_title": "Language",
   "english_title": "English (US)",
   "arabic_title": "Arabic",
-  "arabic_sub_title": "Arabic"
+  "arabic_sub_title": "Arabic",
+  "resend_otp": "Resend otp",
+  "otp_sent_successfully": "Resend otp successfully",
+  "otp_failed_to_resend": "Fail to resend the otp"
 }

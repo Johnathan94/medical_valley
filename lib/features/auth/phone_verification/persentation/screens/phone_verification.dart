@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,7 @@ import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
 import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/app_sizes.dart';
 import '../../../../../core/widgets/app_bar_with_null_background.dart';
@@ -34,6 +37,34 @@ class PhoneVerificationScreen extends StatefulWidget {
 
 class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   OtpBloc otpBloc = GetIt.instance<OtpBloc>();
+  BehaviorSubject<int> seconds = BehaviorSubject.seeded(60);
+  BehaviorSubject<bool> resendVisibility = BehaviorSubject.seeded(false);
+  late Timer timer;
+  _startTimer() {
+    return Timer.periodic(const Duration(seconds: 1), (timer) {
+      int timerValue = seconds.value - 1;
+      if (timerValue < 0) {
+        timer.cancel();
+        resendVisibility.sink.add(true);
+      } else {
+        resendVisibility.sink.add(false);
+      }
+      seconds.sink.add(timerValue);
+    });
+  }
+
+  @override
+  void initState() {
+    timer = _startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,6 +89,36 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  StreamBuilder<bool>(
+                      stream: resendVisibility.stream,
+                      builder: (context, snapshot) {
+                        return Opacity(
+                          opacity: !resendVisibility.value ? 1 : 0,
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: primaryColor, width: 4),
+                                shape: BoxShape.circle),
+                            child: StreamBuilder<int>(
+                                stream: seconds.stream,
+                                builder: (context, snapshot) {
+                                  return Text(
+                                    snapshot.data.toString(),
+                                    style: AppStyles
+                                        .baloo2FontWith700WeightAnd40Size
+                                        .copyWith(color: primaryColor),
+                                  );
+                                }),
+                          ),
+                        );
+                      }),
+                  SizedBox(
+                    height: 40.h,
+                  ),
                   buildPhoneVerificationDesc(),
                   SizedBox(
                     height: 150.h,
@@ -66,7 +127,8 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                       bloc: otpBloc,
                       child: const SizedBox(),
                       listener: (c, state) async {
-                        if (state is LoadingOtpState) {
+                        if (state is LoadingOtpState ||
+                            state is LoadingResendOtpState) {
                           await LoadingDialogs.showLoadingDialog(context);
                         } else if (state is SuccessOtpState) {
                           LoadingDialogs.hideLoadingDialog();
@@ -102,6 +164,29 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                                   (Route<dynamic> route) => false);
                             });
                           }
+                        } else if (state is ResendOtpSuccess) {
+                          LoadingDialogs.hideLoadingDialog();
+                          CoolAlert.show(
+                            barrierDismissible: false,
+                            context: context,
+                            autoCloseDuration:
+                                const Duration(milliseconds: 300),
+                            showOkBtn: false,
+                            type: CoolAlertType.success,
+                            text: AppLocalizations.of(context)!
+                                .otp_sent_successfully,
+                          );
+                        } else if (state is ResendOtpError) {
+                          LoadingDialogs.hideLoadingDialog();
+                          CoolAlert.show(
+                            context: context,
+                            autoCloseDuration: const Duration(seconds: 1),
+                            showOkBtn: false,
+                            type: CoolAlertType.error,
+                            text: AppLocalizations.of(context)!
+                                .otp_failed_to_resend,
+                            title: AppLocalizations.of(context)!.error,
+                          );
                         } else {
                           LoadingDialogs.hideLoadingDialog();
                           CoolAlert.show(
@@ -118,7 +203,38 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                   SizedBox(
                     height: 100.h,
                   ),
-                  buildConfirmButton(context)
+                  buildConfirmButton(context),
+                  StreamBuilder<bool>(
+                      stream: resendVisibility.stream,
+                      builder: (context, snapshot) {
+                        return GestureDetector(
+                          onTap: snapshot.data != null && snapshot.data!
+                              ? () {
+                                  otpBloc.resendOtp(widget.mobile);
+                                  seconds.add(60);
+                                  seconds.sink.add(60);
+                                  timer = _startTimer();
+                                }
+                              : null,
+                          child: Text(
+                            AppLocalizations.of(context)!.resend_otp,
+                            style: AppStyles.baloo2FontWith400WeightAnd20Size
+                                .copyWith(
+                                    color:
+                                        snapshot.data != null && snapshot.data!
+                                            ? primaryColor
+                                            : Colors.grey),
+                          ),
+                        );
+                      }),
+                  Visibility(
+                      visible: MediaQuery.of(context).viewInsets.bottom > 0,
+                      child: SizedBox(
+                        height: 100.h,
+                      )),
+                  SizedBox(
+                    height: 500.h,
+                  )
                 ],
               ),
             ),

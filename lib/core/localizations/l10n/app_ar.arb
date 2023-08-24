@@ -173,17 +173,9 @@
   "language_title": "اللغه",
   "english_title": "English (US)",
   "arabic_title": "اللغه العربيه",
-  "arabic_sub_title": "السعوديه"
-
-
-
-
-
-
-
-
-
-
-
+  "arabic_sub_title": "السعوديه",
+  "resend_otp": "إعادة إرسال الرمز ",
+  "otp_sent_successfully": "نم إعادة إرسال الرمز ",
+  "otp_failed_to_resend": "لم نتمكن من  إعادة إرسال الرمز "
 
 }
