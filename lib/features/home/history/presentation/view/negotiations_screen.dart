@@ -127,8 +127,13 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                     pagingController.appendPage(
                         state.negotiations!.data!.results!, nextPageKey);
                   } else {
-                    if (pagingController.value.itemList !=
-                        state.negotiations?.data?.results!) {
+                    if (pagingController.value.itemList != null) {
+                      if (!pagingController.value.itemList!
+                          .contains(state.negotiations?.data?.results!.first)) {
+                        pagingController
+                            .appendLastPage(state.negotiations!.data!.results!);
+                      }
+                    } else {
                       pagingController
                           .appendLastPage(state.negotiations!.data!.results!);
                     }

@@ -65,7 +65,6 @@ class _OffersScreenState extends State<OffersScreen> {
     _refreshController.loadComplete();
   }
 
-  BehaviorSubject<int> rxNegotiateCount = BehaviorSubject();
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   @override
@@ -107,8 +106,13 @@ class _OffersScreenState extends State<OffersScreen> {
                           pagingController.appendPage(
                               state.offersResponse.data!.results!, nextPageKey);
                         } else {
-                          if (pagingController.value.itemList !=
-                              state.offersResponse.data!.results) {
+                          if (pagingController.value.itemList != null) {
+                            if (!pagingController.value.itemList!.contains(
+                                state.offersResponse.data?.results!.first)) {
+                              pagingController.appendLastPage(
+                                  state.offersResponse.data!.results!);
+                            }
+                          } else {
                             pagingController.appendLastPage(
                                 state.offersResponse.data!.results!);
                           }
@@ -131,25 +135,15 @@ class _OffersScreenState extends State<OffersScreen> {
                                     },
                                     itemBuilder: (context,
                                         NegotiationModel item, index) {
-                                      return StreamBuilder<int>(
-                                          stream: rxNegotiateCount.stream,
-                                          builder: (context, snapshot) {
-                                            return OfferCard(
-                                              negoCount:
-                                                  rxNegotiateCount.hasValue
-                                                      ? rxNegotiateCount.value
-                                                      : 0,
-                                              items: item,
-                                              onNegotiatePressed:
-                                                  onNegotiatePressed,
-                                              onBookPressed: (int? id) {
-                                                negotiateBloc
-                                                    .verifyRequest(id ?? 0);
-                                              },
-                                              isEnabled: !offersNegotiatedIds!
-                                                  .contains(item.id),
-                                            );
-                                          });
+                                      return OfferCard(
+                                        items: item,
+                                        onNegotiatePressed: onNegotiatePressed,
+                                        onBookPressed: (int? id) {
+                                          negotiateBloc.verifyRequest(id ?? 0);
+                                        },
+                                        isEnabled: offersNegotiatedIds!
+                                            .contains(item.id),
+                                      );
                                     },
                                   ),
                                 );
@@ -179,11 +173,6 @@ class _OffersScreenState extends State<OffersScreen> {
                                       LoadingDialogs.showLoadingDialog(context);
                                     } else if (state is NegotiateStateSuccess) {
                                       LoadingDialogs.hideLoadingDialog();
-                                      LocalStorageManager
-                                          .saveNegotiationCount();
-                                      rxNegotiateCount.sink.add(
-                                          LocalStorageManager
-                                              .getNegotiationCount());
                                       CoolAlert.show(
                                         barrierDismissible: false,
                                         context: context,
@@ -311,11 +300,9 @@ class OfferCard extends StatelessWidget {
   final NegotiationModel items;
   final Function(int id) onNegotiatePressed, onBookPressed;
   final bool isEnabled;
-  final int negoCount;
 
   const OfferCard(
       {required this.items,
-      required this.negoCount,
       required this.onNegotiatePressed,
       required this.onBookPressed,
       required this.isEnabled,
@@ -440,10 +427,9 @@ class OfferCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Visibility(
-                        visible:
-                            items.insuranceStatus == 0 && 3 - negoCount != 0,
+                        visible: true,
                         child: Expanded(
-                            flex: 2 - negoCount,
+                            flex: 1,
                             child: GestureDetector(
                                 onTap: () => onNegotiatePressed(items.id ?? 0),
                                 child: OffersOptionsButton(
@@ -457,9 +443,9 @@ class OfferCard extends StatelessWidget {
                         height: 4,
                       ),
                       Expanded(
-                          flex: negoCount + 1,
+                          flex: 1,
                           child: GestureDetector(
-                              onTap: () => onBookPressed(items.requestId ?? 0),
+                              onTap: () => onBookPressed(items.id ?? 0),
                               child: OffersOptionsButton(
                                   buttonType: ButtonType.book,
                                   title: AppLocalizations.of(context)!.book,
