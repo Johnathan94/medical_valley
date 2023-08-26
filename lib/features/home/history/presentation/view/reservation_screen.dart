@@ -54,37 +54,37 @@ class _ReservationScreenState extends State<ReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
-      header: const WaterDropHeader(),
-      controller: _refreshController,
-      onRefresh: _onRefreshReservations,
-      onLoading: _onLoading,
-      child: BlocBuilder<HistoryBloc, HistoryState>(
-          bloc: historyBloc,
-          builder: (context, state) {
-            if (state.states == ActionStates.loading ||
-                state.states == ActionStates.idle) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              );
-            } else if (state.states == ActionStates.success) {
-              if (state.reservations?.data?.results!.length == 10) {
-                pagingController.appendPage(
-                    state.reservations!.data!.results!, nextPageKey);
-              } else {
-                if (pagingController.value.itemList !=
-                    state.reservations?.data?.results!) {
-                  pagingController
-                      .appendLastPage(state.reservations!.data!.results!);
-                }
+    return BlocBuilder<HistoryBloc, HistoryState>(
+        bloc: historyBloc,
+        builder: (context, state) {
+          if (state.states == ActionStates.loading ||
+              state.states == ActionStates.idle) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          } else if (state.states == ActionStates.success) {
+            if (state.reservations?.data?.results!.length == 10) {
+              pagingController.appendPage(
+                  state.reservations!.data!.results!, nextPageKey);
+            } else {
+              if (pagingController.value.itemList !=
+                  state.reservations?.data?.results!) {
+                pagingController
+                    .appendLastPage(state.reservations!.data!.results!);
               }
+            }
 
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                header: const WaterDropHeader(),
+                controller: _refreshController,
+                onRefresh: _onRefreshReservations,
+                onLoading: _onLoading,
                 child: PagedListView<int, ReservationModel>(
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate(
@@ -99,13 +99,13 @@ class _ReservationScreenState extends State<ReservationsScreen> {
                     },
                   ),
                 ),
-              );
-            } else {
-              return Center(
-                child: Text(AppLocalizations.of(context)!.something_went_wrong),
-              );
-            }
-          }),
-    );
+              ),
+            );
+          } else {
+            return Center(
+              child: Text(AppLocalizations.of(context)!.something_went_wrong),
+            );
+          }
+        });
   }
 }

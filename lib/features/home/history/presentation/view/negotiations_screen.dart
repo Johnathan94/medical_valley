@@ -105,41 +105,41 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
               }
             },
             child: const SizedBox()),
-        SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          header: const WaterDropHeader(),
-          controller: _refreshController,
-          onRefresh: _onRefreshNegotiations,
-          onLoading: _onLoading,
-          child: BlocBuilder<HistoryBloc, HistoryState>(
-              bloc: historyBloc,
-              builder: (context, state) {
-                if (state.states == ActionStates.loading ||
-                    state.states == ActionStates.idle) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
-                  );
-                } else if (state.states == ActionStates.success) {
-                  if (state.negotiations?.data?.results!.length == 10) {
-                    pagingController.appendPage(
-                        state.negotiations!.data!.results!, nextPageKey);
-                  } else {
-                    if (pagingController.value.itemList != null) {
-                      if (!pagingController.value.itemList!
-                          .contains(state.negotiations?.data?.results!.first)) {
-                        pagingController
-                            .appendLastPage(state.negotiations!.data!.results!);
-                      }
-                    } else {
+        BlocBuilder<HistoryBloc, HistoryState>(
+            bloc: historyBloc,
+            builder: (context, state) {
+              if (state.states == ActionStates.loading ||
+                  state.states == ActionStates.idle) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                );
+              } else if (state.states == ActionStates.success) {
+                if (state.negotiations?.data?.results!.length == 10) {
+                  pagingController.appendPage(
+                      state.negotiations!.data!.results!, nextPageKey);
+                } else {
+                  if (pagingController.value.itemList != null) {
+                    if (!pagingController.value.itemList!
+                        .contains(state.negotiations?.data?.results!.first)) {
                       pagingController
                           .appendLastPage(state.negotiations!.data!.results!);
                     }
+                  } else {
+                    pagingController
+                        .appendLastPage(state.negotiations!.data!.results!);
                   }
+                }
 
-                  return PagedListView<int, NegotiationModel>(
+                return SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(),
+                  controller: _refreshController,
+                  onRefresh: _onRefreshNegotiations,
+                  onLoading: _onLoading,
+                  child: PagedListView<int, NegotiationModel>(
                     pagingController: pagingController,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
@@ -160,15 +160,15 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                         );
                       },
                     ),
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                        AppLocalizations.of(context)!.something_went_wrong),
-                  );
-                }
-              }),
-        ),
+                  ),
+                );
+              } else {
+                return Center(
+                  child:
+                      Text(AppLocalizations.of(context)!.something_went_wrong),
+                );
+              }
+            }),
       ],
     );
   }

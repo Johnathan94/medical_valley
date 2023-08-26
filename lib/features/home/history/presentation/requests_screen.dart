@@ -63,54 +63,53 @@ class _RequestsScreenState extends State<RequestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
-      header: const WaterDropHeader(),
-      controller: _refreshController,
-      onRefresh: _onRefreshRequests,
-      onLoading: _onLoading,
-      child: BlocBuilder<HistoryBloc, HistoryState>(
-          bloc: historyBloc,
-          builder: (context, state) {
-            if (state.states == ActionStates.loading ||
-                state.states == ActionStates.idle) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              );
-            } else if (state.states == ActionStates.success ||
-                state.states == ActionStates.filter) {
-              if (state.states == ActionStates.filter) {
-                pagingController.refresh();
+    return BlocBuilder<HistoryBloc, HistoryState>(
+        bloc: historyBloc,
+        builder: (context, state) {
+          if (state.states == ActionStates.loading ||
+              state.states == ActionStates.idle) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          } else if (state.states == ActionStates.success ||
+              state.states == ActionStates.filter) {
+            if (state.states == ActionStates.filter) {
+              pagingController.refresh();
+            }
+            if (state.requests?.data?.results!.length == 10) {
+              pagingController.appendPage(
+                  state.requests!.data!.results!, nextPageKey);
+            } else {
+              if (pagingController.value.itemList !=
+                  state.requests?.data?.results!) {
+                pagingController.appendLastPage(state.requests!.data!.results!);
               }
-              if (state.requests?.data?.results!.length == 10) {
-                pagingController.appendPage(
-                    state.requests!.data!.results!, nextPageKey);
-              } else {
-                if (pagingController.value.itemList !=
-                    state.requests?.data?.results!) {
-                  pagingController
-                      .appendLastPage(state.requests!.data!.results!);
-                }
-              }
+            }
 
-              return Stack(
-                children: [
-                  Column(
-                    children: [
-                      state.requests!.data!.results!.isNotEmpty
-                          ? FilterView(
-                              totalRequestsNumber:
-                                  state.requests?.data?.totalCount ?? 0,
-                              onSortTapped: () {
-                                widget.optionDisplayed.sink
-                                    .add(!widget.optionDisplayed.value);
-                              })
-                          : const SizedBox(),
-                      Expanded(
-                          child: PagedListView<int, HistoryItem>(
+            return Stack(
+              children: [
+                Column(
+                  children: [
+                    state.requests!.data!.results!.isNotEmpty
+                        ? FilterView(
+                            totalRequestsNumber:
+                                state.requests?.data?.totalCount ?? 0,
+                            onSortTapped: () {
+                              widget.optionDisplayed.sink
+                                  .add(!widget.optionDisplayed.value);
+                            })
+                        : const SizedBox(),
+                    Expanded(
+                        child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      header: const WaterDropHeader(),
+                      controller: _refreshController,
+                      onRefresh: _onRefreshRequests,
+                      onLoading: _onLoading,
+                      child: PagedListView<int, HistoryItem>(
                         pagingController: pagingController,
                         builderDelegate: PagedChildBuilderDelegate(
                           itemBuilder: (context, HistoryItem item, index) {
@@ -123,96 +122,96 @@ class _RequestsScreenState extends State<RequestsScreen> {
                             );
                           },
                         ),
-                      )),
-                    ],
-                  ),
-                  Positioned(
-                    top: 30.h,
-                    right: 0,
-                    child: StreamBuilder<bool>(
-                        stream: widget.optionDisplayed.stream,
-                        builder: (context, snapshot) {
-                          return widget.optionDisplayed.value
-                              ? Visibility(
-                                  visible: widget.optionDisplayed.value,
-                                  child: Container(
-                                    padding: smallPaddingAll,
-                                    margin: smallPaddingH,
-                                    height: 120.h,
-                                    width: 270.w,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: .2),
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: StreamBuilder<int>(
-                                        stream: widget.sortOption.stream,
-                                        builder: (context, snapshot) {
-                                          return Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: AppInitializer
-                                                .sortChoicesHistory
-                                                .map((e) => Padding(
-                                                      padding: smallPaddingAll,
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          widget.sortOption.sink
-                                                              .add(AppInitializer
-                                                                  .sortChoicesHistory
-                                                                  .indexOf(e));
-                                                          historyBloc.filter(
-                                                              widget.sortOption
-                                                                  .value);
-                                                          widget.optionDisplayed
-                                                              .sink
-                                                              .add(false);
-                                                        },
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(AppInitializer
-                                                                .sortChoicesHistory[
-                                                                    AppInitializer
-                                                                        .sortChoicesHistory
-                                                                        .indexOf(
-                                                                            e)]
-                                                                .sortOption),
+                      ),
+                    )),
+                  ],
+                ),
+                Positioned(
+                  top: 30.h,
+                  right: 0,
+                  child: StreamBuilder<bool>(
+                      stream: widget.optionDisplayed.stream,
+                      builder: (context, snapshot) {
+                        return widget.optionDisplayed.value
+                            ? Visibility(
+                                visible: widget.optionDisplayed.value,
+                                child: Container(
+                                  padding: smallPaddingAll,
+                                  margin: smallPaddingH,
+                                  height: 120.h,
+                                  width: 270.w,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(width: .2),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: StreamBuilder<int>(
+                                      stream: widget.sortOption.stream,
+                                      builder: (context, snapshot) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: AppInitializer
+                                              .sortChoicesHistory
+                                              .map((e) => Padding(
+                                                    padding: smallPaddingAll,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        widget.sortOption.sink
+                                                            .add(AppInitializer
+                                                                .sortChoicesHistory
+                                                                .indexOf(e));
+                                                        historyBloc.filter(
                                                             widget.sortOption
-                                                                        .value ==
-                                                                    AppInitializer
-                                                                        .sortChoicesHistory
-                                                                        .indexOf(
-                                                                            e)
-                                                                ? const Icon(Icons
-                                                                    .radio_button_checked)
-                                                                : const Icon(Icons
-                                                                    .circle_outlined)
-                                                          ],
-                                                        ),
+                                                                .value);
+                                                        widget.optionDisplayed
+                                                            .sink
+                                                            .add(false);
+                                                      },
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(AppInitializer
+                                                              .sortChoicesHistory[
+                                                                  AppInitializer
+                                                                      .sortChoicesHistory
+                                                                      .indexOf(
+                                                                          e)]
+                                                              .sortOption),
+                                                          widget.sortOption
+                                                                      .value ==
+                                                                  AppInitializer
+                                                                      .sortChoicesHistory
+                                                                      .indexOf(
+                                                                          e)
+                                                              ? const Icon(Icons
+                                                                  .radio_button_checked)
+                                                              : const Icon(Icons
+                                                                  .circle_outlined)
+                                                        ],
                                                       ),
-                                                    ))
-                                                .toList(),
-                                          );
-                                        }),
-                                  ),
-                                )
-                              : SizedBox(
-                                  height: 140.h,
-                                );
-                        }),
-                  ),
-                ],
-              );
-            } else {
-              return Center(
-                child: Text(AppLocalizations.of(context)!.something_went_wrong),
-              );
-            }
-          }),
-    );
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                        );
+                                      }),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 140.h,
+                              );
+                      }),
+                ),
+              ],
+            );
+          } else {
+            return Center(
+              child: Text(AppLocalizations.of(context)!.something_went_wrong),
+            );
+          }
+        });
   }
 }
