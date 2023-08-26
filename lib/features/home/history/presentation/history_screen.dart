@@ -12,6 +12,7 @@ import 'package:medical_valley/features/home/history/data/requests/requests_mode
 import 'package:medical_valley/features/home/history/presentation/requests_screen.dart';
 import 'package:medical_valley/features/home/history/presentation/view/negotiations_screen.dart';
 import 'package:medical_valley/features/home/history/presentation/view/reservation_screen.dart';
+import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../core/app_sizes.dart';
@@ -95,128 +96,135 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
-            BoxShadow(
-                color: Color(0xffE7E7E7),
-                offset: Offset(4, 4),
-                blurRadius: 5,
-                spreadRadius: 5)
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 9,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.circle,
-                              color: Colors.grey,
-                              size: 10,
-                            ),
-                            DottedLine(
-                              direction: Axis.vertical,
-                              lineLength: 30,
-                              lineThickness: 1.0,
-                              dashLength: 4.0,
-                              dashColor: primaryColor,
-                              dashRadius: 0.0,
-                              dashGapLength: 4.0,
-                              dashGapColor: Colors.transparent,
-                              dashGapRadius: 0.0,
-                            ),
-                            Icon(
-                              Icons.circle,
-                              color: primaryColor,
-                              size: 10,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item?.categoryStr ?? "",
-                              style: AppStyles.baloo2FontWith400WeightAnd18Size
-                                  .copyWith(
-                                color: textGrey,
-                                decoration: TextDecoration.none,
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => OffersScreen(requestId: item?.id ?? 0))),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0xffE7E7E7),
+                  offset: Offset(4, 4),
+                  blurRadius: 5,
+                  spreadRadius: 5)
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 9,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: const [
+                              Icon(
+                                Icons.circle,
+                                color: Colors.grey,
+                                size: 10,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    item?.providerServiceName ?? "",
-                                    style: AppStyles
-                                        .baloo2FontWith400WeightAnd14Size
-                                        .copyWith(color: primaryColor),
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              DottedLine(
+                                direction: Axis.vertical,
+                                lineLength: 30,
+                                lineThickness: 1.0,
+                                dashLength: 4.0,
+                                dashColor: primaryColor,
+                                dashRadius: 0.0,
+                                dashGapLength: 4.0,
+                                dashGapColor: Colors.transparent,
+                                dashGapRadius: 0.0,
+                              ),
+                              Icon(
+                                Icons.circle,
+                                color: primaryColor,
+                                size: 10,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item?.categoryStr ?? "",
+                                style: AppStyles
+                                    .baloo2FontWith400WeightAnd18Size
+                                    .copyWith(
+                                  color: textGrey,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      item?.providerServiceName ?? "",
+                                      style: AppStyles
+                                          .baloo2FontWith400WeightAnd14Size
+                                          .copyWith(color: primaryColor),
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        item!.appointmentDate != null
-                            ? DateFormat("dd/MM/yyyy")
-                                .format(DateTime.parse(item!.appointmentDate!))
-                            : AppLocalizations.of(context)!.there_is_no_date,
-                        style:
-                            AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
-                      ),
-                    ],
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          item!.appointmentDate != null
+                              ? DateFormat("dd/MM/yyyy").format(
+                                  DateTime.parse(item!.appointmentDate!))
+                              : AppLocalizations.of(context)!.there_is_no_date,
+                          style: AppStyles
+                              .baloo2FontWith400WeightAnd18SizeAndBlack,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          AppointmentTypeView(
-              id: item?.bookingTypeId ?? 0, text: item?.bookingTypeStr ?? ""),
-          const SizedBox(
-            height: 15,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-        ],
+            AppointmentTypeView(
+                id: item?.bookingTypeId ?? 0, text: item?.bookingTypeStr ?? ""),
+            const SizedBox(
+              height: 15,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
+        ),
       ),
     );
   }
