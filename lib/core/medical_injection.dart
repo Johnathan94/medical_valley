@@ -81,8 +81,11 @@ configureDependencies() {
       TermsAndConditionsImpl(TermsAndConditionsClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       ContactUsBloc(ContactUsRepoImpl(ContactUsClient(DioManager.getDio()))));
-  getIt.registerFactory(
-      () => OtpBloc(VerifyOtpUseCaseImpl(OtpClient(DioManager.getDio()))));
+  getIt.registerFactory(() => OtpBloc(
+      VerifyOtpUseCaseImpl(
+        OtpClient(DioManager.getDio()),
+      ),
+      LoginRepoImpl(LoginClient(DioManager.getDio()))));
   getIt.registerFactory(() => MedicalFileBloc(
       GetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio())),
       SetMedicalFileUseCaseImpl(MedicalFileClient(DioManager.getDio()))));
