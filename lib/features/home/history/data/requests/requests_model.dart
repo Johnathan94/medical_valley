@@ -8,11 +8,11 @@ class UserRequestsResponseModel {
 
   UserRequestsResponseModel(
       {this.succeeded,
-        this.message,
-        this.messageCode,
-        this.responseCode,
-        this.validationIssue,
-        this.data});
+      this.message,
+      this.messageCode,
+      this.responseCode,
+      this.validationIssue,
+      this.data});
 
   UserRequestsResponseModel.fromJson(Map<String, dynamic> json) {
     succeeded = json['succeeded'];
@@ -20,11 +20,11 @@ class UserRequestsResponseModel {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
+    final Map<String, dynamic> data = {};
     data['succeeded'] = succeeded;
     data['message'] = message;
     data['messageCode'] = messageCode;
@@ -48,12 +48,12 @@ class Data {
 
   Data(
       {this.currentPage,
-        this.totalPages,
-        this.pageSize,
-        this.totalCount,
-        this.hasPrevious,
-        this.hasNext,
-        this.results});
+      this.totalPages,
+      this.pageSize,
+      this.totalCount,
+      this.hasPrevious,
+      this.hasNext,
+      this.results});
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['currentPage'];
@@ -71,19 +71,20 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  {};
-    data['currentPage'] =currentPage;
-    data['totalPages'] =totalPages;
-    data['pageSize'] =pageSize;
-    data['totalCount'] =totalCount;
-    data['hasPrevious'] =hasPrevious;
-    data['hasNext'] =hasNext;
+    final Map<String, dynamic> data = {};
+    data['currentPage'] = currentPage;
+    data['totalPages'] = totalPages;
+    data['pageSize'] = pageSize;
+    data['totalCount'] = totalCount;
+    data['hasPrevious'] = hasPrevious;
+    data['hasNext'] = hasNext;
     if (results != null) {
-      data['results'] =results!.map((v) => v.toJson()).toList();
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
+
 class HistoryItem {
   int? id;
   int? userId;
@@ -99,22 +100,24 @@ class HistoryItem {
   String? notes;
   int? bookingStatusId;
   String? bookingStatusStr;
-
-  HistoryItem(
-      {this.id,
-        this.userId,
-        this.userName,
-        this.categoryId,
-        this.categoryStr,
-        this.providerServiceId,
-        this.providerServiceName,
-        this.bookingTypeId,
-        this.bookingTypeStr,
-        this.appointmentDate,
-        this.appointmentTime,
-        this.notes,
-        this.bookingStatusId,
-        this.bookingStatusStr});
+  String? requestDate;
+  HistoryItem({
+    this.id,
+    this.userId,
+    this.userName,
+    this.categoryId,
+    this.categoryStr,
+    this.providerServiceId,
+    this.providerServiceName,
+    this.bookingTypeId,
+    this.bookingTypeStr,
+    this.appointmentDate,
+    this.appointmentTime,
+    this.notes,
+    this.bookingStatusId,
+    this.bookingStatusStr,
+    this.requestDate,
+  });
 
   HistoryItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -131,6 +134,7 @@ class HistoryItem {
     notes = json['notes'];
     bookingStatusId = json['bookingStatusId'];
     bookingStatusStr = json['bookingStatusStr'];
+    requestDate = json['requestDate'];
   }
 
   Map<String, dynamic> toJson() {
@@ -152,4 +156,3 @@ class HistoryItem {
     return data;
   }
 }
-

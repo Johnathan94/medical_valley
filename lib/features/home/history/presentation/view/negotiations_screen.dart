@@ -120,7 +120,8 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                   pagingController.appendPage(
                       state.negotiations!.data!.results!, nextPageKey);
                 } else {
-                  if (pagingController.value.itemList != null) {
+                  if (pagingController.value.itemList != null &&
+                      pagingController.value.itemList!.isNotEmpty) {
                     if (!pagingController.value.itemList!
                         .contains(state.negotiations?.data?.results!.first)) {
                       pagingController

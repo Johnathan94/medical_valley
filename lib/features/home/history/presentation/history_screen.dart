@@ -128,10 +128,10 @@ class HistoryCard extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 1,
                           child: Column(
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.circle,
                                 color: Colors.grey,
@@ -202,9 +202,9 @@ class HistoryCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          item!.appointmentDate != null
-                              ? DateFormat("dd/MM/yyyy").format(
-                                  DateTime.parse(item!.appointmentDate!))
+                          item!.requestDate != null
+                              ? DateFormat("dd/MM/yyyy")
+                                  .format(DateTime.parse(item!.requestDate!))
                               : AppLocalizations.of(context)!.there_is_no_date,
                           style: AppStyles
                               .baloo2FontWith400WeightAnd18SizeAndBlack,
