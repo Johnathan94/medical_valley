@@ -3,8 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:rxdart/rxdart.dart';
 
+final BehaviorSubject<int> activeButtonIndex = BehaviorSubject();
+
 class EarlistOptions extends StatefulWidget {
-  final BehaviorSubject<int> activeButtonIndex = BehaviorSubject.seeded(1);
   final Color activeColor = primaryColor;
   final Color notActiveColor = buttonGrey;
   @override
@@ -13,14 +14,14 @@ class EarlistOptions extends StatefulWidget {
 
 class EarlistOptionsState extends State<EarlistOptions> {
   void _selectButton(int buttonNumber) {
-    widget.activeButtonIndex.sink.add(buttonNumber);
+    activeButtonIndex.sink.add(buttonNumber);
   }
 
   @override
   void initState() {
-
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     rearrange();
@@ -30,7 +31,7 @@ class EarlistOptionsState extends State<EarlistOptions> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-        stream: widget.activeButtonIndex.stream,
+        stream: activeButtonIndex.stream,
         builder: (context, snapshot) {
           return SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -45,16 +46,20 @@ class EarlistOptionsState extends State<EarlistOptions> {
                             margin: const EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: widget.activeButtonIndex.value == e.id
-                                  ? widget.activeColor
-                                  : widget.notActiveColor,
+                              color: activeButtonIndex.hasValue
+                                  ? activeButtonIndex.value == e.id
+                                      ? widget.activeColor
+                                      : widget.notActiveColor
+                                  : Colors.green,
                             ),
                             child: Text(
                               e.title,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: widget.activeButtonIndex.value == e.id
-                                      ? Colors.white
+                                  color: activeButtonIndex.hasValue
+                                      ? activeButtonIndex.value == e.id
+                                          ? Colors.white
+                                          : Colors.black
                                       : Colors.black),
                             ),
                           ),
@@ -72,20 +77,20 @@ class EarlistOptionsState extends State<EarlistOptions> {
     final int currentHour = now.hour;
     options.clear();
     if (currentHour >= 0 && currentHour < 12) {
-      widget.activeButtonIndex.sink.add(1);
       options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
       options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
       options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
-    } else if (currentHour >= 12 && currentHour < 5) {
-      widget.activeButtonIndex.sink.add(2);
+      activeButtonIndex.sink.add(1);
+    } else if (currentHour >= 12 && currentHour < 18) {
       options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
       options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
       options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
+      activeButtonIndex.sink.add(2);
     } else {
-      widget.activeButtonIndex.sink.add(3);
       options.add(OptionModel(AppLocalizations.of(context)!.pm, 3));
       options.add(OptionModel(AppLocalizations.of(context)!.am, 1));
       options.add(OptionModel(AppLocalizations.of(context)!.afternoon, 2));
+      activeButtonIndex.sink.add(3);
     }
   }
 }
