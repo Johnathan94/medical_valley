@@ -176,6 +176,7 @@
   "arabic_sub_title": "السعوديه",
   "resend_otp": "إعادة إرسال الرمز ",
   "otp_sent_successfully": "نم إعادة إرسال الرمز ",
-  "otp_failed_to_resend": "لم نتمكن من  إعادة إرسال الرمز "
+  "otp_failed_to_resend": "لم نتمكن من  إعادة إرسال الرمز ",
+  "full_name_error": "يرجى إدخال الاسم بحد أدنى حرفين"
 
 }

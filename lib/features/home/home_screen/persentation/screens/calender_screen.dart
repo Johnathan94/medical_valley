@@ -108,9 +108,10 @@ class _CalenderScreenState extends State<CalenderScreen> {
         AppLocalizations.of(context)!.friday,
         AppLocalizations.of(context)!.saturday,
       ],
-      weekdayLabelTextStyle: const TextStyle(
+      weekdayLabelTextStyle: TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.bold,
+        fontSize: 10.w,
       ),
       firstDayOfWeek: 1,
       controlsHeight: 50,

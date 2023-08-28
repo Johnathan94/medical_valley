@@ -188,6 +188,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onValidator: (String? x) {
                         if (x!.isEmpty) {
                           return AppLocalizations.of(context)!.empty_field;
+                        } else if (x.trim().length < 2) {
+                          return AppLocalizations.of(context)!.full_name_error;
                         } else {
                           return null;
                         }
