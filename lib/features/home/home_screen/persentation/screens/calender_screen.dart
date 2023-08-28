@@ -130,65 +130,68 @@ class _CalenderScreenState extends State<CalenderScreen> {
           .difference(DateTime.now().subtract(const Duration(days: 3)))
           .isNegative,
     );
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        const SizedBox(height: 10),
-        CalendarDatePicker2(
-          config: config,
-          initialValue: _singleDatePickerValueWithDefaultValue,
-          onValueChanged: (values) =>
-              setState(() => _singleDatePickerValueWithDefaultValue = values),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(width: 10),
-            Text(
-              _getValueText(
-                config.calendarType,
-                _singleDatePickerValueWithDefaultValue,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const SizedBox(height: 10),
+          CalendarDatePicker2(
+            config: config,
+            initialValue: _singleDatePickerValueWithDefaultValue,
+            onValueChanged: (values) =>
+                setState(() => _singleDatePickerValueWithDefaultValue = values),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(width: 10),
+              Text(
+                _getValueText(
+                  config.calendarType,
+                  _singleDatePickerValueWithDefaultValue,
+                ),
               ),
+            ],
+          ),
+          const SizedBox(height: 25),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextFormField(
+              minLines: 3,
+              maxLines: 10,
+              // user keyboard will have a button to move cursor to next line
+              controller: notesController,
+              decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.notes),
             ),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: TextFormField(
-            minLines: 3,
-            maxLines: 10,
-            // user keyboard will have a button to move cursor to next line
-            controller: notesController,
-            decoration:
-                InputDecoration(hintText: AppLocalizations.of(context)!.notes),
           ),
-        ),
-        Container(
-          margin: mediumPaddingHV.r,
-          child: PrimaryButton(
-            onPressed: () {
-              UserDate result =
-                  UserDate.fromJson(LocalStorageManager.getUser()!);
-              bookRequestBloc.sendRequest(BookRequestModel(
-                  serviceId: widget.services.id!,
-                  categoryId: widget.services.categoryId!,
-                  bookingTypeId: 3,
-                  userId: result.id!,
-                  isProviderService: widget.isProviderService,
-                  appointmentDate: _getValueText(
-                    config.calendarType,
-                    _singleDatePickerValueWithDefaultValue,
-                  ),
-                  appointmentTime: selectedSlot.value,
-                  notes: notesController.text));
-            },
-            text: AppLocalizations.of(context)!.send_request,
+          Container(
+            margin: mediumPaddingHV.r,
+            child: PrimaryButton(
+              onPressed: () {
+                UserDate result =
+                    UserDate.fromJson(LocalStorageManager.getUser()!);
+                bookRequestBloc.sendRequest(BookRequestModel(
+                    serviceId: widget.services.id!,
+                    categoryId: widget.services.categoryId!,
+                    bookingTypeId: 3,
+                    userId: result.id!,
+                    isProviderService: widget.isProviderService,
+                    appointmentDate: _getValueText(
+                      config.calendarType,
+                      _singleDatePickerValueWithDefaultValue,
+                    ),
+                    appointmentTime: selectedSlot.value,
+                    notes: notesController.text));
+              },
+              text: AppLocalizations.of(context)!.send_request,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 400),
+        ],
+      ),
     );
   }
 
