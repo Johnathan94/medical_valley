@@ -35,6 +35,10 @@ class HistoryBloc extends Cubit<HistoryState> {
     try {
       ReservationsResponse response =
           await reservationsUseCase.getReservations(page, pageSize);
+      if (response.succeeded != null && response.succeeded == false) {
+        emit(HistoryState(ActionStates.error));
+        return;
+      }
       emit(HistoryState(ActionStates.success, reservations: response));
     } catch (e) {
       emit(HistoryState(ActionStates.error));

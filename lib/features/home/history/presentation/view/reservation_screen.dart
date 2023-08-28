@@ -54,17 +54,10 @@ class _ReservationScreenState extends State<ReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
+    return BlocConsumer<HistoryBloc, HistoryState>(
         bloc: historyBloc,
-        builder: (context, state) {
-          if (state.states == ActionStates.loading ||
-              state.states == ActionStates.idle) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            );
-          } else if (state.states == ActionStates.success) {
+        listener: (context, state) {
+          if (state.states == ActionStates.success) {
             if (state.reservations?.data?.results!.length == 10) {
               pagingController.appendPage(
                   state.reservations!.data!.results!, nextPageKey);
@@ -75,7 +68,17 @@ class _ReservationScreenState extends State<ReservationsScreen> {
                     .appendLastPage(state.reservations!.data!.results!);
               }
             }
-
+          }
+        },
+        builder: (context, state) {
+          if (state.states == ActionStates.loading ||
+              state.states == ActionStates.idle) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          } else if (state.states == ActionStates.success) {
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: SmartRefresher(

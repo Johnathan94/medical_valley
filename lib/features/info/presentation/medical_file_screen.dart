@@ -50,7 +50,6 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
   void initState() {
     _bloc.getMedicalFile();
     user = UserDate.fromJson(LocalStorageManager.getUser()!);
-
     super.initState();
   }
 

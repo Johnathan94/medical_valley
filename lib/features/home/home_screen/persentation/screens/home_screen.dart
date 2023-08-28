@@ -20,7 +20,7 @@ import '../../../../../core/app_sizes.dart';
 import '../../../../../core/strings/images.dart';
 import '../../../widgets/home_base_app_bar.dart';
 
-String iconLinkPrefix = "https://api.medvalley-sa.com/";
+String iconLinkPrefix = "https://alpha.api.medvalley-sa.com/";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
