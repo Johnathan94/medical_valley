@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
@@ -233,8 +234,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         width: MediaQuery.of(context).size.width * .444,
         height: MediaQuery.of(context).size.width * .555,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: const [
@@ -250,30 +251,41 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             model.icon != null && model.icon!.isNotEmpty
-                ? CachedNetworkImage(
-                    imageUrl: iconLinkPrefix + model.icon!,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    width: 16,
-                    height: 16,
+                ? Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: CachedNetworkImage(
+                      imageUrl: iconLinkPrefix + model.icon!,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      width: 30,
+                      height: 30,
+                    ),
                   )
-                : const Icon(Icons.medical_services_outlined,
-                    color: Colors.black, size: 32),
+                : const Flexible(
+                    child: Icon(Icons.medical_services_outlined,
+                        color: Colors.black, size: 30),
+                  ),
             const SizedBox(
-              height: 22,
+              height: 10,
             ),
-            Text(
-              LocalStorageManager.getCurrentLanguage() == "ar"
-                  ? model.arabicName!
-                  : model.name!,
-              style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                  color: primaryColor,
-                  decoration: TextDecoration.none,
-                  height: 1.1),
-              textAlign: TextAlign.center,
-              maxLines: 3,
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 3,
+              child: Text(
+                LocalStorageManager.getCurrentLanguage() == "ar"
+                    ? model.arabicName!
+                    : model.name! * 2,
+                style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
+                    color: primaryColor,
+                    fontSize: 10.5.w,
+                    decoration: TextDecoration.none,
+                    height: 1.1),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+              ),
             ),
           ],
         ),
