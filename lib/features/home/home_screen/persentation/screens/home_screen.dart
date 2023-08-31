@@ -265,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : const Flexible(
+                    flex: 4,
                     child: Icon(Icons.medical_services_outlined,
                         color: Colors.black, size: 30),
                   ),
@@ -277,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 LocalStorageManager.getCurrentLanguage() == "ar"
                     ? model.arabicName!
-                    : model.name! * 2,
+                    : model.name!,
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
                     color: primaryColor,
                     fontSize: 10.5.w,
