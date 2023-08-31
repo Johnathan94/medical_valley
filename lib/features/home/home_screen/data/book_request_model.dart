@@ -1,7 +1,7 @@
 class BookRequestModel {
   int? userId;
   int? categoryId;
-  int? serviceId;
+  String? serviceId;
   int? bookingTypeId;
   String? appointmentDate;
   String? appointmentTime;

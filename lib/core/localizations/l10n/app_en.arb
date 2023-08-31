@@ -142,6 +142,7 @@
   "you_have_to_write_your_problem": "Please enter your issue before sending",
   "terms_and_privacy": "Terms & Privacy Policy",
   "afternoon": "Afternoon",
+  "cant_negotiate": "Can't negotiate on a request more than 3 times",
   "pm": "PM",
   "am": "AM",
   "manage_notifications": "Manage notifications",

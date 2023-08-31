@@ -91,7 +91,7 @@ class HistoryItem {
   String? userName;
   int? categoryId;
   String? categoryStr;
-  int? providerServiceId;
+  String? providerServiceId;
   String? providerServiceName;
   int? bookingTypeId;
   String? bookingTypeStr;

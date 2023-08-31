@@ -226,7 +226,7 @@ class HomeState extends State<HomeSearchScreen> {
                           serviceId: service.id!,
                           categoryId: service.categoryId,
                           bookingTypeId: id,
-                          isProviderService: service.isProviderService,
+                          isProviderService: false,
                           userId: result.id));
                     }
                   },
@@ -236,8 +236,7 @@ class HomeState extends State<HomeSearchScreen> {
                         MaterialPageRoute(
                             builder: (c) => CalenderScreen(
                                   services: service,
-                                  isProviderService:
-                                      service.isProviderService ?? false,
+                                  isProviderService: false,
                                 )));
                   },
                   serviceName: LocalStorageManager.getCurrentLanguage() == "ar"

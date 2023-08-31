@@ -55,6 +55,7 @@ class _OffersScreenState extends State<OffersScreen> {
   }
 
   void _onRefresh() async {
+    pagingController.value.itemList?.clear();
     await Future.delayed(const Duration(milliseconds: 1000));
     offersBloc.getOffers(OffersEvent(nextPage, 10, widget.requestId));
     _refreshController.refreshCompleted();
@@ -196,12 +197,18 @@ class _OffersScreenState extends State<OffersScreen> {
                                           nextPage, 10, widget.requestId));
                                     });
                                   } else if (state is NegotiateStateError) {
+                                    String? error;
+                                    if (state.error.contains(
+                                        "Can't negotiate on a request more than 3 times")) {
+                                      error = AppLocalizations.of(context)!
+                                          .cant_negotiate;
+                                    }
                                     LoadingDialogs.hideLoadingDialog();
                                     CoolAlert.show(
                                         barrierDismissible: false,
                                         context: context,
                                         type: CoolAlertType.error,
-                                        text: state.error,
+                                        text: error ?? state.error,
                                         title:
                                             AppLocalizations.of(context)!.error,
                                         autoCloseDuration:
@@ -455,7 +462,7 @@ class OfferCard extends StatelessWidget {
                 )
               : Expanded(
                   child: GestureDetector(
-                      onTap: () => onBookPressed(items.requestId ?? 0),
+                      onTap: () => onBookPressed(items.id ?? 0),
                       child: OffersOptionsButton(
                           buttonType: ButtonType.book,
                           title: AppLocalizations.of(context)!.book,

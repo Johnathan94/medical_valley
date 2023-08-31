@@ -163,11 +163,17 @@ class ReservationsCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      item.offerDate ??
-                          AppLocalizations.of(context)!.there_is_no_date,
-                      style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack,
-                    ),
+                    item.offerDate != null
+                        ? Text(
+                            item.offerDate!.dateFormatted!,
+                            style: AppStyles
+                                .baloo2FontWith400WeightAnd18SizeAndBlack,
+                          )
+                        : Text(
+                            AppLocalizations.of(context)!.there_is_no_date,
+                            style: AppStyles
+                                .baloo2FontWith400WeightAnd18SizeAndBlack,
+                          ),
                     const SizedBox(height: 8),
                     Container(
                       decoration: BoxDecoration(

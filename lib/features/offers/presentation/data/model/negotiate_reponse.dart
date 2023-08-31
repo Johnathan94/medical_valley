@@ -22,7 +22,9 @@ class NegotiateResponse {
     messageCode = json['messageCode'];
     responseCode = json['responseCode'];
     validationIssue = json['validationIssue'];
-    data = NegotiateModel.fromJson(json['data']);
+    if (json['data'] != null) {
+      data = NegotiateModel.fromJson(json['data']);
+    }
   }
 
   Map<String, dynamic> toJson() {

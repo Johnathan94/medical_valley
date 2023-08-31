@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:medical_valley/core/failures/failures.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
@@ -30,8 +31,8 @@ class NegotiateRepoImpl extends NegotiateRepo {
         return const Right(unit);
       }
       return Left(ServerFailure(error: response.message));
-    } catch (e) {
-      return Left(ServerFailure());
+    } on DioError catch (e) {
+      return Left(ServerFailure(error: e.toString()));
     }
   }
 

@@ -472,50 +472,27 @@ class _MedicalFileScreenState extends State<MedicalFileScreen> {
         text: AppLocalizations.of(context)!.save,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            if (isSaudian) {
-              if (nationalIdController.text.startsWith("1")) {
-                _bloc.setMedicalFile(MedicalFileRequest(
-                  id: model.id,
-                  hasInsurance: insuranceDisplayed.value ==
-                          AppLocalizations.of(context)!.yes
-                      ? true
-                      : false,
-                  nationalId: nationalIdController.text,
-                  insuranceNumber: insuranceNumberController.text.isNotEmpty
-                      ? insuranceNumberController.text
-                      : model.insuranceNumber,
-                  birthDate: birthDateController.text,
-                  genderId: genderDisplayed.value ==
-                          AppLocalizations.of(context)!.male
-                      ? 1
-                      : 2,
-                ));
-              } else {
-                context.showSnackBar(
-                    AppLocalizations.of(context)!.national_id_is_not_correct);
-              }
+            if (nationalIdController.text.startsWith("1") ||
+                nationalIdController.text.startsWith("2")) {
+              _bloc.setMedicalFile(MedicalFileRequest(
+                id: model.id,
+                hasInsurance: insuranceDisplayed.value ==
+                        AppLocalizations.of(context)!.yes
+                    ? true
+                    : false,
+                nationalId: nationalIdController.text,
+                insuranceNumber: insuranceNumberController.text.isNotEmpty
+                    ? insuranceNumberController.text
+                    : model.insuranceNumber,
+                birthDate: birthDateController.text,
+                genderId:
+                    genderDisplayed.value == AppLocalizations.of(context)!.male
+                        ? 1
+                        : 2,
+              ));
             } else {
-              if (nationalIdController.text.startsWith("2")) {
-                _bloc.setMedicalFile(MedicalFileRequest(
-                  id: model.id,
-                  hasInsurance: insuranceDisplayed.value ==
-                          AppLocalizations.of(context)!.yes
-                      ? true
-                      : false,
-                  nationalId: nationalIdController.text,
-                  insuranceNumber: insuranceNumberController.text.isNotEmpty
-                      ? insuranceNumberController.text
-                      : model.insuranceNumber,
-                  birthDate: birthDateController.text,
-                  genderId: genderDisplayed.value ==
-                          AppLocalizations.of(context)!.male
-                      ? 1
-                      : 2,
-                ));
-              } else {
-                context.showSnackBar(
-                    AppLocalizations.of(context)!.national_id_is_not_correct);
-              }
+              context.showSnackBar(
+                  AppLocalizations.of(context)!.national_id_is_not_correct);
             }
           } else {
             context.showSnackBar(

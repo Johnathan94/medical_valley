@@ -184,9 +184,9 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
     );
   }
 
-  BehaviorSubject<int> selectedService = BehaviorSubject.seeded(-1);
+  BehaviorSubject<String> selectedService = BehaviorSubject.seeded("-1");
   buildSearchModelsItem(BuildContext context, Service service, int index) {
-    return StreamBuilder<int>(
+    return StreamBuilder<String>(
         stream: selectedService.stream,
         builder: (context, snapshot) {
           return GestureDetector(
@@ -205,8 +205,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                                 LocalStorageManager.getUser()!);
                             bookRequestBloc.sendRequest(BookRequestModel(
                                 serviceId: service.id!,
-                                isProviderService:
-                                    service.isProviderService ?? false,
+                                isProviderService: false,
                                 categoryId: widget.categoryId,
                                 bookingTypeId: id,
                                 userId: result.id));
@@ -218,8 +217,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
                               MaterialPageRoute(
                                   builder: (c) => CalenderScreen(
                                         services: service,
-                                        isProviderService:
-                                            service.isProviderService ?? false,
+                                        isProviderService: false,
                                       )));
                         },
                       ));

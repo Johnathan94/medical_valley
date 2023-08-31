@@ -101,7 +101,7 @@ class NegotiationModel {
   int? periodId;
   int? branchId;
   String? categoryStr;
-  int? providerServiceId;
+  String? providerServiceId;
   String? serviceStr;
   int? userId;
   String? userName;

@@ -93,7 +93,7 @@ class Results {
   String? userNationalId;
   int? categoryId;
   String? categoryStr;
-  int? providerServiceId;
+  String? providerServiceId;
   String? providerServiceName;
   int? bookingTypeId;
   String? bookingTypeStr;

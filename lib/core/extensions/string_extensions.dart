@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 
@@ -105,4 +106,9 @@ String getGreeting(context) {
   } else {
     return AppLocalizations.of(context)!.good_evening;
   }
+}
+
+extension DateFormatty on String {
+  String? get dateFormatted =>
+      DateFormat('yyyy-MM-dd').format(DateTime.parse(this));
 }
