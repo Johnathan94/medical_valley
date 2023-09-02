@@ -1,4 +1,4 @@
 class AppSettings {
-  static String appVersion = "2.0.5";
-  static String description = "";
+  static String appVersion = "2.0.6";
+  static String description = "ticket 160";
 }
