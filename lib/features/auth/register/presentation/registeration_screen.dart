@@ -175,7 +175,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           return null;
                         }
                       },
-                      onChanged: (String? x) {},
+                      onChanged: (String? x) =>
+                          _formKey.currentState?.validate(),
                     ),
                     SizedBox(
                       height: 16.h,
