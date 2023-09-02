@@ -212,7 +212,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                         title:
                                             AppLocalizations.of(context)!.error,
                                         autoCloseDuration:
-                                            const Duration(seconds: 1),
+                                            const Duration(seconds: 3),
                                         showOkBtn: false,
                                         onConfirmBtnTap: () {
                                           Navigator.pop(context);
@@ -276,7 +276,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         barrierDismissible: false,
                         context: context,
                         closeOnConfirmBtnTap: true,
-                        autoCloseDuration: const Duration(seconds: 1),
+                        autoCloseDuration: const Duration(seconds: 3),
                         showOkBtn: false,
                         type: CoolAlertType.error,
                         title: AppLocalizations.of(context)!.error,
