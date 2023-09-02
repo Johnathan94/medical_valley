@@ -93,6 +93,7 @@ class HistoryItem {
   String? categoryStr;
   String? providerServiceId;
   String? providerServiceName;
+  String? providerServiceNameAr;
   int? bookingTypeId;
   String? bookingTypeStr;
   String? appointmentDate;
@@ -109,6 +110,7 @@ class HistoryItem {
     this.categoryStr,
     this.providerServiceId,
     this.providerServiceName,
+    this.providerServiceNameAr,
     this.bookingTypeId,
     this.bookingTypeStr,
     this.appointmentDate,
@@ -127,6 +129,7 @@ class HistoryItem {
     categoryStr = json['categoryStr'];
     providerServiceId = json['providerServiceId'];
     providerServiceName = json['providerServiceName'];
+    providerServiceNameAr = json['providerServiceNameAr'];
     bookingTypeId = json['bookingTypeId'];
     bookingTypeStr = json['bookingTypeStr'];
     appointmentDate = json['appointmentDate'];
@@ -146,6 +149,7 @@ class HistoryItem {
     data['categoryStr'] = categoryStr;
     data['providerServiceId'] = providerServiceId;
     data['providerServiceName'] = providerServiceName;
+    data['providerServiceNameAr'] = providerServiceNameAr;
     data['bookingTypeId'] = bookingTypeId;
     data['bookingTypeStr'] = bookingTypeStr;
     data['appointmentDate'] = appointmentDate;

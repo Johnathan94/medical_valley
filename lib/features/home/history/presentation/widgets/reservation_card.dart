@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/extensions/string_extensions.dart';
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/history/data/reservations/reservations_model.dart';
 import 'package:medical_valley/features/home/history/presentation/reservation_details.dart';
@@ -52,7 +53,7 @@ class ReservationsCard extends StatelessWidget {
                           image: AssetImage(personImage),
                         )),
                   ),
-                  Row(
+                  /* Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(
@@ -67,7 +68,7 @@ class ReservationsCard extends StatelessWidget {
                             .copyWith(color: const Color(0xffD8D7D9)),
                       ),
                     ],
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -129,7 +130,9 @@ class ReservationsCard extends StatelessWidget {
                             height: 12,
                           ),
                           Text(
-                            item.serviceStr ?? "",
+                            LocalStorageManager.getCurrentLanguage() == "ar"
+                                ? item.serviceStrAr ?? ""
+                                : item.serviceStr ?? "",
                             style: AppStyles.baloo2FontWith400WeightAnd14Size
                                 .copyWith(color: primaryColor),
                           ),
@@ -183,7 +186,7 @@ class ReservationsCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 10),
                       child: Text(
-                        "${item.price} SR",
+                        "${item.price} ${AppLocalizations.of(context)!.sr}",
                         style: AppStyles
                             .baloo2FontWith400WeightAnd18SizeAndBlack
                             .copyWith(color: whiteColor, fontSize: 14),

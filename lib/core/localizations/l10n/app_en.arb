@@ -145,6 +145,7 @@
   "cant_negotiate": "Can't negotiate on a request more than 3 times",
   "pm": "PM",
   "am": "AM",
+  "sr": "SR",
   "manage_notifications": "Manage notifications",
   "history": "History",
   "more": "More",

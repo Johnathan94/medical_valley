@@ -178,6 +178,11 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
             itemBuilder: (context, Service item, index) {
               return buildSearchModelsItem(context, item, index);
             },
+            noItemsFoundIndicatorBuilder: (BuildContext context) {
+              return Center(
+                child: Text(AppLocalizations.of(context)!.there_is_no_data),
+              );
+            },
           ),
         ),
       ),

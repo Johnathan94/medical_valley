@@ -111,7 +111,7 @@ class PackageDetails extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 10),
                             child: Text(
-                              "Price RS",
+                              "Price ${AppLocalizations.of(context)!.sr}",
                               style: AppStyles
                                   .baloo2FontWith400WeightAnd18SizeAndBlack
                                   .copyWith(color: whiteColor, fontSize: 14),

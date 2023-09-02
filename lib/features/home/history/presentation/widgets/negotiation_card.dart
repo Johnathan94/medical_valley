@@ -113,7 +113,7 @@ class NegotiationsCard extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
                               child: Text(
-                                "${items.price} RS",
+                                "${items.price} ${AppLocalizations.of(context)!.sr}",
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd18SizeAndBlack
                                     .copyWith(color: whiteColor, fontSize: 14),

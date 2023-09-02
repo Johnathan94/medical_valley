@@ -7,6 +7,7 @@ import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/extensions/string_extensions.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+import 'package:medical_valley/core/widgets/custom_app_bar.dart';
 import 'package:medical_valley/features/auth/phone_verification/data/model/otp_response_model.dart';
 import 'package:medical_valley/features/home/history/data/requests/requests_model.dart';
 import 'package:medical_valley/features/home/history/presentation/requests_screen.dart';
@@ -97,10 +98,22 @@ class HistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => OffersScreen(requestId: item?.id ?? 0))),
+      onTap: () => item!.bookingStatusId == 1
+          ? Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => OffersScreen(requestId: item?.id ?? 0)))
+          : Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => Scaffold(
+                      appBar: MyCustomAppBar(
+                        header: AppLocalizations.of(context)!.reservations,
+                        leadingIcon: GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(Icons.arrow_back_ios)),
+                      ),
+                      body: const ReservationsScreen()))),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
@@ -166,7 +179,9 @@ class HistoryCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item?.categoryStr ?? "",
+                                LocalStorageManager.getCurrentLanguage() == "ar"
+                                    ? item?.categoryStr ?? ""
+                                    : item?.categoryStr ?? "",
                                 style: AppStyles
                                     .baloo2FontWith400WeightAnd18Size
                                     .copyWith(
@@ -181,7 +196,11 @@ class HistoryCard extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      item?.providerServiceName ?? "",
+                                      LocalStorageManager
+                                                  .getCurrentLanguage() ==
+                                              "ar"
+                                          ? item?.providerServiceNameAr ?? ""
+                                          : item?.providerServiceName ?? "",
                                       style: AppStyles
                                           .baloo2FontWith400WeightAnd14Size
                                           .copyWith(color: primaryColor),

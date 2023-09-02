@@ -1,3 +1,5 @@
+import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+
 class ReservationsResponse {
   bool? succeeded;
   String? message;
@@ -104,6 +106,7 @@ class ReservationModel {
   String? categoryStr;
   String? providerServiceId;
   String? serviceStr;
+  String? serviceStrAr;
   int? userId;
   String? userName;
   int? bookingStatusId;
@@ -172,6 +175,7 @@ class ReservationModel {
     categoryStr = json['categoryStr'];
     providerServiceId = json['providerServiceId'];
     serviceStr = json['serviceStr'];
+    serviceStrAr = json['serviceStrAr'];
     userId = json['userId'];
     userName = json['userName'];
     bookingStatusId = json['bookingStatusId'];
@@ -207,6 +211,7 @@ class ReservationModel {
     data['categoryStr'] = categoryStr;
     data['providerServiceId'] = providerServiceId;
     data['serviceStr'] = serviceStr;
+    data['serviceStrAr'] = serviceStrAr;
     data['userId'] = userId;
     data['userName'] = userName;
     data['bookingStatusId'] = bookingStatusId;
@@ -224,7 +229,9 @@ class ReservationModel {
     data['reservation Date'] = offerDate;
     data['Branch Name'] = providerBranchName;
     data['Price'] = price;
-    data['Service'] = serviceStr;
+    data['Service'] = LocalStorageManager.getCurrentLanguage() == "ar"
+        ? serviceStrAr
+        : serviceStr;
     data['user Name'] = userName;
     data['booking Type'] = bookingTypeStr;
     return _formatToQrView(data);

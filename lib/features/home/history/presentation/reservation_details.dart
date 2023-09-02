@@ -210,7 +210,7 @@ class ReservationsDetails extends StatelessWidget {
                       .copyWith(color: blackColor, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  item.price.toString(),
+                  "${item.price} ${AppLocalizations.of(context)!.sr}",
                   style: AppStyles.baloo2FontWith400WeightAnd18SizeAndBlack
                       .copyWith(color: blackColor, fontWeight: FontWeight.bold),
                 ),
