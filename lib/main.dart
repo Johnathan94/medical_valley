@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:in_app_notification/in_app_notification.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_theme.dart';
 import 'package:medical_valley/core/base_service/flavors.dart';
@@ -16,7 +19,7 @@ import 'package:medical_valley/core/widgets/change_language_screen/peresentation
 import 'package:medical_valley/core/widgets/change_language_screen/peresentation/blocks/language_state.dart';
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
 
-import 'firebase_options.dart';
+import 'core/notifications/notification_tab.dart';
 
 LanguageBloc languageBloc = LanguageBloc();
 
@@ -32,10 +35,52 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp();
+  print(await FirebaseMessaging.instance.getToken());
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
   );
-
+  FirebaseMessaging.onMessage.listen((event) {
+    if (kDebugMode) {
+      print('hi message user');
+    }
+    if (kDebugMode) {
+      print(event.notification?.title);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.data);
+    }
+    NotificationTab.showNotification(event);
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    if (kDebugMode) {
+      print('hi message');
+    }
+    if (kDebugMode) {
+      print(event.notification?.title);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.notification?.body);
+    }
+    if (kDebugMode) {
+      print(event.data);
+    }
+  });
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   FlavorManager.setCurrentFlavor(Flavor(Strings.baseUrl, Strings.v_1));
@@ -44,6 +89,9 @@ void main() async {
   String currentLanguage = LocalStorageManager.getCurrentLanguage();
   runApp(MyApp(currentLanguage: currentLanguage));
 }
+
+final GlobalKey<NavigatorState> navigatorGlobalKey =
+    GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   final String currentLanguage;
@@ -61,19 +109,22 @@ class MyApp extends StatelessWidget {
                     minTextAdapt: true,
                     splitScreenMode: true,
                     builder: (context, child) {
-                      return MaterialApp(
-                        theme: appTheme,
-                        locale: state.locale ??
-                            (currentLanguage.isNotEmpty
-                                ? Locale(currentLanguage)
-                                : const Locale("en")),
-                        localizationsDelegates:
-                            AppLocalizations.localizationsDelegates,
-                        supportedLocales: AppLocalizations.supportedLocales,
-                        onGenerateTitle: (context) =>
-                            AppLocalizations.of(context)!.application_title,
-                        debugShowCheckedModeBanner: false,
-                        home: const SplashScreen(),
+                      return InAppNotification(
+                        child: MaterialApp(
+                          navigatorKey: navigatorGlobalKey,
+                          theme: appTheme,
+                          locale: state.locale ??
+                              (currentLanguage.isNotEmpty
+                                  ? Locale(currentLanguage)
+                                  : const Locale("en")),
+                          localizationsDelegates:
+                              AppLocalizations.localizationsDelegates,
+                          supportedLocales: AppLocalizations.supportedLocales,
+                          onGenerateTitle: (context) =>
+                              AppLocalizations.of(context)!.application_title,
+                          debugShowCheckedModeBanner: false,
+                          home: const SplashScreen(),
+                        ),
                       );
                     });
               });

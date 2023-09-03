@@ -24,8 +24,11 @@ import 'package:medical_valley/features/home/history/domain/get_requests_usecase
 import 'package:medical_valley/features/home/history/domain/get_reservations_usecase.dart';
 import 'package:medical_valley/features/home/history/presentation/bloc/history_bloc.dart';
 import 'package:medical_valley/features/home/home_screen/data/book_request_client.dart';
+import 'package:medical_valley/features/home/home_screen/data/clients/fcm_client.dart';
 import 'package:medical_valley/features/home/home_screen/data/repo/book_request_repo.dart';
+import 'package:medical_valley/features/home/home_screen/domain/update_fcm_use_case.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/bloc/book_request_bloc.dart';
+import 'package:medical_valley/features/home/home_screen/persentation/bloc/fcm_bloc.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/categories_client.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/packages_client.dart';
 import 'package:medical_valley/features/home/home_search_screen/data/api/search_client.dart';
@@ -99,4 +102,7 @@ configureDependencies() {
   getIt.registerFactory(() => UserProfileBloc(
       GetUserUseCaseImpl(UserClient(DioManager.getDio())),
       UpdateUserUseCaseImpl((UserClient(DioManager.getDio())))));
+
+  getIt.registerLazySingleton<FcmBloc>(
+      () => FcmBloc(UpdateFcmUseCase(FcmClient(DioManager.getDio()))));
 }

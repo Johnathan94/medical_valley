@@ -1,40 +1,76 @@
 {
   "project_info": {
-    "project_number": "583477987371",
-    "project_id": "medicalvalley-4cc9e",
-    "storage_bucket": "medicalvalley-4cc9e.appspot.com"
+    "project_number": "600040989984",
+    "project_id": "medvalley-ff30c",
+    "storage_bucket": "medvalley-ff30c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:583477987371:android:826fba58a22dfe815ec26e",
+        "mobilesdk_app_id": "1:600040989984:android:4c2f04bce7c55124d16345",
         "android_client_info": {
-          "package_name": "com.mufawid.medicalValley"
+          "package_name": "com.medValley.user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "583477987371-r3fho5jqusipbd9alhu7be6ecfjo5412.apps.googleusercontent.com",
+          "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBGeD6q2XXUw-Y3MkEBJ8uJR9Gr6C7hl-0"
+          "current_key": "AIzaSyAByIYX3TRM5ZmvMeL00gg3hQTJRQpGV3w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "583477987371-r3fho5jqusipbd9alhu7be6ecfjo5412.apps.googleusercontent.com",
+              "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "583477987371-ijpfhrdgkmle9c47lf7qjaq9f0gckm8m.apps.googleusercontent.com",
+              "client_id": "600040989984-c1ual8nop9b9e3ac729mi6ja3d37kans.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.mufawid.medicalValley"
+                "bundle_id": "com.example.providerMedicalValley"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600040989984:android:dad2efd9b4a87cd7d16345",
+        "android_client_info": {
+          "package_name": "com.medvalley.provider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAByIYX3TRM5ZmvMeL00gg3hQTJRQpGV3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "600040989984-c1ual8nop9b9e3ac729mi6ja3d37kans.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.providerMedicalValley"
               }
             }
           ]
