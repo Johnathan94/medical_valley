@@ -27,11 +27,13 @@ class AppInitializer {
       SortModel(true, AppLocalizations.of(context)!.time),
     ]);
     paymentMethods
+        .add(PaymentData(2, AppLocalizations.of(context)!.mada, madaIcon));
+    paymentMethods
+        .add(PaymentData(3, AppLocalizations.of(context)!.wallet, walletIcon));
+    paymentMethods
         .add(PaymentData(1, AppLocalizations.of(context)!.visa, visaIcon));
     paymentMethods
         .add(PaymentData(2, AppLocalizations.of(context)!.paypal, paypalIcon));
-    paymentMethods.add(PaymentData(
-        3, AppLocalizations.of(context)!.google_pay, googlePayIcon));
 
     languages.add(LanguageModel(1, AppLocalizations.of(context)!.english_title,
         AppLocalizations.of(context)!.english_title, false));

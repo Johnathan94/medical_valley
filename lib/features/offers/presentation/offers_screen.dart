@@ -268,7 +268,9 @@ class _OffersScreenState extends State<OffersScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (c) => const SuccessScreen()));
+                                builder: (c) => SuccessScreen(
+                                      offerId: state.id,
+                                    )));
                       });
                     } else {
                       LoadingDialogs.hideLoadingDialog();

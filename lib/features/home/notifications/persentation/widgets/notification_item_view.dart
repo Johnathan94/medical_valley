@@ -52,10 +52,6 @@ class NotificationView extends StatelessWidget {
                       style: AppStyles.baloo2FontWith600WeightAnd18Size
                           .copyWith(color: blackColor),
                     ),
-                    Text(
-                      notificationModel.notificationActionStr ?? "",
-                      style: AppStyles.baloo2FontWith400WeightAnd12Size,
-                    ),
                   ],
                 ),
                 SizedBox(

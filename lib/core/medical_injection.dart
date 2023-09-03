@@ -46,6 +46,9 @@ import 'package:medical_valley/features/offers/presentation/data/repo/negotiate_
 import 'package:medical_valley/features/offers/presentation/data/repo/offers_repo.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
+import 'package:medical_valley/features/payment/data/make_invoice_service/make_invoice_service.dart';
+import 'package:medical_valley/features/payment/domain/make_invoice_usecase.dart';
+import 'package:medical_valley/features/payment/persentation/invoice_bloc/invoice_bloc.dart';
 import 'package:medical_valley/features/profile/data/user_api.dart';
 import 'package:medical_valley/features/profile/domain/get_user_use_case.dart';
 import 'package:medical_valley/features/profile/domain/update_user_use_case.dart';
@@ -75,6 +78,8 @@ configureDependencies() {
   getIt.registerFactory(
       () => OffersBloc(OffersRepoImpl(OffersClient(DioManager.getDio()))));
   getIt.registerFactory(() => SplashBloc());
+  getIt.registerFactory(() =>
+      InvoiceBloc(MakeInvoiceUseCase(MakeInvoiceClient(DioManager.getDio()))));
   getIt.registerFactory(() =>
       NegotiateBloc(NegotiateRepoImpl(NegotiateClient(DioManager.getDio()))));
   getIt.registerFactory(() => TermsAndConditionsBloc(

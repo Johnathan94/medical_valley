@@ -21,7 +21,7 @@ class NegotiateBloc extends Cubit<NegotiateState> {
     response.fold((l) {
       emit(VerifyRequestStateError());
     }, (right) {
-      emit(VerifyRequestStateSuccess());
+      emit(VerifyRequestStateSuccess(id));
     });
   }
 }

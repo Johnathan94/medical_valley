@@ -1,5 +1,6 @@
 import 'package:awesome_card/awesome_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
@@ -8,19 +9,23 @@ import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkLocale.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/home/widgets/add_card_bottom_sheet.dart';
+import 'package:medical_valley/features/payment/data/make_invoice_response.dart';
 import 'package:medical_valley/features/payment/data/user_card_model.dart';
+import 'package:medical_valley/features/payment/persentation/invoice_bloc/invoice_bloc.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
 import '../../data/payment_data.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  final int offerId;
+
+  const PaymentScreen({required this.offerId, Key? key}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -28,8 +33,11 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   UserCard? userCard;
+  InvoiceBloc _invoiceBloc = GetIt.instance<InvoiceBloc>();
+
   @override
   initState() {
+    _invoiceBloc.createInvoice(widget.offerId);
     userCard = LocalStorageManager.getUserCard();
     super.initState();
   }
@@ -37,65 +45,74 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: whiteColor,
-        padding: const EdgeInsetsDirectional.only(top: 38),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.saved_cards,
-                      style: AppStyles.baloo2FontWith600WeightAnd22Size,
-                    ),
-                    Builder(builder: (context) {
-                      return GestureDetector(
-                        onTap: () {
-                          showBottomSheet(
-                              context: context,
-                              builder: (context) => AddCardBottomSheet());
-                        },
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.add,
-                              color: primaryColor,
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.add_new_card,
-                              style: AppStyles.baloo2FontWith600WeightAnd16Size,
-                            )
-                          ],
-                        ),
-                      );
-                    })
-                  ],
+      appBar: buildAppBar(context),
+      body: BlocBuilder<InvoiceBloc, InvoiceState>(
+        bloc: _invoiceBloc,
+        builder: (context, state) {
+          if (state is LoadingCreationInvoiceState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is SuccessCreationInvoiceState) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /*Padding(
+            padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.saved_cards,
+                  style: AppStyles.baloo2FontWith600WeightAnd22Size,
                 ),
-              ),
-              cardImage(),
-              otherCards(),
-              confirmButton()
-            ],
-          ),
-        ),
+                Builder(builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      showBottomSheet(
+                          context: context,
+                          builder: (context) => AddCardBottomSheet());
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.add,
+                          color: primaryColor,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.add_new_card,
+                          style: AppStyles.baloo2FontWith600WeightAnd16Size,
+                        )
+                      ],
+                    ),
+                  );
+                })
+              ],
+            ),
+          ),*/
+                //cardImage(),
+
+                otherCards(),
+                _buildSheet(state.makeInvoiceResponse)
+                //confirmButton()
+              ],
+            );
+          } else {
+            return Center(
+              child: Text(AppLocalizations.of(context)!.something_went_wrong),
+            );
+          }
+        },
       ),
     );
   }
 
-  buildAppBar() {
+  buildAppBar(ctx) {
     return MyCustomAppBar(
       header: AppLocalizations.of(context)!.payment,
       leadingIcon: InkWell(
         onTap: () {
-          Navigator.pop(context);
+          Navigator.pop(ctx);
         },
         child: const Icon(
           Icons.arrow_back_ios,
@@ -115,8 +132,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           cardHolderName: userCard?.cardHolderName ?? " ",
           cvv: userCard?.cvv ?? " ",
           bankName: "",
-          cardType:
-              CardType.other, // Optional if you want to override Card Type
+          cardType: CardType.other,
+          // Optional if you want to override Card Type
           showBackSide: false,
           frontBackground: Container(
             color: primaryColor,
@@ -131,9 +148,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  otherCards() {
+  Widget otherCards() {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(top: 70, start: 29, end: 33),
+      padding: const EdgeInsetsDirectional.only(top: 20, start: 20, end: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [otherCardsTitle(), buildOtherPayment()],
@@ -160,9 +177,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   confirmButton() {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 35, end: 35),
+      padding: const EdgeInsetsDirectional.only(
+        top: 15.0,
+        start: 10,
+        end: 10,
+        bottom: 15.0,
+      ),
       child: PrimaryButton(
-        text: AppLocalizations.of(context)!.confirm,
+        text: AppLocalizations.of(context)!.payment,
         onPressed: () {
           var billingDetails = BillingDetails(
               "John smith",
@@ -177,25 +199,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
           apms.add(PaymentSdkAPms.AMAN);
 
           var configuration = PaymentSdkConfigurationDetails(
-            profileId: "96752",
-            clientKey: "C9KMB6-6N2M6T-V27Q9G-GMD9VK",
-            serverKey: "STJNDZT9D9-JGWBTNZ6GK-L2DTDKNTKT",
-            cartDescription: "cart desc",
-            merchantName: "Medical Valley",
-            screentTitle: "Pay with Card",
-            billingDetails: billingDetails,
-            locale: PaymentSdkLocale
-                .EN, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
-            amount: 12.3,
-            currencyCode: "EGP",
-            merchantCountryCode: "EG",
-            linkBillingNameWithCardHolderName: true,
-            alternativePaymentMethods: apms,
-          );
+              profileId: "96752",
+              clientKey: "CNKMB6-6N6T6T-V27Q9G-GPVT76",
+              serverKey: "SGJNDZT9R9-JGWBTNZ6R6-KGGKMBTJR2",
+              cartDescription: "cart desc",
+              merchantName: "Medical Valley",
+              screentTitle: "Pay with Card",
+              billingDetails: billingDetails,
+              locale: PaymentSdkLocale.EN,
+              //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
+              amount: 12.3,
+              currencyCode: "EGP",
+              merchantCountryCode: "EG",
+              linkBillingNameWithCardHolderName: true,
+              alternativePaymentMethods: apms,
+              showBillingInfo: false);
 
-          configuration.tokeniseType =
-              PaymentSdkTokeniseType.MERCHANT_MANDATORY;
-          configuration.showBillingInfo = true;
+          configuration.tokeniseType = PaymentSdkTokeniseType.NONE;
           var theme = IOSThemeConfigurations();
           theme.logoImage = "assets/logo.png";
           configuration.iOSThemeConfigurations = theme;
@@ -205,7 +225,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
               print(event);
 
               if (event["status"] == "success") {
-                // Handle transaction details here.
                 var transactionDetails = event["data"];
                 print(transactionDetails);
 
@@ -232,7 +251,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   buildPaymentItem(PaymentData payment, int index) {
     return RadioListTile(
-      activeColor: blackColor,
+      activeColor: primaryColor,
       controlAffinity: ListTileControlAffinity.trailing,
       value: index,
       groupValue: value,
@@ -255,6 +274,81 @@ class _PaymentScreenState extends State<PaymentScreen> {
             style: AppStyles.baloo2FontWith500WeightAnd22Size,
           ),
           const Spacer(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSheet(MakeInvoiceResponse item) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 30),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(32),
+            topRight: Radius.circular(32),
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(.6),
+                spreadRadius: 5,
+                blurRadius: 3,
+                offset: const Offset(0, 4))
+          ]),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.tax,
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+              Text(
+                "${item.data?.vat}",
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.subtotal,
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+              Text(
+                "${item.data?.subtotal}",
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.total,
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+              Text(
+                "${item.data?.totalPaid}",
+                style: AppStyles.baloo2FontWith400WeightAnd20Size
+                    .copyWith(color: Colors.black),
+              ),
+            ],
+          ),
+          confirmButton()
         ],
       ),
     );

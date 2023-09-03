@@ -12,7 +12,11 @@ class NegotiateStateError extends NegotiateState {
   NegotiateStateError(this.error);
 }
 
-class VerifyRequestStateSuccess extends NegotiateState {}
+class VerifyRequestStateSuccess extends NegotiateState {
+  int id;
+
+  VerifyRequestStateSuccess(this.id);
+}
 
 class VerifyRequestStateLoading extends NegotiateState {}
 

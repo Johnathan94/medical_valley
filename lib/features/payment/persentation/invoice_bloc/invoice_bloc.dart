@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_valley/features/payment/data/make_invoice_response.dart';
 import 'package:medical_valley/features/payment/domain/make_invoice_usecase.dart';
 
 class InvoiceBloc extends Cubit<InvoiceState> {
@@ -11,7 +12,7 @@ class InvoiceBloc extends Cubit<InvoiceState> {
     either.fold((l) {
       emit(ErrorCreationInvoiceState());
     }, (r) {
-      emit(SuccessCreationInvoiceState());
+      emit(SuccessCreationInvoiceState(r));
     });
   }
 }
@@ -22,6 +23,10 @@ class IdleCreationInvoiceState extends InvoiceState {}
 
 class LoadingCreationInvoiceState extends InvoiceState {}
 
-class SuccessCreationInvoiceState extends InvoiceState {}
+class SuccessCreationInvoiceState extends InvoiceState {
+  MakeInvoiceResponse makeInvoiceResponse;
+
+  SuccessCreationInvoiceState(this.makeInvoiceResponse);
+}
 
 class ErrorCreationInvoiceState extends InvoiceState {}
