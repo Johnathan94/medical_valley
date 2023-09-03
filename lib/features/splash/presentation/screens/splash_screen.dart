@@ -10,6 +10,7 @@ import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:medical_valley/features/home/home_screen/persentation/bloc/fcm_bloc.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 import 'package:medical_valley/features/splash/presentation/screens/no_location_service_screen.dart';
 import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
@@ -48,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToHomeScreen(BuildContext context) {
+    GetIt.instance<FcmBloc>().updateFcmToken();
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const HomeBaseStatefulWidget()));
   }

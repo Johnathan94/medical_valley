@@ -18,6 +18,10 @@ class LocalStorageManager {
     await sharedPreferences.setString("token", token);
   }
 
+  static getToken() async {
+    return sharedPreferences.get("token");
+  }
+
   static saveUserCard(UserCard model) async {
     await sharedPreferences.setString("userCard", jsonEncode(model.toJson()));
   }
