@@ -4,6 +4,8 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/features/home/home_screen/persentation/screens/home_screen.dart';
 import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
+import 'package:medical_valley/temp_test_screen.dart';
+
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({Key? key}) : super(key: key);
 
@@ -15,21 +17,27 @@ class SuccessScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.green
-              ),
-            height: 130,
+              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+              height: 130,
               width: 130,
               alignment: Alignment.center,
-              child: const Icon(Icons.done_all,color: Colors.white,size: 60,),
+              child: const Icon(
+                Icons.done_all,
+                color: Colors.white,
+                size: 60,
+              ),
             ),
-            const SizedBox(height: 12,),
-             Text(AppLocalizations.of(context)!.booking_confirmed,style: AppStyles.baloo2FontWith700WeightAnd22Size.copyWith(color: blackColor),),
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              AppLocalizations.of(context)!.booking_confirmed,
+              style: AppStyles.baloo2FontWith700WeightAnd22Size.copyWith(color: blackColor),
+            ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (c)=>const HomeBaseStatefulWidget()),
-                        (route) =>false
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (c) => const TempTestScreen()),
                 );
               },
               child: Text(AppLocalizations.of(context)!.go_to_home),
