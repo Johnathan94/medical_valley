@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
-import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
+import 'package:medical_valley/features/home/widgets/home_base_stateful_widget.dart';
 
 class SuccessScreen extends StatelessWidget {
-  final int offerId;
-  const SuccessScreen({required this.offerId, Key? key}) : super(key: key);
+  const SuccessScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +38,11 @@ class SuccessScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (c) => PaymentScreen(
-                            offerId: offerId,
-                          )),
+                      builder: (c) => const HomeBaseStatefulWidget()),
                   //  (route) => false
                 );
               },
-              child: Text(AppLocalizations.of(context)!.checkout),
+              child: Text(AppLocalizations.of(context)!.go_to_home),
             ),
           ],
         ),

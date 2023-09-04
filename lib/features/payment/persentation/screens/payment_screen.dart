@@ -1,25 +1,29 @@
 import 'package:awesome_card/awesome_card.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkLocale.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
-import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
 import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_initialized.dart';
 import 'package:medical_valley/core/app_styles.dart';
+import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
 import 'package:medical_valley/core/widgets/primary_button.dart';
-import 'package:medical_valley/features/payment/data/make_invoice_response.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/success_screen.dart';
+import 'package:medical_valley/features/payment/data/model/make_invoice_response.dart';
 import 'package:medical_valley/features/payment/data/user_card_model.dart';
+import 'package:medical_valley/features/payment/payTabs/index.dart';
+import 'package:medical_valley/features/payment/payTabs/models/configs_details_model.dart';
+import 'package:medical_valley/features/payment/payTabs/models/invoice_details_model.dart';
+import 'package:medical_valley/features/payment/payTabs/models/payment_response_model.dart';
 import 'package:medical_valley/features/payment/persentation/invoice_bloc/invoice_bloc.dart';
 
 import '../../../../core/app_colors.dart';
 import '../../../../core/widgets/custom_app_bar.dart';
+import '../../../auth/phone_verification/data/model/otp_response_model.dart';
 import '../../data/payment_data.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -33,12 +37,14 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   UserCard? userCard;
-  InvoiceBloc _invoiceBloc = GetIt.instance<InvoiceBloc>();
+  final InvoiceBloc _invoiceBloc = GetIt.instance<InvoiceBloc>();
+  late UserDate currentUser;
 
   @override
   initState() {
     _invoiceBloc.createInvoice(widget.offerId);
     userCard = LocalStorageManager.getUserCard();
+    currentUser = UserDate.fromJson(LocalStorageManager.getUser()!);
     super.initState();
   }
 
@@ -47,6 +53,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: buildAppBar(context),
       body: BlocBuilder<InvoiceBloc, InvoiceState>(
+        buildWhen: (prev, curr) =>
+            curr is LoadingCreationInvoiceState ||
+            curr is ErrorCreationInvoiceState ||
+            curr is SuccessCreationInvoiceState,
         bloc: _invoiceBloc,
         builder: (context, state) {
           if (state is LoadingCreationInvoiceState) {
@@ -54,14 +64,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is SuccessCreationInvoiceState) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                /*Padding(
-            padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+            return BlocListener(
+                bloc: _invoiceBloc,
+                listenWhen: (prev, curr) =>
+                    curr is LoadingInvoiceState ||
+                    curr is ErrorInvoiceState ||
+                    curr is SuccessInvoiceState,
+                listener: (c, state) {
+                  if (state is LoadingInvoiceState) {
+                    LoadingDialogs.showLoadingDialog(context);
+                  } else if (state is ErrorInvoiceState) {
+                    LoadingDialogs.hideLoadingDialog();
+                    CoolAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      autoCloseDuration: const Duration(seconds: 4),
+                      showOkBtn: false,
+                      type: CoolAlertType.error,
+                      title: AppLocalizations.of(context)!.error,
+                      text: AppLocalizations.of(context)!
+                          .something_went_wrong_with_payment,
+                    );
+                  } else {
+                    LoadingDialogs.hideLoadingDialog();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const SuccessScreen()));
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /*Padding(
+                padding: const EdgeInsetsDirectional.only(start: 42, end: 21),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                 Text(
                   AppLocalizations.of(context)!.saved_cards,
                   style: AppStyles.baloo2FontWith600WeightAnd22Size,
@@ -87,16 +126,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                   );
                 })
-              ],
-            ),
+                  ],
+                ),
           ),*/
-                //cardImage(),
+                    //cardImage(),
 
-                otherCards(),
-                _buildSheet(state.makeInvoiceResponse)
-                //confirmButton()
-              ],
-            );
+                    otherCards(),
+                    _buildSheet(state.makeInvoiceResponse)
+                    //confirmButton()
+                  ],
+                ));
           } else {
             return Center(
               child: Text(AppLocalizations.of(context)!.something_went_wrong),
@@ -185,68 +224,56 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       child: PrimaryButton(
         text: AppLocalizations.of(context)!.payment,
-        onPressed: () {
-          var billingDetails = BillingDetails(
-              "John smith",
-              "mohamedimbaby999@gmail.com",
-              "01097833162",
-              "address line",
-              "eg",
-              "cairo",
-              "state",
-              "zip code");
-          List<PaymentSdkAPms> apms = [];
-          apms.add(PaymentSdkAPms.AMAN);
-
-          var configuration = PaymentSdkConfigurationDetails(
-              profileId: "96752",
-              clientKey: "CNKMB6-6N6T6T-V27Q9G-GPVT76",
-              serverKey: "SGJNDZT9R9-JGWBTNZ6R6-KGGKMBTJR2",
-              cartDescription: "cart desc",
-              merchantName: "Medical Valley",
-              screentTitle: "Pay with Card",
-              billingDetails: billingDetails,
-              locale: PaymentSdkLocale.EN,
-              //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
-              amount: item.data?.totalPaid,
-              currencyCode: "SAR",
-              merchantCountryCode: "SA",
-              linkBillingNameWithCardHolderName: true,
-              showBillingInfo: false);
-
-          configuration.tokeniseType = PaymentSdkTokeniseType.NONE;
-          var theme = IOSThemeConfigurations();
-          theme.logoImage = "assets/logo.png";
-          configuration.iOSThemeConfigurations = theme;
-
-          try {
-            FlutterPaytabsBridge.startCardPayment(configuration, (event) {
-              print(event);
-
-              if (event["status"] == "success") {
-                var transactionDetails = event["data"];
-                print(transactionDetails);
-
-                if (transactionDetails["isSuccess"]) {
-                  print("successful transaction");
-                } else {
-                  print("failed transaction");
-                }
-              } else if (event["status"] == "error") {
-                // Handle error here.
-              } else if (event["status"] == "event") {
-                print(event["message"]);
-              }
-            });
-          } catch (e) {
-            print(e);
-          }
-        },
+        onPressed: () => _pay(InvoiceDetailsModel(
+            amount: item.data!.amount!, invoiceID: item.data!.invoiceID!)),
       ),
     );
   }
 
   var value;
+
+  _pay(InvoiceDetailsModel invoiceDetails) async {
+    final payTabsConfigs = ConfigsDetailsModel(
+      screenTitle: AppLocalizations.of(context)!.medical_valley +
+          AppLocalizations.of(context)!.payment,
+      // Localized String
+      currencyCode: "SAR",
+      // must be added, with default SAR value
+      merchantCountryCode: "SA",
+      // must be added, with default SA value
+      cartDescription: AppLocalizations.of(context)!.services,
+      //
+      showBillingInfo: false,
+      // to set it false, you should add billing details
+      billingDetails: BillingDetails(
+          currentUser.fullName ?? "",
+          currentUser.email ?? "",
+          currentUser.mobile ?? "",
+          currentUser.location ?? "Riyadh",
+          "sa",
+          "Riyadh",
+          "Riyadh",
+          "12345"),
+      // mandatory if you dont wanna show billing info form
+      invoiceDetails: invoiceDetails,
+      locale: (LocalStorageManager.getCurrentLanguage() == "ar")
+          ? PaymentSdkLocale.AR
+          : PaymentSdkLocale.EN,
+      //tokeniseType: null,
+      iosThemeConfigurations:
+          IOSThemeConfigurations(logoImage: 'assets/logo.png'),
+    );
+    var payTabsIndex = PayTabsIndex(payTabsConfigs);
+    payTabsIndex.payWithCard(_handleResponse, invoiceDetails.invoiceID);
+  }
+
+  _handleResponse(PaymentResponseModel responseModel, String invoiceId) async {
+    if (!responseModel.isSuccess) {
+      // handle error // =====
+    } else {
+      _invoiceBloc.getInvoice(invoiceId);
+    }
+  }
 
   buildPaymentItem(PaymentData payment, int index) {
     return RadioListTile(
@@ -341,7 +368,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     .copyWith(color: Colors.black),
               ),
               Text(
-                "${item.data?.totalPaid}",
+                "${item.data?.amount}",
                 style: AppStyles.baloo2FontWith400WeightAnd20Size
                     .copyWith(color: Colors.black),
               ),

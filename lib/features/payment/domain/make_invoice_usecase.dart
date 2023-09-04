@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:medical_valley/features/payment/data/make_invoice_response.dart';
 import 'package:medical_valley/features/payment/data/make_invoice_service/make_invoice_service.dart';
+import 'package:medical_valley/features/payment/data/model/make_invoice_response.dart';
 
 import '../../../core/failures/failures.dart';
 

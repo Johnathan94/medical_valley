@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkLocale.dart';
-import 'package:http/http.dart' as http;
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
+
 import 'features/payment/payTabs/index.dart';
 import 'features/payment/payTabs/models/configs_details_model.dart';
 import 'features/payment/payTabs/models/invoice_details_model.dart';
@@ -24,7 +24,8 @@ class TempTestScreen extends StatelessWidget {
   final invoiceID = "a4f0e9d2-3fa9-4e58-d4b3-08dbabea5662";
   _pay() async {
     // ** 1- Call Make Invoice to get (invoice_id, amount) for now => in the future - optional [card number,transaction token, transaction reference]
-    final invoiceDetails = InvoiceDetailsModel(amount: 250.0, invoiceID: invoiceID);
+    final invoiceDetails =
+        InvoiceDetailsModel(amount: 250.0, invoiceID: invoiceID);
     // ** 2- Set paytabs configurations
     final payTabsConfigs = ConfigsDetailsModel(
       screenTitle: "'Screen Title'", // Localized String
@@ -32,18 +33,26 @@ class TempTestScreen extends StatelessWidget {
       merchantCountryCode: "SA", // must be added, with default SA value
       cartDescription: "Cart", //
       showBillingInfo: false, // to set it false, you should add billing details
-      billingDetails: BillingDetails("John Smith", "email@domain.com", "+97311111111", "st. 12",
-          "eg", "dubai", "dubai", "12345"), // mandatory if you dont wanna show billing info form
+      billingDetails: BillingDetails(
+          "John Smith",
+          "email@domain.com",
+          "+97311111111",
+          "st. 12",
+          "eg",
+          "dubai",
+          "dubai",
+          "12345"), // mandatory if you dont wanna show billing info form
       invoiceDetails: invoiceDetails,
       locale: (LocalStorageManager.getCurrentLanguage() == "ar")
           ? PaymentSdkLocale.AR
           : PaymentSdkLocale.EN,
       tokeniseType: null,
-      iosThemeConfigurations: IOSThemeConfigurations(logoImage: 'assets/logo.png'),
+      iosThemeConfigurations:
+          IOSThemeConfigurations(logoImage: 'assets/logo.png'),
     );
     // ** 3- Call paytabs method to pay [ currently, you can pay with card only, not token or saved card]
     // ** Pass function that handle response [success || fail]
-    await PayTabsIndex(payTabsConfigs).payWithCard(_handleResponse);
+    await PayTabsIndex(payTabsConfigs).payWithCard(_handleResponse, "");
   }
 
   _handleResponse(PaymentResponseModel responseModel) async {

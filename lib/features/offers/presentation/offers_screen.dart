@@ -16,8 +16,8 @@ import 'package:medical_valley/features/offers/presentation/presentation/bloc/ne
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_state.dart';
-import 'package:medical_valley/features/offers/presentation/presentation/success_screen.dart';
 import 'package:medical_valley/features/offers/widgets/offers_options_button.dart';
+import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -268,7 +268,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (c) => SuccessScreen(
+                                builder: (c) => PaymentScreen(
                                       offerId: state.id,
                                     )));
                       });

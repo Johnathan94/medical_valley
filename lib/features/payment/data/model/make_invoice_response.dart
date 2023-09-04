@@ -53,8 +53,8 @@ class Data {
   double? totalPaid;
   String? cardType;
   String? paymentMethodCardNumber;
-  String? expm;
-  String? expy;
+  int? expm;
+  int? expy;
 
   Data(
       {this.invoiceID,
