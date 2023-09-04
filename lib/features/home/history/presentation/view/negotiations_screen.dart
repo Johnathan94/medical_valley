@@ -13,6 +13,7 @@ import 'package:medical_valley/features/home/history/presentation/widgets/negoti
 import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
+import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -88,9 +89,12 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                   title: AppLocalizations.of(context)!.success,
                   text: AppLocalizations.of(context)!.booked_done,
                 );
-                Future.delayed(const Duration(seconds: 2), () async {
-                  widget.onBookedConfirmed();
-                });
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => PaymentScreen(
+                              offerId: state.id,
+                            )));
               } else {
                 LoadingDialogs.hideLoadingDialog();
                 CoolAlert.show(
