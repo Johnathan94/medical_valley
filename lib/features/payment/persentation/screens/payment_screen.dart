@@ -175,7 +175,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         });
   }
 
-  confirmButton() {
+  confirmButton(MakeInvoiceResponse item) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(
         top: 15.0,
@@ -208,11 +208,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
               billingDetails: billingDetails,
               locale: PaymentSdkLocale.EN,
               //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
-              amount: 12.3,
-              currencyCode: "EGP",
-              merchantCountryCode: "EG",
+              amount: item.data?.totalPaid,
+              currencyCode: "SAR",
+              merchantCountryCode: "SA",
               linkBillingNameWithCardHolderName: true,
-              alternativePaymentMethods: apms,
               showBillingInfo: false);
 
           configuration.tokeniseType = PaymentSdkTokeniseType.NONE;
@@ -348,7 +347,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ],
           ),
-          confirmButton()
+          confirmButton(item)
         ],
       ),
     );
