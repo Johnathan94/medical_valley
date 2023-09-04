@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,8 +9,10 @@ import 'package:medical_valley/core/strings/images.dart';
 import 'package:medical_valley/features/home/history/presentation/history_screen.dart';
 import 'package:medical_valley/features/home/more_screen/presentation/more_screen.dart';
 import 'package:medical_valley/features/home/notifications/persentation/screens/notifications_screen.dart';
+import 'package:medical_valley/features/offers/presentation/offers_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../core/notifications/notifications_helper.dart';
 import '../../chat/on_boarding/peresentation/screens/chat_on_board_screen.dart';
 import '../home_screen/persentation/screens/home_screen.dart';
 import '../home_search_screen/persentation/screens/home_search_screen.dart';
@@ -28,6 +31,8 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
 
   @override
   initState() {
+    _handleRequestNotification();
+
     _index.sink.add(0);
     super.initState();
   }
@@ -146,5 +151,35 @@ class HomeBaseStatefulWidgetState extends State<HomeBaseStatefulWidget> {
             fit: BoxFit.cover,
           )),
     );
+  }
+
+  void _handleRequestNotification() {
+    FirebaseMessaging.onMessage.listen((event) {
+      _backgroundHandler(event);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      _backgroundHandler(event);
+    });
+    // FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  }
+
+  Future<void> _backgroundHandler(RemoteMessage event) async {
+    final notificationActionId =
+        NotificationHelper.getNotificationActionId(event);
+    final requestId = int.parse(event.data['RequestId'].toString());
+    _navigate(notificationActionId, requestId);
+  }
+
+  void _navigate(int notificationActionId, int requestId) {
+    switch (notificationActionId - 1) {
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => OffersScreen(requestId: requestId),
+        ));
+        return;
+      case 2:
+        _index.sink.add(2);
+        return;
+    }
   }
 }

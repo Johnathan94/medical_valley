@@ -11,7 +11,7 @@ class FcmClient {
     required String deviceId,
     required int deviceType,
     required int userIdentityType,
-    required String userId,
+    required dynamic userId,
   }) async {
     final authToken = await LocalStorageManager.getToken();
     await dio.post("${dio.options.baseUrl}/Alpha/Notifications/AddFCMToken",
