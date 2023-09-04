@@ -6,12 +6,21 @@ class FcmClient {
 
   FcmClient(this.dio);
 
-  updateFcmToken(String fcmToken, String deviceId) async {
+  updateFcmToken({
+    required String fcmToken,
+    required String deviceId,
+    required int deviceType,
+    required int userIdentityType,
+    required String userId,
+  }) async {
     final authToken = await LocalStorageManager.getToken();
     await dio.post("${dio.options.baseUrl}/Alpha/Notifications/AddFCMToken",
         data: {
           'deviceID': deviceId,
           'fcmToken': fcmToken,
+          'userID': userId,
+          'userIdentityType': userIdentityType,
+          'deviceType': deviceType,
         },
         options: Options(
           headers: {'Authorization': 'Bearer $authToken'},
