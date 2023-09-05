@@ -269,7 +269,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   _handleResponse(PaymentResponseModel responseModel, String invoiceId) async {
     if (!responseModel.isSuccess) {
-      // handle error // =====
+      CoolAlert.show(
+          barrierDismissible: false,
+          context: context,
+          closeOnConfirmBtnTap: true,
+          autoCloseDuration: const Duration(seconds: 3),
+          showOkBtn: false,
+          type: CoolAlertType.error,
+          text: AppLocalizations.of(context)!.something_went_wrong_with_payment,
+          title: AppLocalizations.of(context)!.error);
     } else {
       _invoiceBloc.getInvoice(invoiceId);
     }
