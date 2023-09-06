@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAByIYX3TRM5ZmvMeL00gg3hQTJRQpGV3w',
-    appId: '1:600040989984:android:4c2f04bce7c55124d16345',
+    appId: '1:600040989984:android:5c89e9da303605dcd16345',
     messagingSenderId: '600040989984',
     projectId: 'medvalley-ff30c',
     storageBucket: 'medvalley-ff30c.appspot.com',
