@@ -1,4 +1,4 @@
-package com.medValley.user
+package com.mufawid.medicalValley
 
 import io.flutter.embedding.android.FlutterActivity
 
