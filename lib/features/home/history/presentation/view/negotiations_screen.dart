@@ -89,7 +89,7 @@ class _ReservationScreenState extends State<NegotiationsScreen> {
                   title: AppLocalizations.of(context)!.success,
                   text: AppLocalizations.of(context)!.booked_done,
                 );
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (c) => PaymentScreen(
