@@ -28,12 +28,15 @@ class AppInitializer {
     ]);
     paymentMethods
         .add(PaymentData(2, AppLocalizations.of(context)!.mada, madaIcon));
-    paymentMethods
+    /* paymentMethods
         .add(PaymentData(3, AppLocalizations.of(context)!.wallet, walletIcon));
+   */
     paymentMethods
         .add(PaymentData(1, AppLocalizations.of(context)!.visa, visaIcon));
-    paymentMethods
-        .add(PaymentData(2, AppLocalizations.of(context)!.paypal, paypalIcon));
+    paymentMethods.add(
+        PaymentData(0, AppLocalizations.of(context)!.apple_pay, appleIcon));
+    /*paymentMethods
+        .add(PaymentData(0, AppLocalizations.of(context)!.paypal, paypalIcon));*/
 
     languages.add(LanguageModel(1, AppLocalizations.of(context)!.english_title,
         AppLocalizations.of(context)!.english_title, false));

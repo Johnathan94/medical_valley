@@ -27,6 +27,7 @@ const transparentAppIcon = "${imagesPath}transparent_app_icon.png";
 const noInternetIcon = "${imagesPath}no_internet_icon.png";
 const settingIcon = "${imagesPath}setting_icon.png";
 const visaIcon = "${imagesPath}visa.png";
+const appleIcon = "${imagesPath}apple_pay.png";
 const paypalIcon = "${imagesPath}paypal.png";
 const googlePayIcon = "${imagesPath}google_pay.png";
 const personImage = "${imagesPath}person.png";

@@ -16,6 +16,8 @@
   "tax": "ضريبه",
   "subtotal": "السعر ",
   "total": "الاجمالي",
+  "apple_pay": "الدقع عن طريق apple",
+
   "something_went_wrong_with_payment": "حدث خطا اثناء عمليه الدفع",
   "instagram": "إنستاقرام",
   "invalid_otp": "كود غير صحيح",
