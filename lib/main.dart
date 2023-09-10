@@ -20,6 +20,7 @@ import 'package:medical_valley/core/widgets/change_language_screen/peresentation
 import 'package:medical_valley/features/splash/presentation/screens/splash_screen.dart';
 
 import 'core/notifications/notification_tab.dart';
+import 'firebase_options.dart';
 
 LanguageBloc languageBloc = LanguageBloc();
 
@@ -35,7 +36,9 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   print(await FirebaseMessaging.instance.getToken());
   await FirebaseMessaging.instance.requestPermission(
     alert: true,

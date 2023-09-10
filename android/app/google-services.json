@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:600040989984:android:5e47324107456936d16345",
+        "android_client_info": {
+          "package_name": "com.example.provider_medical_valley"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAByIYX3TRM5ZmvMeL00gg3hQTJRQpGV3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600040989984-3qvh382up8icekireppsoi5pds0moljb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "600040989984-c1ual8nop9b9e3ac729mi6ja3d37kans.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.providerMedicalValley"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:600040989984:android:4c2f04bce7c55124d16345",
         "android_client_info": {
           "package_name": "com.medValley.user"
