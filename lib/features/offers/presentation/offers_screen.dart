@@ -16,6 +16,7 @@ import 'package:medical_valley/features/offers/presentation/presentation/bloc/ne
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/negotiate/negotiate_state.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_bloc.dart';
 import 'package:medical_valley/features/offers/presentation/presentation/bloc/offers_state.dart';
+import 'package:medical_valley/features/offers/presentation/presentation/offer_ui_response.dart';
 import 'package:medical_valley/features/offers/widgets/offers_options_button.dart';
 import 'package:medical_valley/features/payment/persentation/screens/payment_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -35,7 +36,7 @@ class _OffersScreenState extends State<OffersScreen> {
   NegotiateBloc negotiateBloc = getIt.get<NegotiateBloc>();
   BehaviorSubject<int> sortOption = BehaviorSubject();
   BehaviorSubject<List<int>?> negotiatedOffersSubject = BehaviorSubject();
-  final PagingController<int, NegotiationModel> pagingController =
+  final PagingController<int, OfferUiResponseModel> pagingController =
       PagingController(firstPageKey: 1);
   int nextPage = 1;
   int nextPageKey = 1;
@@ -96,20 +97,19 @@ class _OffersScreenState extends State<OffersScreen> {
                               const Center(child: CircularProgressIndicator()));
                     }
                     if (state is OffersStateSuccess) {
-                      if (state.offersResponse.data!.results!.length == 10) {
+                      if (state.offersResponse.length == 10) {
                         pagingController.appendPage(
-                            state.offersResponse.data!.results!, nextPageKey);
+                            state.offersResponse, nextPageKey);
                       } else {
                         if (pagingController.value.itemList != null &&
-                            state.offersResponse.data!.results!.isNotEmpty) {
-                          if (!pagingController.value.itemList!.contains(
-                              state.offersResponse.data?.results?.first)) {
-                            pagingController.appendLastPage(
-                                state.offersResponse.data!.results!);
+                            state.offersResponse.isNotEmpty) {
+                          if (!pagingController.value.itemList!
+                              .contains(state.offersResponse.first)) {
+                            pagingController
+                                .appendLastPage(state.offersResponse);
                           }
                         } else {
-                          pagingController.appendLastPage(
-                              state.offersResponse.data!.results!);
+                          pagingController.appendLastPage(state.offersResponse);
                         }
                       }
                       return Padding(
@@ -124,7 +124,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                 controller: _refreshController,
                                 onRefresh: _onRefresh,
                                 onLoading: _onLoading,
-                                child: PagedListView<int, NegotiationModel>(
+                                child: PagedListView<int, OfferUiResponseModel>(
                                   pagingController: pagingController,
                                   builderDelegate: PagedChildBuilderDelegate(
                                     noItemsFoundIndicatorBuilder:
@@ -136,15 +136,55 @@ class _OffersScreenState extends State<OffersScreen> {
                                       );
                                     },
                                     itemBuilder: (context,
-                                        NegotiationModel item, index) {
-                                      return OfferCard(
-                                        items: item,
-                                        onNegotiatePressed: onNegotiatePressed,
-                                        onBookPressed: (int? id) {
-                                          negotiateBloc.verifyRequest(id ?? 0);
+                                        OfferUiResponseModel item, index) {
+                                      return ExpansionPanelList(
+                                        elevation: 1,
+                                        expandedHeaderPadding:
+                                            const EdgeInsets.all(0),
+                                        expansionCallback:
+                                            (int panelIndex, bool isExpanded) {
+                                          item.isExpanded = !isExpanded;
+                                          setState(() {});
                                         },
-                                        isEnabled: !offersNegotiatedIds!
-                                            .contains(item.id),
+                                        children: [
+                                          ExpansionPanel(
+                                            headerBuilder:
+                                                (context, isExpanded) {
+                                              return OfferCard(
+                                                items: item.latestOffer,
+                                                onNegotiatePressed:
+                                                    onNegotiatePressed,
+                                                onBookPressed: (int? id) {
+                                                  negotiateBloc
+                                                      .verifyRequest(id ?? 0);
+                                                },
+                                                isEnabled: !offersNegotiatedIds!
+                                                    .contains(
+                                                        item.offers.first.id),
+                                                isNegotiable: true,
+                                              );
+                                            },
+                                            body: ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount: item.offers.length,
+                                                itemBuilder: (c, index) =>
+                                                    OfferCard(
+                                                      items: item.offers[index],
+                                                      onNegotiatePressed:
+                                                          onNegotiatePressed,
+                                                      onBookPressed: (int? id) {
+                                                        negotiateBloc
+                                                            .verifyRequest(
+                                                                id ?? 0);
+                                                      },
+                                                      isEnabled: false,
+                                                      isNegotiable: false,
+                                                    )),
+                                            isExpanded: item.isExpanded,
+                                          ),
+                                        ],
                                       );
                                     },
                                   ),
@@ -309,12 +349,14 @@ class OfferCard extends StatelessWidget {
   final NegotiationModel items;
   final Function(int id) onNegotiatePressed, onBookPressed;
   final bool isEnabled;
+  final bool isNegotiable;
 
   const OfferCard(
       {required this.items,
       required this.onNegotiatePressed,
       required this.onBookPressed,
       required this.isEnabled,
+      required this.isNegotiable,
       Key? key})
       : super(key: key);
 
@@ -430,7 +472,7 @@ class OfferCard extends StatelessWidget {
               ),
             ),
           ),
-          items.insuranceStatus == 0
+          isNegotiable && items.insuranceStatus == 0
               ? Expanded(
                   flex: 2,
                   child: Column(

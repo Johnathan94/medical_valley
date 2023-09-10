@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  collection: ^1.15.0
+
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
