@@ -11,7 +11,7 @@ import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/widgets/snackbars.dart';
 import 'package:medical_valley/features/auth/phone_verification/persentation/bloc/otp_bloc.dart';
-import 'package:medical_valley/features/info/presentation/medical_file_screen.dart';
+import 'package:medical_valley/features/info/presentation/register_medical_file_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -150,8 +150,9 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (c) => const MedicalFileScreen(
-                                          openFirstTime: true)));
+                                      builder: (c) =>
+                                          const RegisterMedicalFileScreen(
+                                              openFirstTime: true)));
                             });
                           } else {
                             Future.delayed(const Duration(milliseconds: 350),
