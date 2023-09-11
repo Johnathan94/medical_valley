@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,6 +25,7 @@ import 'package:rxdart/rxdart.dart';
 
 class OffersScreen extends StatefulWidget {
   final int requestId;
+
   const OffersScreen({required this.requestId, Key? key}) : super(key: key);
 
   @override
@@ -69,6 +71,7 @@ class _OffersScreenState extends State<OffersScreen> {
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -137,20 +140,24 @@ class _OffersScreenState extends State<OffersScreen> {
                                     },
                                     itemBuilder: (context,
                                         OfferUiResponseModel item, index) {
-                                      return ExpansionPanelList(
-                                        elevation: 1,
-                                        expandedHeaderPadding:
-                                            const EdgeInsets.all(0),
-                                        expansionCallback:
-                                            (int panelIndex, bool isExpanded) {
-                                          item.isExpanded = !isExpanded;
-                                          setState(() {});
-                                        },
-                                        children: [
-                                          ExpansionPanel(
-                                            headerBuilder:
-                                                (context, isExpanded) {
-                                              return OfferCard(
+                                      return item.offers.isEmpty
+                                          ? OfferCard(
+                                              items: item.latestOffer,
+                                              onNegotiatePressed:
+                                                  onNegotiatePressed,
+                                              onBookPressed: (int? id) {
+                                                negotiateBloc
+                                                    .verifyRequest(id ?? 0);
+                                              },
+                                              isEnabled: !offersNegotiatedIds!
+                                                  .contains(
+                                                      item.latestOffer.id),
+                                              isNegotiable: true,
+                                            )
+                                          : ExpansionTileItem(
+                                              isHasTrailing: false,
+                                              clipBehavior: Clip.none,
+                                              title: OfferCard(
                                                 items: item.latestOffer,
                                                 onNegotiatePressed:
                                                     onNegotiatePressed,
@@ -160,32 +167,49 @@ class _OffersScreenState extends State<OffersScreen> {
                                                 },
                                                 isEnabled: !offersNegotiatedIds!
                                                     .contains(
-                                                        item.offers.first.id),
+                                                        item.latestOffer.id),
                                                 isNegotiable: true,
-                                              );
-                                            },
-                                            body: ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                itemCount: item.offers.length,
-                                                itemBuilder: (c, index) =>
-                                                    OfferCard(
-                                                      items: item.offers[index],
-                                                      onNegotiatePressed:
-                                                          onNegotiatePressed,
-                                                      onBookPressed: (int? id) {
-                                                        negotiateBloc
-                                                            .verifyRequest(
-                                                                id ?? 0);
-                                                      },
-                                                      isEnabled: false,
-                                                      isNegotiable: false,
-                                                    )),
-                                            isExpanded: item.isExpanded,
-                                          ),
-                                        ],
-                                      );
+                                                isExpanded: item.isExpanded,
+                                              ),
+                                              onExpansionChanged:
+                                                  (bool expandedValue) {
+                                                item.isExpanded =
+                                                    !expandedValue;
+                                                setState(() {});
+                                              },
+                                              initiallyExpanded:
+                                                  item.isExpanded,
+                                              children: <Widget>[
+                                                ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    itemCount:
+                                                        item.offers.length,
+                                                    itemBuilder: (c, index) =>
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      16.0),
+                                                          child: OfferCard(
+                                                            items: item
+                                                                .offers[index],
+                                                            onNegotiatePressed:
+                                                                onNegotiatePressed,
+                                                            onBookPressed:
+                                                                (int? id) {
+                                                              negotiateBloc
+                                                                  .verifyRequest(
+                                                                      id ?? 0);
+                                                            },
+                                                            isEnabled: false,
+                                                            isNegotiable: false,
+                                                          ),
+                                                        )),
+                                              ],
+                                            );
                                     },
                                   ),
                                 ),
@@ -350,12 +374,14 @@ class OfferCard extends StatelessWidget {
   final Function(int id) onNegotiatePressed, onBookPressed;
   final bool isEnabled;
   final bool isNegotiable;
+  final bool? isExpanded;
 
   const OfferCard(
       {required this.items,
       required this.onNegotiatePressed,
       required this.onBookPressed,
       required this.isEnabled,
+      this.isExpanded,
       required this.isNegotiable,
       Key? key})
       : super(key: key);
@@ -411,6 +437,14 @@ class OfferCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                      isExpanded != null
+                          ? Icon(
+                              isExpanded!
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                              color: Colors.grey,
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                   const SizedBox(width: 16),

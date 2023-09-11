@@ -29,6 +29,7 @@ class OffersBloc extends Cubit<OffersState> {
     groupedItemsMap.forEach((key, value) {
       OfferUiResponseModel model = OfferUiResponseModel();
       model.latestOffer = value.first;
+      value.removeAt(0);
       model.offers = value;
       result.add(model);
     });

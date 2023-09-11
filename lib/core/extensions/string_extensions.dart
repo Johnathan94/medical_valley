@@ -11,7 +11,7 @@ extension Validations on String {
 }
 
 extension BookingStatusView on int {
-  Widget getBookingStatus(String text) {
+  Widget getBookingStatus(context) {
     switch (this) {
       case 1:
         return Container(
@@ -20,7 +20,7 @@ extension BookingStatusView on int {
               color: emmdiateBookingColor,
               borderRadius: BorderRadius.circular(8)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.immediate,
             style: AppStyles.baloo2FontWith400WeightAnd12Size
                 .copyWith(color: const Color(0xff0887A4)),
           ),
@@ -32,7 +32,7 @@ extension BookingStatusView on int {
               color: const Color(0xffD9E0DF),
               borderRadius: BorderRadius.circular(8)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.earliest,
             style: AppStyles.baloo2FontWith400WeightAnd12Size
                 .copyWith(color: const Color(0xff194F44)),
           ),
@@ -44,7 +44,7 @@ extension BookingStatusView on int {
               color: const Color(0xffFFE8EA),
               borderRadius: BorderRadius.circular(8)),
           child: Text(
-            text,
+            AppLocalizations.of(context)!.schedule_an_appointment,
             style: AppStyles.baloo2FontWith400WeightAnd12Size
                 .copyWith(color: const Color(0xffFF686A)),
           ),

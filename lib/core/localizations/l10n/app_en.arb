@@ -114,7 +114,7 @@
   "notifications": "Notifications",
   "messages": "Messages",
   "immediate": "Immediate (0-3H) ",
-  "earliest": "Earliest  (3-24H)",
+  "earliest": "Within 24H",
   "phone_number": "Phone number",
   "schedule_on": "Schedule on Appointment",
   "there_is_no_data": "There is no data",

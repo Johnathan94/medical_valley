@@ -135,7 +135,7 @@
                 "are_you_sure_about_the_service": "هل انت متاكد من الخدمة ؟ ",
       "messages": "الرسائل",
       "immediate": "  حالاً(٠-٣) ساعات",
-          "earliest": " أقرب موعد خلال ٢٤ ساعة",
+          "earliest": " خلال ٢٤ ساعة",
           "schedule_on": "جدولة موعد",
               "confirm": "تأكيد",
               "this_app_available_in_Ridyh": "هذا التطبيق متاج بداخل الرياض فقط",

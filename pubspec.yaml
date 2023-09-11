@@ -43,6 +43,7 @@ dependencies:
   retrofit: "3.0.1"
   flutter_screenutil:
   intl_phone_field:
+  expansion_tile_group: ^1.2.3
   rxdart:
   flutter_otp_text_field:
   flutter_svg: "1.1.6"

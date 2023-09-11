@@ -157,7 +157,7 @@ class ReservationsCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  item.bookingTypeId!.getBookingStatus(item.bookingTypeStr!)
+                  item.bookingTypeId!.getBookingStatus(context)
                 ],
               ),
             ),
