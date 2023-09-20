@@ -254,20 +254,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? Flexible(
                     flex: 4,
                     fit: FlexFit.tight,
-                    child: CachedNetworkImage(
-                      imageUrl: iconLinkPrefix + model.icon!,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      width: 30,
-                      height: 30,
+                    child: FittedBox(
+                      child: CachedNetworkImage(
+                        imageUrl: iconLinkPrefix + model.icon!,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const FittedBox(child: Icon(Icons.error)),
+                      ),
                     ),
                   )
                 : const Flexible(
                     flex: 4,
-                    child: Icon(Icons.medical_services_outlined,
-                        color: Colors.black, size: 30),
+                    child: FittedBox(
+                      child: Icon(Icons.medical_services_outlined,
+                          color: Colors.black, size: 30),
+                    ),
                   ),
             const SizedBox(
               height: 10,
@@ -280,10 +282,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? model.arabicName!
                     : model.name!,
                 style: AppStyles.baloo2FontWith400WeightAnd18Size.copyWith(
-                    color: primaryColor,
-                    fontSize: 10.5.w,
-                    decoration: TextDecoration.none,
-                    height: 1.1),
+                  color: primaryColor,
+                  fontSize: 12.w,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.none,
+                  height: 1.1,
+                ),
                 textAlign: TextAlign.center,
                 maxLines: 3,
               ),
