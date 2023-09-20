@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:600040989984:android:5e47324107456936d16345",
+        "mobilesdk_app_id": "1:600040989984:android:a962f3165a2a8217d16345",
         "android_client_info": {
           "package_name": "com.example.provider_medical_valley"
         }
@@ -115,7 +115,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:600040989984:android:5c89e9da303605dcd16345",
+        "mobilesdk_app_id": "1:600040989984:android:5c885e4770c64f5ed16345",
         "android_client_info": {
           "package_name": "com.mufawid.medicalValley"
         }
