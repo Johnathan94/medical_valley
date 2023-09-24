@@ -47,6 +47,7 @@ class _RegisterMedicalFileScreenState extends State<RegisterMedicalFileScreen> {
   BehaviorSubject<String> genderDisplayed = BehaviorSubject();
   BehaviorSubject<String> genderOptionDisplayed = BehaviorSubject();
   bool isSaudian = true;
+  DateTime pickedDate = DateTime.now();
   @override
   void initState() {
     _bloc.getMedicalFile();
@@ -97,7 +98,7 @@ class _RegisterMedicalFileScreenState extends State<RegisterMedicalFileScreen> {
                       : AppLocalizations.of(context)!.male);
                   genderOptionDisplayed.sink.add(state.model.genderStr ??
                       AppLocalizations.of(context)!.male);
-                  nationalIdController.text = state.model.nationalId!;
+                  nationalIdController.text = state.model.nationalId ?? "";
 
                   insuranceDisplayed.sink.add(
                       state.model.hasInsurance != null &&
@@ -457,6 +458,7 @@ class _RegisterMedicalFileScreenState extends State<RegisterMedicalFileScreen> {
         firstDate: DateTime(1920),
         lastDate: DateTime(2012));
     if (selected != null) {
+      pickedDate = selected;
       birthDateController.text = DateFormat("dd-MM-yyyy").format(selected);
     }
   }
@@ -480,7 +482,7 @@ class _RegisterMedicalFileScreenState extends State<RegisterMedicalFileScreen> {
                 insuranceNumber: insuranceNumberController.text.isNotEmpty
                     ? insuranceNumberController.text
                     : model.insuranceNumber,
-                birthDate: birthDateController.text,
+                birthDate: pickedDate.toIso8601String(),
                 genderId:
                     genderDisplayed.value == AppLocalizations.of(context)!.male
                         ? 1
