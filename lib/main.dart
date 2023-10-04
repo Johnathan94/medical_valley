@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:in_app_notification/in_app_notification.dart';
 import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_theme.dart';
 import 'package:medical_valley/core/base_service/flavors.dart';
@@ -39,14 +38,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print(await FirebaseMessaging.instance.getToken());
   await FirebaseMessaging.instance.requestPermission(
     alert: true,
-    announcement: false,
     badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
     sound: true,
   );
   FirebaseMessaging.onMessage.listen((event) {
@@ -112,22 +106,20 @@ class MyApp extends StatelessWidget {
                     minTextAdapt: true,
                     splitScreenMode: true,
                     builder: (context, child) {
-                      return InAppNotification(
-                        child: MaterialApp(
-                          navigatorKey: navigatorGlobalKey,
-                          theme: appTheme,
-                          locale: state.locale ??
-                              (currentLanguage.isNotEmpty
-                                  ? Locale(currentLanguage)
-                                  : const Locale("en")),
-                          localizationsDelegates:
-                              AppLocalizations.localizationsDelegates,
-                          supportedLocales: AppLocalizations.supportedLocales,
-                          onGenerateTitle: (context) =>
-                              AppLocalizations.of(context)!.application_title,
-                          debugShowCheckedModeBanner: false,
-                          home: const SplashScreen(),
-                        ),
+                      return MaterialApp(
+                        navigatorKey: navigatorGlobalKey,
+                        theme: appTheme,
+                        locale: state.locale ??
+                            (currentLanguage.isNotEmpty
+                                ? Locale(currentLanguage)
+                                : const Locale("en")),
+                        localizationsDelegates:
+                            AppLocalizations.localizationsDelegates,
+                        supportedLocales: AppLocalizations.supportedLocales,
+                        onGenerateTitle: (context) =>
+                            AppLocalizations.of(context)!.application_title,
+                        debugShowCheckedModeBanner: false,
+                        home: const SplashScreen(),
                       );
                     });
               });

@@ -6,7 +6,8 @@ import '../constants/constants.dart';
 class PayTabsConfigs {
   PayTabsConfigs._();
 
-  static PaymentSdkConfigurationDetails getConfigs(ConfigsDetailsModel configs) {
+  static PaymentSdkConfigurationDetails getConfigs(
+      ConfigsDetailsModel configs) {
     return PaymentSdkConfigurationDetails(
       profileId: PayTabsConstants.profileId,
       serverKey: PayTabsConstants.serverId,
