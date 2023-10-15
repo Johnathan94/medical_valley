@@ -18,8 +18,8 @@ class LoadingScreen extends StatelessWidget {
         color: primaryColor,
         child: Column(
           children: [
-            Stack(
-              children: const [
+            const Stack(
+              children: [
                 SpinKitRipple(
                   color: whiteColor,
                   borderWidth: 20.0,
@@ -41,8 +41,7 @@ class LoadingScreen extends StatelessWidget {
               child: PrimaryButton(
                 text: AppLocalizations.of(context)!.cancel,
                 backgroundColor: secondaryColor,
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
             )
           ],

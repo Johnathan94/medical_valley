@@ -7,7 +7,7 @@ class GetInvoiceClient {
 
   getInvoice(String invoiceId) async {
     Response response = await dio.get(
-      "https://alpha.api.medvalley-sa.com/api/Payments/GetInvoiceInfo?InvID=$invoiceId&api-version=1",
+      "https://beta.api.medvalley-sa.com/api/Payments/GetInvoiceInfo?InvID=$invoiceId&api-version=1",
     );
     return response.data;
   }

@@ -41,7 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   super_banners: ^0.0.1
   retrofit: "3.0.1"
-  flutter_screenutil:
+  flutter_screenutil: ^5.9.0
   intl_phone_field:
   expansion_tile_group: ^1.2.3
   rxdart:

@@ -54,11 +54,14 @@ import 'package:medical_valley/features/payment/data/make_invoice_service/make_i
 import 'package:medical_valley/features/payment/domain/get_invoice_usecase.dart';
 import 'package:medical_valley/features/payment/domain/make_invoice_usecase.dart';
 import 'package:medical_valley/features/payment/persentation/invoice_bloc/invoice_bloc.dart';
+import 'package:medical_valley/features/payment/persentation/invoice_info_bloc/invoice_info_cubit.dart';
 import 'package:medical_valley/features/profile/data/user_api.dart';
 import 'package:medical_valley/features/profile/domain/get_user_use_case.dart';
 import 'package:medical_valley/features/profile/domain/update_user_use_case.dart';
 import 'package:medical_valley/features/profile/presentation/bloc/user_profile_bloc.dart';
 import 'package:medical_valley/features/welcome_page/splash_bloc.dart';
+
+import '../features/payment/domain/get_invoice_info_usecase.dart';
 
 final getIt = GetIt.instance;
 
@@ -109,4 +112,6 @@ configureDependencies() {
 
   getIt.registerLazySingleton<FcmBloc>(
       () => FcmBloc(UpdateFcmUseCase(FcmClient(DioManager.getDio()))));
+  getIt.registerFactory(() => InvoiceInfoCubit(
+      GetInvoiceInfoUseCase(MakeInvoiceClient(DioManager.getDio()))));
 }
