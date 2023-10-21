@@ -61,8 +61,8 @@ class HomeState extends State<HomeSearchScreen> {
 
   getHomeScreen(context) {
     return Container(
-      height: screenHeight,
-      width: screenWidth,
+      height: double.infinity,
+      width: double.infinity,
       color: whiteColor,
       child: getHomeScreenWidget(context),
     );

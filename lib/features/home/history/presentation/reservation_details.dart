@@ -1,14 +1,20 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/strings/images.dart';
+import 'package:medical_valley/core/widgets/primary_button.dart';
 import 'package:medical_valley/features/home/history/data/reservations/reservations_model.dart';
+import 'package:medical_valley/features/payment/persentation/invoice_info_bloc/invoice_info_cubit.dart';
+import 'package:medical_valley/features/payment/persentation/screens/invoice_info_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReservationsDetails extends StatelessWidget {
   final ReservationModel item;
+
   const ReservationsDetails({required this.item, Key? key}) : super(key: key);
 
   @override
@@ -27,7 +33,7 @@ class ReservationsDetails extends StatelessWidget {
         backgroundColor: primaryColor,
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
+        margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(color: whiteColor, boxShadow: [
           BoxShadow(
@@ -63,8 +69,8 @@ class ReservationsDetails extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Column(
-                      children: const [
+                    const Column(
+                      children: [
                         Icon(
                           Icons.circle,
                           color: Colors.grey,
@@ -216,11 +222,28 @@ class ReservationsDetails extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 50),
-            QrImage(
-              version: QrVersions.auto,
-              size: 200.0,
-              data: item.exportToQr(),
+            const SizedBox(height: 30),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: QrImage(
+                  version: QrVersions.auto,
+                  size: 200.0,
+                  data: item.exportToQr(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            PrimaryButton(
+              text: AppLocalizations.of(context)!.invoice,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (_) => GetIt.instance<InvoiceInfoCubit>(),
+                    child: InvoiceInfoScreen(requestId: item.requestId!),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

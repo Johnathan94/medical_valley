@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:medical_valley/app_version.dart';
 import 'package:medical_valley/core/app_colors.dart';
 import 'package:medical_valley/core/app_paddings.dart';
-import 'package:medical_valley/core/app_sizes.dart';
 import 'package:medical_valley/core/app_styles.dart';
 import 'package:medical_valley/core/dialogs/loading_dialog.dart';
 import 'package:medical_valley/core/shared_pref/shared_pref.dart';
@@ -66,7 +65,7 @@ class _MoreScreeenState extends State<MoreScreen> {
                   children: [
                     Container(
                       alignment: Alignment.bottomRight,
-                      width: screenWidth,
+                      width: double.infinity,
                       height: 230.h,
                       decoration: const BoxDecoration(color: primaryColor),
                       child:
@@ -74,7 +73,7 @@ class _MoreScreeenState extends State<MoreScreen> {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      width: screenWidth,
+                      width: double.infinity,
                       height: 270.h,
                       decoration:
                           const BoxDecoration(color: Colors.transparent),

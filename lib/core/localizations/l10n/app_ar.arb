@@ -16,7 +16,7 @@
   "tax": "الضريبة",
   "subtotal": "السعر ",
   "total": "الاجمالي",
-  "apple_pay": "الدفع عن طريق apple",
+  "apple_pay": "Apple pay",
 
   "something_went_wrong_with_payment": "حدث خطا اثناء عمليه الدفع",
   "instagram": "إنستاقرام",
@@ -188,6 +188,8 @@
   "resend_otp": "إعادة إرسال الرمز ",
   "otp_sent_successfully": "نم إعادة إرسال الرمز ",
   "otp_failed_to_resend": "لم نتمكن من  إعادة إرسال الرمز ",
-  "full_name_error": "يرجى إدخال الاسم بحد أدنى حرفين"
+  "full_name_error": "يرجى إدخال الاسم بحد أدنى حرفين",
+  "invoice": "الفاتورة"
+
 
 }

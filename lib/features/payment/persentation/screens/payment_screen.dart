@@ -335,12 +335,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(context)!.tax,
+                AppLocalizations.of(context)!.subtotal,
                 style: AppStyles.baloo2FontWith400WeightAnd20Size
                     .copyWith(color: Colors.black),
               ),
               Text(
-                "${item.data?.vat}",
+                "${item.data?.subtotal}",
                 style: AppStyles.baloo2FontWith400WeightAnd20Size
                     .copyWith(color: Colors.black),
               ),
@@ -353,12 +353,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(context)!.subtotal,
+                AppLocalizations.of(context)!.tax,
                 style: AppStyles.baloo2FontWith400WeightAnd20Size
                     .copyWith(color: Colors.black),
               ),
               Text(
-                "${item.data?.subtotal}",
+                "${item.data?.vat}",
                 style: AppStyles.baloo2FontWith400WeightAnd20Size
                     .copyWith(color: Colors.black),
               ),

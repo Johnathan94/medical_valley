@@ -32,14 +32,15 @@ class _SplashScreenState extends State<SplashScreen> {
     NetworkLoggerOverlay.attachTo(
       context,
     );
-    Future.delayed(const Duration(seconds: 5), () async {});
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      await AppInitializer.initializeAppWithContext(context);
+      splashBloc.getLocation();
+    });
     super.initState();
   }
 
   @override
   didChangeDependencies() async {
-    await AppInitializer.initializeAppWithContext(context);
-    splashBloc.getLocation();
     super.didChangeDependencies();
   }
 
